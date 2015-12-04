@@ -1,0 +1,17 @@
+header {
+    padding:1em 0;
+    background-color:#c4def1;
+}
+
+header .left {
+    width:25%;
+    text-align: center;
+}
+header .right {
+    width:25%;
+    text-align: center;
+}
+header .middle {
+    width:50%;
+    text-align: center;
+}

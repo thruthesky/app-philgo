@@ -1,0 +1,11 @@
+#slide-menu {
+    position:fixed;
+    top:50px;
+    right:0;
+    z-index:999;
+    display:none;
+}
+#slide-menu-inner {
+    background-color:#efefef;
+    width:280px;
+}
