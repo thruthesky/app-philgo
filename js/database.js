@@ -1,4 +1,7 @@
 /**
+ * ============================= DATABASE FUNCTIONS =========================
+ */
+/**
  *
  * @type {db}
  *
@@ -15,11 +18,10 @@
  * @endcode
  *
  */
-var db = new function() {
+var  db = new function() {
     this.type = 'WebStorage';
     this.author = 'JaeHo Song';
     this.email = 'thruthesky@gmail.com';
-
 
     /**
      *
@@ -37,13 +39,12 @@ var db = new function() {
 
     this.set = function ( key, value ) {
         localStorage.setItem(key, value);
-        var time = new Date().getTime();
-        localStorage.setItem(key + '.stamp', time);
     };
 
     this.get = function ( key ) {
         return localStorage.getItem(key);
     };
+
     this.getRecord = function ( key ) {
         return {
             'key' : key,
@@ -52,13 +53,19 @@ var db = new function() {
         }
     };
 
+    this.save = function( key, value ) {
+        db.set(key, value);
+        db.set(key + '.length', value.length);
+        db.set(key + '.stamp', new Date().getTime());
+    };
 
     /**
      * @short Check if the web storage is availble.
      */
 
-        if ( typeof(Storage) === "undefined") {
-            alert("Fatal Error : Web Storage is not supported in this web/app/platform");
-        }
+    if ( typeof(Storage) === "undefined") {
+        alert("Fatal Error : Web Storage is not supported in this web/app/platform");
+    }
 
 };
+

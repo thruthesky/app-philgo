@@ -1,3 +1,7 @@
+
+/**
+ * ============================== AJAX Loading Function ========================
+ */
 function ajax_load($input, $callback) {
 
     if ( typeof $input == 'string' ) {
