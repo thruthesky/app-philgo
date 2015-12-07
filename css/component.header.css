@@ -16,3 +16,7 @@ header .middle {
     width:30%;
     text-align: center;
 }
+
+header .button {
+    cursor:pointer;
+}

@@ -3,11 +3,13 @@ var url_server_ajax = url_server + 'ajax/';
 var url_server_ajax_page = url_server_ajax + 'page/';
 //var url_server_ajax_widget = url_server_ajax + 'widget/';
 //var list_widget = [ 'front_banner', 'front_text', 'forum_text', 'life_banner', 'life_text' ];
-var list_pages = ['front', 'forum', 'life'];
+
 $(function(){
     setCurrentPage('front');
     initApp();
-    downloadPages();
+//    downloadPages();
+
+    //cache.run();
 });
 
 function setCurrentPage(page) {
@@ -31,8 +33,8 @@ function header() {
 function footer() {
     return $('footer');
 }
-function slidemenu() {
-    return $('#slide-menu');
+function panel() {
+    return $('#panel');
 }
 
 
@@ -44,7 +46,17 @@ function initContent(page) {
     */
 
     if ( page ) setCurrentPage(page);
-    content().html( db.get( getCurrentPage() ) );
+    setContent( db.get( getCurrentPage() ) );
+}
+
+/**
+ * @Attention Use this function to set content on '.content'.
+ *      - it does extra tasks.
+ * @param html
+ */
+function setContent(html) {
+    if ( isPanelOpen() ) hidePanel();
+    content().html(html);
 }
 
 function initHeader() {
@@ -59,9 +71,9 @@ function initFooter() {
     });
 }
 
-function initSlideMenu() {
-    ajax_load('page/slide-menu.html', function(re){
-        slidemenu().html(re);
+function initPanel() {
+    ajax_load('page/panel.html', function(re){
+        panel().html(re);
     });
 }
 
@@ -71,15 +83,15 @@ function initApp() {
     initHeader();
     initContent();
     initFooter();
-    initSlideMenu();
+    initPanel();
 }
 
 
 
 function initEventHandlers() {
 
-    $("body").on('click', '.slide-menu-button', function(){
-        $("#slide-menu").animate({
+    $("body").on('click', '.panel.toggle', function(){
+        $("#panel").animate({
             width: "toggle"
         });
     });
@@ -97,8 +109,8 @@ function initEventHandlers() {
  *
  *
  */
+/*
 function downloadPages() {
-
     for( i in list_pages ) {
         downloadPageAndRender(list_pages[i]);
     }
@@ -109,12 +121,14 @@ function downloadPageAndRender(page_name) {
         console.log(re);
         if ( re.html ) {
             db.set(page_name, re.html);
+            db.set(page_name + '.md5', re.md5);
         }
         if ( getCurrentPage() == page_name ) {
             content().html(re.html);
         }
     });
 }
+*/
 /*
 function downloadWidgets() {
 
@@ -132,3 +146,34 @@ function downloadWidgetAndRender($widget_name) {
     });
 }
 */
+/**
+ *
+ * =============== STATE FUNCTIONS ===================
+ */
+function isPanelOpen() {
+    return panel().css('display') != 'none';
+}
+
+/**
+ * =============== Action Functions =================
+ */
+function hidePanel() {
+    panel().css('display', 'none');
+}
+
+/**
+ * =============== Callback functions ================
+ *
+ */
+
+function callback_cache_update(page_name, re) {
+    //var page_name = re.page_name;
+    //console.log('callback_cache_update() : page name:' + page_name);
+    if ( re.html ) {
+        db.set(page_name, re.html);
+        db.set(page_name + '.md5', re.md5);
+        if ( getCurrentPage() == page_name ) {
+            content().html(re.html);
+        }
+    }
+}
