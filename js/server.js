@@ -1,80 +1,107 @@
-$(function(){
-    cache_update_run();
-});
-
-
-
-
-
-
-
 /**
- * =============== Action Functions =================
+ *
+ *
  */
-function hidePanel() {
-    panel().css('display', 'none');
+/**
+ * Definitions
+ *
+ */
+var cache_url = url_server + 'ajax/cache/widget/';
+var cache_template_widgets = [
+    'header',
+    'footer',
+    'panel'
+    //'front',
+    //'forum',
+    //'life'
+];
+
+var widget_check_online = [ 'login', 'register' ];
+
+$(function(){
+    cache_run_for_templates();
+    initServerEventHandlers();
+});
+/** ===================== Cordova functions ================== */
+function isOnline() {
+    return true;
 }
+function isOffline() {
+    return ! isOnline();
+}
+/** ===================== Helper functions =================== */
+function on_click(selector, callback) {
+    $('body').on('click', selector, callback);
+}
+
+
+/** ===================== Server Event Handlers ======================= */
+
+function initServerEventHandlers() {
+    on_click('.button.page', on_click_page);
+}
+
+
 
 /**
  * =============== Callback functions ================
  *
  */
+function on_click_page() {
+    var $this = $(this);
+    var page = $this.attr('page');
+    console.log('server on_click_page() : ' + page);
 
-function callback_cache_update(widget_name, re) {
-
-    //console.log('mobile.js::callback_cache_update() : widget name:' + widget_name);
-    //console.log(re.html);
-    //console.log(widget_name);
-    if ( re.html ) {
-        var page = widget_name.replace('page-', '');
-        db.save( page, re.html );
-        //console.log('lenth:' + widget(widget_name).length);
-        //console.log('page:' + page);
-        if ( getCurrentPage() == page ) {
-            //console.log("change content");
-            //console.log(re.html);
-            content().html(re.html);
-        }
+    if ( isOffline() && _.indexOf(widget_check_online, page) ) {
+        alert("인터넷에 연결을 해 주세요. Please connect to Internet.")
+        return;
     }
+    cache_get_widget_from_server(page, callback_cache_update_template);
+}
 
+function callback_cache_update_template(widget_name, re) {
+    if ( re.html ) {
+        db.save( widget_name, re.html );
+        widget(widget_name).html(re.html);
+    }
 }
 
 
 
 
 /** ======================================= Cache functions ================================= */
-var cache_url = url_server + 'ajax/cache/widget/';
-var cache_widgets = [
-    'header',
-    'footer',
-    'page-front',
-    'page-forum',
-    'page-life'
-];
 
 
-function cache_update_run() {
+function cache_run_for_templates() {
     var count = 0;
     cache_update_loop();
     setInterval(cache_update_loop, 1000 * 100);
     function cache_update_loop() {
         count++;
         //console.log("cache_run:" + count);
-        for (i in cache_widgets) {
-            cache_update_widgets(cache_widgets[i]);
+        for (i in cache_template_widgets) {
+            cache_get_widget_from_server(cache_template_widgets[i], callback_cache_update_template);
         }
     }
 }
-function cache_update_widgets(widget) {
-    //console.log("widget:" + widget );
+
+function cache_get_widget_from_server(widget, callback) {
+    console.log( "widget:" + widget );
     var q = cache_url + widget + "?dummy=" + new Date().getTime();
     //console.log(q);
     ajax_load(q, function(re){
         if ( re.code == 0 ) {
-            //console.log("ajax_load() success: " + widget);
-            //console.log(re.html);
-            callback_cache_update(widget, re);
+            callback(widget, re);
         }
     });
 }
+
+
+
+
+
+
+/** =============== Login / Register ================ */
+
+
 

@@ -30,7 +30,7 @@
     </head>
     <body>
 	
-		<div id='page'>
+		<div id='layout'>
 			<header class="widget header">.widget.header</header>
             <nav class="widget panel">.widget.panel</nav>
 			<section class="widget content">.widget.content</section>
@@ -46,6 +46,17 @@
         <script type="text/javascript" src="js/elements.js"></script>
         <script type="text/javascript" src="js/init.js"></script>
         <script type="text/javascript" src="js/client.js"></script>
-        <script type="text/javascript" src="http://www.test.org/app-sapcms3/js/server.js"></script>
+    <script>
+        var url = 'http://www.tes2t.org/app-sapcms3/js/server.js?dummy=' + new Date().getTime();
+        //console.log(url);
+        $.ajax({
+            dataType:'script',
+            scriptCharset:'utf-8',
+            url: url,
+            success:function(){
+                console.log("success on load server.js");
+            }
+        });
+    </script>
     </body>
 </html>

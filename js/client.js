@@ -1,14 +1,14 @@
 /**
  *
- * 이미지는 따로 다운로드 해서 base64 로 저장?
- * @type {null}
+ *
+ *
+ *
  *
  */
 var current_page_name = null;
 $(function(){
     initApp();
     showPage('front');
-    cache_update_run();
 });
 
 
@@ -35,4 +35,20 @@ function setContent(html) {
  */
 function isPanelOpen() {
     return panel().css('display') != 'none';
+}
+
+/**
+ * =============== Action Functions =================
+ */
+function togglePanel(){
+    $(".widget.panel").animate({
+        width: "toggle"
+    });
+}
+/**
+ * 두번 연속으로 호출하면, 닫기는 것이 아니라, 닫고 열린다.
+ * 예를 들면 메뉴를 클릭 할 때, 이것을 호출하고, 페이지를 클릭을 할 두번 연속 호출 될 수 잇다.
+ */
+function hidePanel() {
+    if ( isPanelOpen() ) togglePanel();
 }

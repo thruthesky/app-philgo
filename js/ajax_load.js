@@ -5,10 +5,10 @@
 function ajax_load($input, $callback) {
 
     if ( typeof $input == 'string' ) {
-        //console.log($input);
+        console.log($input);
     }
     else {
-        //console.log($input.url);
+        console.log($input.url);
     }
 
     var request = $.ajax($input);
