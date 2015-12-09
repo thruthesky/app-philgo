@@ -1,7 +1,7 @@
-.widget.panel {
+.widget.panel-menu {
     display:none;
 }
-#panel-inner {
+.panel-menu-inner {
     background-color:#efefef;
     width:280px;
 }

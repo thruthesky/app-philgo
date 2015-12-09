@@ -26,7 +26,7 @@ function footer() {
     return $('footer');
 }
 function panel() {
-    return $('.widget.panel');
+    return $('.widget.panel-menu');
 }
 
 function notification() {

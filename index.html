@@ -16,12 +16,14 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/base.css">
     <link rel="stylesheet" type="text/css" href="css/layout.css">
     <link rel="stylesheet" type="text/css" href="css/component.css">
     <link rel="stylesheet" type="text/css" href="css/component.header.css">
     <link rel="stylesheet" type="text/css" href="css/component.footer.css">
     <link rel="stylesheet" type="text/css" href="css/component.panel.css">
+    <link rel="stylesheet" type="text/css" href="css/component.content.css">
     <link rel="stylesheet" type="text/css" href="css/component.notification.css">
     <link rel="stylesheet" type="text/css" href="css/theme.css">
     <title>Hello World</title>
@@ -34,7 +36,7 @@
 
 <div id='layout'>
     <header class="widget header"></header>
-    <nav class="widget panel"></nav>
+    <nav class="widget panel-menu"></nav>
     <section class="notification"></section>
     <section class="widget content"></section>
     <footer class="widget footer"></footer>
@@ -44,18 +46,20 @@
 
 <script type="text/javascript" src="js/underscore-min.js"></script>
 <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/cordova.js"></script>
 <script type="text/javascript" src="js/database.js"></script>
 <script type="text/javascript" src="js/helper.js"></script>
 <script type="text/javascript" src="js/ajax_load.js"></script>
 <script type="text/javascript" src="js/elements.js"></script>
+<script type="text/javascript" src="js/panel-menu.js"></script>
 <script type="text/javascript" src="js/init.js"></script>
 <script type="text/javascript" src="js/client.js"></script>
 <script>
     setTimeout(function(){
         var version = db.get('version');
-        var url_css = 'http://www.test.org/app-sapcms3/css/server.css?version=' + version;
-        var url_js = 'http://www.test.org/app-sapcms3/js/server.js?version=' + version;
+        var url_css = 'http://www.test1.org/app-sapcms3/css/server.css?version=' + version;
+        var url_js = 'http://www.test1.org/app-sapcms3/js/server.js?version=' + version;
 
         console.log(url_css);
         console.log(url_js);

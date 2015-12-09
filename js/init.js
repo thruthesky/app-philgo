@@ -8,7 +8,7 @@ function initApp() {
     initEventHandlers();
     init_default_widgets_and_pages();
     if ( isOffline() ) {
-        note('인터넷을 연결 해 주십시오. Connect to Internet.', 'red');
+        note('인터넷을 연결 해 주십시오. Connect to Internet.', 'alert alert-warning');
     }
 }
 
@@ -18,11 +18,9 @@ function initApp() {
 function init_default_widgets_and_pages() {
     widget_load('header');
     widget_load('footer');
-    widget_load('panel');
+    widget_load('panel-menu');
     page_load('front', initContent);
     page_load('setting');
-
-
 }
 
 
@@ -111,7 +109,7 @@ function on_click(selector, callback) {
 }
 
 function initEventHandlers() {
-    on_click('.panel.toggle', togglePanel);
+    on_click('.panel-menu.toggle', togglePanel);
     on_click('.content', on_click_content);
     on_click('.page[page]', on_click_page);
     on_click('.reset', on_click_reset);

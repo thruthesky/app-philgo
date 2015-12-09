@@ -9,7 +9,7 @@
  * @returns {boolean}
  */
 function isOnline() {
-    return false;
+    return true;
 }
 function isOffline() {
     return ! isOnline();

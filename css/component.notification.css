@@ -1,7 +1,4 @@
 .notification {
-    background-color:#c4def1;
+    padding:1em 1em 0;
 }
 
-.notification .note.red {
-    color:red;
-}
