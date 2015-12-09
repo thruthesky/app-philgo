@@ -46,17 +46,35 @@ var  db = new function() {
     };
 
     this.getRecord = function ( key ) {
-        return {
-            'key' : key,
-            'value' : localStorage.getItem(key),
-            'stamp' : localStorage.getItem(key + '.stamp')
+        var value = db.get(key);
+        if ( value ) {
+            var stamp = localStorage.getItem(key + '.stamp');
+            return {
+                'key' : key,
+                'value' : value,
+                'stamp' : stamp
+            }
         }
+        else return null;
     };
 
     this.save = function( key, value ) {
         db.set(key, value);
         db.set(key + '.length', value.length);
         db.set(key + '.stamp', new Date().getTime());
+    };
+
+    this.delete = function ( key ) {
+        localStorage.removeItem(key);
+    };
+
+    /**
+     * Deletes all keys in localStorage
+     */
+    this.deleteAll = function () {
+        for (var key in localStorage) {
+            db.delete(key);
+        }
     };
 
     /**

@@ -31,10 +31,11 @@
     <body>
 	
 		<div id='layout'>
-			<header class="widget header">.widget.header</header>
-            <nav class="widget panel">.widget.panel</nav>
-			<section class="widget content">.widget.content</section>
-			<footer class="widget footer">.widget.footer</footer>
+			<header class="widget header"></header>
+            <nav class="widget panel"></nav>
+            <section class="notification"></section>
+			<section class="widget content"></section>
+			<footer class="widget footer"></footer>
 		</div>
 		
         <!--<script type="text/javascript" src="cordova.js"></script>-->
@@ -42,17 +43,31 @@
         <script type="text/javascript" src="js/underscore-min.js"></script>
         <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
         <script type="text/javascript" src="js/database.js"></script>
+        <script type="text/javascript" src="js/helper.js"></script>
         <script type="text/javascript" src="js/ajax_load.js"></script>
         <script type="text/javascript" src="js/elements.js"></script>
         <script type="text/javascript" src="js/init.js"></script>
         <script type="text/javascript" src="js/client.js"></script>
     <script>
-        var url = 'http://www.tes2t.org/app-sapcms3/js/server.js?dummy=' + new Date().getTime();
-        //console.log(url);
+        var version = db.get('version');
+        var url_css = 'http://www.test.org/app-sapcms3/css/server.css?version=' + version;
+        var url_js = 'http://www.test.org/app-sapcms3/js/server.js?version=' + version;
+
+
+        console.log(url_css);
+        console.log(url_js);
+
+        (function(url){
+            var link = document.createElement('link');
+            link.setAttribute('rel', 'stylesheet');
+            link.setAttribute('type', 'text/css');
+            link.setAttribute('href', url);
+            document.getElementsByTagName('head')[0].appendChild(link)
+        })(url_css);
         $.ajax({
             dataType:'script',
             scriptCharset:'utf-8',
-            url: url,
+            url: url_js,
             success:function(){
                 console.log("success on load server.js");
             }

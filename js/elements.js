@@ -28,3 +28,7 @@ function footer() {
 function panel() {
     return $('.widget.panel');
 }
+
+function notification() {
+    return $('.notification');
+}

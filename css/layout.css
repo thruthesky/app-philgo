@@ -1,5 +1,5 @@
 body {
-    margin-top:50px;
+    margin-top:60px;
     margin-bottom:50px;
 }
 header {
@@ -8,7 +8,7 @@ header {
     top:0;
     left:0;
     right:0;
-    height:50px;
+    height:60px;
     overflow:hidden;
 }
 footer {
@@ -20,3 +20,9 @@ footer {
     overflow:hidden;
 }
 
+.widget.panel {
+    position:fixed;
+    top:60px;
+    right:0;
+    z-index:999;
+}
