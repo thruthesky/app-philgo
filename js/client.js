@@ -14,8 +14,8 @@ var current_page_name = null;
 $(function(){
     initApp();
 
-    db.deleteAll(); // test.
-    setTimeout(function(){ showPage('setting'); }, 600); // test
+    // db.deleteAll(); // test.
+    //setTimeout(function(){ showPage('setting'); }, 600); // test
     //setTimeout(togglePanel, 300); // test : open panel-menu
 });
 
