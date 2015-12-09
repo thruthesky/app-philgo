@@ -13,18 +13,8 @@
 var current_page_name = null;
 $(function(){
     initApp();
-    showPage('front');
 });
 
-
-/**
- * 현재 페이지를 보여준다.
- * @param page
- */
-function showPage(page) {
-    setCurrentPage(page);
-    setContent( db.get( getCurrentPage()), page );
-}
 
 
 /**
@@ -32,9 +22,10 @@ function showPage(page) {
  *      - it does extra tasks.
  * @param html
  */
-function setContent(html, widget_name) {
+function setContent(html, page) {
+    console.log('setContent(...,' + page + ')');
     if ( isPanelOpen() ) hidePanel();
-    content().html(html).attr('widget', widget_name);
+    content().html(html).attr('widget', page);
 }
 
 

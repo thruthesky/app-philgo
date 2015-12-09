@@ -13,22 +13,14 @@ var cache_template_widgets = [
     'panel'
 ];
 
-var widget_check_online = [ 'login', 'register' ];
 
 $(function(){
-    note('서버에 연결되었습니다.');
+    note('server.js 를 로드하였습니다.');
     set_version('20151209');
     cache_run_for_templates(); // 템플릿( header, footer, panel 등 )만 1시간에 한번씩 실행
     cache_get_widget_from_server('front', callback_cache_update_on_content);
     initServerEventHandlers();
 });
-/** ===================== Cordova functions ================== */
-function isOnline() {
-    return true;
-}
-function isOffline() {
-    return ! isOnline();
-}
 /** ===================== Helper functions =================== */
 
 function set_version(version) {
@@ -57,8 +49,7 @@ function resetApp() {
 /** ===================== init Server Event Handlers ======================= */
 
 function initServerEventHandlers() {
-    on_click('.button.page', on_click_page);
-    on_click('.reset', on_click_reset);
+
 }
 
 
@@ -112,24 +103,7 @@ function cache_get_widget_from_server(widget, callback) {
  * =============== Callback functions ================
  *
  */
-function on_click_page() {
-    var $this = $(this);
-    var page = $this.attr('page');
-    console.log('server on_click_page() : ' + page);
 
-    if ( isOffline() && _.indexOf(widget_check_online, page) ) {
-        alert("인터넷에 연결을 해 주세요. Please connect to Internet.")
-        return;
-    }
-    cache_get_widget_from_server(page, callback_cache_update_on_content);
-}
-
-
-
-function on_click_reset() {
-    db.deleteAll();
-    note('앱 초기화를 하였습니다.');
-}
 
 
 

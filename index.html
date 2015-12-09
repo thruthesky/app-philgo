@@ -1,58 +1,61 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-        <!--// This is original from Cordova // meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"-->
-		<meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src * 'unsafe-inline'; script-src * 'unsafe-inline'; media-src *">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/base.css">
-        <link rel="stylesheet" type="text/css" href="css/layout.css">
-        <link rel="stylesheet" type="text/css" href="css/component.css">
-        <link rel="stylesheet" type="text/css" href="css/component.header.css">
-        <link rel="stylesheet" type="text/css" href="css/component.footer.css">
-        <link rel="stylesheet" type="text/css" href="css/component.panel.css">
-        <link rel="stylesheet" type="text/css" href="css/theme.css">
-        <title>Hello World</title>
-		<script>
-			var url_server = 'http://sapcms3.org/';
-		</script>
-	
-    </head>
-    <body>
-	
-		<div id='layout'>
-			<header class="widget header"></header>
-            <nav class="widget panel"></nav>
-            <section class="notification"></section>
-			<section class="widget content"></section>
-			<footer class="widget footer"></footer>
-		</div>
-		
-        <!--<script type="text/javascript" src="cordova.js"></script>-->
-
-        <script type="text/javascript" src="js/underscore-min.js"></script>
-        <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-        <script type="text/javascript" src="js/database.js"></script>
-        <script type="text/javascript" src="js/helper.js"></script>
-        <script type="text/javascript" src="js/ajax_load.js"></script>
-        <script type="text/javascript" src="js/elements.js"></script>
-        <script type="text/javascript" src="js/init.js"></script>
-        <script type="text/javascript" src="js/client.js"></script>
+<head>
+    <meta charset="utf-8" />
+    <!--
+    Customize this policy to fit your own app's needs. For more guidance, see:
+        https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+    Some notes:
+        * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+        * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+        * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+            * Enable inline JS: add 'unsafe-inline' to default-src
+    -->
+    <!--// This is original from Cordova // meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"-->
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src * 'unsafe-inline'; script-src * 'unsafe-inline'; media-src *">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/layout.css">
+    <link rel="stylesheet" type="text/css" href="css/component.css">
+    <link rel="stylesheet" type="text/css" href="css/component.header.css">
+    <link rel="stylesheet" type="text/css" href="css/component.footer.css">
+    <link rel="stylesheet" type="text/css" href="css/component.panel.css">
+    <link rel="stylesheet" type="text/css" href="css/component.notification.css">
+    <link rel="stylesheet" type="text/css" href="css/theme.css">
+    <title>Hello World</title>
     <script>
-        var version = db.get('version');
-        var url_css = 'http://www.test.org/app-sapcms3/css/server.css?version=' + version;
-        var url_js = 'http://www.test.org/app-sapcms3/js/server.js?version=' + version;
+        var url_server = 'http://sapcms3.org/';
+    </script>
 
+</head>
+<body>
+
+<div id='layout'>
+    <header class="widget header"></header>
+    <nav class="widget panel"></nav>
+    <section class="notification"></section>
+    <section class="widget content"></section>
+    <footer class="widget footer"></footer>
+</div>
+
+<!--<script type="text/javascript" src="cordova.js"></script>-->
+
+<script type="text/javascript" src="js/underscore-min.js"></script>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="js/cordova.js"></script>
+<script type="text/javascript" src="js/database.js"></script>
+<script type="text/javascript" src="js/helper.js"></script>
+<script type="text/javascript" src="js/ajax_load.js"></script>
+<script type="text/javascript" src="js/elements.js"></script>
+<script type="text/javascript" src="js/init.js"></script>
+<script type="text/javascript" src="js/client.js"></script>
+<script>
+    setTimeout(function(){
+        var version = db.get('version');
+        var url_css = 'http://w2ww.test.org/app-sapcms3/css/server.css?version=' + version;
+        var url_js = 'http://www2.test.org/app-sapcms3/js/server.js?version=' + version;
 
         console.log(url_css);
         console.log(url_js);
@@ -64,14 +67,15 @@
             link.setAttribute('href', url);
             document.getElementsByTagName('head')[0].appendChild(link)
         })(url_css);
+
         $.ajax({
             dataType:'script',
-            scriptCharset:'utf-8',
             url: url_js,
             success:function(){
                 console.log("success on load server.js");
             }
         });
-    </script>
-    </body>
+    }, 100);
+</script>
+</body>
 </html>

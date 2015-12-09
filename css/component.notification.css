@@ -1,0 +1,7 @@
+.notification {
+    background-color:#c4def1;
+}
+
+.notification .note.red {
+    color:red;
+}

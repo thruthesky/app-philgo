@@ -24,6 +24,6 @@ function ajax_load($input, $callback) {
     });
 
     request.fail(function( jqXHR, textStatus ) {
-        alert( "Request failed: " + textStatus );
+        console.log( "ajax_load Request failed: " + textStatus );
     });
 }
