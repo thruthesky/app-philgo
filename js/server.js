@@ -7,19 +7,25 @@
  *
  */
 var cache_url = url_server + 'ajax/cache/widget/';
+var url_company_book_data = 'http://philgo.org/?module=etc&action=company_data_json_submit';
 var cache_template_widgets = [
     'header',
     'footer',
-    'panel'
+    'panel-menu'
 ];
 
 
 $(function(){
     note('server.js 를 로드하였습니다.');
-    set_version('20151209');
-    cache_run_for_templates(); // 템플릿( header, footer, panel 등 )만 1시간에 한번씩 실행
-    cache_get_widget_from_server('front', callback_cache_update_on_content);
+    set_version('2015-12-10');
     initServerEventHandlers();
+
+
+    // 이 두 코드는 여기 있어야 한다. server.js 가 로드 될 때 바로 실행하면 된다.
+    cache_update_templates(); // 템플릿( header, footer, panel 등 )만 1시간에 한번씩 실행
+    // server.js 가 로드되면 첫 페이지를 업데이트 한다.
+    cache_get_widget_from_server('front', callback_cache_update_page_on_content);
+
 });
 /** ===================== Helper functions =================== */
 
@@ -31,13 +37,13 @@ function resetApp() {
     var key = 'reset2';
     var reset_date = '2015-12-08';
     var reset = db.getRecord(key);
-    console.log(reset);
+    trace(reset);
     if ( reset ) {
         // installed.
     }
     else {
         // Not installed. Install now.
-        console.log("App is begin reset.");
+        trace("App is begin reset.");
         db.save(key, reset_date);
         db.delete('header');
         db.delete('footer');
@@ -58,13 +64,13 @@ function initServerEventHandlers() {
 /** ======================================= Cache functions ================================= */
 
 
-function cache_run_for_templates() {
+function cache_update_templates() {
     var count = 0;
     cache_update_loop();
     setInterval(cache_update_loop, 1000 * 60 * 60 * 1);
     function cache_update_loop() {
         count++;
-        //console.log("cache_run:" + count);
+        //trace("cache_run:" + count);
         for (i in cache_template_widgets) {
             cache_get_widget_from_server(cache_template_widgets[i], callback_cache_update_on_widget);
         }
@@ -86,13 +92,10 @@ function cache_run_for_templates() {
  * @code
  */
 function cache_get_widget_from_server(widget, callback) {
-    console.log( "widget:" + widget );
+    trace( "cache_get_widget_from_server:" + widget );
     var q = cache_url + widget + "?dummy=" + new Date().getTime();
-    //console.log(q);
     ajax_load(q, function(re){
-        if ( re.code == 0 ) {
-            callback(widget, re);
-        }
+        callback(widget, re);
     });
 }
 
@@ -103,7 +106,14 @@ function cache_get_widget_from_server(widget, callback) {
  * =============== Callback functions ================
  *
  */
-
+function server_on_click_page($this) {
+    var page = $this.attr('page');
+    trace('server_on_click_page() : page=' + page);
+    if ( page != 'company' ) return false;
+    ajax_load(url_company_book_data, function(re) {
+        trace(re);
+    });
+}
 
 
 

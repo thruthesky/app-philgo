@@ -5,6 +5,7 @@
 
 
 function initApp() {
+    trace("init.js::initApp() begins...");
     initEventHandlers();
     init_default_widgets_and_pages();
     if ( isOffline() ) {
@@ -13,9 +14,17 @@ function initApp() {
 }
 
 
+/**
+ *
+ * 이 함수의 역활은 App 이 처음 실행 될 때,
+ *      - 서버로 부터 캐시(또는 page 폴더의 html)가 있으면 보여주고,
+ *      - 아니면 page 폴더의 html 파일을 읽어서 db 에 저장하고 화면에 보여준다.
+ *
+ */
 
 
 function init_default_widgets_and_pages() {
+    trace("init_default_widgets_and_pages() begins ...");
     widget_load('header');
     widget_load('footer');
     widget_load('panel-menu');
@@ -35,7 +44,7 @@ function init_default_widgets_and_pages() {
  * @returns {*}
  */
 function initContent() {
-    console.log('initContent()');
+    trace('initContent()');
     showPage('front');
 }
 
@@ -46,23 +55,24 @@ function initContent() {
  * @param widget_name
  *
  * @note 맨 처음 App 이 실행 될 때 초기화를 하는데,
+ *      - DB 캐시가 없으면,
+ *      - page 폴더에서 데이터를 로드한다.
  */
+
 function widget_load(widget_name) {
-    //console.log('widget_load:' + widget_name);
+    trace('widget_load:' + widget_name);
     var m = db.get( widget_name );
     if ( m ) return widget(widget_name).html(m);
     ajax_load_page(widget_name, widget(widget_name))
 }
-
 function page_load(page, callback) {
-    console.log('page_load:' + page);
+    trace('page_load:' + page);
     var m = db.get( page );
     if ( m ) {
         if ( typeof callback == 'function' ) return callback();
     }
     ajax_load_page(page, false, callback);
 }
-
 
 
 /**
@@ -75,12 +85,12 @@ function page_load(page, callback) {
  */
 function ajax_load_page(page, $e, callback) {
     var url = 'page/'+page+'.html';
-    console.log('ajax_load_page() : page: ' + page + ', url: ' + url);
+    trace('ajax_load_page() : page: ' + page + ', url: ' + url);
     ajax_load(url, function(html){
         if ( $e ) $e.html(html);
         db.save(page, html);
         if ( typeof callback == 'function' ) {
-            console.log("ajax_load_page callback: ...");
+            trace("ajax_load_page callback: ...");
             callback();
         }
     });
@@ -93,7 +103,7 @@ function ajax_load_page(page, $e, callback) {
  * @param page
  */
 function showPage(page) {
-    console.log('showPage(' + page + ')');
+    trace('showPage(' + page + ')');
     setCurrentPage(page);
     var m = db.get( page );
     if ( m ) return setContent( m, page );
@@ -134,18 +144,21 @@ function on_click_content() {
 
 function on_click_page() {
     var $this = $(this);
+    if ( typeof server_on_click_page == 'function' && server_on_click_page($this) ) return;
     var page = $this.attr('page');
-
-    console.log('on_click_page() : ' + page);
-    showPage(page);
+    trace('on_click_page() : ' + page);
 
     if ( isOffline() && $this.hasClass('check-online') ) {
         alert(page + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.")
         return;
     }
 
+    // DB 에 캐시한 내용을 먼저 보여주고,
+    showPage(page);
+
+    // 서버로 부터 새로운 캐시 내용을 받아서, 화면에 보여 준다.
     if ( typeof cache_get_widget_from_server == 'function' ) {
-        cache_get_widget_from_server(page, callback_cache_update_on_content);
+        cache_get_widget_from_server(page, callback_cache_update_page_on_content);
     }
 }
 
@@ -160,11 +173,18 @@ function callback_cache_update_on_widget(widget_name, re) {
     }
 }
 
-function callback_cache_update_on_content(widget_name, re) {
+/**
+ *
+ * 서버로 부터 받은 페이지의 html 을 db 에 저장하고, 화면에 보여 준다.
+ *
+ * @param page
+ * @param re
+ */
+function callback_cache_update_page_on_content(page, re) {
+    trace("callback_cache_update_page_on_content: page:" + page);
     if ( re.html ) {
-        db.save( widget_name, re.html );
-        //content().html(re.html).attr('widget', widget_name);
-        setContent(re.html, widget_name);
+        db.save( page, re.html );
+        showPage(page);
     }
 }
 

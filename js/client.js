@@ -12,9 +12,11 @@
  */
 var current_page_name = null;
 $(function(){
+    trace("clients.js begins...");
+    db.deleteAll(); // test.
     initApp();
 
-    // db.deleteAll(); // test.
+
     //setTimeout(function(){ showPage('setting'); }, 600); // test
     //setTimeout(togglePanel, 300); // test : open panel-menu
 });
@@ -27,7 +29,7 @@ $(function(){
  * @param html
  */
 function setContent(html, page) {
-    console.log('setContent(...,' + page + ')');
+    trace('setContent(...,' + page + ')');
     if ( isPanelOpen() ) hidePanel();
     content().html(html).attr('widget', page);
 }
