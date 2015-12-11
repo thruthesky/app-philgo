@@ -16,6 +16,7 @@ var cache_template_widgets = [
 
 
 $(function(){
+    console.log("server.js begins ...");
     note('server.js 를 로드하였습니다.');
     set_version('2015-12-10');
     initServerEventHandlers();
@@ -23,6 +24,7 @@ $(function(){
 
     // 이 두 코드는 여기 있어야 한다. server.js 가 로드 될 때 바로 실행하면 된다.
     cache_update_templates(); // 템플릿( header, footer, panel 등 )만 1시간에 한번씩 실행
+
     // server.js 가 로드되면 첫 페이지를 업데이트 한다.
     cache_get_widget_from_server('front', callback_cache_update_page_on_content);
 
@@ -33,24 +35,7 @@ function set_version(version) {
     db.set('version', version);
 }
 
-function resetApp() {
-    var key = 'reset2';
-    var reset_date = '2015-12-08';
-    var reset = db.getRecord(key);
-    trace(reset);
-    if ( reset ) {
-        // installed.
-    }
-    else {
-        // Not installed. Install now.
-        trace("App is begin reset.");
-        db.save(key, reset_date);
-        db.delete('header');
-        db.delete('footer');
-        db.delete('panel');
-        db.delete('front');
-    }
-}
+
 
 /** ===================== init Server Event Handlers ======================= */
 
@@ -65,6 +50,7 @@ function initServerEventHandlers() {
 
 
 function cache_update_templates() {
+    trace("cache_update_templates() begins");
     var count = 0;
     cache_update_loop();
     setInterval(cache_update_loop, 1000 * 60 * 60 * 1);
