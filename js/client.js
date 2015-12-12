@@ -12,33 +12,14 @@
  */
 var current_page_name = null;
 $(function(){
-    trace("clients.js begins...");
-    db.deleteAll(); // test.
-    initApp();
+    //console.log("clients.js begins...");
+    //db.deleteAll(); // test.
+    //initApp();
 
 
     //setTimeout(function(){ showPage('setting'); }, 600); // test
+    //ssetTimeout(function(){ $('.page[page="news"]').click(); }, 300); // test
     //setTimeout(togglePanel, 300); // test : open panel-menu
 });
 
 
-
-/**
- * @Attention Use this function to set content on '.content'.
- *      - it does extra tasks.
- * @param html
- */
-function setContent(html, page) {
-    trace('setContent(...,' + page + ')');
-    if ( isPanelOpen() ) hidePanel();
-    content().html(html).attr('widget', page);
-}
-
-
-/**
- *
- * =============== STATE FUNCTIONS ===================
- */
-/**
- * =============== Action Functions =================
- */

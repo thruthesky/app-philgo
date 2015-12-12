@@ -1,9 +1,10 @@
 
+
 /**
  * ================================= Initialization Functions ==================================
  */
 
-
+/*
 function initApp() {
     trace("init.js::initApp() begins...");
     initEventHandlers();
@@ -12,7 +13,7 @@ function initApp() {
         note('인터넷을 연결 해 주십시오. Connect to Internet.', 'alert alert-warning');
     }
 }
-
+*/
 
 /**
  *
@@ -22,16 +23,16 @@ function initApp() {
  *
  */
 
-
+/*
 function init_default_widgets_and_pages() {
-    trace("init_default_widgets_and_pages() begins ...");
+    //console.log("init_default_widgets_and_pages() begins ...");
     widget_load('header');
     widget_load('footer');
     widget_load('panel-menu');
     page_load('front', initContent);
     page_load('setting');
 }
-
+*/
 
 
 
@@ -43,10 +44,12 @@ function init_default_widgets_and_pages() {
  * @param page
  * @returns {*}
  */
+/*
 function initContent() {
     trace('initContent()');
     showPage('front');
 }
+*/
 
 
 
@@ -58,7 +61,7 @@ function initContent() {
  *      - DB 캐시가 없으면,
  *      - page 폴더에서 데이터를 로드한다.
  */
-
+/*
 function widget_load(widget_name) {
     trace('widget_load:' + widget_name);
     var m = db.get( widget_name );
@@ -74,7 +77,7 @@ function page_load(page, callback) {
     ajax_load_page(page, false, callback);
 }
 
-
+*/
 /**
  * App 의 page 폴더에 있는 정보를 '.content' 에 보여주고, DB 에 저장한다.
  * @param page
@@ -83,18 +86,20 @@ function page_load(page, callback) {
  *
  * @param callback - ajax load 를 하고 난 다음, hidePanel 과 같은 callback 을 사용 할 수 있다.
  */
+/*
 function ajax_load_page(page, $e, callback) {
     var url = 'page/'+page+'.html';
     trace('ajax_load_page() : page: ' + page + ', url: ' + url);
     ajax_load(url, function(html){
         if ( $e ) $e.html(html);
-        db.save(page, html);
+        db.set(page, html);
         if ( typeof callback == 'function' ) {
             trace("ajax_load_page callback: ...");
             callback();
         }
     });
 }
+*/
 
 /**
  * page 값을 입력 받아서,
@@ -102,6 +107,7 @@ function ajax_load_page(page, $e, callback) {
  * 만약 DB 에 내용이 없으면 page/connect.html 을 보여준다.
  * @param page
  */
+/*
 function showPage(page) {
     trace('showPage(' + page + ')');
     setCurrentPage(page);
@@ -111,37 +117,46 @@ function showPage(page) {
         ajax_load_page('connect', content(), hidePanel);
     }
 }
+*/
 
 
 /** ============= Event handlers functions ============= */
+/*
 function on_click(selector, callback) {
+
     $('body').on('click', selector, callback);
 }
-
+*/
+/*
 function initEventHandlers() {
-    on_click('.panel-menu.toggle', togglePanel);
-    on_click('.content', on_click_content);
-    on_click('.page[page]', on_click_page);
-    on_click('.reset', on_click_reset);
+   // on_click('.panel-menu.toggle', togglePanel);
+    //on_click('.content', on_click_content);
+//    on_click('.page[page]', on_click_page);
+    //on_click('.reset', on_click_reset);
 }
+*/
+
 
 
 /** =============== Callback functions ================= */
 
-
+/*
 function on_click_reset() {
     var re = confirm("앱을 초기화 하시겠습니까? Do you want to reset?");
     if ( re ) {
-        db.deleteAll();
-        location.href='index.html';
+        app_reset();
+        app_refresh();
     }
 }
+*/
 
+/*
 function on_click_content() {
     hidePanel();
 }
+*/
 
-
+/*
 function on_click_page() {
     var $this = $(this);
     if ( typeof server_on_click_page == 'function' && server_on_click_page($this) ) return;
@@ -157,21 +172,21 @@ function on_click_page() {
     showPage(page);
 
     // 서버로 부터 새로운 캐시 내용을 받아서, 화면에 보여 준다.
-    if ( typeof cache_get_widget_from_server == 'function' ) {
-        cache_get_widget_from_server(page, callback_cache_update_page_on_content);
+    if ( typeof cache_update == 'function' ) {
+        cache_update(page, update_content);
     }
 }
+*/
 
 
 
-
-
-function callback_cache_update_on_widget(widget_name, re) {
+/*
+function update_widget(widget_name, re) {
     if ( re.html ) {
-        db.save( widget_name, re.html );
+        save_widget( widget_name, re );
         widget(widget_name).html(re.html);
     }
-}
+}*/
 
 /**
  *
@@ -180,11 +195,17 @@ function callback_cache_update_on_widget(widget_name, re) {
  * @param page
  * @param re
  */
-function callback_cache_update_page_on_content(page, re) {
-    trace("callback_cache_update_page_on_content: page:" + page);
+/*
+function update_content(page, re) {
+    //console.log("update_content: page:" + page);
     if ( re.html ) {
-        db.save( page, re.html );
+        save_page( page, re );
+        console.log(db.getAll());
         showPage(page);
+    }
+    else {
+        console.log("update_content: page:" + page + ", no HTML from server.");
     }
 }
 
+*/

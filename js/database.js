@@ -18,7 +18,7 @@
  * @endcode
  *
  */
-var  db = new function() {
+var db = new function() {
     this.type = 'WebStorage';
     this.author = 'JaeHo Song';
     this.email = 'thruthesky@gmail.com';
@@ -78,6 +78,14 @@ var  db = new function() {
     };
 
     /**
+     * @short returns the whole localStorage
+     * @returns {Storage}
+     */
+    this.getAll = function () {
+        return localStorage;
+    };
+
+    /**
      * @short Check if the web storage is availble.
      */
 
@@ -87,3 +95,12 @@ var  db = new function() {
 
 };
 
+function save_widget(key, re) {
+    db.set(key, re.html);
+    db.set(key + '.length', re['length']);
+    db.set(key + '.stamp', new Date().getTime());
+    db.set(key + '.md5', re['md5']);
+}
+function save_page(key, re) {
+    save_widget(key, re);
+}

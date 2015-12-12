@@ -35,11 +35,36 @@
 <body>
 
 <div id='layout'>
-    <header class="widget header"></header>
+    <header class="widget header">
+        <div style="padding-left:2em;">
+            <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+            인터넷 연결을 해 주세요 !!
+        </div>
+    </header>
     <nav class="widget panel-menu"></nav>
     <section class="notification"></section>
-    <section class="widget content"></section>
-    <footer class="widget footer"></footer>
+    <section class="widget content">
+        <style>
+            .page .banner img {
+                width: 100%;
+            }
+        </style>
+        <div class="page">
+            <h3>front 위젯을 로딩 중입니다.</h3>
+            <h1>필리핀 매거진에 오신 것을 환영합니다.</h1>
+            <h2>인사말</h2>
+            필리핀 매거진 www.philzine.com 은
+            필리핀의 소식과 각종 정보를 제공하는 앱입니다.<br>
+            감사합니다.<br>
+            <div class="banner"><img src="img/front-banner-1.jpg"></div>
+        </div>
+    </section>
+    <footer class="widget footer">
+        <div style="padding-left:2em;">
+            <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+            인터넷 연결을 해 주세요 !!
+        </div>
+    </footer>
 </div>
 
 <!--<script type="text/javascript" src="cordova.js"></script>-->
@@ -55,7 +80,7 @@
 <script type="text/javascript" src="js/panel-menu.js"></script>
 <script type="text/javascript" src="js/init.js"></script>
 <script type="text/javascript" src="js/client.js"></script>
-<script type="text/javascript" src="js/server.js"></script>
+
 <script>
     setTimeout(function(){
         var version = db.get('version');
@@ -65,7 +90,7 @@
 */
 
         var url_css = 'http://work.org/app-sapcms3/css/server.css?version=' + version;
-//        var url_js = 'http://work.org/app-sapcms3/js/server.js?version=' + version;
+        var url_js = 'http://work.org/app-sapcms3/js/server.js?version=' + version;
 
 
         console.log(url_css);
@@ -79,17 +104,13 @@
             document.getElementsByTagName('head')[0].appendChild(link)
         })(url_css);
 
-        $.ajax({
-            dataType:'script',
-            url: url_js,
-            success:function(){
-                console.log("success on load server.js");
-            },
-            error : function () {
-                console.log("error on loadnig server.js");
-            }
-        });
+        (function(url){
+            var scriptTag = document.createElement('script');
+            scriptTag.src = url;
+            document.body.appendChild(scriptTag);
+        })(url_js);
     }, 100);
+
 </script>
 </body>
 </html>

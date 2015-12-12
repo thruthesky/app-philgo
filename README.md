@@ -13,19 +13,19 @@ sapcms3 app
 * 자바스크립트 함수를 완전 조각화 한다. 자바스크립트 함수가 너무 헷갈린다.
     - 특히 callback 함수 군에서 너무 많이 했갈린다.
 
-    - 모든 click 관련 콜백은 'on_click_xxxx()' 로 한다.
-    - 모든 change, select, 등은 'on_change_xxxx()' 로 한다.
-
+    - OK: 모든 click 관련 콜백은 'on_click_xxxx()' 로 한다.
+    - OK: 모든 change, select, 등은 'on_change_xxxx()' 로 한다.
+/*
     - callback_cache_update_on_widget() 대신 update_widget(widget_name, re) 으로 한다.
     - callback_cache_update_page_on_content() 대신 update_content(page_name, re) 으로 한다.
         -- update 를 한다는 것은 서버로 부터 새로운 데이터를 받았기 때문이다.
         -- 따라서 update 를 할 때에는 항상 db_save() 로 html, stamp, md5, length 를 같이 저장한다.
         -- 또한 이 두 함수는 범용으로 쓰일 수 있도록 한다.
-
+*/
     - cache_get_widget_from_server() 를 cache_update_page() 로 변경한다.
 
 
-* db.save() 를 바로 호출하지 말고, db_save() 를 둘 것.
+* (재고) db.save() 를 바로 호출하지 말고, db_save() 를 둘 것.
     - db_save(), db_get(), db_set(), db_get_record(), db_delete(), db_delete_all()
 
 * server.js 가 인터넷에 연결되지 않아도 올바로 캐시 되는지 확인 한다.
