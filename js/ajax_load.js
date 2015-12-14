@@ -3,6 +3,9 @@
  * ============================== AJAX Loading Function ========================
  */
 function ajax_load(url, $callback) {
+
+    console.log(url);
+
     var request = $.ajax({
         url:url,
         cache: false

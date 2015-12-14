@@ -12,7 +12,8 @@
  * Definitions
  *
  */
-var url_server_widget = url_server + 'ajax/cache/widget/';
+var url_server_widget = url_server + '?module=ajax&action=widget&submit=1&name=';
+var url_server_forum =  url_server + '?module=ajax&action=post-list&submit=1&post_id=';
 var url_company_book_data = 'http://philgo.org/?module=etc&action=company_data_json_submit';
 var cache_template_widgets = [
     'header',
@@ -85,7 +86,6 @@ function initServerEventHandlers() {
     on_click('.content', on_click_content);
     on_click('.reset', on_click_reset);
     on_click('.panel-menu.toggle', on_click_panel_menu);
-
 }
 
 
@@ -97,7 +97,7 @@ function initServerEventHandlers() {
 function on_click_page() {
     var $this = $(this);
     var page = $this.attr('page');
-    var url = $this.attr('url');
+    var post_id = $this.attr('post_id');
 
     console.log('on_click_page() : ' + page);
 
@@ -108,7 +108,7 @@ function on_click_page() {
 
     // 여기서부터. url 에 값이 있으면 그 것을 endpoint 로 해서 정보를 로드한다.
     // 없으면 sapcms3 로 page 위젯을 로드한다.
-    cache_update(page, url);
+    cache_update(page, post_id);
 }
 
 
@@ -154,6 +154,7 @@ function cache_update_templates() {
         for (i in cache_template_widgets) {
             var url = url_server_widget + cache_template_widgets[i];
             ajax_load(url, function(re){
+                console.log(re);
                 if ( re.html ) {
                     var name = re.widget;
                     save_page( name, re );
@@ -164,6 +165,10 @@ function cache_update_templates() {
         }
     }
 }
+
+
+/** ============= DOM Management functions ============= */
+
 
 
 /**
@@ -184,7 +189,7 @@ function cache_update_templates() {
  *      cache_update('front');
  * @code
  */
-function cache_update(name, url) {
+function cache_update(name, post_id) {
     console.log( "cache_update:" + name );
     setContent( db.get( name ), name );
     var url_widget = url_server_widget + name;
@@ -193,15 +198,11 @@ function cache_update(name, url) {
             save_page( name, re );
             setCurrentPage(name);
             setContent(re.html, name);
-            if ( url ) endless_reset(url);
+            if ( post_id ) endless_reset(post_id);
         }
         else cache_no_html(name);
     });
 }
-
-
-
-/** ============= DOM Management functions ============= */
 
 /**
  *
@@ -232,8 +233,8 @@ var endless_api = '';
 var endless_scroll_count = 0;
 var endless_no_more_content = false;
 var endless_in_loading = false;
-function endless_list() {
-    return $('.endless-list');
+function post_list() {
+    return $('.post-list');
 }
 function endless_load_more_update(re) {
     //console.log(re);
@@ -245,15 +246,21 @@ function endless_load_more_update(re) {
     else {
         //console.log(re['html']);
         var site = re.site;
-        var forum = re.forum;
+        var post_id = re.post_id;
         var page_no = re.page_no;
-        note_reset(site + ' 사이트 : ' + forum + '의 ' + page_no + " 페이지 내용이 추가되었습니다.");
-        var p;
+        note_reset(site + ' 사이트 : ' + post_id + '의 ' + page_no + " 페이지 내용이 추가되었습니다.");
         for ( i in re.posts ) {
-            p = re.posts[i];
-
+            var p = re.posts[i];
             endless_hide_loader();
-            endless_list().append('<h3>' + p.subject + '</h3>');
+            var m = '';
+            if ( !_.isEmpty(p['subject']) ) {
+                m += '<h3>' + p['subject'] + '</h3>';
+            }
+            if ( p['content'] ) m += '<p>' + p['content'] + '</p>';
+
+            m = '<div class="post">' + m + '</div>';
+            post_list().append(m);
+
             console.log(p.subject);
         }
     }
@@ -263,27 +270,27 @@ function endless_load_more_update(re) {
  * 리셋을 하면 첫 페이지를 바로 보여준다.
  * @param url
  */
-function endless_reset(url) {
+function endless_reset(post_id) {
+    var url = url_server_forum + post_id;
     console.log('endless_reset('+url+')');
-    endless_api = url;
+    endless_api = url + '&page_no=';
     endless_scroll_count = 0;
     endless_no_more_content = false;
     endless_in_loading = false;
     var url_endless = endless_api + endless_scroll_count;
     ajax_load( url_endless, endless_load_more_update);
 }
-//endless_reset('http://sapcms3.org/ajax/endless?forum=abc&page_no=');
+
 (function endless_run() {
     var $window = $(window);
     var $document = $(document);
 
     var endless_distance = 400; // how far is the distance from bottom to get new page.
 
-
     $document.scroll(endless_load_more);
 
     function endless_load_more(e) {
-        console.log('endless_load_more(e) : ');
+        // console.log('endless_load_more(e) : ');
         if ( ! endless_api ) return console.log("no endless_api");
         if ( endless_no_more_content ) return console.log("no more content. return.");
         if ( endless_in_loading ) return console.log("endless is in loading page.");
@@ -300,16 +307,17 @@ function endless_reset(url) {
 
 
 function endless_hide_loader() {
-    console.log("endless_hide_load()");
-    $('.endless-loader').remove();
+    //console.log("endless_hide_load()");
+    var $loader = $('.endless-loader');
+    if ( $loader.length ) $loader.remove();
 }
 function endless_show_loader() {
     console.log("endless_show_load()");
     var markup = "<div class='endless-loader'><img src='img/loader/loader9.gif'></div>";
-    endless_list().append(markup);
+    post_list().append(markup);
 }
 function endless_show_no_more_content() {
     console.log("endless_show_no_more_content");
     var text = 'No more content ........... !'
-    endless_list().after("<div class='no-more-content'>"+text+"</div>");
+    post_list().after("<div class='no-more-content'>"+text+"</div>");
 }
