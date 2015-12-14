@@ -1,5 +1,7 @@
-# app-sapcms3
-sapcms3 app
+# app-philgo
+
+2015-12-14 Changed repository name.
+
 
 # Build guide 참고
 
