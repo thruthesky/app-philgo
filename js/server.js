@@ -29,7 +29,7 @@ $(function(){
         note('인터넷을 연결 해 주십시오. Connect to Internet.', 'alert alert-warning');
     }
 
-    update_version('2015-12-12-2');
+    //update_version(app_version); // 여기서 기록을 하면, 버젼을 수동으로 확인 할 수가 없다.
 
     initServerEventHandlers();
 
@@ -38,7 +38,7 @@ $(function(){
     cache_update_templates(); // 템플릿( header, footer, panel 등 )만 1시간에 한번씩 실행
 
     // server.js 가 로드되면 첫 페이지를 업데이트 한다.
-    cache_update('front', url_server_widget + 'front');
+    cache_update('front');
 
 });
 /** ===================== Version functions =================== */
@@ -57,9 +57,11 @@ function get_version() {
 function update_version(new_version) {
     var old_version = get_version();
     if ( old_version == new_version ) {
+        console.log("App version:" + new_version);
         return;
     }
     else {
+        console.log('updating version with:' + new_version);
         app_reset();
         set_version(new_version);
         app_refresh();
@@ -89,12 +91,15 @@ function initServerEventHandlers() {
 
 /** ================ Menu Callback Functions ================= */
 
+/**
+ * #buildguide on_click_page
+ */
 function on_click_page() {
     var $this = $(this);
     var page = $this.attr('page');
     var url = $this.attr('url');
 
-    //console.log('on_click_page() : ' + page);
+    console.log('on_click_page() : ' + page);
 
     if ( isOffline() && $this.hasClass('check-online') ) {
         alert(page + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.")
@@ -103,14 +108,7 @@ function on_click_page() {
 
     // 여기서부터. url 에 값이 있으면 그 것을 endpoint 로 해서 정보를 로드한다.
     // 없으면 sapcms3 로 page 위젯을 로드한다.
-
-    /*
-
-     // 서버로 부터 새로운 캐시 내용을 받아서, 화면에 보여 준다.
-     if ( typeof cache_update == 'function' ) {
-     cache_update(page, update_content);
-     }
-     */
+    cache_update(page, url);
 }
 
 
@@ -118,7 +116,11 @@ function on_click_content() {
     hidePanel();
 }
 
+/**
+ *
+ */
 function on_click_reset() {
+    console.log('on_click_reset()');
     var re = confirm("앱을 초기화 하시겠습니까? Do you want to reset?");
     if ( re ) {
         app_reset();
@@ -179,17 +181,19 @@ function cache_update_templates() {
  * @param widget
  * @param callback
  * @code
- *      cache_update('front', callback_cache_update_on_content);
+ *      cache_update('front');
  * @code
  */
 function cache_update(name, url) {
     console.log( "cache_update:" + name );
     setContent( db.get( name ), name );
-    ajax_load(url, function(re){
+    var url_widget = url_server_widget + name;
+    ajax_load(url_widget, function(re){
         if ( re.html ) {
             save_page( name, re );
             setCurrentPage(name);
             setContent(re.html, name);
+            if ( url ) endless_reset(url);
         }
         else cache_no_html(name);
     });
@@ -225,55 +229,87 @@ function setContent(html, page_name) {
 /** =============== ENDLESS page loading =============== */
 
 var endless_api = '';
-function endless_reset(url) {
-    endless_api = url;
+var endless_scroll_count = 0;
+var endless_no_more_content = false;
+var endless_in_loading = false;
+function endless_list() {
+    return $('.endless-list');
 }
-endless_reset('http://sapcms3.org/ajax/endless?forum=abc&page_no=');
+function endless_load_more_update(re) {
+    //console.log(re);
+    if (_.isEmpty(re.posts) ) {
+            endless_no_more_content = true;
+            endless_hide_loader();
+            endless_show_no_more_content();
+    }
+    else {
+        //console.log(re['html']);
+        var site = re.site;
+        var forum = re.forum;
+        var page_no = re.page_no;
+        note_reset(site + ' 사이트 : ' + forum + '의 ' + page_no + " 페이지 내용이 추가되었습니다.");
+        var p;
+        for ( i in re.posts ) {
+            p = re.posts[i];
+
+            endless_hide_loader();
+            endless_list().append('<h3>' + p.subject + '</h3>');
+            console.log(p.subject);
+        }
+    }
+    endless_in_loading = false;
+}
+/**
+ * 리셋을 하면 첫 페이지를 바로 보여준다.
+ * @param url
+ */
+function endless_reset(url) {
+    console.log('endless_reset('+url+')');
+    endless_api = url;
+    endless_scroll_count = 0;
+    endless_no_more_content = false;
+    endless_in_loading = false;
+    var url_endless = endless_api + endless_scroll_count;
+    ajax_load( url_endless, endless_load_more_update);
+}
+//endless_reset('http://sapcms3.org/ajax/endless?forum=abc&page_no=');
 (function endless_run() {
     var $window = $(window);
     var $document = $(document);
 
-    var endless_scroll_count = 0;
     var endless_distance = 400; // how far is the distance from bottom to get new page.
-    var endless_in_loading = false;
-    var endless_no_more_content = false;
-    var endless_timer = 0;
 
-    function endless_hide_loader() {
-        console.log("endless_hide_load()");
-        $('.endless-loader').remove();
-    }
-    function endless_show_no_more_content() {
-        console.log("endless_show_no_more_content");
-        var text = 'No more content!'
-        $(".endless-list").after("<div class='no-more-content'>"+text+"</div>");
-    }
-    $document.scroll(function(e) {
+
+    $document.scroll(endless_load_more);
+
+    function endless_load_more(e) {
+        console.log('endless_load_more(e) : ');
         if ( ! endless_api ) return console.log("no endless_api");
-        if ( endless_no_more_content ) return console.log("no more content");
+        if ( endless_no_more_content ) return console.log("no more content. return.");
         if ( endless_in_loading ) return console.log("endless is in loading page.");
         var top = $document.height() - $window.height() - endless_distance;
         if ($window.scrollTop() >= top) {
             endless_scroll_count ++;
             console.log("endless_listen_scroll():: count:" + endless_scroll_count);
             endless_in_loading = true;
-            ajax_load( endless_api + endless_scroll_count, function(re) {
-                //console.log(re);
-                if ( re.code ) {
-                    if ( re.code ==  -4 ) { // no more content
-                        endless_no_more_content = true;
-                        clearInterval(endless_timer);
-                        endless_hide_loader();
-                        endless_show_no_more_content();
-                    }
-                    else alert("Unkown error");
-                }
-                else {
-                    //console.log(re['html']);
-                    $(".endless-list").append(re.html);
-                }
-                endless_in_loading = false;
-            });
+            endless_show_loader();
+            ajax_load( endless_api + endless_scroll_count, endless_load_more_update);
         }
-    });
+    }
 })();
+
+
+function endless_hide_loader() {
+    console.log("endless_hide_load()");
+    $('.endless-loader').remove();
+}
+function endless_show_loader() {
+    console.log("endless_show_load()");
+    var markup = "<div class='endless-loader'><img src='img/loader/loader9.gif'></div>";
+    endless_list().append(markup);
+}
+function endless_show_no_more_content() {
+    console.log("endless_show_no_more_content");
+    var text = 'No more content ........... !'
+    endless_list().after("<div class='no-more-content'>"+text+"</div>");
+}

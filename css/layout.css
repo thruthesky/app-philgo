@@ -19,10 +19,14 @@ footer {
     height:50px;
     overflow:hidden;
 }
-
 .widget.panel-menu {
     position:fixed;
     top:66px;
     right:0;
     z-index:999;
+}
+
+.notification {
+    position:fixed;
+    top:60px;
 }

@@ -2,18 +2,11 @@
 /**
  * ============================== AJAX Loading Function ========================
  */
-function ajax_load($input, $callback) {
-
-    /*
-    if ( typeof $input == 'string' ) {
-        console.log($input);
-    }
-    else {
-        console.log($input.url);
-    }
-    */
-
-    var request = $.ajax($input);
+function ajax_load(url, $callback) {
+    var request = $.ajax({
+        url:url,
+        cache: false
+    });
     request.done(function( data ) {
         //console.log(data);
         try {
@@ -25,7 +18,6 @@ function ajax_load($input, $callback) {
         if ( typeof $callback == 'function' ) $callback(re);
 
     });
-
     request.fail(function( jqXHR, textStatus ) {
         console.log( "ajax_load Request failed: " + textStatus );
         setContent(jqXHR.responseText);

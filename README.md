@@ -24,6 +24,15 @@ sapcms3 app
 */
     - cache_get_widget_from_server() 를 cache_update_page() 로 변경한다.
 
+* 문서화 :
+    select 를 해서 테이블의 레코드를 뽑을 때,
+        select id from table 을 하고 나서
+        select * from table where id='id' 로 하는 경우가 많은데,
+        database 서버의 부하 차이이지 않을까?
+        그냥 select * from table 해서 한번에 데이터를 다 뽑아버리면, db 서버에 부하가 걸리지 않을까?
+        테스트가 필요하다.
+        100 만개의 레코드르 집어 넣고, 검색하는 옵션으로 테스트를 해 봐야 겠다.
+        훈련생에게 검색과 추출을 가장 빠르게 하는 방법에 대해서 과제를 낸다.
 
 * (재고) db.save() 를 바로 호출하지 말고, db_save() 를 둘 것.
     - db_save(), db_get(), db_set(), db_get_record(), db_delete(), db_delete_all()
