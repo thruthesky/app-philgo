@@ -18,7 +18,7 @@ var url_company_book_data = 'http://philgo.org/?module=etc&action=company_data_j
 var cache_template_widgets = [
     'header',
     'footer',
-    'panel-menu'
+    'menu-panel'
 ];
 
 
@@ -85,7 +85,7 @@ function initServerEventHandlers() {
     on_click('.page[page]', on_click_page);
     on_click('.content', on_click_content);
     on_click('.reset', on_click_reset);
-    on_click('.panel-menu.toggle', on_click_panel_menu);
+    on_click('.menu-panel.toggle', on_click_menu_panel);
 }
 
 
@@ -128,9 +128,11 @@ function on_click_reset() {
     }
 }
 
-function on_click_panel_menu() {
+function on_click_menu_panel() {
+    console.log("on_click_menu_panel() begins ...");
     togglePanel();
 }
+
 
 
 /** ======================================= Cache functions ================================= */

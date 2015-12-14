@@ -19,7 +19,7 @@ footer {
     height:50px;
     overflow:hidden;
 }
-.widget.panel-menu {
+.widget.menu-panel {
     position:fixed;
     top:66px;
     right:0;

@@ -17,7 +17,7 @@ $(function(){
     //db.deleteAll(); // test.
     //initApp();
     //setTimeout(function(){ showPage('setting'); }, 600); // test
-    setTimeout(function(){ $('.page[page="news"]').click(); }, 1000); // test : news page
+    //setTimeout(function(){ $('.page[page="news"]').click(); }, 1000); // test : news page
     //setTimeout(function(){ $('.page[page="info"]').click(); }, 1300); // test : info page
     //setTimeout(togglePanel, 300); // test : open panel-menu
 
@@ -30,6 +30,8 @@ $(function(){
     function check_version(){
         ajax_load(url_server + '?module=ajax&action=version&submit=1', function(re){
             update_version(re.version);
+            db.set('url_css_bootstrap', re['url_css_bootstrap']);
+            db.set('url_js_bootstrap', re['url_js_bootstrap']);
         });
     }
 

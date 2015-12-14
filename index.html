@@ -16,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+
     <link rel="stylesheet" type="text/css" href="css/base.css">
     <link rel="stylesheet" type="text/css" href="css/layout.css">
     <link rel="stylesheet" type="text/css" href="css/component.css">
@@ -28,7 +28,7 @@
     <link rel="stylesheet" type="text/css" href="css/theme.css">
     <title>Hello World</title>
     <script>
-        var url_server = 'http://philgo.com/';
+        var url_server = 'http://philgo.org/';
     </script>
 
 </head>
@@ -41,7 +41,7 @@
             Please connect to internet.
         </div>
     </header>
-    <nav class="widget panel-menu"></nav>
+    <nav class="widget menu-panel"></nav>
     <section class="notification"></section>
     <section class="widget content">
         <style>
@@ -71,7 +71,6 @@
 
 <script type="text/javascript" src="js/underscore-min.js"></script>
 <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/cordova.js"></script>
 <script type="text/javascript" src="js/database.js"></script>
 <script type="text/javascript" src="js/helper.js"></script>
@@ -83,33 +82,38 @@
 <script>
     setTimeout(function(){
         var version = db.get('version');
-        var url_css = 'http://www.test.org/apps/philzine2/www/css/server.css?version=' + version;
-        var url_js = 'http://www.test.org/apps/philzine2/www/js/server.js?version=' + version;
+        var url_css_bootstrap = db.get('url_css_bootstrap') + '?version=' + version;
+        var url_js_bootstrap = db.get('url_js_bootstrap') + '?version=' + version;
+        var url_css_server = 'http://www.test.org/apps/philzine2/www/css/server.css?version=' + version;
+        var url_js_server = 'http://www.test.org/apps/philzine2/www/js/server.js?version=' + version;
 
-        /*
-        var url_css = 'http://work.org/app-sapcms3/css/server.css?version=' + version;
-        var url_js = 'http://work.org/app-sapcms3/js/server.js?version=' + version;
+        console.log(url_css_server);
+        console.log(url_js_server);
 
-         */
+        add_css(url_css_server);
+        add_css(url_css_bootstrap);
 
-        console.log(url_css);
-        console.log(url_js);
 
-        (function(url){
+                add_javascript(url_js_server);
+                add_css(url_js_bootstrap);
+
+        function add_css(url){
             var link = document.createElement('link');
             link.setAttribute('rel', 'stylesheet');
             link.setAttribute('type', 'text/css');
             link.setAttribute('href', url);
-            document.getElementsByTagName('head')[0].appendChild(link)
-        })(url_css);
+            document.getElementsByTagName('head')[0].appendChild(link);
+        }
 
-        (function(url){
+        function add_javascript(url) {
             var scriptTag = document.createElement('script');
             scriptTag.src = url;
             document.body.appendChild(scriptTag);
-        })(url_js);
-    }, 100);
+        }
 
+    },
+    100
+    );
 </script>
 </body>
 </html>

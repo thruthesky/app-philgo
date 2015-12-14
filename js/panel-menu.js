@@ -5,10 +5,11 @@ function isPanelOpen() {
 
 
 function togglePanel(){
-    $(".widget.panel-menu").animate({
+    console.log('togglePanel() begins ...');
+    panel().animate({
         width: "toggle"
     }, function(){
-
+        console.log("toggle panel complete...!")
     });
 }
 /**
@@ -20,8 +21,8 @@ function togglePanel(){
  */
 var inProgressHidePanel = false;
 function hidePanel() {
-    console.log('hidePanel()');
     if ( inProgressHidePanel ) return;
+    console.log('hidePanel() : is going to hide panel.');
     if ( isPanelOpen() ) {
         inProgressHidePanel = true;
         $(".widget.panel-menu").animate({
