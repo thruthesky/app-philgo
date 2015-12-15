@@ -16,6 +16,7 @@ $(function(){
     check_update_version();
     header_show();
     footer_show();
+    panel_menu_content_load();
 
     //db.deleteAll(); // test.
     //initApp();
@@ -39,6 +40,14 @@ function footer_show() {
     if ( !_.isEmpty(m) ) footer().html(m);
     ajax_load('widget/footer.html', function(re){
         footer().html(re);
+    });
+}
+
+function panel_menu_content_load() {
+    var m = get_cache('menu-panel');
+    if ( !_.isEmpty(m) ) menu_panel().html(m);
+    ajax_load('widget/menu-panel.html', function(re){
+        menu_panel().html(re);
     });
 }
 
