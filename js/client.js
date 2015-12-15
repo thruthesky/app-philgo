@@ -12,7 +12,7 @@
  */
 var current_page_name = null;
 $(function(){
-    db.deleteAll();
+    //db.deleteAll();
     check_update_version();
     header_show();
     footer_show();

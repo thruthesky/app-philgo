@@ -277,7 +277,7 @@ function endless_reset(post_id) {
     var url = url_server_forum + post_id;
     console.log('endless_reset('+url+')');
     endless_api = url + '&page_no=';
-    endless_scroll_count = 0;
+    endless_scroll_count = 1;
     endless_no_more_content = false;
     endless_in_loading = false;
     var url_endless = endless_api + endless_scroll_count;
