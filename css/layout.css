@@ -1,6 +1,4 @@
 body {
-    margin-top:60px;
-    margin-bottom:50px;
 }
 header {
     position:fixed;
@@ -18,6 +16,10 @@ footer {
     right:0;
     height:50px;
     overflow:hidden;
+}
+section.widget.content {
+    margin-top:60px;
+    margin-bottom:50px;
 }
 .widget.menu-panel {
     position:fixed;

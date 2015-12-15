@@ -22,10 +22,10 @@ function togglePanel(){
 var inProgressHidePanel = false;
 function hidePanel() {
     if ( inProgressHidePanel ) return;
-    console.log('hidePanel() : is going to hide panel.');
     if ( isPanelOpen() ) {
+        console.log('hidePanel() : is going to hide panel.');
         inProgressHidePanel = true;
-        $(".widget.panel-menu").animate({
+        panel().animate({
             width: "toggle"
         }, function() {
             inProgressHidePanel = false;

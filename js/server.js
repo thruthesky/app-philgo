@@ -12,6 +12,7 @@
  * Definitions
  *
  */
+var server_js_version = '0.1';
 var url_server_widget = url_server + '?module=ajax&action=widget&submit=1&name=';
 var url_server_forum =  url_server + '?module=ajax&action=post-list&submit=1&post_id=';
 var url_company_book_data = 'http://philgo.org/?module=etc&action=company_data_json_submit';

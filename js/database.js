@@ -104,3 +104,7 @@ function save_widget(key, re) {
 function save_page(key, re) {
     save_widget(key, re);
 }
+
+function get_cache(key) {
+    return db.get(key);
+}
