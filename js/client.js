@@ -11,12 +11,18 @@
  * @type {null}
  */
 var current_page_name = null;
+$do_not_use_server_header_footer_template = false;
 $(function(){
+
     //db.deleteAll();
+
     check_update_version();
     header_show();
     footer_show();
     panel_menu_content_load();
+
+    do_not_use_server_header_footer_template();
+
 
     //db.deleteAll(); // test.
     //initApp();
@@ -25,6 +31,17 @@ $(function(){
     //setTimeout(function(){ $('.page[page="info"]').click(); }, 1300); // test : info page
     //setTimeout(togglePanel, 300); // test : open panel-menu
 });
+
+/**
+ * @note This let you to use local 'widget' folder html files only.
+ * @usage Use this function when you want to debug or build.
+ */
+function do_not_use_server_header_footer_template() {
+    $do_not_use_server_header_footer_template = true;
+    db.delete('header');
+    db.delete('footer');
+    db.delete('menu-panel');
+}
 
 
 function header_show() {
