@@ -1,8 +1,79 @@
 <style>
     footer {
-        padding:1em;
+        padding:0;
         box-sizing: border-box;
-        background-color:#c4def1;
+        background-color:#fff;
     }
+	
+    footer .container-fluid.bottom{    
+		padding:0;
+		border-top:2px solid #00b4d1;
+    }
+	
+	footer .nav.nav-inline{		
+		max-width:none;
+		padding:0;
+	}
+	
+	footer .nav.nav-inline .nav-link{
+		float:left;
+		width:20%;
+		padding:10px 0 5px 0;
+		margin:0;
+		border-right:1px solid #00b4d1;
+		font-size:.8em;
+		font-weight:bold;
+		color:#00b4d1;
+		box-sizing:border-box;		
+	}
+	
+	footer .nav.nav-inline .nav-link:last-child{	
+		border:0;
+	}
+	
+	footer .card{		
+		border:0;
+		background-color:transparent;
+		text-align:center;
+	}
+	
+	footer .card .card-block{
+		padding:0;
+	}
 </style>
-<div>Profile Message Search Post Setting</div>
+
+<!--<div>Profile Message Search Post Setting</div>-->
+<div class='container-fluid bottom'>
+	<nav class="container nav nav-inline">	  
+        <span class="nav-link text-button page" page="company">
+			<div class="card">
+				<img class="card-img-top" src="img/profile.png">
+				<div class="card-block">Profile</div>
+			</div>			
+		</span>
+        <span class="nav-link text-button page" page="travel">
+			<div class="card">
+				<img class="card-img-top" src="img/message.png" >
+				<div class="card-block">Message</div>
+			</div>	
+		</span>
+        <span class="nav-link text-button page" page="photo">
+			<div class="card">
+				<img class="card-img-top" src="img/search.png" >
+				<div class="card-block">Search</div>
+			</div>
+		</span>
+        <span class="nav-link text-button page" page="philgo-board">
+			<div class="card">
+				<img class="card-img-top" src="img/post.png" >
+				<div class="card-block">Post</div>
+			</div>
+		</span>
+        <span class="nav-link text-button page" page="menu-all">
+			<div class="card">
+				<img class="card-img-top" src="img/settings.png" >
+				<div class="card-block">Setting</div>
+			</div>
+		</span>	  
+	</nav>
+</div>
