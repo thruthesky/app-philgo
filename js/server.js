@@ -22,6 +22,8 @@ var cache_template_widgets = [
     'menu-panel'
 ];
 
+var idx_member = 123456789;
+
 
 $(function(){
     console.log("server.js begins ...");
@@ -236,6 +238,7 @@ function post_list() {
 }
 function endless_load_more_update(re) {
     //console.log(re);
+
     if (_.isEmpty(re.posts) ) {
             endless_no_more_content = true;
             endless_hide_loader();
@@ -248,16 +251,8 @@ function endless_load_more_update(re) {
         var page_no = re.page_no;
         note_reset(site + ' 사이트 : ' + post_id + '의 ' + page_no + " 페이지 내용이 추가되었습니다.");
         for ( i in re.posts ) {
-            var p = re.posts[i];
             endless_hide_loader();
-            var m = '';
-            if ( !_.isEmpty(p['subject']) ) {
-                m += '<h3 class="subject">' + p['subject'] + '</h3>';
-            }
-            if ( p['content'] ) m += '<p class="content">' + p['content'] + '</p>';
-            if ( p['photos'] ) m += p['photos'];
-            m = '<div class="post">' + m + '</div>';
-            post_list().append(m);
+            post_list().append(get_post_render(re.posts[i]));
             console.log(p.subject);
         }
     }
@@ -276,7 +271,7 @@ function endless_reset(post_id) {
     endless_no_more_content = false;
     endless_in_loading = false;
     var url_endless = endless_api + endless_scroll_count;
-    post_list().append(get_post_write_form());
+    post_list().append(get_post_write_form(post_id));
     ajax_load( url_endless, endless_load_more_update);
 }
 
@@ -321,12 +316,360 @@ function endless_show_no_more_content() {
     post_list().after("<div class='no-more-content'>"+text+"</div>");
 }
 
-/** Endless Page Post DOM Markups */
-function get_post_write_form() {
-    var m = '';
-    m += "<form>";
-    m += "<textarea name='content'></textarea>";
-    m += "<input type='submit'>";
-    m += "</form>";
+
+// -
+// -
+// -
+// -
+// -
+// -
+// --------------------------- file upload routine ---------------------------
+// -
+// -
+// -
+// -
+// -
+// -
+var isFileUploadSubmit = false;
+var $fileSelected = null;
+/** */
+
+function onFileChange(obj) {
+    $fileSelected = $(obj);
+    var $form = $fileSelected.parents("form");
+    isFileUploadSubmit = true;
+    $form.submit();
+    isFileUploadSubmit = false;
+    $fileSelected.val('');
+}
+//
+
+$(function(){
+    body().on('submit', '.ajax-upload', post_form_submit);
+    body().on('click', '.file[no] .delete', ajax_delete);
+});
+
+
+/**
+ *
+ * @returns {boolean}
+ */
+function post_form_submit() {
+    // Return if the form submit is not for ajax file upload.
+    if (isFileUploadSubmit == false) {
+        ajax_form_submit($(this));
+    }
+    else {
+        ajax_file_upload($(this));
+    }
+    return false;
+}
+
+
+function ajax_form_submit($this) {
+    console.log("ajax_form_submit() begin");
+    $this.ajaxSubmit({
+        beforeSend: function () {
+            console.log("ajax_form_submit() : beforeSend: ");
+        },
+        complete: function (xhr) {
+            console.log("Upload completed!!");
+            var re;
+            try {
+                re = JSON.parse(xhr.responseText);
+            }
+            catch (e) {
+                return alert(xhr.responseText);
+            }
+            console.log(re);
+            post_list().prepend(get_post_render(re));
+            form_clear($this);
+            if ( typeof callback_ajax_upload == 'function' ) callback_ajax_upload($this, re);
+        }
+    });
+    /*
+    ajax_load({
+        'url': $this.prop('action'),
+        'data': $this.serialize()
+    }, function(re) {
+        console.log("ajax_form_submit() ajax return :");
+        var $post = post(re.id);
+        if ( $post.length ) {
+            $post.replaceWith(re.html);
+        }
+        else {
+            var $parent = post(re['id_parent']);
+            if ( $parent.length ) {
+                $parent.find('.post-edit').remove();
+                $parent.after(re.html);
+            }
+            else {
+                post_list().prepend(re.html);
+                form_clear($this);
+            }
+        }
+    });
+    */
+}
+
+
+
+
+function  ajax_file_upload($this) {
+
+    console.log( $fileSelected.prop('name') );
+
+    var $progressBar = $(".ajax-upload-progress-bar");
+
+    var lastAction = $this.prop('action');
+    $this.prop('action', '/data/ajax/upload');
+
+
+    $this.ajaxSubmit({
+        beforeSend: function () {
+            console.log("bseforeSend:");
+            showAjaxUploadProgressBar();
+        },
+        uploadProgress: function (event, position, total, percentComplete) {
+            //console.log("while uploadProgress:" + percentComplete + '%');
+            setAjaxUploadProgressBar(percentComplete + '%');
+        },
+        success: function () {
+            console.log("upload success:");
+            setAjaxUploadProgressBar('100%');
+            setTimeout(function () {
+                hideAjaxUploadProgressBar();
+            }, 150);
+        },
+        complete: function (xhr) {
+            console.log("Upload completed!!");
+            var re;
+            try {
+                re = JSON.parse(xhr.responseText);
+            }
+            catch (e) {
+                return alert(xhr.responseText);
+            }
+
+            //console.log(re);
+
+            if ( typeof callback_ajax_upload == 'function' ) callback_ajax_upload($this, re);
+        }
+    });
+
+    $this.prop('action', lastAction);
+    return false;
+
+    function showAjaxUploadProgressBar() {
+        $progressBar.find('.progress-bar')
+            .width(0);
+        $progressBar.show();
+    }
+    function hideAjaxUploadProgressBar() {
+        $progressBar.hide();
+    }
+    function setAjaxUploadProgressBar(percent) {
+        $progressBar.find('.progress-bar')
+            .text(percent)
+            .width(percent);
+    }
+}
+
+/**
+ * @todo check if used
+ */
+function ajax_delete() {
+    var no = $(this).parent().attr('no');
+    ajax_load('/data/ajax/delete/' + no, callback_ajax_delete);
+}
+
+function callback_ajax_upload($form, re) {
+    if ( re.code < 0 ) {
+        alert(re.message);
+    }
+    else {
+        var $data_id = $form.find("[name='data_id']");
+        $data_id.val( $data_id.val() + ',' + re['record']['id'] );
+        var m = get_display_file(re['record']['url'], re['record']['id']);
+
+        $form.parents('.post-edit').find('.files').append(m);
+    }
+}
+function callback_ajax_delete(re) {
+    if ( re.code ) return alert("Failed to delete the file");
+    $(".file[no='"+re.id+"']").remove();
+}
+
+
+/**
+ * @todo check if used
+ * @param $form
+ */
+function form_clear($form) {
+    var $post_edit = $form.parents('.post-edit');
+    $form.find("[name='data_id']").val('');
+    $form.find("[name='subject']").val('');
+    $form.find("[name='content']").val('');
+    $post_edit.find(".files").html('');
+}
+
+
+
+
+
+/**
+ * @todo check if used
+ */
+function click_post_reply() {
+    var $this = $(this);
+    var $post = $this.parents('.post');
+    var id = $post.attr('no');
+    var m = get_post_edit_form(post_config_name, 0, id);
+    $post.append( m );
+}
+
+/**
+ * @todo check if used
+ */
+function click_post_edit() {
+    var $this = $(this);
+    var $post = $this.parents('.post');
+
+    //var $subject  = $post.find(".subject");
+    //var subject = '';
+
+    // if ( $subject.length ) subject = $subject.text();
+
+    var $content  = $post.find(".content");
+    var content = '';
+    if ( $content.length ) content = $content.text();
+    var id = $post.attr('no');
+    var id_parent = $post.attr('no-parent');
+
+
+    var form = get_post_edit_form(post_config_name, id, id_parent);
+
+    $post.find('.form-area').hide();
+    $post.append(form);
+
+    //$post.find("[name='subject']").val(subject);
+    $post.find("[name='content']").val(content);
+
+    var $files = $post.find(".files");
+
+    if ( $files.length ) {
+        var m = '';
+        var $file = $files.find('.file');
+        if ( $file.length ) {
+            $file.each(function(i, element){
+                $obj = $(element);
+                var id = $obj.attr('no');
+                var url = $obj.find('img').prop('src');
+                console.log(url);
+                m += get_display_file(url, id, true);
+            });
+            $files.html(m);
+        }
+    }
+}
+
+/**
+ * @todo check if used
+ */
+function click_post_edit_cancel() {
+    var $this = $(this);
+    var $post = $this.parents('.post');
+    $post.find('.post-edit').remove();
+    $post.find('.form-area').show();
+}
+
+
+/**
+ * Use this function only to display uploaded files.
+ *
+ */
+/**
+ * @todo check if used
+ */
+function get_display_file(url, id, edit) {
+    var m = "<div class='file' no='"+id+"'>";
+    if ( edit ) m += "<span class='delete'>X</span>";
+    m += "<img src='"+url+"'></div>";
     return m;
+}
+
+
+
+/**
+ * @todo check if used
+ */
+function click_post_delete() {
+    var $this = $(this);
+    var $post = $this.parents('.post');
+    var url = '/post/ajax/delete/' + $post.attr('no');
+    ajax_load(url, function(re) {
+        console.log(re);
+        $post.find('.content').html(re.html);
+        $post.find('.author').remove();
+        $post.find('.files').remove();
+    });
+}
+/**
+ * @todo check if used
+ */
+function click_post_like() {
+    var $this = $(this);
+    var $post = $this.parents('.post');
+    var url = '/post/ajax/like/' + $post.attr('no');
+    ajax_load(url, function(re) {
+        //console.log(re);
+        $this.find(".no").text(re.like);
+    });
+}
+
+
+
+// -
+// -
+// -
+// -
+// -
+// -------------------------- Post HTML Elements
+// -
+// -
+// -
+// -
+// -
+
+/**
+ *
+ *
+ * @note Use this only for Creating a post
+ */
+function get_post_write_form(post_id) {
+    var gid = unique_id(idx_member.toString() + post_id);
+    var m = '';
+    m += "<div class='post-write-form'>";
+    m += "<form class='ajax-upload' action='"+url_server+"'>";
+    m += "<input type='hidden' name='gid' value='"+gid+"'>";
+    m += "<input type='hidden' name='post_id' value='"+post_id+"'>";
+    m += "<input type='hidden' name='module' value='ajax'>";
+    m += "<input type='hidden' name='action' value='post_write_submit'>";
+    m += "<div class='content'><textarea name='content'></textarea></div>";
+    m += '<div class="file"><input type="file" name="file" onchange="onFileChange(this);"></div>';
+    m += "<div class='submit'><input type='submit'></div>";
+    m += "</form>";
+    m += '<div class="photos"></div>';
+    m += "</div>";
+    return m;
+}
+
+function get_post_render(p) {
+    var m = '';
+    if ( !_.isEmpty(p['subject']) ) {
+        m += '<h3 class="subject">' + p['subject'] + '</h3>';
+    }
+    if ( p['content'] ) m += '<p class="content">' + p['content'] + '</p>';
+    if ( p['photos'] ) m += p['photos'];
+    m = '<div class="post">' + m + '</div>';
 }

@@ -1,4 +1,10 @@
 
+
+function body() {
+    return $('body');
+}
+
+
 /**
  * ============================ Page Object Functions ============================
  */

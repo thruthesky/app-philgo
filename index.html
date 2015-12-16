@@ -44,10 +44,10 @@
 </div>
 
 <!--<script type="text/javascript" src="cordova.js"></script>-->
-
+<script type="text/javascript" src="js/cordova.js"></script>
 <script type="text/javascript" src="js/underscore-min.js"></script>
 <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-<script type="text/javascript" src="js/cordova.js"></script>
+<script type="text/javascript" src="js/jquery.form.min.js"></script>
 <script type="text/javascript" src="js/database.js"></script>
 <script type="text/javascript" src="js/helper.js"></script>
 <script type="text/javascript" src="js/ajax_load.js"></script>
@@ -66,12 +66,11 @@
                 console.log(url_css_server);
                 console.log(url_js_server);
 
-                add_css(url_css_server);
                 add_css(url_css_bootstrap);
-
-
-                add_javascript(url_js_server);
                 add_css(url_js_bootstrap);
+
+                add_css(url_css_server);
+                add_javascript(url_js_server);
 
                 function add_css(url){
                     var link = document.createElement('link');
@@ -86,7 +85,6 @@
                     scriptTag.src = url;
                     document.body.appendChild(scriptTag);
                 }
-
             },
             100
     );
