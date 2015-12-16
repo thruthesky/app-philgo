@@ -36,25 +36,10 @@
     <header class="widget header"></header>
     <nav class="widget menu-panel"></nav>
     <section class="notification"></section>
-    <section class="widget content">
-        <style>
-            .page .banner img {
-                width: 100%;
-            }
-        </style>
-        <div class="page">
-            <h3>front 위젯을 로딩 중입니다.</h3>
-            <h1>필리핀 매거진에 오신 것을 환영합니다.</h1>
-            <h2>인사말</h2>
-            필리핀 매거진 www.philzine.com 은
-            필리핀의 소식과 각종 정보를 제공하는 앱입니다.<br>
-            감사합니다.<br>
-            <div class="banner"><img src="img/front-banner-1.jpg"></div>
-        </div>
-    </section>
+    <section class="widget content"></section>
     <footer class="widget footer">
-            <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
-            Please connect to internet.
+        <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+        Please connect to internet.
     </footer>
 </div>
 
@@ -72,38 +57,38 @@
 
 <script>
     setTimeout(function(){
-        var version = db.get('version');
-        var url_css_bootstrap = db.get('url_css_bootstrap') + '?version=' + version;
-        var url_js_bootstrap = db.get('url_js_bootstrap') + '?version=' + version;
-        var url_css_server = 'css/server.css?version=' + version;
-        var url_js_server = 'js/server.js?version=' + version;
+                var version = db.get('version');
+                var url_css_bootstrap = db.get('url_css_bootstrap') + '?version=' + version;
+                var url_js_bootstrap = db.get('url_js_bootstrap') + '?version=' + version;
+                var url_css_server = 'css/server.css?version=' + version;
+                var url_js_server = 'js/server.js?version=' + version;
 
-        console.log(url_css_server);
-        console.log(url_js_server);
+                console.log(url_css_server);
+                console.log(url_js_server);
 
-        add_css(url_css_server);
-        add_css(url_css_bootstrap);
+                add_css(url_css_server);
+                add_css(url_css_bootstrap);
 
 
                 add_javascript(url_js_server);
                 add_css(url_js_bootstrap);
 
-        function add_css(url){
-            var link = document.createElement('link');
-            link.setAttribute('rel', 'stylesheet');
-            link.setAttribute('type', 'text/css');
-            link.setAttribute('href', url);
-            document.getElementsByTagName('head')[0].appendChild(link);
-        }
+                function add_css(url){
+                    var link = document.createElement('link');
+                    link.setAttribute('rel', 'stylesheet');
+                    link.setAttribute('type', 'text/css');
+                    link.setAttribute('href', url);
+                    document.getElementsByTagName('head')[0].appendChild(link);
+                }
 
-        function add_javascript(url) {
-            var scriptTag = document.createElement('script');
-            scriptTag.src = url;
-            document.body.appendChild(scriptTag);
-        }
+                function add_javascript(url) {
+                    var scriptTag = document.createElement('script');
+                    scriptTag.src = url;
+                    document.body.appendChild(scriptTag);
+                }
 
-    },
-    100
+            },
+            100
     );
 </script>
 </body>
