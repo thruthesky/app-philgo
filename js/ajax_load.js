@@ -21,18 +21,21 @@ function ajax_load(url, callback, html) {
         //console.log(data);
         if ( html ) return callback(data);
 
-
         var re;
         try {
             re = $.parseJSON(data);
-            if ( typeof callback == 'function' ) callback(re);
         }
         catch ( e ) {
             //console.log(data);
             //console.log(re.posts);
-            console.log(e);
-            alert("Ajax_load() : catched an error. It might be an internal server error or callback error.");
+            //console.log(e);
+            return alert("Ajax_load() : catched an error. It might be an internal server error or callback error.");
         }
+
+        /**
+         * It must be here. It must not be in try {}
+         */
+        if ( typeof callback == 'function' ) callback(re);
     });
     request.fail(function( jqXHR, textStatus ) {
         console.log( "Ajax_load Request failed: " + textStatus );

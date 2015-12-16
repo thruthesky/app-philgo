@@ -14,6 +14,7 @@
  */
 var server_js_version = '0.1';
 var url_server_widget = url_server + '?module=ajax&action=widget&submit=1&name=';
+var url_server_login = url_server + '?module=ajax&action=login&submit=1';
 var url_server_forum =  url_server + '?module=ajax&action=post-list&submit=1&post_id=';
 var url_company_book_data = 'http://philgo.org/?module=etc&action=company_data_json_submit';
 var cache_template_widgets = [
@@ -22,7 +23,8 @@ var cache_template_widgets = [
     'menu-panel'
 ];
 
-var idx_member = 123456789;
+var idx_member = 1234;
+var session_id = ''; // for verifying password.
 
 
 $(function(){
@@ -86,6 +88,7 @@ function initServerEventHandlers() {
     on_click('.reset', on_click_reset);
     on_click('.content', on_click_content);
     on_click('.menu-panel.toggle', on_click_menu_panel);
+    body().on('submit', 'form.login', ajx_login);
 }
 
 
@@ -131,6 +134,18 @@ function on_click_menu_panel() {
     togglePanel();
 }
 
+
+
+function ajx_login() {
+    console.log('ajax_login() begins...');
+    var $this = $(this);
+    var url = url_server_login + '&id=' + $this.find('[name="id"]').val();
+    url += '&password=' + $this.find('[name="password"]').val();
+    ajax_load( url, function(re) {
+        console.log(re);
+    });
+    return false;
+}
 
 
 /** ======================================= Cache functions ================================= */
@@ -380,9 +395,8 @@ function ajax_form_submit($this) {
                 return alert(xhr.responseText);
             }
             console.log(re);
-            post_list().prepend(get_post_render(re));
             form_clear($this);
-            if ( typeof callback_ajax_upload == 'function' ) callback_ajax_upload($this, re);
+            post_list().prepend(get_post_render(re));
         }
     });
     /*
@@ -486,10 +500,7 @@ function callback_ajax_upload($form, re) {
         alert(re.message);
     }
     else {
-        var $data_id = $form.find("[name='data_id']");
-        $data_id.val( $data_id.val() + ',' + re['record']['id'] );
         var m = get_display_file(re['record']['url'], re['record']['id']);
-
         $form.parents('.post-edit').find('.files').append(m);
     }
 }
@@ -505,8 +516,6 @@ function callback_ajax_delete(re) {
  */
 function form_clear($form) {
     var $post_edit = $form.parents('.post-edit');
-    $form.find("[name='data_id']").val('');
-    $form.find("[name='subject']").val('');
     $form.find("[name='content']").val('');
     $post_edit.find(".files").html('');
 }
@@ -649,6 +658,8 @@ function get_post_write_form(post_id) {
     var m = '';
     m += "<div class='post-write-form'>";
     m += "<form class='ajax-upload' action='"+url_server+"'>";
+    m += "<input type='hidden' name='idx_member' value='"+idx_member+"'>";
+    m += "<input type='hidden' name='session_id' value='"+session_id+"'>";
     m += "<input type='hidden' name='gid' value='"+gid+"'>";
     m += "<input type='hidden' name='post_id' value='"+post_id+"'>";
     m += "<input type='hidden' name='module' value='ajax'>";
@@ -663,6 +674,7 @@ function get_post_write_form(post_id) {
 }
 
 function get_post_render(p) {
+    if (_.isEmpty(p) ) return;
     var m = '';
     if ( !_.isEmpty(p['subject']) ) {
         m += '<h3 class="subject">' + p['subject'] + '</h3>';
