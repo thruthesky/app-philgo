@@ -1,0 +1,136 @@
+/*col-xs-6 overrite*/
+.widget.content .col-xs-6.left{
+	padding-left:0;
+	padding-right:5px;
+}
+
+.widget.content .col-xs-6.right{
+	padding-left:5px;
+	padding-right:0;
+}
+/*eo col-xs-6 overrite*/
+
+/*carousel overrides*/
+.widget.content .carousel{
+	margin-bottom:10px;	
+}
+
+.widget.content .carousel img{
+	width:100%;
+}
+
+.widget.content .carousel .item{
+	max-height:200px;
+	overflow:hidden;
+}
+
+.widget.content .carousel .carousel-indicators{
+	bottom:0;
+	margin-bottom:0;
+}
+
+.widget.content .carousel .carousel-indicators > li{
+	width:8px;
+	height:8px;
+	margin:0;
+}
+
+.widget.content .carousel .carousel-caption{
+	right: 0;
+    bottom: 0;
+    left: 0;
+    padding-top: 0;
+    padding-bottom: 20px;
+	background-color:rgba(0,0,0,.4);
+}
+
+.widget.content .carousel .carousel-caption h3{
+	font-size:1em;
+}
+
+.widget.content .carousel .carousel-caption p{
+	display:none;
+}
+
+.widget.content .carousel .carousel-control{
+	width:9%;
+}
+/*eo carousel overrides*/
+
+/*top group-list overrides*/
+.bullet-list .list-group{
+	padding:10px;
+	margin-bottom:10px;
+	border:1px solid #d0d0d0;	
+	border-radius:3px;
+	background-color:#fff;
+}
+
+.bullet-list .list-group .list-group-item{
+	padding:0;
+	border:0;	
+}
+
+.bullet-list .list-group .list-group-item:before{
+	position:relative;
+	top:-1px;
+	display:inline-block;
+	content:"•";
+	color:#d35400;
+	margin:0 5px 0 0;
+}
+
+
+.bullet-list .list-group .list-group-item .label{	
+	position:relative;
+	top:-3px;
+	font-size:.6em;
+}
+
+.bullet-list .list-group .list-group-item h3{
+	display:inline-block;
+	font-size:1em;
+	color:#343434;
+	margin:0 0 5px 0;
+}
+
+.bullet-list .list-group .list-group-item .count{
+	color:#ff849c;
+}
+/*eo top group-list overrides*/
+
+/*text-with-thumbnail*/
+.text-with-thumbnail .left .post{
+	position:relative;
+	max-height:150px;
+	overflow:hidden;
+}
+
+.text-with-thumbnail .left .post:first-child{
+	margin-bottom:10px;
+}
+
+.text-with-thumbnail .left .post img{
+	width:100%;
+}
+
+.text-with-thumbnail .left .post h3{
+	position:absolute;
+	left:0;
+	bottom:0;
+	padding:10px;
+	font-size:1em;
+	box-sizing:border-box;
+}
+
+.text-with-thumbnail .left .post p{
+	display:none;
+}
+/*eo text-with-thumbnail*/
+
+/*post-with-thumbnail*/
+.post-with-thumbnail img{
+	min-width:100px;
+	max-width:none!important;
+}
+/*eo post-with-thumbnail*/

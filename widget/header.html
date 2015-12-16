@@ -1,34 +1,82 @@
 <style>
-    header {
-        padding:1em 0;
-        box-sizing: border-box;
-        background-color:#c4def1;
-    }
+	/*top*/
+	header .navbar.navbar-default.top{
+		padding:10px 0;
+		margin-bottom:0;
+		background-color:#2980b9;		
+		border:0;
+		border-radius:0;
+		text-align:center;
+	}
+	
+	header .navbar.navbar-default.top .navbar-text.glyphicon{	
+		float:left;
+		margin:0;
+		font-size:20px;
+		color:#fff;
+	}
+	
+	header .navbar.navbar-default.top .navbar-text.glyphicon{	
+		padding:10px;
+		border:2px solid #fff;
+		border-radius:100%;
+	}
+	
+	header .navbar.navbar-default.top .navbar-text.logo{	
+		margin:0;
+		font-size:31px;
+		color:#fff;
+	}
+	
+	header .navbar.navbar-default.top .navbar-text.logo{
+		float:none;
+	}
+	
+	header .navbar.navbar-default.top .navbar-text.glyphicon.navbar-right{
+		float:right;
+		margin-right:0;
+	}
+	/*top*/
+	
+	/*bottom*/
+	header .nav-pills.bottom{
+		padding:10px 0;
+		background-color:#fff;
+		text-align:center;		
+	}
+	
+	header .nav-pills.bottom > li{
+		display: table-cell;
+		width: 1%;
+	}
+	
+	header .nav-pills.bottom .text-button{		
+		padding:10px 2px 5px 2px;
+		color:#8e8e8e;
+	}
+	
+	header .nav-pills.bottom .text-button:hover{
+		color: #e5802b;
+		border-bottom: 2px solid #e5802b;
+	}
+	/*eo bottom*/
 </style>
-<table cellpadding="0" cellspacing="0" width="100%">
-    <tr>
-        <td class="left">
-            <div>
-                <span class="page text-button" page="front">홈</span>
-            </div>
-        </td>
-        <td class="middle"><div class="title page text-button" page="front">필진 0.1</div></td>
-        <td class="right">
-            <div>
-                <span class="page check-online text-button" page="login">로그인</span>
-                <span class="menu-panel toggle text-button">메뉴</span>
-            </div>
-        </td>
-    </tr>
-</table>
-<table cellpadding="0" cellspacing="0" width="100%">
-    <tr>
-        <td><span class="text-button page" page="news" post_id="freetalk">News</span></td>
-        <td><span class="text-button page" page="info" post_id="qna">Info</span></td>
-        <td><span class="text-button page" page="company">Company</span></td>
-        <td><span class="text-button page" page="travel">Travel</span></td>
-        <td><span class="text-button page" page="photo">QnA</span></td>
-        <td><span class="text-button page" page="philgo-board">Talk</span></td>
-        <td><span class="text-button page" page="menu-all">More</span></td>
-    </tr>
-</table>
+<nav class="navbar navbar-default top">
+	<div class='container-fluid'>
+		<span class='navbar-text page text-button glyphicon glyphicon-home' page="front"></span>
+		<span class='navbar-text logo'>LOGO</span>
+		<span class='navbar-text navbar-right page text-button glyphicon glyphicon-th-list menu-panel toggle'></span>			
+	</div>
+</nav>
+<ul class="nav nav-pills nav-justified bottom">
+	<li><span class="text-button page" page="news" post_id="freetalk">News</span></li>
+	<li><span class="text-button page" page="info" post_id="qna">Info</span></li>
+	<li><span class="text-button page" page="company">Company</span></li>
+	<li><span class="text-button page" page="travel">Travel</span></li>
+	<li><span class="text-button page" page="photo">QnA</span></li>
+	<li><span class="text-button page" page="philgo-board">Talk</span></li>
+	<li><span class="text-button page" page="menu-all">More</span></li>
+</ul>
+
+
+		

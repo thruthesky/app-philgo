@@ -1,12 +1,14 @@
 body {
+	
 }
+
 header {
     position:fixed;
     z-index:1234;
     top:0;
     left:0;
     right:0;
-    height:60px;
+    /*height:105px;*/
     overflow:hidden;
 }
 footer {
@@ -14,16 +16,16 @@ footer {
     bottom:0;
     left:0;
     right:0;
-    height:50px;
+    /*height:60px;*/
     overflow:hidden;
 }
 section.widget.content {
-    margin-top:60px;
+    margin-top:105px;
     margin-bottom:50px;
 }
 .widget.menu-panel {
     position:fixed;
-    top:66px;
+    top:104px;
     right:0;
     z-index:999;
 }
