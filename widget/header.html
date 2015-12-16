@@ -1,56 +1,82 @@
 <style>
-    header {
-        /*padding:1em 0;*/
-        box-sizing: border-box;
-        background-color:#2980b9;
-		text-align:center;		
-    }
-	
-	header .top{
+	/*top*/
+	header .navbar.navbar-default.top{
 		padding:10px 0;
-		color:#fff;	
+		margin-bottom:0;
+		background-color:#2980b9;		
+		border:0;
+		border-radius:0;
+		text-align:center;
 	}
 	
-	header .top .nav-item.logo{
-		padding:5px 0;
-		font-size:1.2em;
+	header .navbar.navbar-default.top .navbar-text.glyphicon{	
+		float:left;
+		margin:0;
+		font-size:20px;
+		color:#fff;
 	}
 	
-	header .bottom{
+	header .navbar.navbar-default.top .navbar-text.glyphicon{	
+		padding:10px;
+		border:2px solid #fff;
+		border-radius:100%;
+	}
+	
+	header .navbar.navbar-default.top .navbar-text.logo{	
+		margin:0;
+		font-size:31px;
+		color:#fff;
+	}
+	
+	header .navbar.navbar-default.top .navbar-text.logo{
+		float:none;
+	}
+	
+	header .navbar.navbar-default.top .navbar-text.glyphicon.navbar-right{
+		float:right;
+		margin-right:0;
+	}
+	/*top*/
+	
+	/*bottom*/
+	header .nav-pills.bottom{
 		padding:10px 0;
 		background-color:#fff;
+		text-align:center;		
+	}
+	
+	header .nav-pills.bottom > li{
+		display: table-cell;
+		width: 1%;
+	}
+	
+	header .nav-pills.bottom .text-button{		
+		padding:10px 2px 5px 2px;
 		color:#8e8e8e;
 	}
 	
-	header .bottom .nav-link:hover{
+	header .nav-pills.bottom .text-button:hover{
 		color: #e5802b;
 		border-bottom: 2px solid #e5802b;
 	}
+	/*eo bottom*/
 </style>
-<div class='container-fluid top'>
-	<ul class="container nav nav-inline text-xs-center">
-	  <li class="nav-item pull-xs-left">
-		<span class='nav-link page text-button' page="front"><img class='header-button home' src="img/home.png"/></span>
-	  </li>
-	  <li class="nav-item logo">
-		<span class="nav-link page text-button" page="front">필진 0.1</span>
-	  </li>
-	  <li class="nav-item pull-xs-right">
-		<span class="nav-link menu-panel toggle text-button"><img class='header-button menu' src="img/menu.png"/></span>
-	  </li>
-	</ul>
-</div>
+<nav class="navbar navbar-default top">
+	<div class='container-fluid'>
+		<span class='navbar-text page text-button glyphicon glyphicon-home' page="front"></span>
+		<span class='navbar-text logo'>LOGO</span>
+		<span class='navbar-text navbar-right page text-button glyphicon glyphicon-th-list menu-panel toggle'></span>			
+	</div>
+</nav>
+<ul class="nav nav-pills nav-justified bottom">
+	<li><span class="text-button page" page="news" post_id="freetalk">News</span></li>
+	<li><span class="text-button page" page="info" post_id="qna">Info</span></li>
+	<li><span class="text-button page" page="company">Company</span></li>
+	<li><span class="text-button page" page="travel">Travel</span></li>
+	<li><span class="text-button page" page="photo">QnA</span></li>
+	<li><span class="text-button page" page="philgo-board">Talk</span></li>
+	<li><span class="text-button page" page="menu-all">More</span></li>
+</ul>
 
-<div class='container-fluid bottom'>
-	<nav class="container nav nav-inline">	  
-		<span class="nav-link text-button page" page="news" post_id="freetalk">News</span>
-        <span class="nav-link text-button page" page="info" post_id="qna">Info</span>
-        <span class="nav-link text-button page" page="company">Company</span>
-        <span class="nav-link text-button page" page="travel">Travel</span>
-        <span class="nav-link text-button page" page="photo">QnA</span>
-        <span class="nav-link text-button page" page="philgo-board">Talk</span>
-        <span class="nav-link text-button page" page="menu-all">More</span>	  
-	</nav>
-</div>
 
 		
