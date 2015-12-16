@@ -154,7 +154,7 @@ function cache_update_templates() {
         for (i in cache_template_widgets) {
             var url = url_server_widget + cache_template_widgets[i];
             ajax_load(url, function(re){
-                console.log(re);
+                // console.log(re);
                 if ( re.html ) {
                     var name = re.widget;
                     save_page( name, re );
@@ -245,7 +245,6 @@ function endless_load_more_update(re) {
             endless_show_no_more_content();
     }
     else {
-        //console.log(re['html']);
         var site = re.site;
         var post_id = re.post_id;
         var page_no = re.page_no;
@@ -253,7 +252,6 @@ function endless_load_more_update(re) {
         for ( i in re.posts ) {
             endless_hide_loader();
             post_list().append(get_post_render(re.posts[i]));
-            console.log(p.subject);
         }
     }
     endless_in_loading = false;
@@ -265,7 +263,7 @@ function endless_load_more_update(re) {
  */
 function endless_reset(post_id) {
     var url = url_server_forum + post_id;
-    console.log('endless_reset('+url+')');
+    //console.log('endless_reset('+url+')');
     endless_api = url + '&page_no=';
     endless_scroll_count = 1;
     endless_no_more_content = false;
@@ -672,4 +670,5 @@ function get_post_render(p) {
     if ( p['content'] ) m += '<p class="content">' + p['content'] + '</p>';
     if ( p['photos'] ) m += p['photos'];
     m = '<div class="post">' + m + '</div>';
+    return m;
 }
