@@ -20,13 +20,18 @@ function ajax_load(url, callback, html) {
     request.done(function( data ) {
         //console.log(data);
         if ( html ) return callback(data);
+
+
         var re;
         try {
             re = $.parseJSON(data);
             if ( typeof callback == 'function' ) callback(re);
         }
         catch ( e ) {
-            alert("Ajax_load() : Parsing data error.\n\nThe data from server is not JSON format! There might be an internal server error.");
+            //console.log(data);
+            //console.log(re.posts);
+            console.log(e);
+            alert("Ajax_load() : catched an error. It might be an internal server error or callback error.");
         }
     });
     request.fail(function( jqXHR, textStatus ) {

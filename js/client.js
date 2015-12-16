@@ -29,7 +29,7 @@ $(function(){
     //db.deleteAll(); // test.
     //initApp();
     //setTimeout(function(){ showPage('setting'); }, 600); // test
-    setTimeout(function(){ $('.page[page="news"]').click(); }, 1000); // test : news page
+    // setTimeout(function(){ $('.page[page="news"]').click(); }, 1000); // test : news page
     //setTimeout(function(){ $('.page[page="info"]').click(); }, 1300); // test : info page
     //setTimeout(togglePanel, 300); // test : open panel-menu
 
