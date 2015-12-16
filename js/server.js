@@ -37,10 +37,11 @@ $(function(){
 
 
     // 이 두 코드는 여기 있어야 한다. server.js 가 로드 될 때 바로 실행하면 된다.
-    cache_update_templates(); // 템플릿( header, footer, panel 등 )만 1시간에 한번씩 실행
+
+    if ( $do_not_use_server_header_footer_template  == false ) cache_update_templates();
 
     // server.js 가 로드되면 첫 페이지를 업데이트 한다.
-    cache_update('front');
+    cache_update('front', 'freetalk');
 
 });
 /** ===================== Version functions =================== */
@@ -79,13 +80,9 @@ function app_refresh() {
 
 
 /** ================ init Server Event Handlers ============== */
-function on_click(selector, callback) {
-    $('body').on('click', selector, callback);
-}
 function initServerEventHandlers() {
-    on_click('.page[page]', on_click_page);
-    on_click('.content', on_click_content);
     on_click('.reset', on_click_reset);
+    on_click('.content', on_click_content);
     on_click('.menu-panel.toggle', on_click_menu_panel);
 }
 
@@ -95,12 +92,10 @@ function initServerEventHandlers() {
 /**
  * #buildguide on_click_page
  */
-function on_click_page() {
-    var $this = $(this);
+function on_click_page_server($this) {
     var page = $this.attr('page');
     var post_id = $this.attr('post_id');
-
-    console.log('on_click_page() : ' + page);
+    console.log('on_click_page_server() : ' + page);
 
     if ( isOffline() && $this.hasClass('check-online') ) {
         alert(page + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.")
@@ -214,10 +209,10 @@ function cache_update(name, post_id) {
  *      - it does extra tasks.
  * @param html
  */
-function setContent(html, page_name) {
+function setContent(html) {
     //console.log('setContent(...,' + page_name + ')');
     if ( isPanelOpen() ) hidePanel();
-    content().html(html).attr('widget', page_name);
+    content().html(html);
 }
 
 
@@ -257,18 +252,18 @@ function endless_load_more_update(re) {
             endless_hide_loader();
             var m = '';
             if ( !_.isEmpty(p['subject']) ) {
-                m += '<h3>' + p['subject'] + '</h3>';
+                m += '<h3 class="subject">' + p['subject'] + '</h3>';
             }
-            if ( p['content'] ) m += '<p>' + p['content'] + '</p>';
-
+            if ( p['content'] ) m += '<p class="content">' + p['content'] + '</p>';
+            if ( p['photos'] ) m += p['photos'];
             m = '<div class="post">' + m + '</div>';
             post_list().append(m);
-
             console.log(p.subject);
         }
     }
     endless_in_loading = false;
 }
+
 /**
  * 리셋을 하면 첫 페이지를 바로 보여준다.
  * @param url
@@ -277,10 +272,11 @@ function endless_reset(post_id) {
     var url = url_server_forum + post_id;
     console.log('endless_reset('+url+')');
     endless_api = url + '&page_no=';
-    endless_scroll_count = 0;
+    endless_scroll_count = 1;
     endless_no_more_content = false;
     endless_in_loading = false;
     var url_endless = endless_api + endless_scroll_count;
+    post_list().append(get_post_write_form());
     ajax_load( url_endless, endless_load_more_update);
 }
 
@@ -323,4 +319,14 @@ function endless_show_no_more_content() {
     console.log("endless_show_no_more_content");
     var text = 'No more content ........... !'
     post_list().after("<div class='no-more-content'>"+text+"</div>");
+}
+
+/** Endless Page Post DOM Markups */
+function get_post_write_form() {
+    var m = '';
+    m += "<form>";
+    m += "<textarea name='content'></textarea>";
+    m += "<input type='submit'>";
+    m += "</form>";
+    return m;
 }

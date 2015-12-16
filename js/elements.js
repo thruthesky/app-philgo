@@ -26,6 +26,9 @@ function footer() {
     return $('footer');
 }
 function panel() {
+    return menu_panel();
+}
+function menu_panel() {
     return $('.widget.menu-panel');
 }
 
