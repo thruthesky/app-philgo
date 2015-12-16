@@ -1,4 +1,11 @@
 var timer_notification;
+var _defaultMode = false;
+function debugMode(b) {
+    _debugMode = b;
+}
+function debugString() {
+    return new Date().getTime().toString();
+}
 function note(message, cls) {
     notification().append("<div class='note "+cls+"'>"+message+"</div>").show();
     if ( timer_notification ) {

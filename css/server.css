@@ -8,3 +8,10 @@
     padding:0.6em 0.6em 20em;
     background-color: #efefef;
 }
+
+
+
+form.login .row {
+    margin:0;
+    padding:0;
+}

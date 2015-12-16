@@ -57,7 +57,8 @@
 
 <script>
     setTimeout(function(){
-                var version = db.get('version');
+        debugMode(true);
+                var version = db.get('version') + debugString();
                 var url_css_bootstrap = db.get('url_css_bootstrap') + '?version=' + version;
                 var url_js_bootstrap = db.get('url_js_bootstrap') + '?version=' + version;
                 var url_css_server = 'css/server.css?version=' + version;

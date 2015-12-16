@@ -1,14 +1,19 @@
 
 /**
  * ============================== AJAX Loading Function ========================
+ *
+ *
+ *
+ * @param url       - must be GET URI
+ * @param callback
+ * @param html
  */
 function ajax_load(url, callback, html) {
-
-    /** cache: false 이면 자동으로 붙는다.
-    if ( url.indexOf('?') == -1 ) url += '?__=';
-    else url += '&__=';
-    url += new Date().getTime();
-     */
+    if ( typeof idx_member != 'undefined' && idx_member ) {
+        if ( url.indexOf('?') == -1 ) url += '?';
+        else url += '&';
+        url += 'idx_member=' + idx_member + '&session_id=' + session_id;
+    }
 
     console.log(url);
 
