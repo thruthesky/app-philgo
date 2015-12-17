@@ -47,3 +47,9 @@ function unique_id(id) {
     }
     return uid;
 }
+
+
+
+function goTop() {
+    scrollTo(0,0);
+}

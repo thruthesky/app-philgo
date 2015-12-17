@@ -382,61 +382,45 @@ $(function(){
  *
  * @returns {boolean}
  */
-function post_form_submit() {
+function post_form_submit(e) {
     // Return if the form submit is not for ajax file upload.
     if (isFileUploadSubmit == false) {
-        ajax_form_submit($(this));
+        ajax_form_submit($(this), e);
     }
     else {
-        ajax_file_upload($(this));
+        ajax_file_upload($(this), e);
     }
     return false;
 }
 
 
-function ajax_form_submit($this) {
+function ajax_form_submit($this, e) {
     console.log("ajax_form_submit() begin");
-    $this.ajaxSubmit({
-        beforeSend: function () {
-            console.log("ajax_form_submit() : beforeSend: ");
-        },
-        complete: function (xhr) {
-            console.log("Upload completed!!");
-            var re;
-            try {
-                re = JSON.parse(xhr.responseText);
+    e.preventDefault();
+    function ajax_load_post(url, data, callback) {
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: data,
+            success: function(data){
+                var re;
+                try {
+                    re = $.parseJSON(data);
+                }
+                catch ( e ) {
+                    return alert("Ajax_load_post() : catched an error. It might be an internal server error.");
+                }
+                callback(re);
             }
-            catch (e) {
-                return alert(xhr.responseText);
-            }
-            console.log(re);
-            form_clear($this);
-            post_list().prepend(get_post_render(re));
-        }
+        });
+    }
+
+    ajax_load_post(url_server, $this.serialize(), function(data){
+        post_write_form().remove();
+        content().prepend(get_post_render(data.post));
     });
-    /*
-    ajax_load({
-        'url': $this.prop('action'),
-        'data': $this.serialize()
-    }, function(re) {
-        console.log("ajax_form_submit() ajax return :");
-        var $post = post(re.id);
-        if ( $post.length ) {
-            $post.replaceWith(re.html);
-        }
-        else {
-            var $parent = post(re['id_parent']);
-            if ( $parent.length ) {
-                $parent.find('.post-edit').remove();
-                $parent.after(re.html);
-            }
-            else {
-                post_list().prepend(re.html);
-                form_clear($this);
-            }
-        }
-    });
-    */
+
 }
 
 
@@ -452,54 +436,7 @@ function  ajax_file_upload($this) {
     $this.prop('action', '/data/ajax/upload');
 
 
-    $this.ajaxSubmit({
-        beforeSend: function () {
-            console.log("bseforeSend:");
-            showAjaxUploadProgressBar();
-        },
-        uploadProgress: function (event, position, total, percentComplete) {
-            //console.log("while uploadProgress:" + percentComplete + '%');
-            setAjaxUploadProgressBar(percentComplete + '%');
-        },
-        success: function () {
-            console.log("upload success:");
-            setAjaxUploadProgressBar('100%');
-            setTimeout(function () {
-                hideAjaxUploadProgressBar();
-            }, 150);
-        },
-        complete: function (xhr) {
-            console.log("Upload completed!!");
-            var re;
-            try {
-                re = JSON.parse(xhr.responseText);
-            }
-            catch (e) {
-                return alert(xhr.responseText);
-            }
 
-            //console.log(re);
-
-            if ( typeof callback_ajax_upload == 'function' ) callback_ajax_upload($this, re);
-        }
-    });
-
-    $this.prop('action', lastAction);
-    return false;
-
-    function showAjaxUploadProgressBar() {
-        $progressBar.find('.progress-bar')
-            .width(0);
-        $progressBar.show();
-    }
-    function hideAjaxUploadProgressBar() {
-        $progressBar.hide();
-    }
-    function setAjaxUploadProgressBar(percent) {
-        $progressBar.find('.progress-bar')
-            .text(percent)
-            .width(percent);
-    }
 }
 
 /**
@@ -666,19 +603,23 @@ function on_click_post_button() {
     show_post_write_form($(this).attr('post-id'));
 }
 function show_post_write_form(post_id) {
-    content().prepend(get_post_write_form(post_id));
-    scrollTo(0,0);
+    if ( post_write_form().length == 0 ) {
+        content().prepend(get_post_write_form(post_id));
+    }
+    goTop();
 }
 /**
  *
  *
  * @note Use this only for Creating a post
  */
+function post_write_form() {
+    return $('.post-write-form');
+}
 function get_post_write_form(post_id) {
     var gid = unique_id(idx_member + post_id);
     var m = '';
-    m += "<div class='post-write-form'>";
-    m += "<form class='ajax-upload' action='"+url_server+"'>";
+    m += "<form class='ajax-upload post-write-form' action='"+url_server+"'>";
     m += "<input type='hidden' name='idx_member' value='"+idx_member+"'>";
     m += "<input type='hidden' name='session_id' value='"+session_id+"'>";
     m += "<input type='hidden' name='gid' value='"+gid+"'>";
@@ -691,13 +632,14 @@ function get_post_write_form(post_id) {
     m += '<div class="file"><input type="file" name="file" onchange="onFileChange(this);"></div>';
     m += "<div class='submit'><input type='submit'></div>";
     m += "</form>";
-    m += '<div class="photos"></div>';
-    m += "</div>";
+    m += '<div class="post-write-form-photos"></div>';
     return m;
 }
 
 function get_post_render(p) {
+    console.log('get_post_render(p)');
     if (_.isEmpty(p) ) return;
+    console.log('creating DOM');
     var m = '';
     if ( !_.isEmpty(p['subject']) ) {
         m += '<h3 class="subject">' + p['subject'] + '</h3>';
@@ -705,6 +647,7 @@ function get_post_render(p) {
     if ( p['content'] ) m += '<p class="content">' + p['content'] + '</p>';
     if ( p['photos'] ) m += p['photos'];
     m = '<div class="post">' + m + '</div>';
+    console.log(m);
     return m;
 }
 
