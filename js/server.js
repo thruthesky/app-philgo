@@ -103,7 +103,7 @@ function initServerEventHandlers() {
     on_click('.logout-button', on_click_logout_button);
     body().on('submit', 'form.login', ajx_login);
 
-    on_click('footer .post-button', on_click_post_button);
+    on_click("footer .post-button", on_click_post_button);
 }
 
 
@@ -229,10 +229,18 @@ function cache_update(name, post_id) {
             save_page( name, re );
             setCurrentPage(name);
             setContent(re.html, name);
+            setCurrentForum(post_id);
             if ( post_id ) endless_reset(post_id);
         }
         else cache_no_html(name);
     });
+}
+
+function post_button() {
+    return $("footer .post-button");
+}
+function setCurrentForum(post_id) {
+    post_button().attr('post-id', post_id);
 }
 
 /**

@@ -34,7 +34,7 @@ $(function(){
     //setTimeout(function(){ $('.page[page="info"]').click(); }, 1300); // test : info page
     //setTimeout(togglePanel, 300); // test : open panel-menu
 
-    setTimeout(function(){ show_post_write_form('freetalk'); }, 500); // TEST SHOW Post Write Form
+    //setTimeout(function(){ show_post_write_form('freetalk'); }, 500); // TEST SHOW Post Write Form
 
 
     /** Event Handlers */
