@@ -219,21 +219,21 @@
 	margin-bottom:10px;
 }
 
-.text-with-thumbnail .left .post{
+.text-with-thumbnail .left .item{
 	position:relative;
 	max-height:150px;
 	overflow:hidden;
 }
 
-.text-with-thumbnail .left .post:first-child{
+.text-with-thumbnail .left .item:first-child{
 	margin-bottom:10px;
 }
 
-.text-with-thumbnail .left .post img{
+.text-with-thumbnail .left .item img{
 	width:100%;
 }
 
-.text-with-thumbnail .left .post h3{
+.text-with-thumbnail .left .item h3{
 	position:absolute;
 	left:0;
 	bottom:0;
@@ -246,27 +246,27 @@
 	box-sizing:border-box;
 }
 
-.text-with-thumbnail .left .post p{
+.text-with-thumbnail .left .item p{
 	display:none;
 }
 
 
 
-.text-with-thumbnail .right .post{
+.text-with-thumbnail .right .item{
 	position:relative;
 	padding-bottom:10px;
 }
 
-.text-with-thumbnail .right .post > .inner{
+.text-with-thumbnail .right .item > .inner{
 	max-height:300px;	
 	overflow:hidden;
 }
 
-.text-with-thumbnail .right .post img{
+.text-with-thumbnail .right .item img{
 	width:100%;
 }
 
-.text-with-thumbnail .right .post h3{
+.text-with-thumbnail .right .item h3{
 	position:absolute;
 	left:0;
 	bottom:0;
@@ -278,7 +278,7 @@
 	background-color:#fff;
 }
 
-.text-with-thumbnail .right .post p{
+.text-with-thumbnail .right .item p{
 	display:none;
 }
 /*eo text-with-thumbnail*/
@@ -397,3 +397,431 @@
 	line-height: 145%;
 }
 /*eo post-with-thumbnail-2*/
+
+
+
+
+
+
+
+/*login*/
+.form-wrapper{	
+	padding:5% 7% 3% 7%;
+	margin:50px 10% 0 10%;
+	text-align:center;
+}
+
+.member-login-form label{
+	display:none;
+}
+
+.member-login-form .input-group{
+	margin-bottom:2px;
+}
+
+.member-login-form .input-group .glyphicon{
+	top:0;
+}
+
+.member-login-form .input-group input{
+	border-right:0;
+	background-color:#fff;
+}
+
+.member-login-form .input-group.username input{
+	border-bottom-left-radius:0;
+}
+
+.member-login-form .input-group.username .input-group-addon{
+	border-bottom-right-radius:0;
+}
+
+.member-login-form .input-group.password input{
+	border-top-left-radius:0;
+}
+
+.member-login-form .input-group.password .input-group-addon{
+	border-top-right-radius:0;
+}
+
+.member-login-form .input-group .input-group-addon{
+	background-color:#fff;
+}
+
+.member-login-form [type='submit']{
+	width:100%;
+	padding:10px 10px;
+	font-weight:bold;
+	margin:30px 0 10px 0;
+}
+
+.forgot-password{
+	color:#e74c3c;
+	font-size:.8em;
+}
+
+@media (min-width: 48em) { 
+	.form-wrapper{	
+		margin:50px 20% 0 20%;
+	}
+}
+/*eo login*/
+
+/*register*/
+.form-wrapper{	
+	padding:0 7% 3% 7%;
+	margin:28px 10% 0 10%;
+	text-align:center;
+}
+
+.form-wrapper .register-logo{
+	display:block;
+	margin-bottom:10px;
+}
+
+.form-wrapper .register-logo img{	
+	margin-bottom:10px;
+}
+
+.form-wrapper .register-logo .text{		
+	font-weight:bold;
+	color:#5e5e5e;
+}
+
+.member-register-form label{
+	display:none;
+}
+
+.member-register-form .input-group.text-only{	
+	border-right:0;
+	color:#848484;
+	text-align:left;	
+}
+
+.member-register-form .input-group .glyphicon{	
+	top:0;
+}
+
+.member-register-form .input-group.text-only .form-control{
+	padding:.5rem .75rem;
+	border-right:0;
+	border-radius:0;
+}
+
+.member-register-form .input-group.text-only .form-control, .member-register-form .input-group.text-only .input-group-addon{
+	background-color:#f7f7f7;
+	font-size:.8em;
+}
+
+.member-register-form .input-group.username.text-only .form-control{
+	border-top-left-radius:3px;
+}
+
+.member-register-form .input-group.password.text-only .form-control{
+	cursor:pointer;
+}
+
+.member-register-form .input-group{
+	margin-bottom:2px;
+}
+
+.member-register-form .input-group input{
+	border-right:0;
+	background-color:#fff;
+}
+
+.member-register-form .input-group input, .member-register-form .input-group .input-group-addon{
+	border-radius:0;
+}
+
+.member-register-form .input-group.username input{
+	border-top-left-radius:3px;
+	border-bottom-left-radius:0;
+}
+
+.member-register-form .input-group.username .input-group-addon{
+	border-top-right-radius:3px;
+	border-bottom-right-radius:0;
+}
+
+.member-register-form .input-group.mobile input{
+	border-bottom-left-radius:3px;
+	border-top-left-radius:0;
+}
+
+.member-register-form .input-group.mobile .input-group-addon{
+	border-bottom-right-radius:3px;
+	border-top-right-radius:0;
+}
+
+.member-register-form .input-group .input-group-addon{
+	background-color:#fff;
+}
+
+.member-register-form [type='submit']{
+	width:100%;
+	padding:10px 10px;
+	margin:30px 0 10px 0;
+	font-weight:bold;
+}
+
+.forgot-password{
+	color:#e74c3c;
+	font-size:.8em;
+}
+
+@media (min-width: 48em) { 
+	.form-wrapper{	
+		margin:28px 20% 0 20%;
+	}
+}
+/*eo register*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*post*/
+
+.post{
+	position:relative;
+	padding:10px 0 10px 0;
+	margin:0 0 10px 0;
+	background-color:#fff;	
+}
+
+.post > .post-info, .post > .post-menu-philzine-bottom, .post > .content{
+	padding:0 10px;
+}
+
+.post .profile-image{
+	width:50px;
+	max-width:initial;
+}
+
+/*post info*/
+.post .post-info{
+	margin:0 0 10px 0;
+}
+
+.post .post-info .name{
+	font-size:.9em;
+	font-weight:bold;
+}
+
+.post .post-info .name .send-message{
+	position:relative;
+	top:-1px;
+	margin-left:8px;
+}
+
+.post .post-info .date, .post .location{
+	font-size:.8em;	
+}
+
+.post .post-info .separator{
+	position:relative;
+	top:-2px;
+	font-size:.6em;	
+	margin:0 5px;
+}
+/*eo post info*/
+
+/*post-menu-philzine-top*/
+.post .post-menu-philzine-top{
+	position:absolute;
+	right:5px;
+	top:0;
+	padding:0;
+}
+
+.post .post-menu-philzine-top button{
+	background-color:initial!important;
+}
+
+.post .post-menu-philzine-top .menu-separator{
+	float: left;
+	height: 25px;
+	padding: 5px 0;
+	margin: 7px 5px 0 5px;
+	font-size: 1.1em;
+	border-left: 1px solid #e5e5e5;
+}
+
+.post .post-menu-philzine-top .btn{
+	border:0;
+}
+
+.post .post-menu-philzine-top .btn:hover{
+	background-color:#fff;
+}
+/*eo post-menu-philzine-top*/
+
+/*content*/
+.post .content{
+	font-size:.9em;
+}
+/*
+.post .content .files {
+	font-size:.9em;
+}
+
+.post .content .files .file{
+	width:25%;
+	max-width:150px;
+	margin:10px 0;
+}
+
+.post .content .files .file img{
+	width:100%;
+}
+*/
+
+.post .photos{
+	padding:0 10px;
+}
+
+.post .photos img{
+	width:25%;
+	max-width:150px;
+	margin:10px 0;
+}
+/*eo content*/
+
+/*post-menu-philzine-bottom*/
+.post .post-menu-philzine-bottom{	
+	padding:0 10px 10px 10px;
+	font-size:.9em;
+	font-weight:bold;
+	color:#73808f;	
+}
+
+.post .post-menu-philzine-bottom img{
+	position:relative;
+	top:-2px;
+	margin-right:5px;
+}
+/*eo post-menu-philzine-bottom*/
+
+.post > .nav{
+	border-bottom:1px solid #ddd;
+	
+}
+
+.post > .nav > li{
+	padding:10px 10px 0 10px
+}
+
+
+/*drop down*/
+.post .dropdown-toggle{
+	border:0;
+	background-color:initial!important;
+}
+
+.post .dropdown-toggle:hover{
+	background-color:initial;
+}
+
+.post .dropdown-toggle:after{
+	display:none;
+}
+
+.post .dropdown-menu{
+	padding:0;
+}
+
+.post .dropdown-menu .dropdown-item{
+	cursor:pointer;
+}
+/*eo drop down*/
+
+.post .content .media.post-edit-wrapper .media-left{
+	display:none;
+}
+
+/*depth*/
+.post[depth='2'] {
+    margin-left:3em;
+}
+.post[depth='3'] {
+    margin-left:5.5em;
+}
+.post[depth='4'] {
+    margin-left:7.5em;
+}
+.post[depth='5'] {
+    margin-left:9em;
+}
+.post[depth='6'] {
+    margin-left:10.4em;
+}
+.post[depth='7'] {
+    margin-left:11.3em;
+}
+.post[depth='8'] {
+    margin-left:12.2em;
+}
+.post[depth='9'] {
+    margin-left:13.1em;
+}
+.post[depth='10'] {
+    margin-left:14em;
+}
+.post[depth='11'] {
+    margin-left:14.9em;
+}
+.post[depth='12'] {
+    margin-left:15.8em;
+}
+.post[depth='13'] {
+    margin-left:16.7em;
+}
+.post[depth='14'] {
+    margin-left:17.6em;
+}
+.post[depth='15'] {
+    margin-left:18.5em;
+}
+.post[depth='16'] {
+    margin-left:19.4em;
+}
+.post[depth='17'] {
+    margin-left:20.3em;
+}
+.post[depth='18'] {
+    margin-left:21.2em;
+}
+.post[depth='19'] {
+    margin-left:22.1em;
+}
+.post[depth='20'],
+.post[depth='21'],
+.post[depth='22'],
+.post[depth='23'],
+.post[depth='24'],
+.post[depth='25'],
+.post[depth='26'],
+.post[depth='27'],
+.post[depth='28'],
+.post[depth='29'],
+.post[depth='30'],
+.post[depth='31'],
+.post[depth='32'],
+.post[depth='33'],
+.post[depth='34']
+{
+    margin-left:23.0em;
+}
+/*eo depth*/
+
+/*eo post*/
