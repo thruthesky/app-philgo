@@ -6,7 +6,8 @@ function isPanelOpen() {
 
 function togglePanel(){
     console.log('togglePanel() begins ...');
-    panel().animate({
+    console.log(menu_panel());
+    menu_panel().animate({
         width: "toggle"
     }, function(){
         console.log("toggle panel complete...!")
