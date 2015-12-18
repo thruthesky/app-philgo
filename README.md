@@ -5,6 +5,30 @@
 
 # Build guide 참고
 
+* 자바스크립트 전체를 서버로 부터 다운로드 하여 실행 할 수 있도록 한다.
+    - 즉, 모든 자바스크립트를 서버로 부터 다운로드하여 동적으로 추가를 한다.
+    - zepto.js 또는 underscore.js 와 같이 외부 자바스크립트는 놔 두고,
+    - 그 외의 모든 자바스크립트 파일은 client.js 로 모두 합친다.
+    - client.js 는 날짜 버젼을 붙여서 client.메인버젼.월.일.js 와 같이 다운로드하도록 하고
+    - 오래된 것은 삭제를 한다.
+    - 먼저 client.0.12.19.js 로 시작을 한다.
+    --- 장점. 모든 코드를 클라이언트에 두어도 된다.
+    --- 장점. 자바스크립트에 직접 HTML 을 만들어 넣어도 된다.
+        예를 들면, page/header.html 과 같은 것이 필요가 없으며,
+
+         header, footer, panel 은 캐시 할 필요 조차 없다.
+
+    - db 캐시에 client.js 의 버젼 이름을 기록해 놓고, 앱이 로딩 될 때 그 버젼을 보여주면된다.
+
+    - 이렇게 하면 모든 코드를 client.js 에 둘 수 있고, 온라인/오프라인 상관없이
+
+        일관된 동작과 인터페이스를 보여주 줄 수 있으며 편하게 개발 작업을 할 수 있다.
+
+    이것은 client.css 도 동일한 방식으로 처리를 한다.
+
+    --- 이 때, 앱에서 쓰는 아이콘은 그냥 sprite 아이콘으로해서 서버에 두고 사용한다.
+
+
 * database.js 에서 DB 캐시를 할 때, length 와 md5, stamp 를 같이 저장한다.
 
     - stamp 는 캐시 된 시간이 오래 되었을 때, 다시 캐시
@@ -12,51 +36,41 @@
     - length 는 데이터가 올바로 전송되었는지 확인
 
     - md5 는 서버로 부터 받아서, 데이터가 갱신되었는지 확인 할 때 사용한다.
-* 자바스크립트 함수를 완전 조각화 한다. 자바스크립트 함수가 너무 헷갈린다.
-    - 특히 callback 함수 군에서 너무 많이 했갈린다.
+
+* widget 페이지 정보만 캐시하고 게시판 내용은 캐시를 하지 않는다. ( 번거롭고, 페이지 내용을 충분히 길게 표시해 주면 된다. )
+
+
+* 자바스크립트 함수를 완전 조각화 한다. 자바스크립트 함수가 너무 헷갈린다. (파일을 조각화 하는 것이 아니다.)
+
+    - 특히 callback 함수 군에서 너무 많이 했갈리며 함수가 막 뒤섞여 정렬이되어서 너무 복잡하다.
+    - underscore.js 의 템플릿을 반드시 사용하낟.
+    - 클래스화 할 수 있는 살펴본다.
+    - var markup = function () { ... }
+        - markup.post_write_form()
+        - markup.comment_write_form()
+        - markup.user_register_form()
+    - var callback = function () {
+            this.click_page = function ()
+    }
+        callback.page_click
+
+    - var app = {};
+
+    - helper.unique_id(), helper.today()
+    - debug.start(), debug.stop();
+    - panel.show(), panel.hide()
+    -
+
+    ----- 이렇게 클래스화 하면, 정리가 안될래야 안될 수가 없다.
+
+    - $(function(){ ... }); 는 맨 아래 둔다.
+
 
     - OK: 모든 click 관련 콜백은 'on_click_xxxx()' 로 한다.
     - OK: 모든 change, select, 등은 'on_change_xxxx()' 로 한다.
-/*
-    - callback_cache_update_on_widget() 대신 update_widget(widget_name, re) 으로 한다.
-    - callback_cache_update_page_on_content() 대신 update_content(page_name, re) 으로 한다.
-        -- update 를 한다는 것은 서버로 부터 새로운 데이터를 받았기 때문이다.
-        -- 따라서 update 를 할 때에는 항상 db_save() 로 html, stamp, md5, length 를 같이 저장한다.
-        -- 또한 이 두 함수는 범용으로 쓰일 수 있도록 한다.
-*/
-    - cache_get_widget_from_server() 를 cache_update_page() 로 변경한다.
-
-* 문서화 :
-    select 를 해서 테이블의 레코드를 뽑을 때,
-        select id from table 을 하고 나서
-        select * from table where id='id' 로 하는 경우가 많은데,
-        database 서버의 부하 차이이지 않을까?
-        그냥 select * from table 해서 한번에 데이터를 다 뽑아버리면, db 서버에 부하가 걸리지 않을까?
-        테스트가 필요하다.
-        100 만개의 레코드르 집어 넣고, 검색하는 옵션으로 테스트를 해 봐야 겠다.
-        훈련생에게 검색과 추출을 가장 빠르게 하는 방법에 대해서 과제를 낸다.
 
 * (재고) db.save() 를 바로 호출하지 말고, db_save() 를 둘 것.
     - db_save(), db_get(), db_set(), db_get_record(), db_delete(), db_delete_all()
 
-* server.js 가 인터넷에 연결되지 않아도 올바로 캐시 되는지 확인 한다.
 
-    - 앱을 종료했다가 다시 실행, 폰을 껐다가 다시 실행.
 
-* 앱을 종료했다가 다시 실행 할 때, 폰을 재 부팅 할 때, client.js 가 처음 부터 실행되는지 확인한다.
-
-* server.js 가 ajax 로 로딩되지 않아서, <script src=....> 에 임시로 기록을 해 놓았다.
-
-* server.js 가 실행될 때/매1시간 마다, 각 페이지 별로 DB 에 캐시가 있는지 확인하고 없으면 캐시를 한다.
-
-* server.js 가 실행 될 때/매 1시간 마다, 각 페이지 별로 DB 에 캐시를 한다.
-
-* set_version() 으로 버젼이 바뀌면 리프레시를 한번 해서 server.css 와 server.js 를 다시 캐시를 할 수 있도록 한다.
-
-* 필요하다면 server.js 에서 db_delete_all() 을 통해서 db 초기화를 한다.
-
-* server.js 를 아예 새로 불러오지 않아서, set_version() 부분의 버젼 코드가 바뀌어도 적용되지 않을 수 있다.
-
-    - 이를 방지하기 위해셔 ajax_load() 에는 항상 dummy 코드를 추가하도록 하고,
-    - front page 에서 자바스크립트로 확실하게 리프레시를 하는 코드와 여기서 직접 set_version()을 하는 방법을
-        생각해 본다.

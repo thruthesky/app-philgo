@@ -101,7 +101,8 @@ function initServerEventHandlers() {
     on_click('.reset', on_click_reset);
     on_click('.content', on_click_content);
     on_click('.logout-button', on_click_logout_button);
-    body().on('submit', 'form.login', ajx_login);
+
+    element.body().on('submit', 'form.login', ajx_login);
 
     on_click("footer .post-button", on_click_post_button);
 }
@@ -134,7 +135,6 @@ function on_click_page_server($this) {
 
 function on_click_content() {	
     hidePanel();
-	//togglePanel();
 }
 
 /**
@@ -190,7 +190,7 @@ function cache_update_templates() {
                 if ( re.html ) {
                     var name = re.widget;
                     save_page( name, re );
-                    widget(name).html(re.html);
+                    element.widget(name).html(re.html);
                 }
                 else cache_no_html(name);
             });
@@ -228,7 +228,7 @@ function cache_update(name, post_id) {
     ajax_load(url_widget, function(re){
         if ( re.html ) {
             save_page( name, re );
-            setCurrentPage(name);
+            app.setCurrentPage(name);
             setContent(re.html, name);
             setCurrentForum(post_id);
             if ( post_id ) endless_reset(post_id);
@@ -254,7 +254,7 @@ function setCurrentForum(post_id) {
 function setContent(html) {
     //console.log('setContent(...,' + page_name + ')');
     if ( isPanelOpen() ) hidePanel();
-    content().html(html);
+    element.content().html(html);
 }
 
 
@@ -382,8 +382,8 @@ function onFileChange(obj) {
 //
 
 $(function(){
-    body().on('submit', '.ajax-upload', post_form_submit);
-    body().on('click', '.file[no] .delete', ajax_delete);
+    element.body().on('submit', '.ajax-upload', post_form_submit);
+    element.body().on('click', '.file[no] .delete', ajax_delete);
 });
 
 
@@ -427,7 +427,7 @@ function ajax_form_submit($this, e) {
 
     ajax_load_post(url_server, $this.serialize(), function(data){
         post_write_form().remove();
-        content().prepend(get_post_render(data.post));
+        element.content().prepend(get_post_render(data.post));
     });
 
 }
@@ -613,7 +613,7 @@ function on_click_post_button() {
 }
 function show_post_write_form(post_id) {
     if ( post_write_form().length == 0 ) {
-        content().prepend(get_post_write_form(post_id));
+        element.content().prepend(get_post_write_form(post_id));
     }
     goTop();
 }

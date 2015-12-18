@@ -1,5 +1,4 @@
 
-
 function body() {
     return $('body');
 }

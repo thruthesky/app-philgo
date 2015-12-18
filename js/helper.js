@@ -7,18 +7,18 @@ function debugString() {
     return new Date().getTime().toString();
 }
 function note(message, cls) {
-    notification().append("<div class='note "+cls+"'>"+message+"</div>").show();
+    element.notification().append("<div class='note "+cls+"'>"+message+"</div>").show();
     if ( timer_notification ) {
         clearTimeout(timer_notification);
         timer_notification = false;
     }
     timer_notification = setTimeout(function() {
         note_clear();
-        notification().hide();
+        element.notification().hide();
     }, 1500);
 }
 function note_clear() {
-    notification().html('');
+    element.notification().html('');
 }
 function note_reset(message, cls) {
     note_clear();
