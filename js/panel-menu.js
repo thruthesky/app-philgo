@@ -7,7 +7,7 @@ function isPanelOpen() {
 
 function togglePanel(){
     console.log('togglePanel() begins ...');
-    element.panel().animate({
+    element.panel().velocity({
         width: "toggle"
     }, function(){
         console.log("toggle panel complete...!")
@@ -26,7 +26,7 @@ function hidePanel() {
     if ( isPanelOpen() ) {
         console.log('hidePanel() : is going to hide panel.');
         inProgressHidePanel = true;
-        element.panel().animate({
+        element.panel().velocity({
             width: "toggle"
         }, function() {
             inProgressHidePanel = false;
