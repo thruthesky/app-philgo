@@ -114,6 +114,7 @@ function initServerEventHandlers() {
  * #buildguide on_click_page
  */
 function on_click_page_server($this) {
+
     var page = $this.attr('page');
     var post_id = $this.attr('post_id');
     console.log('on_click_page_server() : ' + page);
@@ -122,6 +123,7 @@ function on_click_page_server($this) {
         alert(page + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.")
         return;
     }
+
 
 
     if ( page == 'login' ) {
@@ -134,7 +136,7 @@ function on_click_page_server($this) {
 
 
 function on_click_content() {	
-    hidePanel();
+    panel.close();
 }
 
 /**
@@ -254,7 +256,7 @@ function setCurrentForum(post_id) {
 function setContent(html) {
     //console.log('setContent(...,' + page_name + ')');
     //if ( isPanelOpen() ) hidePanel();
-    if ( panel.isOpen() ) panel.close();
+    if ( panel.open() ) panel.close();
     element.content().html(html);
 }
 
@@ -727,23 +729,10 @@ function get_post_render(p) {
 //
 function get_login_form() {
     var m;
-	/*
-    if ( idx_member ) {
-        m = '<h1>User Login</h1>';
-        m += "<p>You have already logged in as <b>" + user_id + '</b></p>';
-        m += '<nav class="navbar navbar-default logout-button">';
-        m += '<p class="navbar-brand">Logout</p>';
-        m += '</nav>';
-    }
-    else {
-        m = '<h1>User Login</h1>';
-        m += '<form class="login">';
-        m += '<div class="row"><div class="caption">ID</div><div class="text"><input type="text" name="id"></div>';
-        m += '<div class="row"><div class="caption">PW</div><div class="text"><input type="password" name="password"></div>';
-        m += '<div class="row"><div class="caption">Submit</div><div class="text"><input type="submit"></div>';
-        m += '</form>';
-    }
-	*/
+
+    alert('hi');
+    console.log('get_login_form : idx_member : ' + idx_member);
+
 	  if ( idx_member ) {
         m = '<h1>User Login</h1>';
         m += "<p>You have already logged in as <b>" + user_id + '</b></p>';
@@ -769,6 +758,8 @@ function get_login_form() {
 	}
     return m;
 }
+
+
 function ajx_login() {
     console.log('ajax_login() begins...');
     var $this = $(this);
@@ -781,6 +772,7 @@ function ajx_login() {
         else if ( re.code == 503 ) alert('비밀번호를 입력하십시오.');
         else if ( re.code == 502 ) alert('아이디를 찾을 수 없습니다.');
         else {
+            console.log("login success!");
             setLogin(id, re);
             open_fron_page();
         }
@@ -801,7 +793,7 @@ function setLogin(id, re) {
     idx_member = re.idx_member;
     user_id = id;
     session_id = re.session_id;
-    user_name = user_name;
+    user_name = re.user_name;
 }
 function setLogout() {
     db.delete('idx_member');

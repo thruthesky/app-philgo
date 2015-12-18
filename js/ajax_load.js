@@ -14,9 +14,7 @@ function ajax_load(url, callback, html) {
         else url += '&';
         url += 'idx_member=' + idx_member + '&session_id=' + session_id;
     }
-
     console.log(url);
-
     $.ajax({
         url:url,
         cache: false,
