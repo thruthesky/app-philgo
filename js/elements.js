@@ -41,3 +41,5 @@ function menu_panel() {
 function notification() {
     return $('.notification');
 }
+
+
