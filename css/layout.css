@@ -24,10 +24,10 @@ section.widget.content {
     margin-bottom:50px;
 }
 .widget.menu-panel {
-    position:fixed;
-    top:104px;
-    right:0;
-    z-index:999;
+	position: fixed;
+	top: 64px;
+	/*right: 0;*/
+	z-index: 9999;
 }
 
 .notification {

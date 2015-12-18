@@ -132,8 +132,9 @@ function on_click_page_server($this) {
 }
 
 
-function on_click_content() {
+function on_click_content() {	
     hidePanel();
+	//togglePanel();
 }
 
 /**
@@ -307,7 +308,7 @@ function endless_reset(post_id) {
     endless_scroll_count = 1;
     endless_no_more_content = false;
     endless_in_loading = false;
-    var url_endless = endless_api + endless_scroll_count;
+    var url_endless = endless_api + endless_scroll_count;	
     ajax_load( url_endless, endless_load_more_update);
 }
 
@@ -649,13 +650,71 @@ function get_post_render(p) {
     if (_.isEmpty(p) ) return;
     console.log('creating DOM');
     var m = '';
+	
+	//console.log( "###############################################################" );
+	//console.log( p );
+	
+	date = new Date( p['stamp'] * 1000 );
+	var month = date.getUTCMonth() + 1; //months from 1-12
+	var day = date.getUTCDate();
+	var year = date.getUTCFullYear();
+	var hours = date.getHours();
+	var minutes = "0" + date.getMinutes();
+	var seconds = "0" + date.getSeconds();
+	var date = month + " " + day + "," + year; //hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+	
+	
+	m += '<div class="btn-group post-menu-philzine-top" role="group">';
+	if( idx_member ){
+			m += '<span type="button" class="btn btn-secondary"><img src="img/post/report.png"/></span>';
+	} else {
+			m += '<span type="button" class="btn btn-secondary edit"><img src="img/post/edit.png"/></span>';
+			m += '<span type="button" class="btn btn-secondary delete"><img src="img/post/delete.png"/></span>';
+	}
+	m += '<span class="menu-separator"></span>';
+	m += '<span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+	m += '<img src="img/post/more.png"/>';
+	m += '</span>';
+	m += '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
+	m += '<span class="dropdown-item">More Menu 1</span>';
+	m += '<span class="dropdown-item">More Menu 2</span>';
+	m += '</div>';
+	m += '</div>';
+	
+	m += '<div class="media post-info">';
+	m += '<a class="media-left" href="#">';
+	m += '<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
+	m += '</a>';
+	m += '<div class="media-body">';
+	m += '<div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
+	m += '<div class="date">' + date + '<span class="separator">|</span>HUMAN TIMING</div>';
+	m += '<div class="location">Lives in Philippines<span class="separator">|</span>xx Fans</div>';
+	m += '</div>';
+	m += '</div>';
+	
+	
+	
+	
+	
+	
     if ( !_.isEmpty(p['subject']) ) {
-        m += '<h3 class="subject">' + p['subject'] + '</h3>';
+        //m += '<h3 class="subject">' + p['subject'] + '</h3>';
     }
-    if ( p['content'] ) m += '<p class="content">' + p['content'] + '</p>';
+    if ( p['content'] ) m += '<div class="content">' + p['content'] + '</div>';
     if ( p['photos'] ) m += p['photos'];
+	if( p['good'] > 0 ) likes = p['good'];
+	else likes = '';
+	if( p['no_of_comment'] > 0 ) no_of_comment = p['no_of_comment'];
+	else no_of_comment = '';
+	
+	m += '<ul class="nav nav-pills post-menu-philzine-bottom">';
+	m += '<li class="like"><img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
+	m += '<li class="reply"><img src="img/post/comment.png"/>Comment ' + no_of_comment + '</li>';
+	m += '</ul>';
+	
     m = '<div class="post">' + m + '</div>';
-    console.log(m);
+    //console.log(m);
+	console.log("ZZZZZZZZZZZZZZZZ");
     return m;
 }
 
@@ -668,6 +727,7 @@ function get_post_render(p) {
 //
 function get_login_form() {
     var m;
+	/*
     if ( idx_member ) {
         m = '<h1>User Login</h1>';
         m += "<p>You have already logged in as <b>" + user_id + '</b></p>';
@@ -683,6 +743,30 @@ function get_login_form() {
         m += '<div class="row"><div class="caption">Submit</div><div class="text"><input type="submit"></div>';
         m += '</form>';
     }
+	*/
+	  if ( idx_member ) {
+        m = '<h1>User Login</h1>';
+        m += "<p>You have already logged in as <b>" + user_id + '</b></p>';
+        m += '<nav class="navbar navbar-default logout-button">';
+        m += '<p class="navbar-brand">Logout</p>';
+        m += '</nav>';
+    }
+    else {
+		m = 	'<div class="form-wrapper">';
+		m += 	'<form class="member-login-form login">';
+		m += 	'<div class="input-group username">';
+		m += 	'<input name="id" type="text" class="form-control" placeholder="Enter username">';
+		m += 	'<span class="input-group-addon glyphicon glyphicon-user"></span>';
+		m += 	'</div>';
+		m += 	'<div class="input-group password">';
+		m += 	'<input name="pw"  type="password" class="form-control" placeholder="Enter password">';
+		m += 	'<span class="input-group-addon glyphicon glyphicon-lock"></span>';
+		m += 	'</div>';
+		m += 	'<input type="submit" class="btn btn-primary" value="Login">';
+		m += 	'<a class="forgot-password" href="#">Forgot Password?</a>';
+		m += 	'</form>';
+		m += 	'</div>';
+	}
     return m;
 }
 function ajx_login() {

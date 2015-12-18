@@ -1,16 +1,35 @@
 
 function isPanelOpen() {
-    return panel().css('display') != 'none';
+    //return panel().css('display') != 'none';
+	return panel().css("right") != '-260px';
 }
 
-
+var panel_animating = false;
 function togglePanel(){
+	if( panel_animating == true ) return;
     console.log('togglePanel() begins ...');
     console.log(menu_panel());
     menu_panel().animate({
+	panel_animating = true;
+	/*
+    panel().animate({
         width: "toggle"
     }, function(){
         console.log("toggle panel complete...!")
+    });
+	*/
+	if( panel().css("right") == '-260px' ){//should be the panel width
+		panel_width = '0';				 		 
+	}
+	else{
+		panel_width = '-260px';//should be the panel width		
+	}	
+	
+	panel().animate({
+        right: panel_width,
+    },500, function(){
+        console.log("toggle panel complete...!")
+		panel_animating = false;
     });
 }
 /**
@@ -21,15 +40,23 @@ function togglePanel(){
  * 그래서 아래와 같이 inProgressHidePanel 로 옵션 처리를 한다.
  */
 var inProgressHidePanel = false;
-function hidePanel() {
+function hidePanel() {	
     if ( inProgressHidePanel ) return;
     if ( isPanelOpen() ) {
         console.log('hidePanel() : is going to hide panel.');
         inProgressHidePanel = true;
-        panel().animate({
+        /*
+		panel().animate({
             width: "toggle"
         }, function() {
             inProgressHidePanel = false;
         });
+		*/
+		panel().animate({
+			right: '-260px',
+		},500, function(){
+			console.log("toggle panel complete...!")
+			inProgressHidePanel = false;
+		});
     }
 }

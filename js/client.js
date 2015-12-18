@@ -156,3 +156,76 @@ function check_update_version() {
         });
     }
 }
+
+/*added by benjamin*/
+$(function(){
+	$("body").on("click", ".custom-carousel .arrow", do_carousel_event );	
+	$("body").on("click", ".custom-carousel .carousel-paging > li", do_carousel_event );	
+});
+
+var top_carousel_animating = false;
+
+function do_carousel_event(){
+	if( top_carousel_animating == true ) return;
+	top_carousel_animating = true;
+	var counter = 0;
+
+	$this = $(this);
+	action = $this.attr('action');
+
+	if( action == "next" ){
+		$next_item = $(".custom-carousel .item.active").next();
+		if( $next_item.index() <= 0 ){
+			$next_item = $(".custom-carousel > .inner .item:first");
+		}
+		$next_item.addClass("next").css("left","100%");
+		
+		animation = "-100%";
+	}
+	else if( action == "prev" ){
+		$next_item = $(".custom-carousel .item.active").prev();
+		if( $next_item.index() <= 0 ){
+			$next_item = $(".custom-carousel > .inner .item:last");
+		}
+		$next_item.addClass("next").css("left","-100%");
+		
+		animation = "100%";
+	}
+	else if( action == "jump" ){
+		jump_num = $this.attr("page");
+		$current_active = $(".custom-carousel .carousel-paging > li.active");
+		current_active_num = $current_active.attr("page");
+		
+		$next_item = $(".custom-carousel > .inner .item:eq(" + jump_num + ")");
+		
+		if( jump_num > current_active_num ){
+			$next_item.addClass("next").css("left","100%");
+			animation = "-100%";
+		}
+		else if( jump_num < current_active_num ){
+			$next_item.addClass("next").css("left","-100%");
+			animation = "100%";
+		}
+		else{
+			top_carousel_animating = false;
+			return;
+		}
+	}
+	
+	$(".custom-carousel .carousel-paging > li.active").removeClass("active");
+	$(".custom-carousel .carousel-paging > li:eq(" + ( $next_item.index() - 1 ) + ")").addClass("active");
+	
+	$(".custom-carousel .item.active").animate({
+		left: animation,		
+	}, 500, function() {
+			$(".custom-carousel .item.active").removeClass("active");			
+	});
+	
+	$(".custom-carousel .item.next").animate({
+		left: "0",		
+	}, 500, function() {
+		$next_item.addClass("active").removeClass("next");
+		top_carousel_animating = false;
+	});
+}
+/*eo added by benjamin*/
