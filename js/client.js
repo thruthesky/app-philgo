@@ -160,7 +160,9 @@ function check_update_version() {
 /*added by benjamin*/
 $(function(){
 	$("body").on("click", ".custom-carousel .arrow", do_carousel_event );	
-	$("body").on("click", ".custom-carousel .carousel-paging > li", do_carousel_event );	
+	$("body").on("click", ".custom-carousel .carousel-paging > li", do_carousel_event );
+	
+	$("body").on("click", ".btn-group", custom_btn_dropdown_callback );	
 });
 
 var top_carousel_animating = false;
@@ -227,5 +229,11 @@ function do_carousel_event(){
 		$next_item.addClass("active").removeClass("next");
 		top_carousel_animating = false;
 	});
+}
+
+function custom_btn_dropdown_callback(){
+	$this = $(this);
+	if( $this.hasClass("open") ) $this.removeClass("open");
+	else $this.addClass("open");
 }
 /*eo added by benjamin*/

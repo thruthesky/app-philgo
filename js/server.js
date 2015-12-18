@@ -675,10 +675,10 @@ function get_post_render(p) {
 	m += '<span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
 	m += '<img src="img/post/more.png"/>';
 	m += '</span>';
-	m += '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
-	m += '<span class="dropdown-item">More Menu 1</span>';
-	m += '<span class="dropdown-item">More Menu 2</span>';
-	m += '</div>';
+	m += '<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
+	m += '<li><a href="#">More Menu 1</a></li>';
+	m += '<li><a href="#">More Menu 2</a></li>';
+	m += '</ul>';
 	m += '</div>';
 	
 	m += '<div class="media post-info">';
