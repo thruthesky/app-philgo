@@ -237,13 +237,13 @@ function do_carousel_event(){
     $(".custom-carousel .carousel-paging > li.active").removeClass("active");
     $(".custom-carousel .carousel-paging > li:eq(" + ( $next_item.index() - 1 ) + ")").addClass("active");
 
-    $(".custom-carousel .item.active").animate({
+    $(".custom-carousel .item.active").velocity({
         left: animation,
     }, 500, function() {
         $(".custom-carousel .item.active").removeClass("active");
     });
 
-    $(".custom-carousel .item.next").animate({
+    $(".custom-carousel .item.next").velocity({
         left: "0",
     }, 500, function() {
         $next_item.addClass("active").removeClass("next");
