@@ -1,13 +1,13 @@
 
 
 function isPanelOpen() {
-    return panel().css('display') != 'none';
+    return element.panel().css('display') != 'none';
 }
 
 
 function togglePanel(){
     console.log('togglePanel() begins ...');
-    panel().animate({
+    element.panel().animate({
         width: "toggle"
     }, function(){
         console.log("toggle panel complete...!")
@@ -26,7 +26,7 @@ function hidePanel() {
     if ( isPanelOpen() ) {
         console.log('hidePanel() : is going to hide panel.');
         inProgressHidePanel = true;
-        panel().animate({
+        element.panel().animate({
             width: "toggle"
         }, function() {
             inProgressHidePanel = false;

@@ -7,11 +7,14 @@
  */
 /**
  * #buildguide
- * @var current_page_name
- * @type {null}
+ *
  */
+//
+
 var current_page_name = null;
 $do_not_use_server_header_footer_template = false;
+
+
 $(function(){
 
     //db.deleteAll();
@@ -41,6 +44,46 @@ $(function(){
     on_click('.page[page]', on_click_page);
     on_click('.menu-panel.toggle', on_click_menu_panel);
 });
+
+var app = {
+    current_page_name : null,
+    getCurrentPage: function () {
+        return current_page_name;
+    },
+    setCurrentPage: function (page) {
+        app.current_page_name = page;
+    }
+};
+
+var element = {
+    body : function() {
+        return $('body');
+    },
+    content:     function () {
+        return $('.widget.content');
+    },
+    widget: function (name) {
+        return $(".widget." + name);
+    },
+    header: function () {
+        return $('header');
+    },
+    footer: function () {
+        return $('footer');
+    },
+    panel: function () {
+        return $('.widget.menu-panel');
+    },
+
+    notification: function () {
+        return $('.notification');
+    }
+};
+
+
+
+
+
 /**
  * ----------------------------------- Event Handlers ------------------------------
  * @param selector
@@ -56,7 +99,7 @@ function on_click(selector, callback) {
  */
 function on_click_page() {
     if ( typeof on_click_page_server == 'function' ) return on_click_page_server($(this));
-    else content().html( db.get( $(this).attr('page') ) );
+    else element.content().html( db.get( $(this).attr('page') ) );
 }
 
 
@@ -84,37 +127,16 @@ function do_not_use_server_header_footer_template() {
 
 
 function header_show() {
-    set_cache_data_or_load_page('header', header());
-    /*
-    var m = get_cache('header');
-    if ( !_.isEmpty(m) ) return header().html(m);
-    ajax_load('widget/header.html', function(re){
-        header().html(re);
-    }, true);
-    */
+    set_cache_data_or_load_page('header', element.header());
 }
 
 function footer_show() {
-    set_cache_data_or_load_page('footer', footer());
-    /*
-    var m = get_cache('footer');
-    if ( !_.isEmpty(m) ) return footer().html(m);
-    ajax_load('widget/footer.html', function(re){
-        footer().html(re);
-    }, true);
-    */
+    set_cache_data_or_load_page('footer', element.footer());
 }
 
 
 function panel_menu_content_load() {
-    set_cache_data_or_load_page('menu-panel', menu_panel());
-    /*
-    var m = get_cache('menu-panel');
-    if ( !_.isEmpty(m) ) return menu_panel().html(m);
-    ajax_load('widget/menu-panel.html', function(re){
-        menu_panel().html(re);
-    }, true);
-    */
+    set_cache_data_or_load_page('menu-panel', element.panel());
 }
 
 /**
@@ -137,7 +159,7 @@ function set_cache_data_or_load_page(cache_key, $obj) {
  * Show cached front
  */
 function front_show() {
-    content().html(db.get( 'front' ));
+    element.content().html(db.get( 'front' ));
 }
 
 function check_update_version() {
@@ -159,73 +181,73 @@ function check_update_version() {
 
 /*added by benjamin*/
 $(function(){
-	$("body").on("click", ".custom-carousel .arrow", do_carousel_event );	
-	$("body").on("click", ".custom-carousel .carousel-paging > li", do_carousel_event );	
+    $("body").on("click", ".custom-carousel .arrow", do_carousel_event );
+    $("body").on("click", ".custom-carousel .carousel-paging > li", do_carousel_event );
 });
 
 var top_carousel_animating = false;
 
 function do_carousel_event(){
-	if( top_carousel_animating == true ) return;
-	top_carousel_animating = true;
-	var counter = 0;
+    if( top_carousel_animating == true ) return;
+    top_carousel_animating = true;
+    var counter = 0;
 
-	$this = $(this);
-	action = $this.attr('action');
+    $this = $(this);
+    action = $this.attr('action');
 
-	if( action == "next" ){
-		$next_item = $(".custom-carousel .item.active").next();
-		if( $next_item.index() <= 0 ){
-			$next_item = $(".custom-carousel > .inner .item:first");
-		}
-		$next_item.addClass("next").css("left","100%");
-		
-		animation = "-100%";
-	}
-	else if( action == "prev" ){
-		$next_item = $(".custom-carousel .item.active").prev();
-		if( $next_item.index() <= 0 ){
-			$next_item = $(".custom-carousel > .inner .item:last");
-		}
-		$next_item.addClass("next").css("left","-100%");
-		
-		animation = "100%";
-	}
-	else if( action == "jump" ){
-		jump_num = $this.attr("page");
-		$current_active = $(".custom-carousel .carousel-paging > li.active");
-		current_active_num = $current_active.attr("page");
-		
-		$next_item = $(".custom-carousel > .inner .item:eq(" + jump_num + ")");
-		
-		if( jump_num > current_active_num ){
-			$next_item.addClass("next").css("left","100%");
-			animation = "-100%";
-		}
-		else if( jump_num < current_active_num ){
-			$next_item.addClass("next").css("left","-100%");
-			animation = "100%";
-		}
-		else{
-			top_carousel_animating = false;
-			return;
-		}
-	}
-	
-	$(".custom-carousel .carousel-paging > li.active").removeClass("active");
-	$(".custom-carousel .carousel-paging > li:eq(" + ( $next_item.index() - 1 ) + ")").addClass("active");
-	
-	$(".custom-carousel .item.active").animate({
-		left: animation,		
-	}, 500, function() {
-			$(".custom-carousel .item.active").removeClass("active");			
-	});
-	
-	$(".custom-carousel .item.next").animate({
-		left: "0",		
-	}, 500, function() {
-		$next_item.addClass("active").removeClass("next");
-		top_carousel_animating = false;
-	});
+    if( action == "next" ){
+        $next_item = $(".custom-carousel .item.active").next();
+        if( $next_item.index() <= 0 ){
+            $next_item = $(".custom-carousel > .inner .item:first");
+        }
+        $next_item.addClass("next").css("left","100%");
+
+        animation = "-100%";
+    }
+    else if( action == "prev" ){
+        $next_item = $(".custom-carousel .item.active").prev();
+        if( $next_item.index() <= 0 ){
+            $next_item = $(".custom-carousel > .inner .item:last");
+        }
+        $next_item.addClass("next").css("left","-100%");
+
+        animation = "100%";
+    }
+    else if( action == "jump" ){
+        jump_num = $this.attr("page");
+        $current_active = $(".custom-carousel .carousel-paging > li.active");
+        current_active_num = $current_active.attr("page");
+
+        $next_item = $(".custom-carousel > .inner .item:eq(" + jump_num + ")");
+
+        if( jump_num > current_active_num ){
+            $next_item.addClass("next").css("left","100%");
+            animation = "-100%";
+        }
+        else if( jump_num < current_active_num ){
+            $next_item.addClass("next").css("left","-100%");
+            animation = "100%";
+        }
+        else{
+            top_carousel_animating = false;
+            return;
+        }
+    }
+
+    $(".custom-carousel .carousel-paging > li.active").removeClass("active");
+    $(".custom-carousel .carousel-paging > li:eq(" + ( $next_item.index() - 1 ) + ")").addClass("active");
+
+    $(".custom-carousel .item.active").animate({
+        left: animation,
+    }, 500, function() {
+        $(".custom-carousel .item.active").removeClass("active");
+    });
+
+    $(".custom-carousel .item.next").animate({
+        left: "0",
+    }, 500, function() {
+        $next_item.addClass("active").removeClass("next");
+        top_carousel_animating = false;
+    });
 }
 /*eo added by benjamin*/
