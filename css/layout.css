@@ -30,7 +30,7 @@ section.widget.content {
 	z-index: 9999;
 }
 
-.notification {
+.note {
     position:fixed;
     top:60px;
 }

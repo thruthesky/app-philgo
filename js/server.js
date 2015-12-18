@@ -23,21 +23,17 @@ var cache_template_widgets = [
     'menu-panel'
 ];
 
-var idx_member = null;
-var user_id = '';
-var user_name = '';
-var session_id = ''; // for verifying password.
 
 $(function(){
     var v = db.get('idx_member');
-    if ( v ) idx_member = v;
-    user_id = db.get('user_id');
-    session_id = db.get('session_id');
+    if ( v ) member.idx = v;
+    member.id = db.get('user_id');
+    member.session_id = db.get('session_id');
     console.log("server.js begins ...");
-    note('server.js 를 로드하였습니다.');
+    note.post('server.js 를 로드하였습니다.');
 
-    if ( isOffline() ) {
-        note('인터넷을 연결 해 주십시오. Connect to Internet.', 'alert alert-warning');
+    if ( app.offline() ) {
+        note.post('인터넷을 연결 해 주십시오. Connect to Internet.', 'alert alert-warning');
     }
 
     //update_version(app_version); // 여기서 기록을 하면, 버젼을 수동으로 확인 할 수가 없다.
@@ -119,7 +115,7 @@ function on_click_page_server($this) {
     var post_id = $this.attr('post_id');
     console.log('on_click_page_server() : ' + page);
 
-    if ( isOffline() && $this.hasClass('check-online') ) {
+    if ( app.offline() && $this.hasClass('check-online') ) {
         alert(page + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.")
         return;
     }
@@ -135,7 +131,7 @@ function on_click_page_server($this) {
 }
 
 
-function on_click_content() {	
+function on_click_content() {
     panel.close();
 }
 
@@ -232,6 +228,7 @@ function cache_update(name, post_id) {
             save_page( name, re );
             app.setCurrentPage(name);
             setContent(re.html, name);
+            note.post(name + ' 페이지를 로드하였습니다.')
             setCurrentForum(post_id);
             if ( post_id ) endless_reset(post_id);
         }
@@ -283,15 +280,15 @@ function endless_load_more_update(re) {
     //console.log(re);
 
     if (_.isEmpty(re.posts) ) {
-            endless_no_more_content = true;
-            endless_hide_loader();
-            endless_show_no_more_content();
+        endless_no_more_content = true;
+        endless_hide_loader();
+        endless_show_no_more_content();
     }
     else {
         var site = re.site;
         var post_id = re.post_id;
         var page_no = re.page_no;
-        note_reset(site + ' 사이트 : ' + post_id + '의 ' + page_no + " 페이지 내용이 추가되었습니다.");
+        note.post(site + ' 사이트 : ' + post_id + '의 ' + page_no + " 페이지 내용이 추가되었습니다.");
         for ( i in re.posts ) {
             endless_hide_loader();
             post_list().append(get_post_render(re.posts[i]));
@@ -311,7 +308,7 @@ function endless_reset(post_id) {
     endless_scroll_count = 1;
     endless_no_more_content = false;
     endless_in_loading = false;
-    var url_endless = endless_api + endless_scroll_count;	
+    var url_endless = endless_api + endless_scroll_count;
     ajax_load( url_endless, endless_load_more_update);
 }
 
@@ -618,7 +615,7 @@ function show_post_write_form(post_id) {
     if ( post_write_form().length == 0 ) {
         element.content().prepend(get_post_write_form(post_id));
     }
-    goTop();
+    app.goTop();
 }
 /**
  *
@@ -629,11 +626,11 @@ function post_write_form() {
     return $('.post-write-form');
 }
 function get_post_write_form(post_id) {
-    var gid = unique_id(idx_member + post_id);
+    var gid = etc.unique_id(member.idx + post_id);
     var m = '';
     m += "<form class='ajax-upload post-write-form' action='"+url_server+"'>";
-    m += "<input type='hidden' name='idx_member' value='"+idx_member+"'>";
-    m += "<input type='hidden' name='session_id' value='"+session_id+"'>";
+    m += "<input type='hidden' name='idx_member' value='"+member.idx+"'>";
+    m += "<input type='hidden' name='session_id' value='"+member.session_id+"'>";
     m += "<input type='hidden' name='gid' value='"+gid+"'>";
     m += "<input type='hidden' name='post_id' value='"+post_id+"'>";
     m += "<input type='hidden' name='module' value='ajax'>";
@@ -653,68 +650,68 @@ function get_post_render(p) {
     if (_.isEmpty(p) ) return;
     //console.log('creating DOM');
     var m = '';
-	
-	//console.log( "###############################################################" );
-	//console.log( p );
-	
-	date = new Date( p['stamp'] * 1000 );
-	var month = date.getUTCMonth() + 1; //months from 1-12
-	var day = date.getUTCDate();
-	var year = date.getUTCFullYear();
-	var hours = date.getHours();
-	var minutes = "0" + date.getMinutes();
-	var seconds = "0" + date.getSeconds();
-	var date = month + " " + day + "," + year; //hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-	
-	
-	m += '<div class="btn-group post-menu-philzine-top" role="group">';
-	if( idx_member ){
-			m += '<span type="button" class="btn btn-secondary"><img src="img/post/report.png"/></span>';
-	} else {
-			m += '<span type="button" class="btn btn-secondary edit"><img src="img/post/edit.png"/></span>';
-			m += '<span type="button" class="btn btn-secondary delete"><img src="img/post/delete.png"/></span>';
-	}
-	m += '<span class="menu-separator"></span>';
-	m += '<span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-	m += '<img src="img/post/more.png"/>';
-	m += '</span>';
-	m += '<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
-	m += '<li><a href="#">More Menu 1</a></li>';
-	m += '<li><a href="#">More Menu 2</a></li>';
-	m += '</ul>';
-	m += '</div>';
-	
-	m += '<div class="media post-info">';
-	m += '<a class="media-left" href="#">';
-	m += '<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
-	m += '</a>';
-	m += '<div class="media-body">';
-	m += '<div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
-	m += '<div class="date">' + date + '<span class="separator">|</span>HUMAN TIMING</div>';
-	m += '<div class="location">Lives in Philippines<span class="separator">|</span>xx Fans</div>';
-	m += '</div>';
-	m += '</div>';
-	
-	
-	
-	
-	
-	
+
+    //console.log( "###############################################################" );
+    //console.log( p );
+
+    date = new Date( p['stamp'] * 1000 );
+    var month = date.getUTCMonth() + 1; //months from 1-12
+    var day = date.getUTCDate();
+    var year = date.getUTCFullYear();
+    var hours = date.getHours();
+    var minutes = "0" + date.getMinutes();
+    var seconds = "0" + date.getSeconds();
+    var date = month + " " + day + "," + year; //hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
+
+    m += '<div class="btn-group post-menu-philzine-top" role="group">';
+    if( member.idx ){
+        m += '<span type="button" class="btn btn-secondary"><img src="img/post/report.png"/></span>';
+    } else {
+        m += '<span type="button" class="btn btn-secondary edit"><img src="img/post/edit.png"/></span>';
+        m += '<span type="button" class="btn btn-secondary delete"><img src="img/post/delete.png"/></span>';
+    }
+    m += '<span class="menu-separator"></span>';
+    m += '<span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+    m += '<img src="img/post/more.png"/>';
+    m += '</span>';
+    m += '<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
+    m += '<li><a href="#">More Menu 1</a></li>';
+    m += '<li><a href="#">More Menu 2</a></li>';
+    m += '</ul>';
+    m += '</div>';
+
+    m += '<div class="media post-info">';
+    m += '<a class="media-left" href="#">';
+    m += '<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
+    m += '</a>';
+    m += '<div class="media-body">';
+    m += '<div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
+    m += '<div class="date">' + date + '<span class="separator">|</span>HUMAN TIMING</div>';
+    m += '<div class="location">Lives in Philippines<span class="separator">|</span>xx Fans</div>';
+    m += '</div>';
+    m += '</div>';
+
+
+
+
+
+
     if ( !_.isEmpty(p['subject']) ) {
         //m += '<h3 class="subject">' + p['subject'] + '</h3>';
     }
     if ( p['content'] ) m += '<div class="content">' + p['content'] + '</div>';
     if ( p['photos'] ) m += p['photos'];
-	if( p['good'] > 0 ) likes = p['good'];
-	else likes = '';
-	if( p['no_of_comment'] > 0 ) no_of_comment = p['no_of_comment'];
-	else no_of_comment = '';
-	
-	m += '<ul class="nav nav-pills post-menu-philzine-bottom">';
-	m += '<li class="like"><img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
-	m += '<li class="reply"><img src="img/post/comment.png"/>Comment ' + no_of_comment + '</li>';
-	m += '</ul>';
-	
+    if( p['good'] > 0 ) likes = p['good'];
+    else likes = '';
+    if( p['no_of_comment'] > 0 ) no_of_comment = p['no_of_comment'];
+    else no_of_comment = '';
+
+    m += '<ul class="nav nav-pills post-menu-philzine-bottom">';
+    m += '<li class="like"><img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
+    m += '<li class="reply"><img src="img/post/comment.png"/>Comment ' + no_of_comment + '</li>';
+    m += '</ul>';
+
     m = '<div class="post">' + m + '</div>';
     //console.log(m);
     return m;
@@ -730,38 +727,37 @@ function get_post_render(p) {
 function get_login_form() {
     var m;
 
-    alert('hi');
-    console.log('get_login_form : idx_member : ' + idx_member);
+    console.log('get_login_form : member.idx : ' + member.idx);
 
-	  if ( idx_member ) {
+    if ( member.idx ) {
         m = '<h1>User Login</h1>';
-        m += "<p>You have already logged in as <b>" + user_id + '</b></p>';
+        m += "<p>You have already logged in as <b>" + member.id + '</b></p>';
         m += '<nav class="navbar navbar-default logout-button">';
         m += '<p class="navbar-brand">Logout</p>';
         m += '</nav>';
     }
     else {
-		m = 	'<div class="form-wrapper">';
-		m += 	'<form class="member-login-form login">';
-		m += 	'<div class="input-group username">';
-		m += 	'<input name="id" type="text" class="form-control" placeholder="Enter username">';
-		m += 	'<span class="input-group-addon glyphicon glyphicon-user"></span>';
-		m += 	'</div>';
-		m += 	'<div class="input-group password">';
-		m += 	'<input name="pw"  type="password" class="form-control" placeholder="Enter password">';
-		m += 	'<span class="input-group-addon glyphicon glyphicon-lock"></span>';
-		m += 	'</div>';
-		m += 	'<input type="submit" class="btn btn-primary" value="Login">';
-		m += 	'<a class="forgot-password" href="#">Forgot Password?</a>';
-		m += 	'</form>';
-		m += 	'</div>';
-	}
+        m = 	'<div class="form-wrapper">';
+        m += 	'<form class="member-login-form login">';
+        m += 	'<div class="input-group username">';
+        m += 	'<input name="id" type="text" class="form-control" placeholder="Enter username">';
+        m += 	'<span class="input-group-addon glyphicon glyphicon-user"></span>';
+        m += 	'</div>';
+        m += 	'<div class="input-group password">';
+        m += 	'<input name="password"  type="password" class="form-control" placeholder="Enter password">';
+        m += 	'<span class="input-group-addon glyphicon glyphicon-lock"></span>';
+        m += 	'</div>';
+        m += 	'<input type="submit" class="btn btn-primary" value="Login">';
+        m += 	'<a class="forgot-password" href="#">Forgot Password?</a>';
+        m += 	'</form>';
+        m += 	'</div>';
+    }
     return m;
 }
 
 
 function ajx_login() {
-    console.log('ajax_login() begins...');
+    console.log('ajax_login() member.idx:'+member.idx);
     var $this = $(this);
     var id = $this.find('[name="id"]').val();
     var url = url_server_login + '&id=' + id;
@@ -771,8 +767,10 @@ function ajx_login() {
         if ( re.code == 504 ) alert('아이디를 입력하십시오.');
         else if ( re.code == 503 ) alert('비밀번호를 입력하십시오.');
         else if ( re.code == 502 ) alert('아이디를 찾을 수 없습니다.');
+        else if ( re.code == 501 ) alert('비밀번호가 틀렸습니다. Wrong password.');
         else {
             console.log("login success!");
+            console.log(re);
             setLogin(id, re);
             open_fron_page();
         }
@@ -790,18 +788,15 @@ function setLogin(id, re) {
     db.set('session_id', re.session_id);
     db.set('user_name', re.user_name);
 
-    idx_member = re.idx_member;
-    user_id = id;
-    session_id = re.session_id;
-    user_name = re.user_name;
+    member.idx = re.idx_member;
+    member.id = id;
+    member.session_id = re.session_id;
+    member.name = re.user_name;
 }
 function setLogout() {
     db.delete('idx_member');
     db.delete('user_id');
     db.delete('session_id');
     db.delete('user_name');
-    idx_member = null;
-    user_id = '';
-    session_id = '';
-    user_name = '';
+    member.unset();;
 }

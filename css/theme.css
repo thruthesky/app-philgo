@@ -1,3 +1,24 @@
 .text-button {
     cursor:pointer;
 }
+
+
+.note {
+    z-index: 2000;
+    margin:0 10% 1em;
+    padding:1em 1em 0;
+    background-color: #eaf0ff;
+}
+
+
+.endless-list {
+    padding:0.6em 0.6em 20em;
+    background-color: #efefef;
+}
+
+
+
+form.login .row {
+    margin:0;
+    padding:0;
+}

@@ -22,7 +22,6 @@
     <link rel="stylesheet" type="text/css" href="css/layout.css">
     <link rel="stylesheet" type="text/css" href="css/component.css">
     <link rel="stylesheet" type="text/css" href="css/content.css">
-    <link rel="stylesheet" type="text/css" href="css/notification.css">
     <link rel="stylesheet" type="text/css" href="css/theme.css">
     <title>Hello World</title>
     <script>
@@ -35,7 +34,7 @@
 <div id='layout'>
     <header class="widget header"></header>
     <nav class="widget menu-panel"></nav>
-    <section class="notification"></section>
+    <section class="note"></section>
     <section class="widget content"></section>
     <footer class="widget footer">
         <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
@@ -48,36 +47,14 @@
 <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="js/velocity.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/cordova.js"></script>
-<script type="text/javascript" src="js/helper.js"></script>
-<script type="text/javascript" src="js/ajax_load.js"></script>
 <script type="text/javascript" src="js/client.js"></script>
 
 <script>
     setTimeout(function(){
-        debugMode(true);
-                var version = db.get('version') + debugString();
-                var url_css_bootstrap = db.get('url_css_bootstrap') + '?version=' + version;
-                var url_js_bootstrap = db.get('url_js_bootstrap') + '?version=' + version;
-                var url_css_server = 'css/server.css?version=' + version;
+                var version = db.get('version') + '-TEST-' + debug.string();
                 var url_js_server = 'js/server.js?version=' + version;
-
-                console.log(url_css_server);
                 console.log(url_js_server);
-
-                //add_css(url_css_bootstrap);
-
-                add_css(url_css_server);
                 add_javascript(url_js_server);
-
-                function add_css(url){
-                    var link = document.createElement('link');
-                    link.setAttribute('rel', 'stylesheet');
-                    link.setAttribute('type', 'text/css');
-                    link.setAttribute('href', url);
-                    document.getElementsByTagName('head')[0].appendChild(link);
-                }
-
                 function add_javascript(url) {
                     var scriptTag = document.createElement('script');
                     scriptTag.src = url;

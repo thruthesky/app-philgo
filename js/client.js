@@ -17,6 +17,7 @@ $do_not_use_server_header_footer_template = false;
 
 $(function(){
 
+
     //db.deleteAll();
 
     check_update_version();
@@ -48,6 +49,12 @@ $(function(){
     on_click('.menu-panel.toggle', on_click_menu_panel);
 });
 
+
+/**
+ *
+ * App class object
+ *
+ */
 var app = {
     current_page_name : null,
     getCurrentPage: function () {
@@ -55,6 +62,31 @@ var app = {
     },
     setCurrentPage: function (page) {
         app.current_page_name = page;
+    },
+    online : function() {
+        return true;
+    },
+    offline : function() {
+        return ! this.online();
+    },
+    goTop : function() {
+        scrollTo(0,0);
+    }
+};
+
+var member = {
+    idx : null,
+    id : '',
+    name : '',
+    session_id : '',
+    login : function () {
+        return this.idx;
+    },
+    unset : function () {
+        this.idx = null;
+        this.id = '';
+        this.name = '';
+        this.session_id = '';
     }
 };
 
@@ -78,8 +110,8 @@ var element = {
         return $('.widget.menu-panel');
     },
 
-    notification: function () {
-        return $('.notification');
+    note: function () {
+        return $('.note');
     }
 };
 
@@ -120,6 +152,35 @@ var panel = {
                 panel.inHideProgress = false;
             });
         }
+    }
+};
+
+/**
+ * -------------------------------- Notification, note() ----------------------
+ */
+
+var note = {
+    timer: false,
+    get: function() {
+        return element.note();
+    },
+    post: function (message, cls) {
+        this.get().show();
+        this.get().append("<div class='row "+cls+"'>"+message+"</div>").show();
+        if ( this.timer ) {
+            clearTimeout(this.timer);
+        }
+        this.timer = setTimeout(function() {
+            note.clear();
+            note.hide();
+        }, 1500);
+    },
+    clear: function() {
+        element.note().html('');
+    },
+    hide: function() {
+        this.clear();
+        this.get().hide();
     }
 };
 
@@ -230,6 +291,95 @@ function save_page(key, re) {
     save_widget(key, re);
 }
 
+
+/**
+ *
+ *
+ * ------------------------------ Debug Function
+ */
+var debug = {
+    mode : false,
+    start: function() {
+        this.mode = true;
+    },
+    stop: function() {
+        this.mode = false;
+    },
+    string : function() {
+        return new Date().getTime().toString();
+    }
+};
+
+/**
+ * -------------------------- ETC Function, Helper functions
+ */
+
+
+var etc = {
+    /**
+     * Unique 32 bytes.
+     * @param id
+     * @returns {string}
+     */
+    unique_id : function (id) {
+        var uid='';
+        if ( id ) uid = id;
+        var date_string = (new Date()).getTime().toString().substring(6);
+        uid += date_string;
+        if ( uid.length > 32 ) {
+            uid = uid.substring(0, 31);
+        }
+        else {
+            var more_length = 32 - uid.length - 1;
+            var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var random = _.sample(possible, more_length).join('');
+            uid = uid + random;
+        }
+        return uid;
+    }
+};
+
+/**
+ * ============================== AJAX Loading Function ========================
+ *
+ *
+ *
+ * @param url       - must be GET URI
+ * @param callback
+ * @param html
+ */
+function ajax_load(url, callback, html) {
+    if ( member.login() ) {
+        if ( url.indexOf('?') == -1 ) url += '?';
+        else url += '&';
+        url += 'idx_member=' + member.id + '&session_id=' + member.session_id;
+    }
+    console.log(url);
+    $.ajax({
+        url:url,
+        cache: false,
+        success: function(data) {
+            //console.log(data);
+            if ( html ) return callback(data);
+            var re;
+            try {
+                re = $.parseJSON(data);
+            }
+            catch ( e ) {
+                return alert("Ajax_load() : catched an error. It might be an internal server error or callback error.");
+            }
+            /**
+             * It must be here. It must not be in try {}
+             */
+            if ( typeof callback == 'function' ) callback(re);
+        },
+        error: function(xhr, type){
+            alert("Ajax load error");
+            console.log(type);
+            console.log(xhr);
+        }
+    });
+}
 
 
 
