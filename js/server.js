@@ -253,7 +253,8 @@ function setCurrentForum(post_id) {
  */
 function setContent(html) {
     //console.log('setContent(...,' + page_name + ')');
-    if ( isPanelOpen() ) hidePanel();
+    //if ( isPanelOpen() ) hidePanel();
+    if ( panel.isOpen() ) panel.close();
     element.content().html(html);
 }
 
@@ -646,9 +647,9 @@ function get_post_write_form(post_id) {
 }
 
 function get_post_render(p) {
-    console.log('get_post_render(p)');
+    //console.log('get_post_render(p)');
     if (_.isEmpty(p) ) return;
-    console.log('creating DOM');
+    //console.log('creating DOM');
     var m = '';
 	
 	//console.log( "###############################################################" );
@@ -714,7 +715,6 @@ function get_post_render(p) {
 	
     m = '<div class="post">' + m + '</div>';
     //console.log(m);
-	console.log("ZZZZZZZZZZZZZZZZ");
     return m;
 }
 

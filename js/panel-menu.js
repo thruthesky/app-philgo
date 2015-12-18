@@ -1,16 +1,37 @@
-function isPanelOpen() {
-    return element.panel().css('display') != 'none';
-}
+var panel = {
+    get: function () {
+        return element.panel();
+    },
+    isOpen: function() {
+        //return this.get().css('display') != 'none';
+
+        var w = parseInt(Math.abs(this.get().css('right').replace('px', '')));
+        var open = w == 0;
+        console.log('panel.isOpen() : ' + open + ' width: ' + w);
+        return open;
+    },
+    width: function() {
+        return this.get().width();
+    },
+    toggle: function () {
+        console.log('panel.toggle()');
+        var w ;
+        if ( this.isOpen() ) w = - this.width();
+        else w = 0;
+        console.log(w);
+        this.get().velocity({
+            right: w
+        }, function(){
+            console.log("toggle panel complete...!")
+        });
+    },
+    close: function() {
+
+    }
+};
 
 
-function togglePanel(){
-    console.log('togglePanel() begins ...');
-    element.panel().animate({
-        width: "toggle"
-    }, function(){
-        console.log("toggle panel complete...!")
-    });
-}
+
 /**
  * @warning 이 닫기 옵션은 togglePanel() 에 직접 적용되어야 하는거 아닌가?
  * 두번 연속으로 호출하면, 닫기는 것이 아니라, 닫고 열린다.
@@ -24,7 +45,7 @@ function hidePanel() {
     if ( isPanelOpen() ) {
         console.log('hidePanel() : is going to hide panel.');
         inProgressHidePanel = true;
-        element.panel().animate({
+        element.panel().velocity({
             width: "toggle"
         }, function() {
             inProgressHidePanel = false;

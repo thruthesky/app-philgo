@@ -26,7 +26,7 @@ section.widget.content {
 .widget.menu-panel {
 	position: fixed;
 	top: 64px;
-	right: 0;
+	right: -300px;
 	z-index: 9999;
 }
 
