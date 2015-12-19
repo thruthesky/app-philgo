@@ -75,7 +75,7 @@ var app = {
         scrollTo(0,0);
     },
     initEvent : function() {
-        on_click('.page[page]', callback.on_click_page);
+        on_click('[data-content-page]', callback.on_click_page);
         on_click('.menu-panel.toggle', callback.on_click_menu_panel);
         on_click('.reset', callback.on_click_reset);
         on_click('.content', callback.on_click_content);
@@ -286,11 +286,13 @@ db = new function() {
     };
     */
 
+    /*
     this.save = function( key, value ) {
         db.set(key, value);
         db.set(key + '.length', value.length);
         db.set(key + '.stamp', new Date().getTime());
     };
+    */
 
     this.delete = function ( key ) {
         localStorage.removeItem(key);
@@ -300,8 +302,10 @@ db = new function() {
      * Deletes all keys in localStorage
      */
     this.deleteAll = function () {
-        for (var key in localStorage) {
-            db.delete(key);
+        for (var k in localStorage) {
+            if (localStorage.hasOwnProperty(k)) {
+                db.delete(k);
+            }
         }
     };
 
@@ -309,9 +313,11 @@ db = new function() {
      * @short returns the whole localStorage
      * @returns {Storage}
      */
+    /*
     this.getAll = function () {
         return localStorage;
     };
+    */
 
     /**
      * @short Check if the web storage is availble.
@@ -366,7 +372,7 @@ var etc = {
         var uid='';
         if ( id ) uid = id;
         var date_string = (new Date()).getTime().toString().substring(6);
-        uid += date_string;
+        uid = uid + date_string;
         if ( uid.length > 32 ) {
             uid = uid.substring(0, 31);
         }
@@ -475,30 +481,30 @@ var html = {
         var m = '';
         m += '<nav class="navbar navbar-default top">';
         m += '  <div class="container-fluid">';
-        m += '      <span class="navbar-text page text-button glyphicon glyphicon-home" page="front"></span>';
+        m += '      <span class="navbar-text page text-button glyphicon glyphicon-home" data-content-page="front"></span>';
         m += '      <span class="navbar-text logo">LOGO</span>';
         m += '      <span class="navbar-text navbar-right page text-button glyphicon glyphicon-th-list menu-panel toggle"></span>';
         m += '  </div>';
         m += '</nav>';
-        m += '<ul class="nav nav-pills nav-justified bottom">';
-        m += '  <li><span class="text-button page" page="news" post_id="freetalk">News</span></li>';
-        m += '  <li><span class="text-button page" page="info" post_id="qna">Info</span></li>';
-        m += '  <li><span class="text-button page" page="company" post_id="company_book">Company</span></li>';
-        m += '  <li><span class="text-button page" page="travel" post_id="travel">Travel</span></li>';
-        m += '  <li><span class="text-button page" page="qna" post_id="qna">QnA</span></li>';
-        m += '  <li><span class="text-button page" page="philgo-board">Talk</span></li>';
-        m += '  <li><span class="text-button page" page="menu-all">More</span></li>';
+        m += '<ul class="nav nav-pills nav-justified main-menu">';
+        m += '  <li data-content-page="news" data-post-id="news">News</li>';
+        m += '  <li data-content-page="info" data-post-id="qna">Info</li>';
+        m += '  <li data-content-page="company" data-post-id="company_book">Company</li>';
+        m += '  <li data-content-page="travel" data-post-id="travel">Travel</li>';
+        m += '  <li data-content-page="qna" data-post-id="qna">QnA</span></li>';
+        m += '  <li data-content-page="freetalk" data-post-id="freetalk">Talk</span></li>';
+        m += '  <li data-content-page="menu-all">More</span></li>';
         m += '</ul>';
         return m;
     },
     footer : function() {
         var m = '';
-        m += '<ul class="nav nav-pills nav-justified bottom">';
-        m += '  <li><span class="text-button page" page="profile"><span class="glyphicon glyphicon-user"></span>Profile</span></li>';
-        m += '  <li><span class="text-button page" page="message"><span class="glyphicon glyphicon-envelope"></span>Message</span></li>';
-        m += '  <li><span class="text-button page" page="search"><span class="glyphicon glyphicon-search"></span>Search</span></li>';
-        m += '  <li class="post-button" post-id=""><span class="text-button"><span class="glyphicon glyphicon-pencil"></span>Post</span></li>';
-        m += '  <li><span class="text-button page" page="setting"><span class="glyphicon glyphicon-wrench"></span>Setting</span></li>';
+        m += '<ul class="nav nav-pills nav-justified bottom bottom-menu">';
+        m += '  <li data-content-page="profile"><span class="glyphicon glyphicon-user"></span>Profile</li>';
+        m += '  <li data-content-page="message"><span class="glyphicon glyphicon-envelope"></span>Message</li>';
+        m += '  <li data-content-page="search"><span class="glyphicon glyphicon-search"></span>Search</li>';
+        m += '  <li class="post-button" data-post-id=""><span class="glyphicon glyphicon-pencil"></span>Post</li>';
+        m += '  <li data-content-page="setting"><span class="glyphicon glyphicon-wrench"></span>Setting</span></li>';
         m += '</ul>';
         return m;
     },
@@ -517,11 +523,11 @@ var html = {
         m += '      <div class="name">Anonymous<div>User</div></div>';
         m += '  </div>';
         m += '  <ul class="list-group bottom">';
-        m += '      <li><div class="list-group-item text-button page" page="login">로그인 login<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item text-button page" page="register">회원가입 register<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item text-button page" page="admin">운영자 요청/건의 inquery<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item text-button page" page="menu-all">전체메뉴 all-menu<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item text-button page" page="setting">Settings<span class="glyphicon glyphicon-menu-right"></span></li>';
+        m += '      <li><div class="list-group-item" data-content-page="login">로그인 login<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item" data-content-page="register">회원가입 register<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item" data-content-page="admin">운영자 요청/건의 inquery<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item" data-content-page="menu-all">전체메뉴 all-menu<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item" data-content-page="setting">Settings<span class="glyphicon glyphicon-menu-right"></span></li>';
         m += '  </ul>';
         m += '  <div class="panel-copyright">';
         m += '      <ul class="nav nav-pills nav-justified bottom">';
@@ -543,6 +549,7 @@ var html = {
     post_write_form : function (post_id) {
         var gid = etc.unique_id(member.idx + post_id);
         var forums = {
+            'news' : 'News',
             'freetalk' : 'Free Talk',
             'qna' : 'Q & A',
             'buyandsell' : 'Buy & Sell',
@@ -560,14 +567,16 @@ var html = {
 
         m += "  <div class='category'>";
         m += "      <select name='post_id'>";
-        for( name in forums ) {
-            m += '<option value="'+name +'"';
-            if ( name == post_id ) m += ' selected=1';
-            m += '>' + forums[name] + '</optoin>';
+        for( var name in forums ) {
+            if ( forums.hasOwnProperty(name) ) {
+                m += '<option value="'+name +'"';
+                if ( name == post_id ) m += ' selected=1';
+                m += '>' + forums[name] + '</optoin>';
+            }
         }
         m += "      </select>";
         m += "  </div>";
-        m += '  <div class="file"><input type="file" name="file" onchange="onFileChange(this);"></div>';
+        m += '  <div class="file"><input type="file" name="file"></div>';
         m += "  <div class='submit'><input type='submit'></div>";
         m += "</form>";
         m += '<div class="post-write-form-photos"></div>';
@@ -586,8 +595,8 @@ var html = {
         var day = date.getUTCDate();
         var year = date.getUTCFullYear();
         var hours = date.getHours();
-        var minutes = "0" + date.getMinutes();
-        var seconds = "0" + date.getSeconds();
+        //var minutes = "0" + date.getMinutes();
+        //var seconds = "0" + date.getSeconds();
         var date = month + " " + day + "," + year; //hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
 
 
@@ -704,7 +713,7 @@ var cache = {
                 save_page( name, re );
                 app.setCurrentPage(name);
                 html.setContent(re.html, name);
-                note.post(name + ' 페이지를 로드하였습니다.')
+                note.post(name + ' 페이지를 로드하였습니다.');
                 app.setCurrentForum(post_id);
                 if ( post_id ) endless_reset(post_id);
             }
@@ -716,15 +725,13 @@ var cache = {
 var callback = {
     on_click_page : function () {
         var $this = $(this);
-        var page = $this.attr('page');
-        var post_id = $this.attr('post_id');
+        var page = $this.attr('data-content-page');
+        var post_id = $this.attr('data-post-id');
         console.log('on_click_page() : ' + page);
-
         if ( app.offline() && $this.hasClass('check-online') ) {
-            alert(page + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.")
+            alert(page + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.");
             return;
         }
-
         if ( page == 'login' ) {
             html.setContent( html.login_form(), 'login' );
         }
@@ -760,6 +767,7 @@ var callback = {
         member.setLogout();
         cache.showFront();
     },
+
     /**
      *
      */
@@ -777,10 +785,6 @@ var callback = {
             element.content().prepend(html.post_write_form(post_id));
         }
         app.goTop();
-    },
-    on_click_logout_butfton : function () {
-        member.setLogout();
-        cache.showFront();
     },
     on_click_menu_panel : function () {
         panel.toggle();
@@ -807,11 +811,9 @@ function on_submit(selector, callback) {
     element.body().on('submit', selector, callback);
 }
 
-
+/*
 function check_update_version() {
-    /**
-     * Check version every two hours.
-     */
+//
     setTimeout(check_version,1000); // fire after 1 seconds
     setTimeout(check_version,1000 * 60 * 1); // fire after 1 minutes.
     setInterval(check_version, 1000 * 60 * 60 * 2);
@@ -824,6 +826,7 @@ function check_update_version() {
         });
     }
 }
+*/
 
 /** =============== ENDLESS page loading =============== */
 
@@ -833,26 +836,29 @@ var endless_no_more_content = false;
 var endless_in_loading = false;
 function endless_load_more_update(re) {
     //console.log(re);
-    if (_.isEmpty(re.posts) ) {
+    if (_.isEmpty(re['posts']) ) {
         endless_no_more_content = true;
         endless_hide_loader();
         endless_show_no_more_content();
     }
     else {
-        var site = re.site;
-        var post_id = re.post_id;
-        var page_no = re.page_no;
+        var site = re['site'];
+        var post_id = re['post_id'];
+        var page_no = re['page_no'];
         note.post(site + ' 사이트 : ' + post_id + '의 ' + page_no + " 페이지 내용이 추가되었습니다.");
-        for ( i in re.posts ) {
-            endless_hide_loader();
-            element.post_list().append(html.post_render(re.posts[i]));
+        var posts = re['posts'];
+        for ( var i in posts ) {
+            if (posts.hasOwnProperty(i)) {
+                endless_hide_loader();
+                element.post_list().append(html.post_render(posts[i]));
+            }
         }
     }
     endless_in_loading = false;
 }
 /**
  * 리셋을 하면 첫 페이지를 바로 보여준다.
- * @param url
+ * @param post_id
  */
 function endless_reset(post_id) {
     var url = app.url_server_forum + post_id;
@@ -869,7 +875,7 @@ function endless_reset(post_id) {
     var $document = $(document);
     var endless_distance = 400; // how far is the distance from bottom to get new page.
     $document.scroll(endless_load_more);
-    function endless_load_more(e) {
+    function endless_load_more() {
         // console.log('endless_load_more(e) : ');
         if ( ! endless_api ) return console.log("no endless_api");
         if ( endless_no_more_content ) return console.log("no more content. return.");
@@ -896,7 +902,7 @@ function endless_show_loader() {
 }
 function endless_show_no_more_content() {
     console.log("endless_show_no_more_content");
-    var text = 'No more content ........... !'
+    var text = 'No more content ........... !';
     element.post_list().after("<div class='no-more-content'>"+text+"</div>");
 }
 /* ============================== EO Endless page loading ... ================================ */
