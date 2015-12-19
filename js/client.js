@@ -263,23 +263,6 @@ note = {
  *
  */
 db = new function() {
-    this.type = 'WebStorage';
-    this.author = 'JaeHo Song';
-    this.email = 'thruthesky@gmail.com';
-    /**
-     *
-     *
-     * @returns {string}
-     *
-     *
-     * @code
-     * alert ( this.info() );
-     * @endcode
-     */
-    this.info = function() {
-        return this.type + ' ' + this.author + ' ' + this.email;
-    };
-
     this.set = function ( key, value ) {
         localStorage.setItem(key, value);
     };
@@ -288,6 +271,7 @@ db = new function() {
         return localStorage.getItem(key);
     };
 
+    /*
     this.getRecord = function ( key ) {
         var value = db.get(key);
         if ( value ) {
@@ -300,6 +284,7 @@ db = new function() {
         }
         else return null;
     };
+    */
 
     this.save = function( key, value ) {
         db.set(key, value);
