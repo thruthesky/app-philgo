@@ -21,13 +21,18 @@ $(function(){
     //db.deleteAll();
 
     check_update_version();
-    header_show();
-    footer_show();
-
+    html.setHeader();
+    html.setFooter();
+    html.setPanel();
     front_show();
-    panel_menu_content_load();
+
+
+    //header_show();
+    //footer_show();
+    //panel_menu_content_load();
 
     do_not_use_server_header_footer_template();
+
 
 
     //db.deleteAll(); // test.
@@ -382,8 +387,86 @@ function ajax_load(url, callback, html) {
 }
 
 
-
-
+/**
+ * ---------------------- HTML Markup, Form, DOM Object ----------------------------
+ */
+var html = {
+    setHeader: function() {
+        element.header().html( this.header() );
+    },
+    setFooter: function() {
+        element.footer().html( this.footer() );
+    },
+    setPanel: function() {
+        element.panel().html( this.panel() );
+    },
+    header : function() {
+        var m = '';
+        m += '<nav class="navbar navbar-default top">';
+        m += '  <div class="container-fluid">';
+        m += '      <span class="navbar-text page text-button glyphicon glyphicon-home" page="front"></span>';
+        m += '      <span class="navbar-text logo">LOGO</span>';
+        m += '      <span class="navbar-text navbar-right page text-button glyphicon glyphicon-th-list menu-panel toggle"></span>';
+        m += '  </div>';
+        m += '</nav>';
+        m += '<ul class="nav nav-pills nav-justified bottom">';
+        m += '  <li><span class="text-button page" page="news" post_id="freetalk">News</span></li>';
+        m += '  <li><span class="text-button page" page="info" post_id="qna">Info</span></li>';
+        m += '  <li><span class="text-button page" page="company">Company</span></li>';
+        m += '  <li><span class="text-button page" page="travel">Travel</span></li>';
+        m += '  <li><span class="text-button page" page="photo">QnA</span></li>';
+        m += '  <li><span class="text-button page" page="philgo-board">Talk</span></li>';
+        m += '  <li><span class="text-button page" page="menu-all">More</span></li>';
+        m += '</ul>';
+        return m;
+    },
+    footer : function() {
+        var m = '';
+        m += '<ul class="nav nav-pills nav-justified bottom">';
+        m += '  <li><span class="text-button page" page="profile"><span class="glyphicon glyphicon-user"></span>Profile</span></li>';
+        m += '  <li><span class="text-button page" page="message"><span class="glyphicon glyphicon-envelope"></span>Message</span></li>';
+        m += '  <li><span class="text-button page" page="search"><span class="glyphicon glyphicon-search"></span>Search</span></li>';
+        m += '  <li class="post-button" post-id=""><span class="text-button"><span class="glyphicon glyphicon-pencil"></span>Post</span></li>';
+        m += '  <li><span class="text-button page" page="setting"><span class="glyphicon glyphicon-wrench"></span>Setting</span></li>';
+        m += '</ul>';
+        return m;
+    },
+    panel : function() {
+        var m = '';
+        m += '<div class="panel panel-default menu-panel-inner">';
+        m += '  <ul class="list-group top">';
+        m += '      <li><div class="list-group-item text-button">Menu 1<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item text-button">Menu 2<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item text-button">Menu 3<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item text-button menu-panel toggle">Close Menu<span class="glyphicon glyphicon-remove"></span></div></li>';
+        m += '  </ul>';
+        m += '  <div class="panel-user-profile">';
+        m += '      <img src="img/no_primary_photo.png"/>';
+        m += '      <div class="bottom-space"></div>';
+        m += '      <div class="name">Anonymous<div>User</div></div>';
+        m += '  </div>';
+        m += '  <ul class="list-group bottom">';
+        m += '      <li><div class="list-group-item text-button page" page="login">로그인 login<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item text-button page" page="register">회원가입 register<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item text-button page" page="admin">운영자 요청/건의 inquery<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item text-button page" page="menu-all">전체메뉴 all-menu<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item text-button page" page="setting">Settings<span class="glyphicon glyphicon-menu-right"></span></li>';
+        m += '  </ul>';
+        m += '  <div class="panel-copyright">';
+        m += '      <ul class="nav nav-pills nav-justified bottom">';
+        m += '          <li><span>Terms & Policies</span></li>';
+        m += '          <li><span>Feedback</span></li>';
+        m += '          <li><span>About</span></li>';
+        m += '      </ul>';
+        m += '      <div class="copy-right-text">';
+        m += '          Copyright (C) 2013 ~ 2015 우리에듀.<br>';
+        m += '          All Rights Reserved';
+        m += '      </div>';
+        m += '  </div>';
+        m += '</div>';
+        return m;
+    }
+};
 
 
 /**
@@ -428,19 +511,22 @@ function do_not_use_server_header_footer_template() {
     db.delete('menu-panel');
 }
 
-
+/*
 function header_show() {
-    set_cache_data_or_load_page('header', element.header());
+    //element.header().html( html.header() );
+    //set_cache_data_or_load_page('header', element.header());
 }
 
 function footer_show() {
-    set_cache_data_or_load_page('footer', element.footer());
+    element.footer().html( html.footer() );
+    //set_cache_data_or_load_page('footer', element.footer());
 }
-
 
 function panel_menu_content_load() {
     set_cache_data_or_load_page('menu-panel', element.panel());
 }
+
+ */
 
 /**
  * - first, it looks up for the cached HTML markup from database.

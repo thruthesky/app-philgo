@@ -63,14 +63,4 @@
 
     ----- 이렇게 클래스화 하면, 정리가 안될래야 안될 수가 없다.
 
-    - $(function(){ ... }); 는 맨 아래 둔다.
-
-
-    - OK: 모든 click 관련 콜백은 'on_click_xxxx()' 로 한다.
-    - OK: 모든 change, select, 등은 'on_change_xxxx()' 로 한다.
-
-* (재고) db.save() 를 바로 호출하지 말고, db_save() 를 둘 것.
-    - db_save(), db_get(), db_set(), db_get_record(), db_delete(), db_delete_all()
-
-
 
