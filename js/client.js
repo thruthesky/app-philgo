@@ -1,5 +1,7 @@
 var db;
 var member;
+var panel;
+var note;
 $(function(){
 
     //db.deleteAll();
@@ -117,13 +119,13 @@ member = {
     },
     setLogin : function (id, re) {
         db.set('user_id', id);
-        db.set('idx_member', re.idx_member);
-        db.set('session_id', re.session_id);
-        db.set('user_name', re.user_name);
-        member.idx = re.idx_member;
+        db.set('idx_member', re['idx_member']);
+        db.set('session_id', re['session_id']);
+        db.set('user_name', re['user_name']);
+        member.idx = re['idx_member'];
         member.id = id;
-        member.session_id = re.session_id;
-        member.name = re.user_name;
+        member.session_id = re['session_id'];
+        member.name = re['user_name'];
     },
     setLogout : function () {
         db.delete('idx_member');
@@ -168,13 +170,14 @@ var element = {
     }
 };
 
-var panel = {
+panel = {
     inHideProgress: false,
     get: function () {
         return element.panel();
     },
     open: function() {
-        var w = parseInt(Math.abs(this.get().css('right').replace('px', '')));
+        var r = parseInt(panel.get().css('right').replace('px', ''));
+        var w = Math.abs(r);
         var open = w == 0;
         console.log('panel.open() : ' + open + ' width: ' + w);
         return open;
@@ -212,16 +215,16 @@ var panel = {
  * -------------------------------- Notification, note() ----------------------
  */
 
-var note = {
-    timer: false,
+note = {
+    timer: 0,
     get: function() {
         return element.note();
     },
     post: function (message, cls) {
         this.get().show();
         this.get().append("<div class='row "+cls+"'>"+message+"</div>").show();
-        if ( this.timer ) {
-            clearTimeout(this.timer);
+        if ( note.timer ) {
+            clearTimeout(note.timer);
         }
         this.timer = setTimeout(function() {
             note.clear();
@@ -558,6 +561,7 @@ var html = {
             'freetalk' : 'Free Talk',
             'qna' : 'Q & A',
             'buyandsell' : 'Buy & Sell',
+            'travel' : 'Travel',
             'company_book' : 'Company Book'
         };
         var m = '';
