@@ -594,7 +594,7 @@ var html = {
         var month = date.getUTCMonth() + 1; //months from 1-12
         var day = date.getUTCDate();
         var year = date.getUTCFullYear();
-        var hours = date.getHours();
+        //var hours = date.getHours();
         //var minutes = "0" + date.getMinutes();
         //var seconds = "0" + date.getSeconds();
         var date = month + " " + day + "," + year; //hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
@@ -631,6 +631,7 @@ var html = {
         if ( !_.isEmpty(p['subject']) ) {
             //m += '<h3 class="subject">' + p['subject'] + '</h3>';
         }
+        var no_of_comment, likes;
         if ( p['content'] ) m += '<div class="content">' + p['content'] + '</div>';
         if ( p['photos'] ) m += p['photos'];
         if( p['good'] > 0 ) likes = p['good'];
@@ -871,7 +872,7 @@ function endless_reset(post_id) {
     ajax_load( url_endless, endless_load_more_update);
 }
 (function endless_run() {
-    var $window = $(window);
+    var $window = jQuery(window);
     var $document = $(document);
     var endless_distance = 400; // how far is the distance from bottom to get new page.
     $document.scroll(endless_load_more);
