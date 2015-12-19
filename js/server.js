@@ -42,8 +42,8 @@ $(function(){
 
 
     // 이 두 코드는 여기 있어야 한다. server.js 가 로드 될 때 바로 실행하면 된다.
-
-    if ( $do_not_use_server_header_footer_template  == false ) cache_update_templates();
+    // 이 코드는 더 이상 필요 없다. 왜냐하면 header, footer, panel 을 더 이상 캐시 하지 않고 client.js 에서 바로 사용한다.
+    // if ( $do_not_use_server_header_footer_template  == false ) cache_update_templates();
 
     // server.js 가 로드되면 첫 페이지를 업데이트 한다.
     open_fron_page();
@@ -172,6 +172,8 @@ function cache_no_html(name) {
 }
 
 /**
+ *
+ * @deprecated client.js 에서 직접 출력한다. 새로운 업데이트도 client.js 를 바로 서버에서 다운로드한다.
  * header, footer, panel 을 1시간에 한번씩 다시 로딩 한다.
  */
 function cache_update_templates() {

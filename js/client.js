@@ -11,8 +11,8 @@
  */
 //
 
-var current_page_name = null;
-$do_not_use_server_header_footer_template = false;
+
+
 
 
 $(function(){
@@ -25,11 +25,6 @@ $(function(){
     html.setFooter();
     html.setPanel();
     front_show();
-
-
-    //header_show();
-    //footer_show();
-    //panel_menu_content_load();
 
     do_not_use_server_header_footer_template();
 
@@ -500,33 +495,7 @@ function on_click_menu_panel() {
 
 
 
-/**
- * @note This let you to use local 'widget' folder html files only.
- * @usage Use this function when you want to debug or build.
- */
-function do_not_use_server_header_footer_template() {
-    $do_not_use_server_header_footer_template = true;
-    db.delete('header');
-    db.delete('footer');
-    db.delete('menu-panel');
-}
 
-/*
-function header_show() {
-    //element.header().html( html.header() );
-    //set_cache_data_or_load_page('header', element.header());
-}
-
-function footer_show() {
-    element.footer().html( html.footer() );
-    //set_cache_data_or_load_page('footer', element.footer());
-}
-
-function panel_menu_content_load() {
-    set_cache_data_or_load_page('menu-panel', element.panel());
-}
-
- */
 
 /**
  * - first, it looks up for the cached HTML markup from database.
