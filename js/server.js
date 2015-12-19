@@ -13,32 +13,16 @@
  *
  */
 
-var url_server_widget = url_server + '?module=ajax&action=widget&submit=1&name=';
-var url_server_login = url_server + '?module=ajax&action=login&submit=1';
-var url_server_forum =  url_server + '?module=ajax&action=post-list&submit=1&post_id=';
-var url_company_book_data = 'http://philgo.org/?module=etc&action=company_data_json_submit';
-var cache_template_widgets = [
-    'header',
-    'footer',
-    'menu-panel'
-];
+
+
+
 
 
 $(function(){
-    var v = db.get('idx_member');
-    if ( v ) member.idx = v;
-    member.id = db.get('user_id');
-    member.session_id = db.get('session_id');
-    console.log("server.js begins ...");
-    note.post('server.js 를 로드하였습니다.');
-
-    if ( app.offline() ) {
-        note.post('인터넷을 연결 해 주십시오. Connect to Internet.', 'alert alert-warning');
-    }
 
     //update_version(app_version); // 여기서 기록을 하면, 버젼을 수동으로 확인 할 수가 없다.
 
-    initServerEventHandlers();
+
 
 
     // 이 두 코드는 여기 있어야 한다. server.js 가 로드 될 때 바로 실행하면 된다.
@@ -46,7 +30,7 @@ $(function(){
     // if ( $do_not_use_server_header_footer_template  == false ) cache_update_templates();
 
     // server.js 가 로드되면 첫 페이지를 업데이트 한다.
-    open_fron_page();
+
 
 });
 /** ===================== Version functions =================== */
@@ -60,106 +44,27 @@ function get_version() {
 /**
  * 새로운 버젼이 기록되면, 버젼을 기록하고 앱을 다시 로딩(리프레시)를 한다.
  * @param new_version
- * @param callback
  */
 function update_version(new_version) {
     var old_version = get_version();
     if ( old_version == new_version ) {
         console.log("App version:" + new_version);
-        return;
     }
     else {
         console.log('updating version with:' + new_version);
-        app_reset();
+        app.reset();
         set_version(new_version);
-        app_refresh();
+        app.refresh();
     }
 }
 
-/**
- *
- */
-function open_fron_page() {
-    cache_update('front', 'freetalk');
-}
 /** =================== App related functions =================== */
 
-function app_reset() {
-    db.deleteAll();
-}
-function app_refresh() {
-    location.href='index.html';
-}
 
 
-/** ================ init Server Event Handlers ============== */
-function initServerEventHandlers() {
-    on_click('.reset', on_click_reset);
-    on_click('.content', on_click_content);
-    on_click('.logout-button', on_click_logout_button);
-
-    element.body().on('submit', 'form.login', ajx_login);
-
-    on_click("footer .post-button", on_click_post_button);
-}
 
 
 /** ================ Menu Callback Functions ================= */
-
-/**
- * #buildguide on_click_page
- */
-function on_click_page_server($this) {
-
-    var page = $this.attr('page');
-    var post_id = $this.attr('post_id');
-    console.log('on_click_page_server() : ' + page);
-
-    if ( app.offline() && $this.hasClass('check-online') ) {
-        alert(page + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.")
-        return;
-    }
-
-
-
-    if ( page == 'login' ) {
-        setContent( get_login_form(), 'login' );
-    }
-    else {
-        cache_update(page, post_id);
-    }
-}
-
-
-function on_click_content() {
-    panel.close();
-}
-
-/**
- *
- */
-function on_click_reset() {
-    console.log('on_click_reset()');
-    var re = confirm("앱을 초기화 하시겠습니까? Do you want to reset?");
-    if ( re ) {
-        app_reset();
-        app_refresh();
-    }
-}
-
-
-/**
- *
- * It is an overriding function of on_click_menu_panel in server.js
- *
- * @attention if it returns false, then the code in client.js will run.
- *      return 'true' if you do not want the code in client.js run.
- */
-function on_click_menu_panel_server() {
-    console.log("on_click_menu_panel_server() begins ...");
-    return false;
-}
-
 
 
 
@@ -171,72 +76,11 @@ function cache_no_html(name) {
 
 }
 
-/**
- *
- * @deprecated client.js 에서 직접 출력한다. 새로운 업데이트도 client.js 를 바로 서버에서 다운로드한다.
- * header, footer, panel 을 1시간에 한번씩 다시 로딩 한다.
- */
-function cache_update_templates() {
-    var count_cache_update_templates = 0;
-    cache_update_templates_loop();
-    setInterval(cache_update_templates_loop, 1000 * 60 * 60 * 1);
-    function cache_update_templates_loop() {
-        count_cache_update_templates++;
-        console.log("cache_update_templates_loop() begins:" + count_cache_update_templates);
-        for (i in cache_template_widgets) {
-            var url = url_server_widget + cache_template_widgets[i];
-            ajax_load(url, function(re){
-                // console.log(re);
-                if ( re.html ) {
-                    var name = re.widget;
-                    save_page( name, re );
-                    element.widget(name).html(re.html);
-                }
-                else cache_no_html(name);
-            });
-        }
-    }
-}
 
 
 /** ============= DOM Management functions ============= */
 
 
-
-/**
- *
- * @short
- *      1. db cache 서브페이지 데이터를 먼저 보여 준다.
- *      2. ajax 로 서브페이지 데이터를 다운로드 하여
- *          2-1. cache 에 저장하고
- *          2-2. 화면에 보여준다.
- *      3. endless 페이지를 구현한다.
- *
- *
- * @usage 페이지를 캐시해야한다면 임의로 이 코드를 사용 하면 된다.
- *
- * @param widget
- * @param callback
- * @code
- *      cache_update('front');
- * @code
- */
-function cache_update(name, post_id) {
-    console.log( "cache_update:" + name );
-    setContent( db.get( name ), name );
-    var url_widget = url_server_widget + name;
-    ajax_load(url_widget, function(re){
-        if ( re.html ) {
-            save_page( name, re );
-            app.setCurrentPage(name);
-            setContent(re.html, name);
-            note.post(name + ' 페이지를 로드하였습니다.')
-            setCurrentForum(post_id);
-            if ( post_id ) endless_reset(post_id);
-        }
-        else cache_no_html(name);
-    });
-}
 
 function post_button() {
     return $("footer .post-button");
@@ -244,29 +88,6 @@ function post_button() {
 function setCurrentForum(post_id) {
     post_button().attr('post-id', post_id);
 }
-
-/**
- *
- * @note This does not save data into database.
- * @Attention Use this function to set content on '.content'.
- *      - it does extra tasks.
- * @param html
- */
-function setContent(html) {
-    //console.log('setContent(...,' + page_name + ')');
-    //if ( isPanelOpen() ) hidePanel();
-    if ( panel.open() ) panel.close();
-    element.content().html(html);
-}
-
-
-
-
-
-
-/** =============== Login / Register ================ */
-
-
 
 
 /** =============== ENDLESS page loading =============== */
@@ -293,7 +114,7 @@ function endless_load_more_update(re) {
         note.post(site + ' 사이트 : ' + post_id + '의 ' + page_no + " 페이지 내용이 추가되었습니다.");
         for ( i in re.posts ) {
             endless_hide_loader();
-            post_list().append(get_post_render(re.posts[i]));
+            post_list().append(html.post_render(re.posts[i]));
         }
     }
     endless_in_loading = false;
@@ -304,7 +125,7 @@ function endless_load_more_update(re) {
  * @param url
  */
 function endless_reset(post_id) {
-    var url = url_server_forum + post_id;
+    var url = app.url_server_forum + post_id;
     //console.log('endless_reset('+url+')');
     endless_api = url + '&page_no=';
     endless_scroll_count = 1;
@@ -369,19 +190,7 @@ function endless_show_no_more_content() {
 // -
 // -
 // -
-var isFileUploadSubmit = false;
-var $fileSelected = null;
-/** */
 
-function onFileChange(obj) {
-    $fileSelected = $(obj);
-    var $form = $fileSelected.parents("form");
-    isFileUploadSubmit = true;
-    $form.submit();
-    isFileUploadSubmit = false;
-    $fileSelected.val('');
-}
-//
 
 $(function(){
     element.body().on('submit', '.ajax-upload', post_form_submit);
@@ -389,50 +198,8 @@ $(function(){
 });
 
 
-/**
- *
- * @returns {boolean}
- */
-function post_form_submit(e) {
-    // Return if the form submit is not for ajax file upload.
-    if (isFileUploadSubmit == false) {
-        ajax_form_submit($(this), e);
-    }
-    else {
-        ajax_file_upload($(this), e);
-    }
-    return false;
-}
 
 
-function ajax_form_submit($this, e) {
-    console.log("ajax_form_submit() begin");
-    e.preventDefault();
-    function ajax_load_post(url, data, callback) {
-
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: data,
-            success: function(data){
-                var re;
-                try {
-                    re = $.parseJSON(data);
-                }
-                catch ( e ) {
-                    return alert("Ajax_load_post() : catched an error. It might be an internal server error.");
-                }
-                callback(re);
-            }
-        });
-    }
-
-    ajax_load_post(url_server, $this.serialize(), function(data){
-        post_write_form().remove();
-        element.content().prepend(get_post_render(data.post));
-    });
-
-}
 
 
 
@@ -610,114 +377,10 @@ function click_post_like() {
 // -
 // -
 // -
-function on_click_post_button() {
-    show_post_write_form($(this).attr('post-id'));
-}
-function show_post_write_form(post_id) {
-    if ( post_write_form().length == 0 ) {
-        element.content().prepend(get_post_write_form(post_id));
-    }
-    app.goTop();
-}
-/**
- *
- *
- * @note Use this only for Creating a post
- */
-function post_write_form() {
-    return $('.post-write-form');
-}
-function get_post_write_form(post_id) {
-    var gid = etc.unique_id(member.idx + post_id);
-    var m = '';
-    m += "<form class='ajax-upload post-write-form' action='"+url_server+"'>";
-    m += "<input type='hidden' name='idx_member' value='"+member.idx+"'>";
-    m += "<input type='hidden' name='session_id' value='"+member.session_id+"'>";
-    m += "<input type='hidden' name='gid' value='"+gid+"'>";
-    m += "<input type='hidden' name='post_id' value='"+post_id+"'>";
-    m += "<input type='hidden' name='module' value='ajax'>";
-    m += "<input type='hidden' name='action' value='post_write_submit'>";
-    m += "<div class='content'><textarea name='content'></textarea></div>";
-    m += "<div class='category'><select><option value='freetalk'>FreeTalk</option><option value='qna'>Q & A</option><option value='buyandsell'>Buy & Sell</option></select></div>";
-
-    m += '<div class="file"><input type="file" name="file" onchange="onFileChange(this);"></div>';
-    m += "<div class='submit'><input type='submit'></div>";
-    m += "</form>";
-    m += '<div class="post-write-form-photos"></div>';
-    return m;
-}
-
-function get_post_render(p) {
-    //console.log('get_post_render(p)');
-    if (_.isEmpty(p) ) return;
-    //console.log('creating DOM');
-    var m = '';
-
-    //console.log( "###############################################################" );
-    //console.log( p );
-
-    date = new Date( p['stamp'] * 1000 );
-    var month = date.getUTCMonth() + 1; //months from 1-12
-    var day = date.getUTCDate();
-    var year = date.getUTCFullYear();
-    var hours = date.getHours();
-    var minutes = "0" + date.getMinutes();
-    var seconds = "0" + date.getSeconds();
-    var date = month + " " + day + "," + year; //hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-
-
-    m += '<div class="btn-group post-menu-philzine-top" role="group">';
-    if( member.idx ){
-        m += '<span type="button" class="btn btn-secondary"><img src="img/post/report.png"/></span>';
-    } else {
-        m += '<span type="button" class="btn btn-secondary edit"><img src="img/post/edit.png"/></span>';
-        m += '<span type="button" class="btn btn-secondary delete"><img src="img/post/delete.png"/></span>';
-    }
-    m += '<span class="menu-separator"></span>';
-    m += '<span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-    m += '<img src="img/post/more.png"/>';
-    m += '</span>';
-    m += '<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
-    m += '<li><a href="#">More Menu 1</a></li>';
-    m += '<li><a href="#">More Menu 2</a></li>';
-    m += '</ul>';
-    m += '</div>';
-
-    m += '<div class="media post-info">';
-    m += '<a class="media-left" href="#">';
-    m += '<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
-    m += '</a>';
-    m += '<div class="media-body">';
-    m += '<div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
-    m += '<div class="date">' + date + '<span class="separator">|</span>HUMAN TIMING</div>';
-    m += '<div class="location">Lives in Philippines<span class="separator">|</span>xx Fans</div>';
-    m += '</div>';
-    m += '</div>';
 
 
 
 
-
-
-    if ( !_.isEmpty(p['subject']) ) {
-        //m += '<h3 class="subject">' + p['subject'] + '</h3>';
-    }
-    if ( p['content'] ) m += '<div class="content">' + p['content'] + '</div>';
-    if ( p['photos'] ) m += p['photos'];
-    if( p['good'] > 0 ) likes = p['good'];
-    else likes = '';
-    if( p['no_of_comment'] > 0 ) no_of_comment = p['no_of_comment'];
-    else no_of_comment = '';
-
-    m += '<ul class="nav nav-pills post-menu-philzine-bottom">';
-    m += '<li class="like"><img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
-    m += '<li class="reply"><img src="img/post/comment.png"/>Comment ' + no_of_comment + '</li>';
-    m += '</ul>';
-
-    m = '<div class="post">' + m + '</div>';
-    //console.log(m);
-    return m;
-}
 
 
 //
@@ -757,48 +420,3 @@ function get_login_form() {
     return m;
 }
 
-
-function ajx_login() {
-    console.log('ajax_login() member.idx:'+member.idx);
-    var $this = $(this);
-    var id = $this.find('[name="id"]').val();
-    var url = url_server_login + '&id=' + id;
-    url += '&password=' + $this.find('[name="password"]').val();
-    ajax_load( url, function(re) {
-        console.log(re);
-        if ( re.code == 504 ) alert('아이디를 입력하십시오.');
-        else if ( re.code == 503 ) alert('비밀번호를 입력하십시오.');
-        else if ( re.code == 502 ) alert('아이디를 찾을 수 없습니다.');
-        else if ( re.code == 501 ) alert('비밀번호가 틀렸습니다. Wrong password.');
-        else {
-            console.log("login success!");
-            console.log(re);
-            setLogin(id, re);
-            open_fron_page();
-        }
-    });
-    return false;
-}
-
-function on_click_logout_button() {
-    setLogout();
-    open_fron_page();
-}
-function setLogin(id, re) {
-    db.set('user_id', id);
-    db.set('idx_member', re.idx_member);
-    db.set('session_id', re.session_id);
-    db.set('user_name', re.user_name);
-
-    member.idx = re.idx_member;
-    member.id = id;
-    member.session_id = re.session_id;
-    member.name = re.user_name;
-}
-function setLogout() {
-    db.delete('idx_member');
-    db.delete('user_id');
-    db.delete('session_id');
-    db.delete('user_name');
-    member.unset();;
-}

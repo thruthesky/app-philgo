@@ -1,22 +1,4 @@
-/**
- *
- * @file client.js
- * @desc This is the starter script.
- *
- *
- */
-/**
- * #buildguide
- *
- */
-//
-
-
-
-
-
 $(function(){
-
 
     //db.deleteAll();
 
@@ -24,11 +6,19 @@ $(function(){
     html.setHeader();
     html.setFooter();
     html.setPanel();
-    front_show();
+    cache.showFront();
+    //cache_update('front', 'freetalk');
 
-    do_not_use_server_header_footer_template();
 
+    member.load();
+    console.log(member.idx);
 
+    console.log("server.js begins ...");
+    note.post('server.js 를 로드하였습니다.');
+
+    if ( app.offline() ) {
+        note.post('인터넷을 연결 해 주십시오. Connect to Internet.', 'alert alert-warning');
+    }
 
     //db.deleteAll(); // test.
     //initApp();
@@ -40,13 +30,9 @@ $(function(){
 
     //setTimeout( function()  { panel.toggle(); }, 300 );
 
+    setTimeout(function(){ html.showPostWriteForm('freetalk'); }, 300); // TEST SHOW Post Write Form
 
-    // setTimeout(function(){ show_post_write_form('freetalk'); }, 500); // TEST SHOW Post Write Form
-
-
-    /** Event Handlers */
-    on_click('.page[page]', on_click_page);
-    on_click('.menu-panel.toggle', on_click_menu_panel);
+    app.initEvent();
 });
 
 
@@ -56,12 +42,21 @@ $(function(){
  *
  */
 var app = {
+    url_server_widget : url_server + '?module=ajax&action=widget&submit=1&name=',
+    url_server_forum : url_server + '?module=ajax&action=post-list&submit=1&post_id=',
+    url_server_login : url_server + '?module=ajax&action=login&submit=1',
     current_page_name : null,
+    reset : function () {
+        db.deleteAll();
+    },
+    refresh : function () {
+        location.href='index.html';
+    },
     getCurrentPage: function () {
-        return current_page_name;
+        return this.current_page_name;
     },
     setCurrentPage: function (page) {
-        app.current_page_name = page;
+        this.current_page_name = page;
     },
     online : function() {
         return true;
@@ -71,6 +66,17 @@ var app = {
     },
     goTop : function() {
         scrollTo(0,0);
+    },
+    initEvent : function() {
+        on_click('.page[page]', callback.on_click_page);
+        on_click('.menu-panel.toggle', callback.on_click_menu_panel);
+        on_click('.reset', callback.on_click_reset);
+        on_click('.content', callback.on_click_content);
+        on_click("footer .post-button", callback.on_click_post_button);
+        on_submit('form.login', callback.form_login);
+        on_click('.logout-button', callback.on_click_logout_button);
+
+        on_submit('form.post-write-form', callback.post_form_submit);
     }
 };
 
@@ -87,7 +93,35 @@ var member = {
         this.id = '';
         this.name = '';
         this.session_id = '';
+    },
+    load : function () {
+        var v = db.get('idx_member');
+        if ( v ) {
+            this.idx = v;
+            this.id = db.get('user_id');
+            this.session_id = db.get('session_id');
+            this.name = db.get('user_name');
+        }
+        else this.unset();
+    },
+    setLogin : function (id, re) {
+        db.set('user_id', id);
+        db.set('idx_member', re.idx_member);
+        db.set('session_id', re.session_id);
+        db.set('user_name', re.user_name);
+        member.idx = re.idx_member;
+        member.id = id;
+        member.session_id = re.session_id;
+        member.name = re.user_name;
+    },
+    setLogout : function () {
+        db.delete('idx_member');
+        db.delete('user_id');
+        db.delete('session_id');
+        db.delete('user_name');
+        member.unset();
     }
+
 };
 
 var element = {
@@ -112,6 +146,9 @@ var element = {
 
     note: function () {
         return $('.note');
+    },
+    post_write_form : function () {
+        return $('.post-write-form');
     }
 };
 
@@ -173,7 +210,7 @@ var note = {
         this.timer = setTimeout(function() {
             note.clear();
             note.hide();
-        }, 1500);
+        }, 3500);
     },
     clear: function() {
         element.note().html('');
@@ -380,7 +417,29 @@ function ajax_load(url, callback, html) {
         }
     });
 }
-
+/**
+ *                      ----- Ajax submit in POST method -----
+ * @param url
+ * @param data
+ * @param callback
+ */
+function ajax_load_post(url, data, callback) {
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: data,
+        success: function(data){
+            var re;
+            try {
+                re = $.parseJSON(data);
+            }
+            catch ( e ) {
+                return alert("Ajax_load_post() : catched an error. It might be an internal server error.");
+            }
+            callback(re);
+        }
+    });
+}
 
 /**
  * ---------------------- HTML Markup, Form, DOM Object ----------------------------
@@ -394,6 +453,19 @@ var html = {
     },
     setPanel: function() {
         element.panel().html( this.panel() );
+    },
+    /**
+     *
+     * @note This does not save data into database.
+     * @Attention Use this function to set content on '.content'.
+     *      - it does extra tasks.
+     * @param html
+     */
+    setContent : function (html) {
+        //console.log('setContent(...,' + page_name + ')');
+        //if ( isPanelOpen() ) hidePanel();
+        if ( panel.open() ) panel.close();
+        element.content().html(html);
     },
     header : function() {
         var m = '';
@@ -460,9 +532,222 @@ var html = {
         m += '  </div>';
         m += '</div>';
         return m;
+    },
+    showPostWriteForm : function  (post_id) {
+        element.content().prepend(html.post_write_form(post_id));
+    },
+    post_write_form : function (post_id) {
+        var gid = etc.unique_id(member.idx + post_id);
+        var m = '';
+        m += "<form class='post-write-form' action='"+url_server+"'>";
+        m += "  <input type='hidden' name='idx_member' value='"+member.idx+"'>";
+        m += "  <input type='hidden' name='session_id' value='"+member.session_id+"'>";
+        m += "  <input type='hidden' name='gid' value='"+gid+"'>";
+        m += "  <input type='hidden' name='post_id' value='"+post_id+"'>";
+        m += "  <input type='hidden' name='module' value='ajax'>";
+        m += "  <input type='hidden' name='action' value='post_write_submit'>";
+        m += "  <div class='content'><textarea name='content'></textarea></div>";
+        m += "  <div class='category'><select><option value='freetalk'>FreeTalk</option><option value='qna'>Q & A</option><option value='buyandsell'>Buy & Sell</option></select></div>";
+        m += '  <div class="file"><input type="file" name="file" onchange="onFileChange(this);"></div>';
+        m += "  <div class='submit'><input type='submit'></div>";
+        m += "</form>";
+        m += '<div class="post-write-form-photos"></div>';
+        return m;
+    },
+    post_render : function (p) {
+        //console.log('get_post_render(p)');
+        if (_.isEmpty(p) ) return;
+        //console.log('creating DOM');
+        var m = '';
+
+        //console.log( p );
+
+        date = new Date( p['stamp'] * 1000 );
+        var month = date.getUTCMonth() + 1; //months from 1-12
+        var day = date.getUTCDate();
+        var year = date.getUTCFullYear();
+        var hours = date.getHours();
+        var minutes = "0" + date.getMinutes();
+        var seconds = "0" + date.getSeconds();
+        var date = month + " " + day + "," + year; //hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
+
+        m += '<div class="btn-group post-menu-philzine-top" role="group">';
+        if( member.idx ){
+            m += '<span type="button" class="btn btn-secondary"><img src="img/post/report.png"/></span>';
+        } else {
+            m += '<span type="button" class="btn btn-secondary edit"><img src="img/post/edit.png"/></span>';
+            m += '<span type="button" class="btn btn-secondary delete"><img src="img/post/delete.png"/></span>';
+        }
+        m += '  <span class="menu-separator"></span>';
+        m += '  <span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+        m += '      <img src="img/post/more.png"/>';
+        m += '  </span>';
+        m += '  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
+        m += '      <li><a href="#">More Menu 1</a></li>';
+        m += '      <li><a href="#">More Menu 2</a></li>';
+        m += '  </ul>';
+        m += '</div>';
+
+        m += '<div class="media post-info">';
+        m += '  <a class="media-left" href="#">';
+        m += '      <img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
+        m += '  </a>';
+        m += '  <div class="media-body">';
+        m += '      <div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
+        m += '      <div class="date">' + date + '<span class="separator">|</span>HUMAN TIMING</div>';
+        m += '      <div class="location">Lives in Philippines<span class="separator">|</span>xx Fans</div>';
+        m += '  </div>';
+        m += '</div>';
+
+        if ( !_.isEmpty(p['subject']) ) {
+            //m += '<h3 class="subject">' + p['subject'] + '</h3>';
+        }
+        if ( p['content'] ) m += '<div class="content">' + p['content'] + '</div>';
+        if ( p['photos'] ) m += p['photos'];
+        if( p['good'] > 0 ) likes = p['good'];
+        else likes = '';
+        if( p['no_of_comment'] > 0 ) no_of_comment = p['no_of_comment'];
+        else no_of_comment = '';
+
+        m += '<ul class="nav nav-pills post-menu-philzine-bottom">';
+        m += '  <li class="like"><img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
+        m += '  <li class="reply"><img src="img/post/comment.png"/>Comment ' + no_of_comment + '</li>';
+        m += '</ul>';
+
+        m = '<div class="post">' + m + '</div>';
+        //console.log(m);
+        return m;
     }
 };
 
+
+var cache = {
+    content : function (page, post_id) {
+        this.update(page, post_id);
+        // element.content().html(db.get( 'front' ));
+    },
+    showFront : function () {
+        cache.content('front', 'freetalk');
+    },
+    /**
+     *
+     * @short
+     *      1. db cache 서브페이지 데이터를 먼저 보여 준다.
+     *      2. ajax 로 서브페이지 데이터를 다운로드 하여
+     *          2-1. cache 에 저장하고
+     *          2-2. 화면에 보여준다.
+     *      3. endless 페이지를 구현한다.
+     *
+     *
+     * @usage 페이지를 캐시해야한다면 임의로 이 코드를 사용 하면 된다.
+     *
+     * @code
+     *      cache_update('front', 'freetalk');
+     * @code
+     * @param name
+     * @param post_id
+     */
+    update : function (name, post_id) {
+        console.log( "cache_update:" + name );
+        html.setContent( db.get( name ), name );
+        var url_widget = app.url_server_widget + name;
+        ajax_load(url_widget, function(re){
+            if ( re.html ) {
+                save_page( name, re );
+                app.setCurrentPage(name);
+                html.setContent(re.html, name);
+                note.post(name + ' 페이지를 로드하였습니다.')
+                setCurrentForum(post_id);
+                if ( post_id ) endless_reset(post_id);
+            }
+            else cache_no_html(name);
+        });
+    }
+};
+
+
+var callback = {
+    on_click_page : function () {
+        var $this = $(this);
+        var page = $this.attr('page');
+        var post_id = $this.attr('post_id');
+        console.log('on_click_page() : ' + page);
+
+        if ( app.offline() && $this.hasClass('check-online') ) {
+            alert(page + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.")
+            return;
+        }
+
+        if ( page == 'login' ) {
+            html.setContent( get_login_form(), 'login' );
+        }
+        else {
+            cache.update(page, post_id);
+        }
+    },
+    on_click_content: function () {
+        panel.close();
+    },
+    form_login : function () {
+        console.log('ajax_login() member.idx:'+member.idx);
+        var $this = $(this);
+        var id = $this.find('[name="id"]').val();
+        var url = app.url_server_login + '&id=' + id;
+        url += '&password=' + $this.find('[name="password"]').val();
+        ajax_load( url, function(re) {
+            console.log(re);
+            if ( re.code == 504 ) alert('아이디를 입력하십시오.');
+            else if ( re.code == 503 ) alert('비밀번호를 입력하십시오.');
+            else if ( re.code == 502 ) alert('아이디를 찾을 수 없습니다.');
+            else if ( re.code == 501 ) alert('비밀번호가 틀렸습니다. Wrong password.');
+            else {
+                console.log("login success!");
+                console.log(re);
+                member.setLogin(id, re);
+                cache.showFront();
+            }
+        });
+        return false;
+    },
+    on_click_logout_button : function () {
+        member.setLogout();
+        cache.showFront();
+    },
+    /**
+     *
+     */
+    on_click_reset : function () {
+        console.log('on_click_reset()');
+        var re = confirm("앱을 초기화 하시겠습니까? Do you want to reset?");
+        if ( re ) {
+            app.reset();
+            app.refresh();
+        }
+    },
+    on_click_post_button : function () {
+        var post_id = $(this).attr('post-id');
+        if ( element.post_write_form().length == 0 ) {
+            element.content().prepend(html.post_write_form(post_id));
+        }
+        app.goTop();
+    },
+    on_click_logout_butfton : function () {
+        member.setLogout();
+        cache.showFront();
+    },
+    on_click_menu_panel : function () {
+        panel.toggle();
+    },
+    post_form_submit : function (e) {
+        e.preventDefault();
+        ajax_load_post(url_server, $(this).serialize(), function(data){
+            element.post_write_form().remove();
+            element.content().prepend(html.post_render(data.post));
+        });
+        return false;
+    }
+};
 
 /**
  * ----------------------------------- Event Handlers ------------------------------
@@ -470,55 +755,12 @@ var html = {
  * @param callback
  */
 function on_click(selector, callback) {
-    $('body').on('click', selector, callback);
+    element.body().on('click', selector, callback);
+}
+function on_submit(selector, callback) {
+    element.body().on('submit', selector, callback);
 }
 
-
-/**
- * #buildguide on_click_page
- */
-function on_click_page() {
-    if ( typeof on_click_page_server == 'function' ) return on_click_page_server($(this));
-    else element.content().html( db.get( $(this).attr('page') ) );
-}
-
-
-/**
- *
- * @returns {*}
- */
-function on_click_menu_panel() {
-    if ( typeof on_click_menu_panel_server == 'function' && on_click_menu_panel_server() ) return;
-    //togglePanel();
-    panel.toggle();
-}
-
-
-
-
-
-/**
- * - first, it looks up for the cached HTML markup from database.
- * - second, IF cached HTML does not exists, it load HTML markup from page folder.
- * @param cache_key
- * @param $obj
- * @returns {*}
- */
-function set_cache_data_or_load_page(cache_key, $obj) {
-    var m = db.get(cache_key);
-    if ( !_.isEmpty(m) ) return $obj.html(m);
-    ajax_load('widget/'+cache_key+'.html', function(re){
-        $obj.html(re);
-    }, true);
-}
-
-
-/**
- * Show cached front
- */
-function front_show() {
-    element.content().html(db.get( 'front' ));
-}
 
 function check_update_version() {
     /**
@@ -536,4 +778,5 @@ function check_update_version() {
         });
     }
 }
+
 
