@@ -1,8 +1,10 @@
+var db;
+var member;
 $(function(){
 
     //db.deleteAll();
 
-    check_update_version();
+    //check_update_version();
     html.setHeader();
     html.setFooter();
     html.setPanel();
@@ -42,6 +44,7 @@ $(function(){
  *
  */
 var app = {
+    version : '51219', // 년 1자리, 월2자리, 일 2자리
     url_server_widget : url_server + '?module=ajax&action=widget&submit=1&name=',
     url_server_forum : url_server + '?module=ajax&action=post-list&submit=1&post_id=',
     url_server_login : url_server + '?module=ajax&action=login&submit=1',
@@ -52,9 +55,11 @@ var app = {
     refresh : function () {
         location.href='index.html';
     },
-    getCurrentPage: function () {
-        return this.current_page_name;
-    },
+    /*
+     getCurrentPage: function () {
+     return this.current_page_name;
+     },
+     */
     setCurrentPage: function (page) {
         this.current_page_name = page;
     },
@@ -77,10 +82,16 @@ var app = {
         on_click('.logout-button', callback.on_click_logout_button);
 
         on_submit('form.post-write-form', callback.post_form_submit);
+    },
+    setCurrentForum : function (post_id) {
+        element.post_button().attr('post-id', post_id);
+    },
+    getCurrentForum : function () {
+        return element.post_button().attr('post-id');
     }
 };
 
-var member = {
+member = {
     idx : null,
     id : '',
     name : '',
@@ -97,10 +108,10 @@ var member = {
     load : function () {
         var v = db.get('idx_member');
         if ( v ) {
-            this.idx = v;
-            this.id = db.get('user_id');
-            this.session_id = db.get('session_id');
-            this.name = db.get('user_name');
+            member.idx = v;
+            member.id = db.get('user_id');
+            member.session_id = db.get('session_id');
+            member.name = db.get('user_name');
         }
         else this.unset();
     },
@@ -143,12 +154,17 @@ var element = {
     panel: function () {
         return $('.widget.menu-panel');
     },
-
     note: function () {
         return $('.note');
     },
     post_write_form : function () {
         return $('.post-write-form');
+    },
+    post_list : function () {
+        return $('.post-list');
+    },
+    post_button : function () {
+        return $("footer .post-button");
     }
 };
 
@@ -210,7 +226,7 @@ var note = {
         this.timer = setTimeout(function() {
             note.clear();
             note.hide();
-        }, 3500);
+        }, 1500);
     },
     clear: function() {
         element.note().html('');
@@ -243,7 +259,7 @@ var note = {
  * @endcode
  *
  */
-var db = new function() {
+db = new function() {
     this.type = 'WebStorage';
     this.author = 'JaeHo Song';
     this.email = 'thruthesky@gmail.com';
@@ -479,9 +495,9 @@ var html = {
         m += '<ul class="nav nav-pills nav-justified bottom">';
         m += '  <li><span class="text-button page" page="news" post_id="freetalk">News</span></li>';
         m += '  <li><span class="text-button page" page="info" post_id="qna">Info</span></li>';
-        m += '  <li><span class="text-button page" page="company">Company</span></li>';
-        m += '  <li><span class="text-button page" page="travel">Travel</span></li>';
-        m += '  <li><span class="text-button page" page="photo">QnA</span></li>';
+        m += '  <li><span class="text-button page" page="company" post_id="company_book">Company</span></li>';
+        m += '  <li><span class="text-button page" page="travel" post_id="travel">Travel</span></li>';
+        m += '  <li><span class="text-button page" page="qna" post_id="qna">QnA</span></li>';
         m += '  <li><span class="text-button page" page="philgo-board">Talk</span></li>';
         m += '  <li><span class="text-button page" page="menu-all">More</span></li>';
         m += '</ul>';
@@ -538,16 +554,30 @@ var html = {
     },
     post_write_form : function (post_id) {
         var gid = etc.unique_id(member.idx + post_id);
+        var forums = {
+            'freetalk' : 'Free Talk',
+            'qna' : 'Q & A',
+            'buyandsell' : 'Buy & Sell',
+            'company_book' : 'Company Book'
+        };
         var m = '';
         m += "<form class='post-write-form' action='"+url_server+"'>";
         m += "  <input type='hidden' name='idx_member' value='"+member.idx+"'>";
         m += "  <input type='hidden' name='session_id' value='"+member.session_id+"'>";
         m += "  <input type='hidden' name='gid' value='"+gid+"'>";
-        m += "  <input type='hidden' name='post_id' value='"+post_id+"'>";
         m += "  <input type='hidden' name='module' value='ajax'>";
         m += "  <input type='hidden' name='action' value='post_write_submit'>";
         m += "  <div class='content'><textarea name='content'></textarea></div>";
-        m += "  <div class='category'><select><option value='freetalk'>FreeTalk</option><option value='qna'>Q & A</option><option value='buyandsell'>Buy & Sell</option></select></div>";
+
+        m += "  <div class='category'>";
+        m += "      <select name='post_id'>";
+        for( name in forums ) {
+            m += '<option value="'+name +'"';
+            if ( name == post_id ) m += ' selected=1';
+            m += '>' + forums[name] + '</optoin>';
+        }
+        m += "      </select>";
+        m += "  </div>";
         m += '  <div class="file"><input type="file" name="file" onchange="onFileChange(this);"></div>';
         m += "  <div class='submit'><input type='submit'></div>";
         m += "</form>";
@@ -618,6 +648,34 @@ var html = {
         m = '<div class="post">' + m + '</div>';
         //console.log(m);
         return m;
+    },
+    login_form : function () {
+        var m;
+
+        if ( member.idx ) {
+            m = '<h1>User Login</h1>';
+            m += "<p>You have already logged in as <b>" + member.id + '</b></p>';
+            m += '<nav class="navbar navbar-default logout-button">';
+            m += '<p class="navbar-brand">Logout</p>';
+            m += '</nav>';
+        }
+        else {
+            m = 	'<div class="form-wrapper">';
+            m += 	'<form class="member-login-form login">';
+            m += 	'<div class="input-group username">';
+            m += 	'<input name="id" type="text" class="form-control" placeholder="Enter username">';
+            m += 	'<span class="input-group-addon glyphicon glyphicon-user"></span>';
+            m += 	'</div>';
+            m += 	'<div class="input-group password">';
+            m += 	'<input name="password"  type="password" class="form-control" placeholder="Enter password">';
+            m += 	'<span class="input-group-addon glyphicon glyphicon-lock"></span>';
+            m += 	'</div>';
+            m += 	'<input type="submit" class="btn btn-primary" value="Login">';
+            m += 	'<a class="forgot-password" href="#">Forgot Password?</a>';
+            m += 	'</form>';
+            m += 	'</div>';
+        }
+        return m;
     }
 };
 
@@ -658,10 +716,9 @@ var cache = {
                 app.setCurrentPage(name);
                 html.setContent(re.html, name);
                 note.post(name + ' 페이지를 로드하였습니다.')
-                setCurrentForum(post_id);
+                app.setCurrentForum(post_id);
                 if ( post_id ) endless_reset(post_id);
             }
-            else cache_no_html(name);
         });
     }
 };
@@ -680,7 +737,7 @@ var callback = {
         }
 
         if ( page == 'login' ) {
-            html.setContent( get_login_form(), 'login' );
+            html.setContent( html.login_form(), 'login' );
         }
         else {
             cache.update(page, post_id);
@@ -726,7 +783,7 @@ var callback = {
         }
     },
     on_click_post_button : function () {
-        var post_id = $(this).attr('post-id');
+        var post_id = app.getCurrentForum();
         if ( element.post_write_form().length == 0 ) {
             element.content().prepend(html.post_write_form(post_id));
         }
@@ -779,4 +836,78 @@ function check_update_version() {
     }
 }
 
+/** =============== ENDLESS page loading =============== */
 
+var endless_api = '';
+var endless_scroll_count = 0;
+var endless_no_more_content = false;
+var endless_in_loading = false;
+function endless_load_more_update(re) {
+    //console.log(re);
+    if (_.isEmpty(re.posts) ) {
+        endless_no_more_content = true;
+        endless_hide_loader();
+        endless_show_no_more_content();
+    }
+    else {
+        var site = re.site;
+        var post_id = re.post_id;
+        var page_no = re.page_no;
+        note.post(site + ' 사이트 : ' + post_id + '의 ' + page_no + " 페이지 내용이 추가되었습니다.");
+        for ( i in re.posts ) {
+            endless_hide_loader();
+            element.post_list().append(html.post_render(re.posts[i]));
+        }
+    }
+    endless_in_loading = false;
+}
+/**
+ * 리셋을 하면 첫 페이지를 바로 보여준다.
+ * @param url
+ */
+function endless_reset(post_id) {
+    var url = app.url_server_forum + post_id;
+    //console.log('endless_reset('+url+')');
+    endless_api = url + '&page_no=';
+    endless_scroll_count = 1;
+    endless_no_more_content = false;
+    endless_in_loading = false;
+    var url_endless = endless_api + endless_scroll_count;
+    ajax_load( url_endless, endless_load_more_update);
+}
+(function endless_run() {
+    var $window = $(window);
+    var $document = $(document);
+    var endless_distance = 400; // how far is the distance from bottom to get new page.
+    $document.scroll(endless_load_more);
+    function endless_load_more(e) {
+        // console.log('endless_load_more(e) : ');
+        if ( ! endless_api ) return console.log("no endless_api");
+        if ( endless_no_more_content ) return console.log("no more content. return.");
+        if ( endless_in_loading ) return console.log("endless is in loading page.");
+        var top = $document.height() - $window.height() - endless_distance;
+        if ($window.scrollTop() >= top) {
+            endless_scroll_count ++;
+            console.log("endless_listen_scroll():: count:" + endless_scroll_count);
+            endless_in_loading = true;
+            endless_show_loader();
+            ajax_load( endless_api + endless_scroll_count, endless_load_more_update);
+        }
+    }
+})();
+function endless_hide_loader() {
+    //console.log("endless_hide_load()");
+    var $loader = $('.endless-loader');
+    if ( $loader.length ) $loader.remove();
+}
+function endless_show_loader() {
+    console.log("endless_show_load()");
+    var markup = "<div class='endless-loader'><img src='img/loader/loader9.gif'></div>";
+    element.post_list().append(markup);
+}
+function endless_show_no_more_content() {
+    console.log("endless_show_no_more_content");
+    var text = 'No more content ........... !'
+    element.post_list().after("<div class='no-more-content'>"+text+"</div>");
+}
+/* ============================== EO Endless page loading ... ================================ */
