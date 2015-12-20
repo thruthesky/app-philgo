@@ -28,13 +28,18 @@ $(function(){
     //initApp();
     //setTimeout(function(){ showPage('setting'); }, 600); // test
     //setTimeout(function(){ $('.page[page="news"]').click(); }, 700); // test : news page
+    //setTimeout(function(){ $('[data-content-page="freetalk"]').click(); }, 400); // test : news page
+    setTimeout(function(){ $('[data-content-page="qna"]').click(); }, 400); // test : news page
     //setTimeout(function(){ $('.page[page="login"]').click(); }, 700); // test : login page
     //setTimeout(function(){ $('.page[page="info"]').click(); }, 1300); // test : info page
     //setTimeout(togglePanel, 300); // test : open panel-menu
 
     //setTimeout( function()  { panel.toggle(); }, 300 );
 
-    setTimeout(function(){ html.showPostWriteForm('freetalk'); }, 300); // TEST SHOW Post Write Form
+    // setTimeout(function(){
+    // element.content().prepend(html.post_write_form(freetalk));
+    // }, 300); // TEST SHOW Post Write Form
+
 
     app.initEvent();
 });
@@ -84,6 +89,10 @@ var app = {
         on_click('.logout-button', callback.on_click_logout_button);
 
         on_submit('form.post-write-form', callback.post_form_submit);
+        on_submit('form.comment-write-form', callback.comment_form_submit);
+
+
+        on_click('.reply-button', callback.on_click_reply_button)
     },
     setCurrentForum : function (post_id) {
         element.post_button().attr('post-id', post_id);
@@ -165,8 +174,14 @@ var element = {
     post_list : function () {
         return $('.post-list');
     },
+    post : function (idx) {
+        return $("[data-idx-post='"+idx+"']");
+    },
     post_button : function () {
         return $("footer .post-button");
+    },
+    comment_write_form : function (idx_parent) {
+        return $(".comment-write-form[data-idx-parent='"+idx_parent+"']");
     }
 };
 
@@ -354,6 +369,9 @@ var debug = {
     },
     string : function() {
         return new Date().getTime().toString();
+    },
+    url: function(url, data) {
+        return url + '?' + data;
     }
 };
 
@@ -418,6 +436,7 @@ function ajax_load(url, callback, html) {
             /**
              * It must be here. It must not be in try {}
              */
+            if ( re.code ) alert(re.message);
             if ( typeof callback == 'function' ) callback(re);
         },
         error: function(xhr, type){
@@ -434,18 +453,22 @@ function ajax_load(url, callback, html) {
  * @param callback
  */
 function ajax_load_post(url, data, callback) {
+    console.log(debug.url(url, data));
     $.ajax({
         url: url,
         type: 'POST',
         data: data,
         success: function(data){
             var re;
+            console.log(data);
             try {
                 re = $.parseJSON(data);
             }
             catch ( e ) {
-                return alert("Ajax_load_post() : catched an error. It might be an internal server error.");
+                console.log(e);
+                return alert("Ajax_load_post() : caught an error : " + e.message);
             }
+            if ( re.code ) alert(re.message);
             callback(re);
         }
     });
@@ -481,7 +504,7 @@ var html = {
         var m = '';
         m += '<nav class="navbar navbar-default top">';
         m += '  <div class="container-fluid">';
-        m += '      <span class="navbar-text page text-button glyphicon glyphicon-home" data-content-page="front"></span>';
+        m += '      <span class="navbar-text page text-button glyphicon glyphicon-home" data-content-page="front" data-post-id="*"></span>';
         m += '      <span class="navbar-text logo">LOGO</span>';
         m += '      <span class="navbar-text navbar-right page text-button glyphicon glyphicon-th-list menu-panel toggle"></span>';
         m += '  </div>';
@@ -492,7 +515,7 @@ var html = {
         m += '  <li data-content-page="company" data-post-id="company_book">Company</li>';
         m += '  <li data-content-page="travel" data-post-id="travel">Travel</li>';
         m += '  <li data-content-page="qna" data-post-id="qna">QnA</span></li>';
-        m += '  <li data-content-page="freetalk" data-post-id="freetalk">Talk</span></li>';
+        m += '  <li data-content-page="freetalk" data-post-id="freetalk,knowhow">Talk</span></li>';
         m += '  <li data-content-page="menu-all">More</span></li>';
         m += '</ul>';
         return m;
@@ -543,9 +566,6 @@ var html = {
         m += '</div>';
         return m;
     },
-    showPostWriteForm : function  (post_id) {
-        element.content().prepend(html.post_write_form(post_id));
-    },
     post_write_form : function (post_id) {
         var gid = etc.unique_id(member.idx + post_id);
         var forums = {
@@ -564,7 +584,6 @@ var html = {
         m += "  <input type='hidden' name='module' value='ajax'>";
         m += "  <input type='hidden' name='action' value='post_write_submit'>";
         m += "  <div class='content'><textarea name='content'></textarea></div>";
-
         m += "  <div class='category'>";
         m += "      <select name='post_id'>";
         for( var name in forums ) {
@@ -582,7 +601,30 @@ var html = {
         m += '<div class="post-write-form-photos"></div>';
         return m;
     },
-    post_render : function (p) {
+    comment_write_form : function (p) {
+        var gid = etc.unique_id(member.idx + p['post_id']);
+        var m = '';
+        m += '<form class="comment-write-form" data-idx-parent="'+p['idx']+'" action="'+url_server+'">';
+        m += "  <input type='hidden' name='idx_parent' value='"+p['idx']+"'>";
+        m += "  <input type='hidden' name='gid' value='"+gid+"'>";
+        m += "  <input type='hidden' name='idx_member' value='"+member.idx+"'>";
+        m += "  <input type='hidden' name='session_id' value='"+member.session_id+"'>";
+        m += '  <input type="hidden" name="module" value="ajax">';
+        m += "  <input type='hidden' name='action' value='comment_write_submit'>";
+        m += '  <textarea name="content"></textarea>';
+        m += '  <div class="file"><input type="file" name="file"></div>';
+        m += '  <input type="submit">';
+        m += '</form>';
+        return m;
+    },
+    clear_comment_write_form : function (p) {
+        var $form = element.comment_write_form(p['idx_parent']);
+        var $gid = $form.find('[name="gid"]');
+        var $content = $form.find('[name="content"]');
+        $gid.val( etc.unique_id(member.idx + p['post_id']) );
+        $content.val('');
+    },
+    render_post : function (p) {
         //console.log('get_post_render(p)');
         if (_.isEmpty(p) ) return;
         //console.log('creating DOM');
@@ -594,10 +636,11 @@ var html = {
         var month = date.getUTCMonth() + 1; //months from 1-12
         var day = date.getUTCDate();
         var year = date.getUTCFullYear();
-        //var hours = date.getHours();
-        //var minutes = "0" + date.getMinutes();
+        var hours = date.getHours();
+        var minutes = "0" + date.getMinutes();
         //var seconds = "0" + date.getSeconds();
-        var date = month + " " + day + "," + year; //hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+        var date = month + "/" + day; //hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+        var date_full = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
 
 
         m += '<div class="btn-group post-menu-philzine-top" role="group">';
@@ -612,8 +655,12 @@ var html = {
         m += '      <img src="img/post/more.png"/>';
         m += '  </span>';
         m += '  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
-        m += '      <li><a href="#">More Menu 1</a></li>';
-        m += '      <li><a href="#">More Menu 2</a></li>';
+        m += '      <li><a href="#">Report</a></li>';
+        m += '      <li><a href="#">Blind</a></li>';
+        m += '      <li><a href="#">Block</a></li>';
+        m += '      <li><a href="#">Trash</a></li>';
+        m += '      <li><a href="#">Move</a></li>';
+        m += '      <li><a href="#">More Menu ...</a></li>';
         m += '  </ul>';
         m += '</div>';
 
@@ -623,7 +670,9 @@ var html = {
         m += '  </a>';
         m += '  <div class="media-body">';
         m += '      <div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
-        m += '      <div class="date">' + date + '<span class="separator">|</span>HUMAN TIMING</div>';
+        m += '      <div class="date" title="'+date_full+'">' + date;
+        m += '          <span class="separator">|</span> HUMAN TIMING';
+        m += '      </div>';
         m += '      <div class="location">Lives in Philippines<span class="separator">|</span>xx Fans</div>';
         m += '  </div>';
         m += '</div>';
@@ -632,6 +681,7 @@ var html = {
             //m += '<h3 class="subject">' + p['subject'] + '</h3>';
         }
         var no_of_comment, likes;
+        if ( p['subject'] ) m += '<div class="subject">' + p['subject'] + '</div>';
         if ( p['content'] ) m += '<div class="content">' + p['content'] + '</div>';
         if ( p['photos'] ) m += p['photos'];
         if( p['good'] > 0 ) likes = p['good'];
@@ -640,12 +690,40 @@ var html = {
         else no_of_comment = '';
 
         m += '<ul class="nav nav-pills post-menu-philzine-bottom">';
-        m += '  <li class="like"><img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
+        m += '  <li class="like">'+ p['idx']+'<img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
         m += '  <li class="reply"><img src="img/post/comment.png"/>Comment ' + no_of_comment + '</li>';
         m += '</ul>';
 
-        m = '<div class="post">' + m + '</div>';
+        m += this.comment_write_form(p);
+
+        m = '<div class="post" data-idx-post="'+p['idx']+'">' + m + '</div>';
+
+
+
+
+
+
         //console.log(m);
+        return m;
+    },
+    render_comments : function (comments) {
+        var m = '';
+        if ( comments ) {
+            for( var j in comments ) {
+                if ( comments.hasOwnProperty(j) ) {
+                    m += html.render_comment(comments[j]);
+                }
+            }
+        }
+        return m;
+    },
+    render_comment : function (comment) {
+        var m = '';
+        m += '<div class="comment" data-idx-post="'+comment['idx']+'" post-id="'+comment['post_id']+'" depth="'+comment['depth']+'">';
+        m += ' 글번호 : '+comment['idx']+', 글쓴이: xxxx, 날짜: xxxx, 수정, 메뉴 더보기';
+        m += '  <div class="content">' + comment['content'] + '</div>';
+        m += ' <span class="reply-button">Reply</span>, 추천, 비추천';
+        m += '</div>';
         return m;
     },
     login_form : function () {
@@ -685,7 +763,7 @@ var cache = {
         // element.content().html(db.get( 'front' ));
     },
     showFront : function () {
-        cache.content('front', 'freetalk');
+        cache.content('front', '*');
     },
     /**
      *
@@ -702,8 +780,10 @@ var cache = {
      * @code
      *      cache_update('front', 'freetalk');
      * @code
-     * @param name
+     * @param name - data-content-page 이름으로서 PHP 에서는 widget 이름이 된다.
      * @param post_id
+     *      - 이 값이 지정되지 않으면 게시물을 endless 로 로드하지 않는다.
+     *      - 이 값이 '*' 이면 전체 게시판의 게시물을 로드한다. 예를 들어 front 페이지를 클릭 할 때에는 data-post-id 를 '*' 로 해주면 전체 글을 보여준다.
      */
     update : function (name, post_id) {
         console.log( "cache_update:" + name );
@@ -716,7 +796,7 @@ var cache = {
                 html.setContent(re.html, name);
                 note.post(name + ' 페이지를 로드하였습니다.');
                 app.setCurrentForum(post_id);
-                if ( post_id ) endless_reset(post_id);
+                if ( post_id ) endless_reset(name, post_id);
             }
         });
     }
@@ -787,14 +867,39 @@ var callback = {
         }
         app.goTop();
     },
+    on_click_reply_button : function () {
+        var $this = $(this);
+        var $comment = $this.parents('.comment');
+        var p = {
+            'idx' : $comment.attr('data-idx-post'),
+            'post_id' : $comment.attr('post-id')
+        };
+        $comment.after( html.comment_write_form(p));
+    },
     on_click_menu_panel : function () {
         panel.toggle();
     },
     post_form_submit : function (e) {
         e.preventDefault();
-        ajax_load_post(url_server, $(this).serialize(), function(data){
+        ajax_load_post(url_server, $(this).serialize(), function(re){
             element.post_write_form().remove();
-            element.content().prepend(html.post_render(data.post));
+            element.content().prepend(html.render_post(re.post));
+        });
+        return false;
+    },
+    comment_form_submit : function (e) {
+        e.preventDefault();
+        ajax_load_post(url_server, $(this).serialize(), function(re){
+            var p = re.post;
+            if ( p['depth'] > 1 ) {
+                element.comment_write_form(p['idx_parent']).remove();
+            }
+            else {
+                html.clear_comment_write_form(p);
+            }
+            var m = html.render_comment(p);
+            element.post(p['idx_parent']).after(m);
+
         });
         return false;
     }
@@ -837,6 +942,13 @@ var endless_no_more_content = false;
 var endless_in_loading = false;
 function endless_load_more_update(re) {
     //console.log(re);
+    if ( re.page ) {
+        var page = element.post_list().attr('page');
+        if ( page != re.page ) {
+            console.log("Post data has been loaded but the page has changed. so, the posts will not be shown.")
+            return;
+        }
+    }
     if (_.isEmpty(re['posts']) ) {
         endless_no_more_content = true;
         endless_hide_loader();
@@ -851,7 +963,8 @@ function endless_load_more_update(re) {
         for ( var i in posts ) {
             if (posts.hasOwnProperty(i)) {
                 endless_hide_loader();
-                element.post_list().append(html.post_render(posts[i]));
+                element.post_list().append(html.render_post(posts[i]));
+                element.post_list().append(html.render_comments(posts[i]['comments']));
             }
         }
     }
@@ -859,19 +972,20 @@ function endless_load_more_update(re) {
 }
 /**
  * 리셋을 하면 첫 페이지를 바로 보여준다.
+ * @param page - page 를 PHP 로 넘겨서, 리턴받는 데이터는 해당 페이지에만 보여주도록 한다.
  * @param post_id
  */
-function endless_reset(post_id) {
-    var url = app.url_server_forum + post_id;
-    //console.log('endless_reset('+url+')');
+function endless_reset(page, post_id) {
+    var url = app.url_server_forum + post_id + '&page=' + page;
     endless_api = url + '&page_no=';
     endless_scroll_count = 1;
     endless_no_more_content = false;
     endless_in_loading = false;
     var url_endless = endless_api + endless_scroll_count;
+    element.content().append('<hr>FORUM<hr><div class="post-list" page="'+page+'"></div>');
     ajax_load( url_endless, endless_load_more_update);
 }
-(function endless_run() {
+(function () {
     var $window = jQuery(window);
     var $document = $(document);
     var endless_distance = 400; // how far is the distance from bottom to get new page.
