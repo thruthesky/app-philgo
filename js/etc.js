@@ -57,10 +57,41 @@ var etc = {
         }
         return 'just now'; //'just now' //or other string you like;
     },
+    date_full : function ( stamp ) {
 
+        var date = new Date(stamp * 1000);
+        var year    = date.getFullYear();
+        var month   = date.getMonth();
+        var day     = date.getDate();
+        var hour    = date.getHours();
+        var minute  = date.getMinutes();
+        var seconds = date.getSeconds();
 
+        return date + '-' + year + '-' + ( month + 1 ) + ' ' + hour + ':' + minute;
+    },
     date_short : function ( stamp ) {
-        // month + "/" + day;
-    }
+        var date = new Date(stamp * 1000);
+        var year    = date.getFullYear();
+        var month   = date.getMonth();
+        var day     = date.getDate();
+        var hour    = date.getHours();
+        var minute  = date.getMinutes();
+        var seconds = date.getSeconds();
 
+        var today = new Date();
+        if ( today.getFullYear() == year && today.getMonth() == month && today.getDate() == day ) {
+
+            var h = hour % 12 || 12;
+            var ap;
+            if ( hour > 12 ) ap = 'pm';
+            else ap = 'am';
+
+            if ( h < 10 ) h = '0' + h;
+            if ( minute < 10 ) minute = '0' + minute;
+            return h + ':' + minute + ' ' + ap;
+        }
+        else {
+            return year + '-' + ( month + 1) + '-' + day;
+        }
+    }
 };

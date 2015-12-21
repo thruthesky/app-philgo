@@ -86,6 +86,8 @@ var app = {
         on_click('.reply-button', callback.on_click_reply_button);
 
         on_click('.file-upload-button', callback.on_click_file_upload_button);
+        on_click('.edit-button', callback.on_click_edit_button);
+        on_click('.photo-delete-button', callback.on_click_photo_delete_button)
     },
     setCurrentForum : function (post_id) {
         element.post_button().attr('post-id', post_id);

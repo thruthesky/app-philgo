@@ -49,16 +49,17 @@ $(function(){
     //setTimeout(function(){ showPage('setting'); }, 600); // test
     //setTimeout(function(){ $('.page[page="news"]').click(); }, 700); // test : news page
     //setTimeout(function(){ $('[data-content-page="freetalk"]').click(); }, 400); // test : news page
-     //setTimeout(function(){ $('[data-content-page="qna"]').click(); }, 200); // test : news page
+    setTimeout(function(){ $('[data-content-page="qna"]').click(); }, 200); // test : news page
     //setTimeout(function(){ $('.page[page="login"]').click(); }, 700); // test : login page
     //setTimeout(function(){ $('.page[page="info"]').click(); }, 1300); // test : info page
     //setTimeout(togglePanel, 300); // test : open panel-menu
 
     //setTimeout( function()  { panel.toggle(); }, 300 );
 
-    // setTimeout(function(){
-    // element.content().prepend(html.post_write_form(freetalk));
-    // }, 300); // TEST SHOW Post Write Form
+    // TEST SHOW Post Write Form
+    setTimeout(function(){
+    element.content().prepend(html.post_write_form('qna'));
+    }, 500);
 
 
     app.initEvent();

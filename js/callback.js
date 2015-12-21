@@ -212,5 +212,13 @@ var callback = {
             '사진 올리기',
             ['사진 찍기','사전 선택', '취소']
         );
+    },
+    on_click_edit_button : function () {
+        var $this = $(this);
+        var $post = $this.parents('.post');
+        $post.hide();
+    },
+    on_click_photo_delete_button : function () {
+
     }
 };

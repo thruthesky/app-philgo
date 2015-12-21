@@ -34,13 +34,13 @@ var html = {
         m += '  </div>';
         m += '</nav>';
         m += '<ul class="nav nav-pills nav-justified main-menu">';
-        m += '  <li data-content-page="news" data-post-id="news">News</li>';
-        m += '  <li data-content-page="info" data-post-id="qna">Info</li>';
-        m += '  <li data-content-page="company" data-post-id="company_book">Company</li>';
-        m += '  <li data-content-page="travel" data-post-id="travel">Travel</li>';
-        m += '  <li data-content-page="qna" data-post-id="qna">QnA</span></li>';
-        m += '  <li data-content-page="freetalk" data-post-id="freetalk,knowhow">Talk</span></li>';
-        m += '  <li data-content-page="menu-all">More</span></li>';
+        m += '  <li data-content-page="news" data-post-id="news">뉴스</li>';
+        m += '  <li data-content-page="info" data-post-id="qna">정보</li>';
+        m += '  <li data-content-page="company" data-post-id="company_book">업소록</li>';
+        m += '  <li data-content-page="travel" data-post-id="travel">여행</li>';
+        m += '  <li data-content-page="qna" data-post-id="qna">질문</span></li>';
+        m += '  <li data-content-page="freetalk" data-post-id="freetalk,knowhow">토론</span></li>';
+        m += '  <li data-content-page="menu-all">더보기</span></li>';
         m += '</ul>';
         return m;
     },
@@ -174,24 +174,18 @@ var html = {
 
         //console.log( p );
 
-        date = new Date( p['stamp'] * 1000 );
-        var month = date.getUTCMonth() + 1; //months from 1-12
-        var day = date.getUTCDate();
-        var year = date.getUTCFullYear();
-        var hours = date.getHours();
-        var minutes = "0" + date.getMinutes();
-        //var seconds = "0" + date.getSeconds();
 
-        var date_full = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
+        var date_full = etc.date_full(p['stamp']);
         var date = etc.date_short(p['stamp']);
 
 
         m += '<div class="btn-group post-menu-philzine-top" role="group">';
-        if( member.idx ){
-            m += '<span type="button" class="btn btn-secondary"><img src="img/post/report.png"/></span>';
-        } else {
-            m += '<span type="button" class="btn btn-secondary edit"><img src="img/post/edit.png"/></span>';
-            m += '<span type="button" class="btn btn-secondary delete"><img src="img/post/delete.png"/></span>';
+        if( post.mine(p) ) {
+            m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
+        }
+        else {
+            m += '<span type="button" class="btn btn-secondary edit-button"><img src="img/post/edit.png"/></span>';
+            m += '<span type="button" class="btn btn-secondary delete-button"><img src="img/post/delete.png"/></span>';
         }
         m += '  <span class="menu-separator"></span>';
         m += '  <span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
@@ -214,7 +208,7 @@ var html = {
         m += '  <div class="media-body">';
         m += '      <div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
         m += '      <div class="date" title="'+date_full+'">' + date;
-        m += '          <span class="separator">|</span> HUMAN TIMING';
+        m += '          <span class="separator">|</span>';
         m += '      </div>';
         m += '      <div class="location">Lives in Philippines<span class="separator">|</span>xx Fans</div>';
         m += '  </div>';
@@ -262,8 +256,38 @@ var html = {
     },
     render_comment : function (comment) {
         var m = '';
+
+        var date_full = etc.date_full(comment['stamp']);
+        var date = etc.date_short(comment['stamp']);
+
         m += '<div class="comment" data-idx-post="'+comment['idx']+'" post-id="'+comment['post_id']+'" depth="'+comment['depth']+'">';
-        m += ' 글번호 : '+comment['idx']+', 글쓴이: xxxx, 날짜: xxxx, 수정, 메뉴 더보기';
+
+        m += '<div class="btn-group post-menu-philzine-top" role="group">';
+        if( post.mine(comment) ) {
+            m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
+        }
+        else {
+            m += '<span type="button" class="btn btn-secondary edit-button"><img src="img/post/edit.png"/></span>';
+            m += '<span type="button" class="btn btn-secondary delete-button"><img src="img/post/delete.png"/></span>';
+        }
+        m += '  <span class="menu-separator"></span>';
+        m += '  <span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+        m += '      <img src="img/post/more.png"/>';
+        m += '  </span>';
+        m += '  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
+        m += '      <li><a href="#">Report</a></li>';
+        m += '      <li><a href="#">Blind</a></li>';
+        m += '      <li><a href="#">Block</a></li>';
+        m += '      <li><a href="#">Trash</a></li>';
+        m += '      <li><a href="#">Move</a></li>';
+        m += '      <li><a href="#">More Menu ...</a></li>';
+        m += '  </ul>';
+        m += '</div>';
+
+        m += ' 글번호 : '+comment['idx'];
+        m += ' 글쓴이: ' + comment['user_name'];
+        m += ' <span title="'+date_full+'">날짜: ' + date + '</span>';
+        m += ' 수정, 메뉴 더보기';
         m += '  <div class="content">' + comment['content'] + '</div>';
         if ( comment['photos'] ) m += comment['photos'];
         m += ' <span class="reply-button">Reply</span>, 추천, 비추천';
@@ -277,11 +301,12 @@ var html = {
     render_photo : function (data) {
         //console.log('render_photo');
         //console.log(data);
-        var m = '';
+        var m = '<div class="photo" data-idx-data="'+data.idx+'">';
+        m += '<span class="glyphicon glyphicon-remove photo-delete-button"></span>';
         m += '<img src="'+data['url_thumbnail']+'">';
+        m += '</div>';
         //console.log(m);
         return m;
-
     },
     login_form : function () {
         var m;
