@@ -96,7 +96,6 @@ var callback = {
             }
             var m = html.render_comment(p);
             element.post(p['idx_parent']).after(m);
-
         });
         return false;
     },
@@ -106,7 +105,7 @@ var callback = {
         var $form = $filebox.parents("form");
         var $action = $form.find('[name="action"]');
         var action = $action.val();
-        $action.val('file-upload');
+        $action.val('file_upload_submit');
         this.is_upload_submit = true;
         $form.ajaxSubmit({
             complete: function (xhr) {
@@ -121,6 +120,10 @@ var callback = {
 
                 console.log(re);
 
+                if ( re['code'] ) {
+                    return alert(re['message']);
+                }
+
                 var $photos = $form.find('.photos');
                 $photos.append( html.render_photo( re.data ) );
             }
@@ -134,13 +137,15 @@ var callback = {
         var $form = $this.parents('form');
         var gid = $form.find('[name="gid"]').val();
         var idx_parent = $form.attr('data-idx-parent');
+        if ( typeof idx_parent == 'undefined' ) idx_parent = 0;
 
-        function onCameraError(msg) {
-            message(msg);
+        function onCameraError(e) {
+            alert('onCameraError');
+            alert(JSON.stringify(e));
         }
         function onFileTransferSuccess(data) {
-            console.log('onFileTransferSuccess');
-            console.log(data);
+            //alert('onFileTransferSuccess');
+            //alert(JSON.stringify(data));
             console.log("Code = " + data.responseCode);
             console.log("Response = " + data.response);
             console.log("Sent = " + data.bytesSent);
@@ -148,11 +153,16 @@ var callback = {
                 navigator.camera.cleanup();
             }
             var re = JSON.parse(data.response);
-            console.log(re);
+            if ( re['code'] ) {
+                alert(re['message']);
+            }
+            var $photos = $form.find('.photos');
+            $photos.append( html.render_photo( re.data ) );
+            //alert(JSON.stringify(re));
         }
-        function onFileTransferFail(re) {
-            console.log('onFileTransferFail');
-            console.log(re);
+        function onFileTransferFail(e) {
+            alert('onFileTransferFail');
+            alert(JSON.stringify(e));
         }
         function onCameraSuccess(fileURI) {
             var options = new FileUploadOptions();
@@ -161,7 +171,7 @@ var callback = {
             options.mimeType = "image/jpeg";
             options.params = {
                 'module' : 'ajax',
-                'action' : 'file-upload',
+                'action' : 'file_upload_submit',
                 'idx_parent': idx_parent,
                 'gid' : gid,
                 'idx_member' : member.idx,
@@ -173,7 +183,6 @@ var callback = {
             console.log(url);
             ft.upload(fileURI, encodeURI(url), onFileTransferSuccess, onFileTransferFail, options);
         }
-
         function onCameraConfirm(no) {
             var type = Camera.PictureSourceType.PHOTOLIBRARY; // default
             if ( app.isBrowser() ) { // @Attention This is only for test purpose.

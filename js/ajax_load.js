@@ -13,19 +13,19 @@ function ajax_load(url, callback, html) {
         else url += '&';
         url += 'idx_member=' + member.id + '&session_id=' + member.session_id;
     }
-    //console.log(url);
+    trace(url);
     $.ajax({
         url:url,
         cache: false,
         success: function(data) {
-            //console.log(data);
+            //trace(data);
             if ( html ) return callback(data);
             var re;
             try {
                 re = $.parseJSON(data);
             }
             catch ( e ) {
-                return alert("Ajax_load() : caught an error : " + e.message);
+                return note.post("Ajax_load() : caught an error : " + e.message);
             }
             /**
              * It must be here. It must not be in try {}
@@ -34,7 +34,7 @@ function ajax_load(url, callback, html) {
             else callback(re);
         },
         error: function(xhr, type){
-            alert("Ajax load error : " + type);
+            return note.post("Ajax load error : " + type);
             console.log(type);
             console.log(xhr);
         }
@@ -47,23 +47,30 @@ function ajax_load(url, callback, html) {
  * @param callback
  */
 function ajax_load_post(url, data, callback) {
-    console.log(debug.url(url, data));
+    trace(debug.url(url, data));
     $.ajax({
         url: url,
         type: 'POST',
         data: data,
         success: function(data){
             var re;
-            //console.log(data);
+            //trace(data);
             try {
                 re = $.parseJSON(data);
             }
             catch ( e ) {
-                //console.log(e);
-                return alert("Ajax_load_post() : caught an error : " + e.message);
+                trace(e);
+                return note.post("Ajax_load_post() : caught an error : " + e.message);
             }
-            if ( re.code ) alert(re.message);
+            if ( re['code'] ) {
+                alert(re['message']);
+            }
             else callback(re);
+        },
+        error: function(xhr, type){
+            return note.post("Ajax load error : " + type);
+            console.log(type);
+            console.log(xhr);
         }
     });
 }

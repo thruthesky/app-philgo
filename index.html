@@ -22,10 +22,20 @@
     <link rel="stylesheet" type="text/css" href="css/layout.css">
     <link rel="stylesheet" type="text/css" href="css/component.css">
     <link rel="stylesheet" type="text/css" href="css/content.css">
+    <link rel="stylesheet" type="text/css" href="css/post-list.css">
     <link rel="stylesheet" type="text/css" href="css/theme.css">
     <title>Hello World</title>
     <script>
-        var url_server = 'http://philgo.org/';
+        var url_server = 'http://philgo.org/'; // 데스크톱 브라우저로 테스트
+        url_server = 'http://192.168.137.1/'; // ICS 로 앱에서 테스트
+
+
+        if ( document.domain ) {
+            var domain = document.domain;
+            if ( domain.indexOf('work') != -1 ) url_server = 'http://philgo.org';
+        }
+
+
     </script>
 
 </head>
@@ -49,6 +59,7 @@
 <script type="text/javascript" src="js/velocity.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/jquery.form.min.js"></script>
+<script type="text/javascript" src="js/function.js"></script>
 <script type="text/javascript" src="js/db.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/member.js"></script>

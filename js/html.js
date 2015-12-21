@@ -110,6 +110,7 @@ var html = {
         m += "  <input type='hidden' name='action' value='post_write_submit'>";
         m += "  <div class='content'><textarea name='content'></textarea></div>";
         m += '  <div class="photos"></div>';
+        m += this.filebox();
         m += "  <div class='category'>";
         m += "      <select name='post_id'>";
         for( var name in forums ) {
@@ -121,10 +122,8 @@ var html = {
         }
         m += "      </select>";
         m += "  </div>";
-        m += '  <div class="file"><input type="file" name="file" onchange="callback.on_change_file_upload(this);"></div>';
         m += "  <div class='submit'><input type='submit'></div>";
         m += "</form>";
-        m += '<div class="post-write-form-photos"></div>';
         return m;
     },
     comment_write_form : function (p) {
@@ -154,6 +153,9 @@ var html = {
             if ( debug.browser_camera_upload ) m = '  <div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span> File Upload</div>';
             else m = '  <div class="file"><input type="file" name="file" onchange="callback.on_change_file_upload(this);"></div>';
         }
+        else {
+            m = '  <div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span> File Upload</div>';
+        }
         return m;
     },
     clear_comment_write_form : function (p) {
@@ -162,7 +164,7 @@ var html = {
         var $content = $form.find('[name="content"]');
         $gid.val( etc.unique_id(member.idx + p['post_id']) );
         $content.val('');
-        $form.find('.phptos').html('');
+        $form.find('.photos').html('');
     },
     render_post : function (p) {
         //console.log('get_post_render(p)');
@@ -179,8 +181,9 @@ var html = {
         var hours = date.getHours();
         var minutes = "0" + date.getMinutes();
         //var seconds = "0" + date.getSeconds();
-        var date = month + "/" + day; //hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
         var date_full = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
+        var date = etc.date_short(p['stamp']);
 
 
         m += '<div class="btn-group post-menu-philzine-top" role="group">';

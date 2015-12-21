@@ -11,17 +11,17 @@ var app = {
     //url_server_javascript_update : cordova.file.applicationDirectory + 'index.html',//url_server + '?module=ajax&action=update-javascript&submit=1',
     current_page_name : null,
     addEventDeviceReady : function(callback) {
-        console.log('app.isCordova():' + app.isCordova());
+        trace('app.isCordova():' + app.isCordova());
         function onDeviceReady() {
-            console.log('onDeviceReady()');
+            trace('onDeviceReady()');
             callback();
         }
         if ( app.isCordova() ) {
-            console.log("This app is running under cordova. Device is ready.");
+            trace("This app is running under cordova. Device is ready.");
             document.addEventListener("deviceready", onDeviceReady, false);
         }
         else {
-            console.log("This app is running under Desktop browser. Device is ready.");
+            trace("This app is running under Desktop browser. Device is ready.");
             onDeviceReady();
         }
     },
