@@ -124,3 +124,103 @@
 
 
 /** EO POST EDIT */
+
+/*Comment List*/
+.comment{
+	position:relative;
+	padding:10px 0 0 0;
+	margin:0 0 0 0;
+	background-color:#fff!important;/*temp for override*/
+}
+
+.comment .post-info,  > -menu-philzine-bottom{
+	padding:0 10px;
+}
+
+.comment .profile-image{
+	width:40px;
+	max-width:none;
+	border-radius:100%;
+}
+
+/*post info*/
+.comment .post-info{
+	margin:0 0 10px 0;
+}
+
+.comment .post-info .name{
+	font-size:.8em;
+	font-weight:bold;
+}
+
+.comment .post-info .name .send-message{
+	position:relative;
+	top:-1px;
+	margin-left:8px;
+}
+
+.comment .post-info .date,  .location{
+	font-size:.7em;	
+}
+
+.comment .post-info .separator{
+	position:relative;
+	top:-2px;
+	font-size:.6em;	
+	margin:0 5px;
+}
+/*eo post info*/
+
+/*content*/
+.comment .content{
+	font-size:.9em;
+}
+
+.comment .content .files {
+	font-size:.9em;
+}
+
+.comment .content .files .file{
+	width:25%;
+	max-width:150px;
+	margin:10px 0;
+}
+
+.comment .content .files .file img{
+	width:100%;
+}
+/*eo content*/
+
+/*post-menu-philzine-bottom*/
+.comment .post-menu-philzine-bottom{
+	font-size:.8em;
+	font-weight:bold;
+	color:#aaaaaa;	
+	padding:0 10px 0 10px;
+}
+
+.comment .post-menu-philzine-bottom.btn-group{
+	padding:0;
+}
+
+.comment .post-menu-philzine-bottom .glyphicon{
+	position:relative;
+	top:6px;
+	font-size:1.5em;
+}
+
+.comment .post-menu-philzine-bottom .btn{
+	padding: 0px 6px;
+}
+
+.comment .post-menu-philzine-bottom .btn:focus{
+	outline:0;
+}
+/*eo post-menu-philzine-bottom*/
+
+/*drop down*/
+.comment .dropdown-toggle{
+	padding:0
+}
+/*eo drop down*/
+/*EO Comment List*/
