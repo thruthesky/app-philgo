@@ -263,10 +263,11 @@
 	margin:0 0 0 0;
 	background-color:#fff!important;/*temp for override*/
 }
-
-.comment .post-info,  > -menu-philzine-bottom {
+/*
+.comment .post-info, .comment > .post-menu-philzine-bottom {
 	padding:0 10px;
 }
+*/
 
 .comment .profile-image{
 	width:40px;
