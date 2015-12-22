@@ -77,11 +77,13 @@ var html = {
         m += '      <li><div class="list-group-item" page-button="setting">Settings<span class="glyphicon glyphicon-menu-right"></span></li>';
         m += '  </ul>';
         m += '  <div class="panel-copyright">';
-        m += '      <ul class="nav nav-pills nav-justified bottom">';
+        /*
+		m += '      <ul class="nav nav-pills nav-justified bottom">';
         m += '          <li><span>Terms & Policies</span></li>';
         m += '          <li><span>Feedback</span></li>';
         m += '          <li><span>About</span></li>';
         m += '      </ul>';
+		*/
         m += '      <div class="copy-right-text">';
         m += '          Copyright (C) 2013 ~ 2015 우리에듀.<br>';
         m += '          All Rights Reserved';
@@ -140,6 +142,7 @@ var html = {
         m += '  <textarea name="content"></textarea>';
         m += '  <div class="photos"></div>';
         m += this.filebox();
+        //m += this.filebox_photo();
         m += '  <input type="submit">';
         m += '</form>';
         return m;
@@ -156,6 +159,14 @@ var html = {
         else {
             m = '  <div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span> File Upload</div>';
         }
+        return m;
+    },
+    filebox_photo : function () {
+        var m;
+		m = '<div class="file">'
+		m += '<input type="file" name="file" onchange="callback.on_change_file_upload(this);">';
+        m += '<div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span></div>';
+		m += '</div>';
         return m;
     },
     clear_comment_write_form : function (p) {
@@ -227,7 +238,8 @@ var html = {
         else no_of_comment = '';
 
         m += '<ul class="nav nav-pills post-menu-philzine-bottom">';
-        m += '  <li class="like">'+ p['idx']+'<img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
+        //m += '  <li class="like">'+ p['idx']+'<img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
+        m += '  <li class="like"><img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
         m += '  <li class="reply"><img src="img/post/comment.png"/>Comment ' + no_of_comment + '</li>';
         m += '</ul>';
 

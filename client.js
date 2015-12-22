@@ -42,7 +42,11 @@ $(function(){
 
     if ( app.offline() ) {
         note.post('인터넷을 연결 해 주십시오. Connect to Internet.', 'alert alert-warning');
+		$("header > .top").css("background-color","#7f8c8d");//added by benjamin for header color
     }
+	else{
+		$("header > .top").css("background-color","#e74c3c");//added by benjamin for header color
+	}
 
     //db.deleteAll(); // test.
     //initApp();

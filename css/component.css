@@ -350,10 +350,18 @@
 }
 
 .post-with-thumbnail .media-body h3{
-	padding:0;
-	margin:0;
-	font-size:1em;
-	color:#c0392b;
+	height: 20px;
+	padding: 0;
+	margin: 0;
+	font-size: 1em;
+	color: #c0392b;
+	overflow: hidden;
+}
+
+.post-with-thumbnail .media-body p{
+	height: 45px;
+	margin: 0;
+	overflow: hidden;	
 }
 
 @media (min-width: 768px){
@@ -599,7 +607,7 @@
 	background-color:#fff;	
 }
 
-.post > .post-info, .post > .post-menu-philzine-bottom, .post > .content{
+.post > .post-info, .post > .post-menu-philzine-bottom, .post > .content,  .post > .subject{
 	padding:0 10px;
 }
 
