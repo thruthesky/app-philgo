@@ -45,7 +45,7 @@ $(function(){
 		$("header > .top").css("background-color","#7f8c8d");//added by benjamin for header color
     }
 	else{
-		$("header > .top").css("background-color","#e74c3c");//added by benjamin for header color
+		$("header > .top").css("background-color","#bb2718");//added by benjamin for header color
 	}
 
     //db.deleteAll(); // test.
