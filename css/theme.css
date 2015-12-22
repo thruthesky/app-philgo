@@ -57,7 +57,7 @@ header .top .glyphicon {
     color:#fff;
 }
 
-header .top .glyphicon.glyphicon-pencil, header .top .glyphicon.glyphicon-camera{    
+header .top .glyphicon.glyphicon-camera{    
 	display:none;
 	padding:5px;
 	margin:8px 0 0 0;
@@ -65,14 +65,19 @@ header .top .glyphicon.glyphicon-pencil, header .top .glyphicon.glyphicon-camera
 }
 
 header .top .glyphicon.glyphicon-pencil{    
-	padding:5px;
-    margin-right:3px;
+	display:none;
+	padding:8px;
+	margin:5px 5px 0 0;
+    font-size:14px;
 }
 
 header .top .glyphicon.glyphicon-home, header .top .glyphicon.glyphicon-th-list {   
-	padding:10px;
-	margin-right:3px;
+	padding:10px;	
     font-size:20px;    
+}
+
+header .top .glyphicon.glyphicon-home{
+	margin-right:5px;
 }
 
 header .top .glyphicon{    
