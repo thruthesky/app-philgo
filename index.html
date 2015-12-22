@@ -12,7 +12,7 @@
             * Enable inline JS: add 'unsafe-inline' to default-src
     -->
     <!--// This is original from Cordova // meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"-->
-    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src * 'unsafe-inline'; script-src * 'unsafe-inline'; media-src *">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: cdvfile: https://ssl.gstatic.com 'unsafe-eval'; style-src * 'unsafe-inline'; script-src * 'unsafe-inline'; media-src *">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
@@ -21,13 +21,21 @@
     <link rel="stylesheet" type="text/css" href="css/base.css">
     <link rel="stylesheet" type="text/css" href="css/layout.css">
     <link rel="stylesheet" type="text/css" href="css/component.css">
-    <link rel="stylesheet" type="text/css" href="css/menu-panel.css">
     <link rel="stylesheet" type="text/css" href="css/content.css">
-    <link rel="stylesheet" type="text/css" href="css/notification.css">
+    <link rel="stylesheet" type="text/css" href="css/post-list.css">
     <link rel="stylesheet" type="text/css" href="css/theme.css">
     <title>Hello World</title>
     <script>
-        var url_server = 'http://philgo.org/';
+        var url_server = 'http://philgo.org/'; // 데스크톱 브라우저로 테스트
+        url_server = 'http://192.168.137.1/'; // ICS 로 앱에서 테스트
+
+
+        if ( document.domain ) {
+            var domain = document.domain;
+            if ( domain.indexOf('work') != -1 ) url_server = 'http://philgo.org';
+        }
+
+
     </script>
 
 </head>
@@ -36,7 +44,7 @@
 <div id='layout'>
     <header class="widget header"></header>
     <nav class="widget menu-panel"></nav>
-    <section class="notification"></section>
+    <section class="note"></section>
     <section class="widget content"></section>
     <footer class="widget footer">
         <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
@@ -44,55 +52,31 @@
     </footer>
 </div>
 
-<!--<script type="text/javascript" src="cordova.js"></script>-->
-<script type="text/javascript" src="js/cordova.js"></script>
+<script type="text/javascript" src="cordova.js"></script><!-- 데스크톱 브라우저에서는 로딩 에러가 발생한다 -->
 <script type="text/javascript" src="js/underscore-min.js"></script>
-<script type="text/javascript" src="js/zepto.min.js"></script>
-<script type="text/javascript" src="js/database.js"></script>
-<script type="text/javascript" src="js/helper.js"></script>
+<script type="text/javascript" src="js/underscore.string.min.js"></script>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="js/velocity.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jquery.form.min.js"></script>
+<script type="text/javascript" src="js/function.js"></script>
+<script type="text/javascript" src="js/db.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/member.js"></script>
+<script type="text/javascript" src="js/element.js"></script>
+<script type="text/javascript" src="js/panel.js"></script>
+<script type="text/javascript" src="js/note.js"></script>
+<script type="text/javascript" src="js/debug.js"></script>
+<script type="text/javascript" src="js/etc.js"></script>
+<script type="text/javascript" src="js/html.js"></script>
+<script type="text/javascript" src="js/post.js"></script>
 <script type="text/javascript" src="js/ajax_load.js"></script>
-<script type="text/javascript" src="js/elements.js"></script>
-<script type="text/javascript" src="js/panel-menu.js"></script>
-<script type="text/javascript" src="js/client.js"></script>
-
-<script>
-    setTimeout(function(){
-        debugMode(true);
-                var version = db.get('version') + debugString();
-                var url_css_bootstrap = db.get('url_css_bootstrap') + '?version=' + version;
-                var url_js_bootstrap = db.get('url_js_bootstrap') + '?version=' + version;
-                var url_css_server = 'css/server.css?version=' + version;
-                var url_js_server = 'js/server.js?version=' + version;
-
-                console.log(url_css_server);
-                console.log(url_js_server);
-
-                //add_css(url_css_bootstrap);
-                add_css(url_css_server);
+<script type="text/javascript" src="js/cache.js"></script>
+<script type="text/javascript" src="js/callback.js"></script>
+<script type="text/javascript" src="js/endless.js"></script>
+<script type="text/javascript" src="js/eventhandler.js"></script>
+<script type="text/javascript" src="client.js"></script>
 
 
-
-
-                //add_javascript(url_js_bootstrap); // 2015-12-17 Bootstrap.js is not compatible with Zepto.
-                // add_javascript(url_js_bootstrap); // 2015-12-17 Bootstrap.js is not compatible with Zepto.
-                add_javascript(url_js_server);
-
-                function add_css(url){
-                    var link = document.createElement('link');
-                    link.setAttribute('rel', 'stylesheet');
-                    link.setAttribute('type', 'text/css');
-                    link.setAttribute('href', url);
-                    document.getElementsByTagName('head')[0].appendChild(link);
-                }
-
-                function add_javascript(url) {
-                    var scriptTag = document.createElement('script');
-                    scriptTag.src = url;
-                    document.body.appendChild(scriptTag);
-                }
-            },
-            100
-    );
-</script>
 </body>
 </html>

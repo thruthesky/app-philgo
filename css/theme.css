@@ -1,3 +1,256 @@
-.text-button {
+
+
+.note {
+    z-index: 2000;
+    margin:0 10% 1em;
+    padding:1em 1em 0;
+    background-color: #a2b7e6;
+    color:white;
+}
+
+
+.endless-list {
+    padding:0.6em 0.6em 20em;
+    background-color: #efefef;
+}
+
+
+
+form.login .row {
+    margin:0;
+    padding:0;
+}
+
+[page-button] {
     cursor:pointer;
 }
+
+/** ================ Header =================== */
+/* top */
+ header .top{
+     padding:10px 0;
+     margin-bottom:0;
+     background-color:#2980b9;
+     border:0;
+     border-radius:0;
+     text-align:center;
+ }
+.main-menu {
+    cursor:pointer;
+    background-color:#fff;
+    text-align:center;
+}
+.main-menu li {
+    display: table-cell;
+    padding:10px 0;
+    width: 1%;
+}
+.main-menu li:hover {
+    cursor:pointer;
+    color: #c43d31;
+    border-bottom:2px solid #c43d31;
+}
+
+header .top .glyphicon {
+    float:left;
+    margin:0;   
+    color:#fff;
+}
+
+header .top .glyphicon.glyphicon-camera{    
+	display:none;
+	padding:5px;
+	margin:8px 0 0 0;
+    font-size:14px;
+}
+
+header .top .glyphicon.glyphicon-pencil{    
+	display:none;
+	padding:8px;
+	margin:5px 5px 0 0;
+    font-size:14px;
+}
+
+header .top .glyphicon.glyphicon-home, header .top .glyphicon.glyphicon-th-list {   
+	padding:10px;	
+    font-size:20px;    
+}
+
+header .top .glyphicon.glyphicon-home{
+	margin-right:5px;
+}
+
+header .top .glyphicon{    
+    border:2px solid #fff;
+    border-radius:100%;
+}
+
+header .top .logo{
+    float:none;
+    margin:0 0 0 0;
+    font-size:31px;
+    color:#fff;
+}
+
+header .top .navbar-right {
+    float:right;
+    margin-right:0;
+}
+@media (min-width:480px){
+	header .top .logo{		
+		margin:0 62px 0 0;		
+	}
+
+	header .top .glyphicon.glyphicon-pencil, header .top .glyphicon.glyphicon-camera{    
+		display:block;	
+	}
+}
+/** ========== EO Header ============ */
+
+/** ============ Footer ============= */
+footer {
+    border-top:3px solid #00b4d1;
+    padding:0;
+    box-sizing: border-box;
+    background-color:#fff;
+}
+footer .nav-pills{
+    background-color:#fff;
+    text-align:center;
+}
+footer .nav-pills > li{
+    display: table-cell;
+    width: 1%;
+}
+footer .nav-pills.bottom li{
+    border-right: 1px solid #00b4d1;
+}
+footer .nav-pills.bottom li:last-child{
+    border:0;
+}
+.bottom-menu {
+    display:inline-block;
+    padding:10px 2px 5px 2px;
+    color:#00b4d1;
+    font-size:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+.bottom-menu .glyphicon {
+    display:block;
+    margin-bottom:5px;
+    font-size:20px;
+    color:#00b4d1;
+}
+/* ============== EO Footer ============== */
+
+
+/* ===================== Panel ==================== */
+/*menu-panel*/
+.widget.menu-panel {
+    right: -262px;
+    border-left:2px solid #34495e;
+}
+.menu-panel-inner {
+    background-color:#efefef;
+    width:258px;
+}
+.widget.menu-panel .panel{
+    margin:0;
+    border:0;
+    border-radius:0;
+}
+.widget.menu-panel .panel .panel-heading{
+    padding-bottom:100px;
+    background-color:#fff;
+}
+.widget.menu-panel ul{
+    list-style:none;
+}
+.widget.menu-panel .list-group li .list-group-item{
+    border:0;
+}
+.widget.menu-panel .list-group li > div > .glyphicon{
+    display:inline-block;
+    position:absolute;
+    right:10px;
+    top:10px;
+    font-size:.8em;
+}
+.widget.menu-panel .list-group.top li > div > .glyphicon.glyphicon-menu-right{
+    color:#a2a2a2;
+}
+/*top*/
+.widget.menu-panel .list-group.top li > div > .glyphicon.glyphicon-remove{
+    color:red;
+}
+/*top*/
+/*panel-user-profile*/
+.panel-user-profile{
+    position:relative;
+    padding:63px 0 0 0;
+    background:url("../img/bgmenu_oval.png");
+    background-color: #fff;
+    background-repeat:no-repeat;
+}
+.panel-user-profile img{
+    position:absolute;
+    left:20px;
+    top:0;
+    width:70px;
+    border-radius:100%;
+}
+.panel-user-profile .bottom-space{
+    height:20px;
+    background-color:#00b4d1;
+}
+.panel-user-profile .name{
+    position:absolute;
+    left:0;
+    top:20px;
+    width:100%;
+    padding:0 0 0 120px;
+    font-weight:bold;
+    color:#fff;
+    box-sizing:border-box;
+    text-align:center;
+}
+.panel-user-profile .name > div{
+    font-weight:normal;
+}
+/*eo panel-user-profile*/
+/*list group bottom*/
+.widget.menu-panel .list-group.bottom li{
+    border-top:1px solid #fff;
+}
+.widget.menu-panel .list-group.bottom li:last-child{
+    border-bottom:1px solid #fff;
+}
+.widget.menu-panel .list-group.bottom li > div{
+    position:relative;
+    border-radius:0!important;
+    background-color:#00b4d1;
+    color:#fff;
+}
+/*list group bottom*/
+/*menu copyright*/
+.widget.menu-panel .panel-copyright{
+    padding:10px 0;
+    background-color:#00b4d1;
+    font-size:.8em;
+    color:#fff;
+    text-align:center;
+}
+.widget.menu-panel .panel-copyright .nav-pills{
+    padding:0;
+    background-color:#00b4d1;
+}
+.widget.menu-panel .panel-copyright .nav-pills > li{
+    padding:5px 10px;
+    display: inline-block;
+
+}
+/*eo menu copyright*/
+/*eo menu-panel*/
+/* ================= EO Panel ================= */
+

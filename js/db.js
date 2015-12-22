@@ -3,6 +3,8 @@
  */
 /**
  *
+ *
+ *
  * @type {db}
  *
  *
@@ -19,24 +21,6 @@
  *
  */
 var db = new function() {
-    this.type = 'WebStorage';
-    this.author = 'JaeHo Song';
-    this.email = 'thruthesky@gmail.com';
-
-    /**
-     *
-     *
-     * @returns {string}
-     *
-     *
-     * @code
-     * alert ( this.info() );
-     * @endcode
-     */
-    this.info = function() {
-        return this.type + ' ' + this.author + ' ' + this.email;
-    };
-
     this.set = function ( key, value ) {
         localStorage.setItem(key, value);
     };
@@ -45,24 +29,28 @@ var db = new function() {
         return localStorage.getItem(key);
     };
 
-    this.getRecord = function ( key ) {
-        var value = db.get(key);
-        if ( value ) {
-            var stamp = localStorage.getItem(key + '.stamp');
-            return {
-                'key' : key,
-                'value' : value,
-                'stamp' : stamp
-            }
-        }
-        else return null;
-    };
+    /*
+     this.getRecord = function ( key ) {
+     var value = db.get(key);
+     if ( value ) {
+     var stamp = localStorage.getItem(key + '.stamp');
+     return {
+     'key' : key,
+     'value' : value,
+     'stamp' : stamp
+     }
+     }
+     else return null;
+     };
+     */
 
-    this.save = function( key, value ) {
-        db.set(key, value);
-        db.set(key + '.length', value.length);
-        db.set(key + '.stamp', new Date().getTime());
-    };
+    /*
+     this.save = function( key, value ) {
+     db.set(key, value);
+     db.set(key + '.length', value.length);
+     db.set(key + '.stamp', new Date().getTime());
+     };
+     */
 
     this.delete = function ( key ) {
         localStorage.removeItem(key);
@@ -72,8 +60,10 @@ var db = new function() {
      * Deletes all keys in localStorage
      */
     this.deleteAll = function () {
-        for (var key in localStorage) {
-            db.delete(key);
+        for (var k in localStorage) {
+            if (localStorage.hasOwnProperty(k)) {
+                db.delete(k);
+            }
         }
     };
 
@@ -81,9 +71,11 @@ var db = new function() {
      * @short returns the whole localStorage
      * @returns {Storage}
      */
-    this.getAll = function () {
-        return localStorage;
-    };
+    /*
+     this.getAll = function () {
+     return localStorage;
+     };
+     */
 
     /**
      * @short Check if the web storage is availble.
@@ -94,7 +86,6 @@ var db = new function() {
     }
 
 };
-
 function save_widget(key, re) {
     db.set(key, re.html);
     db.set(key + '.length', re['length']);
@@ -105,6 +96,3 @@ function save_page(key, re) {
     save_widget(key, re);
 }
 
-function get_cache(key) {
-    return db.get(key);
-}
