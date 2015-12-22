@@ -272,6 +272,52 @@ var html = {
         return m;
     },
     render_comment : function (comment) {
+		/*OLD comment
+		var m = '';
+
+		var date_full = etc.date_full(comment['stamp']);
+		var date = etc.date_short(comment['stamp']);
+		var humanTime = etc.humanTime(comment['stamp']);
+
+		var likes;
+		if( comment['good'] > 0 ) likes = comment['good'];
+		else likes = '';
+
+		m += '<div class="post comment clearfix" idx="'+comment['idx']+'" post-id="'+comment['post_id']+'" depth="'+comment['depth']+'" idx-parent="'+comment['idx_parent']+'">';
+
+		m += '<div class="btn-group post-menu-philzine-top" role="group">';
+		if( post.mine(comment) ) {
+			m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
+		}
+		else {
+			m += '<span type="button" class="btn btn-secondary post-edit-button"><img src="img/post/edit.png"/></span>';
+			m += '<span type="button" class="btn btn-secondary post-delete-button"><img src="img/post/delete.png"/></span>';
+		}
+		m += '  <span class="menu-separator"></span>';
+		m += '  <span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+		m += '      <img src="img/post/more.png"/>';
+		m += '  </span>';
+		m += '  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
+		m += '      <li><a href="#">Report</a></li>';
+		m += '      <li><a href="#">Blind</a></li>';
+		m += '      <li><a href="#">Block</a></li>';
+		m += '      <li><a href="#">Trash</a></li>';
+		m += '      <li><a href="#">Move</a></li>';
+		m += '      <li><a href="#">More Menu ...</a></li>';
+		m += '  </ul>';
+		m += '</div>';
+
+		m += ' 글번호 : '+comment['idx'];
+		m += ' 글쓴이: ' + comment['user_name'];
+		m += ' <span title="'+date_full+'">날짜: ' + date + '</span>';
+		m += ' 수정, 메뉴 더보기';
+		m += '  <div class="content">' + comment['content'] + '</div>';
+		if ( comment['photos'] ) m += comment['photos'];
+		m += ' <span class="reply-button">Reply</span>, 추천, 비추천';
+		m += '</div>';
+		return m;
+		*/
+	
         var m = '';
 
         var date_full = etc.date_full(comment['stamp']);
