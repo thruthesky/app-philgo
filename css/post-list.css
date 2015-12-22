@@ -50,14 +50,17 @@
     font-size:.9em;
 }
 
-.post .photos{
+.post .photos {
     padding:0 10px;
 }
 
-.post .photos img{
-    width:25%;
-    max-width:150px;
-    margin:10px 0;
+.post .photos .photo {
+    width:120px;
+    height:120px;
+}
+
+.post .photos .photo img {
+    width:100%;
 }
 /*post-menu-philzine-bottom*/
 .post .post-menu-philzine-bottom{
@@ -110,3 +113,14 @@
 .post .content .media.post-edit-wrapper .media-left{
     display:none;
 }
+
+/**
+ * ========      POST EDIT ========
+ */
+
+.post-edit .cancel-button {
+    cursor:pointer;
+}
+
+
+/** EO POST EDIT */

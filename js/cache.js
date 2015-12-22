@@ -23,7 +23,7 @@ var cache = {
      * @code
      *      cache_update('front', 'freetalk');
      * @code
-     * @param name - data-content-page 이름으로서 PHP 에서는 widget 이름이 된다.
+     * @param name - page='' 이름으로서 PHP 에서는 widget 이름이 된다.
      * @param post_id
      *      - 이 값이 지정되지 않으면 게시물을 endless 로 로드하지 않는다.
      *      - 이 값이 '*' 이면 전체 게시판의 게시물을 로드한다. 예를 들어 front 페이지를 클릭 할 때에는 data-post-id 를 '*' 로 해주면 전체 글을 보여준다.

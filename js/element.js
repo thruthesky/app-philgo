@@ -28,12 +28,16 @@ var element = {
         return $('.post-list');
     },
     post : function (idx) {
-        return $("[data-idx-post='"+idx+"']");
+        return $("[idx='"+idx+"']");
     },
     post_button : function () {
         return $("footer .post-button");
     },
     comment_write_form : function (idx_parent) {
         return $(".comment-write-form[data-idx-parent='"+idx_parent+"']");
+    },
+    page_button : function ( page_name ) {
+        return $("[page-button='"+page_name+"']");
     }
 };
+var el = element;

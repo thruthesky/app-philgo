@@ -3,18 +3,18 @@
 var callback = {
     on_click_page : function () {
         var $this = $(this);
-        var page = $this.attr('data-content-page');
+        var page_name = $this.attr('page-button');
         var post_id = $this.attr('data-post-id');
         //console.log('on_click_page() : ' + page);
         if ( app.offline() && $this.hasClass('check-online') ) {
-            alert(page + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.");
+            alert(page_name + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.");
             return;
         }
-        if ( page == 'login' ) {
+        if ( page_name == 'login' ) {
             html.setContent( html.login_form(), 'login' );
         }
         else {
-            cache.update(page, post_id);
+            cache.update(page_name, post_id);
         }
     },
     on_click_content: function () {
@@ -68,7 +68,7 @@ var callback = {
         var $this = $(this);
         var $comment = $this.parents('.comment');
         var p = {
-            'idx' : $comment.attr('data-idx-post'),
+            'idx' : $comment.attr('idx'),
             'post_id' : $comment.attr('post-id')
         };
         $comment.after( html.comment_write_form(p));
@@ -217,8 +217,23 @@ var callback = {
         var $this = $(this);
         var $post = $this.parents('.post');
         $post.hide();
+        html.render_post_edit($post);
     },
     on_click_photo_delete_button : function () {
+        var $this = $(this);
+        var $photo = $this.parents('.photo');
+        var $form = $this.parents('form');
+        var idx = $photo.attr('data-idx-data');
+        var gid = $form.find('[name="gid"]').val();
+        var url = url_server + '?module=ajax&action=data_delete_submit&gid='+gid + "&idx="+idx;
+        ajax_load(url, function(re){
+            console.log(re);
+            var data = re['data'];
+            if ( data['code'] ) return alert(data['message']);
+            $photo.remove();
+        });
+    },
+    on_click_post_edit_cancel_button : function () {
 
     }
 };

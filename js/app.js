@@ -71,7 +71,7 @@ var app = {
         scrollTo(0,0);
     },
     initEvent : function() {
-        on_click('[data-content-page]', callback.on_click_page);
+        on_click('[page-button]', callback.on_click_page);
         on_click('.menu-panel.toggle', callback.on_click_menu_panel);
         on_click('.reset', callback.on_click_reset);
         on_click('.content', callback.on_click_content);
@@ -87,7 +87,10 @@ var app = {
 
         on_click('.file-upload-button', callback.on_click_file_upload_button);
         on_click('.edit-button', callback.on_click_edit_button);
-        on_click('.photo-delete-button', callback.on_click_photo_delete_button)
+        on_click('.photo-delete-button', callback.on_click_photo_delete_button);
+
+        on_click('.post-edit .cancel-button', callback.on_click_post_edit_cancel_button);
+
     },
     setCurrentForum : function (post_id) {
         element.post_button().attr('post-id', post_id);

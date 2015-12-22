@@ -28,30 +28,30 @@ var html = {
         var m = '';
         m += '<nav class="navbar navbar-default top">';
         m += '  <div class="container-fluid">';
-        m += '      <span class="navbar-text page text-button glyphicon glyphicon-home" data-content-page="front" data-post-id="*"></span>';
+        m += '      <span class="navbar-text glyphicon glyphicon-home" page-button="front" data-post-id="*"></span>';
         m += '      <span class="navbar-text logo">LOGO</span>';
-        m += '      <span class="navbar-text navbar-right page text-button glyphicon glyphicon-th-list menu-panel toggle"></span>';
+        m += '      <span class="navbar-text navbar-right glyphicon glyphicon-th-list menu-panel toggle"></span>';
         m += '  </div>';
         m += '</nav>';
         m += '<ul class="nav nav-pills nav-justified main-menu">';
-        m += '  <li data-content-page="news" data-post-id="news">뉴스</li>';
-        m += '  <li data-content-page="info" data-post-id="qna">정보</li>';
-        m += '  <li data-content-page="company" data-post-id="company_book">업소록</li>';
-        m += '  <li data-content-page="travel" data-post-id="travel">여행</li>';
-        m += '  <li data-content-page="qna" data-post-id="qna">질문</span></li>';
-        m += '  <li data-content-page="freetalk" data-post-id="freetalk,knowhow">토론</span></li>';
-        m += '  <li data-content-page="menu-all">더보기</span></li>';
+        m += '  <li page-button="news" data-post-id="news">뉴스</li>';
+        m += '  <li page-button="info" data-post-id="qna">정보</li>';
+        m += '  <li page-button="company" data-post-id="company_book">업소록</li>';
+        m += '  <li page-button="travel" data-post-id="travel">여행</li>';
+        m += '  <li page-button="qna" data-post-id="qna">질문</span></li>';
+        m += '  <li page-button="freetalk" data-post-id="freetalk,knowhow">토론</span></li>';
+        m += '  <li page-button="menu-all">더보기</span></li>';
         m += '</ul>';
         return m;
     },
     footer : function() {
         var m = '';
         m += '<ul class="nav nav-pills nav-justified bottom bottom-menu">';
-        m += '  <li data-content-page="profile"><span class="glyphicon glyphicon-user"></span>Profile</li>';
-        m += '  <li data-content-page="message"><span class="glyphicon glyphicon-envelope"></span>Message</li>';
-        m += '  <li data-content-page="search"><span class="glyphicon glyphicon-search"></span>Search</li>';
+        m += '  <li page-button="profile"><span class="glyphicon glyphicon-user"></span>Profile</li>';
+        m += '  <li page-button="message"><span class="glyphicon glyphicon-envelope"></span>Message</li>';
+        m += '  <li page-button="search"><span class="glyphicon glyphicon-search"></span>Search</li>';
         m += '  <li class="post-button" data-post-id=""><span class="glyphicon glyphicon-pencil"></span>Post</li>';
-        m += '  <li data-content-page="setting"><span class="glyphicon glyphicon-wrench"></span>Setting</span></li>';
+        m += '  <li page-button="setting"><span class="glyphicon glyphicon-wrench"></span>Setting</span></li>';
         m += '</ul>';
         return m;
     },
@@ -59,10 +59,10 @@ var html = {
         var m = '';
         m += '<div class="panel panel-default menu-panel-inner">';
         m += '  <ul class="list-group top">';
-        m += '      <li><div class="list-group-item text-button">Menu 1<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item text-button">Menu 2<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item text-button">Menu 3<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item text-button menu-panel toggle">Close Menu<span class="glyphicon glyphicon-remove"></span></div></li>';
+        m += '      <li><div class="list-group-item">Menu 1<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item">Menu 2<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item">Menu 3<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item menu-panel toggle">Close Menu<span class="glyphicon glyphicon-remove"></span></div></li>';
         m += '  </ul>';
         m += '  <div class="panel-user-profile">';
         m += '      <img src="img/no_primary_photo.png"/>';
@@ -70,11 +70,11 @@ var html = {
         m += '      <div class="name">Anonymous<div>User</div></div>';
         m += '  </div>';
         m += '  <ul class="list-group bottom">';
-        m += '      <li><div class="list-group-item" data-content-page="login">로그인 login<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item" data-content-page="register">회원가입 register<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item" data-content-page="admin">운영자 요청/건의 inquery<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item" data-content-page="menu-all">전체메뉴 all-menu<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item" data-content-page="setting">Settings<span class="glyphicon glyphicon-menu-right"></span></li>';
+        m += '      <li><div class="list-group-item" page-button="login">로그인 login<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item" page-button="register">회원가입 register<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item" page-button="admin">운영자 요청/건의 inquery<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item" page-button="menu-all">전체메뉴 all-menu<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item" page-button="setting">Settings<span class="glyphicon glyphicon-menu-right"></span></li>';
         m += '  </ul>';
         m += '  <div class="panel-copyright">';
         m += '      <ul class="nav nav-pills nav-justified bottom">';
@@ -233,7 +233,7 @@ var html = {
 
         m += this.comment_write_form(p);
 
-        m = '<div class="post" data-idx-post="'+p['idx']+'">' + m + '</div>';
+        m = '<div class="post" idx="'+p['idx']+'">' + m + '</div>';
 
 
 
@@ -260,7 +260,7 @@ var html = {
         var date_full = etc.date_full(comment['stamp']);
         var date = etc.date_short(comment['stamp']);
 
-        m += '<div class="comment" data-idx-post="'+comment['idx']+'" post-id="'+comment['post_id']+'" depth="'+comment['depth']+'">';
+        m += '<div class="comment" idx="'+comment['idx']+'" post-id="'+comment['post_id']+'" depth="'+comment['depth']+'">';
 
         m += '<div class="btn-group post-menu-philzine-top" role="group">';
         if( post.mine(comment) ) {
@@ -293,6 +293,20 @@ var html = {
         m += ' <span class="reply-button">Reply</span>, 추천, 비추천';
         m += '</div>';
         return m;
+    },
+    render_post_edit : function ( $post ) {
+        var idx = $post.attr('idx');
+        var m = '';
+
+        m += '<form>';
+        m += post.edit_subject($post.find('[name="subject"]').val());
+        m += post.edit_content($post.find('[name="content"]').val());
+        m += post.edit_cancel();
+        m += '<input type="submit">';
+        m += '</form>';
+
+        m = '<div class="post-edit" idx="'+idx+'">' + m + '</div>';
+        $post.after( m );
     },
     /**
      *

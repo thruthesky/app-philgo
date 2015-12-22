@@ -21,7 +21,7 @@ form.login .row {
     padding:0;
 }
 
-[data-content-page] {
+[page-button] {
     cursor:pointer;
 }
 
