@@ -77,11 +77,13 @@ var html = {
         m += '      <li><div class="list-group-item" page-button="setting">Settings<span class="glyphicon glyphicon-menu-right"></span></li>';
         m += '  </ul>';
         m += '  <div class="panel-copyright">';
-        m += '      <ul class="nav nav-pills nav-justified bottom">';
+        /*
+		m += '      <ul class="nav nav-pills nav-justified bottom">';
         m += '          <li><span>Terms & Policies</span></li>';
         m += '          <li><span>Feedback</span></li>';
         m += '          <li><span>About</span></li>';
         m += '      </ul>';
+		*/
         m += '      <div class="copy-right-text">';
         m += '          Copyright (C) 2013 ~ 2015 우리에듀.<br>';
         m += '          All Rights Reserved';
