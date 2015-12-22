@@ -58,6 +58,7 @@ header .top .glyphicon {
 }
 
 header .top .glyphicon.glyphicon-pencil, header .top .glyphicon.glyphicon-camera{    
+	display:none;
 	padding:5px;
 	margin:8px 0 0 0;
     font-size:14px;
@@ -81,7 +82,7 @@ header .top .glyphicon{
 
 header .top .logo{
     float:none;
-    margin:0 62px 0 0;
+    margin:0 0 0 0;
     font-size:31px;
     color:#fff;
 }
@@ -90,8 +91,15 @@ header .top .navbar-right {
     float:right;
     margin-right:0;
 }
+@media (min-width:480px){
+	header .top .logo{		
+		margin:0 62px 0 0;		
+	}
 
-
+	header .top .glyphicon.glyphicon-pencil, header .top .glyphicon.glyphicon-camera{    
+		display:block;	
+	}
+}
 /** ========== EO Header ============ */
 
 /** ============ Footer ============= */
