@@ -317,6 +317,9 @@ var html = {
         var date = etc.date_short(comment['stamp']);
         var humanTime = etc.humanTime(comment['stamp']);
 		
+		if( comment['good'] > 0 ) likes = comment['good'];
+        else likes = '';
+		
 		m = '<div class="comment clearfix" idx="'+comment['idx']+'" post-id="'+comment['post_id']+'" depth="'+comment['depth']+'" no-parent="'+comment['id_parent']+'">'
 		m +=	'<div class="media post-info">';
 		m +=		'<a class="media-left" href="#">';
@@ -331,7 +334,7 @@ var html = {
 		m +=		'</div>';
 		m +=	'</div>';
 		m +=	'<nav class="btn-group post-menu-philzine-bottom pull-right">';
-		m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+comment['good']+'</span></span>';
+		m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+likes+'</span></span>';
 		m +=		'<div class="btn dropdown">';
 		m +=			'<div class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
 		m +=				'<span class="glyphicon glyphicon-option-horizontal"></span>';
