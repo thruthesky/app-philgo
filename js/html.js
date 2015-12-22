@@ -276,8 +276,13 @@ var html = {
 
         var date_full = etc.date_full(comment['stamp']);
         var date = etc.date_short(comment['stamp']);
+        var humanTime = etc.humanTime(comment['stamp']);
 
-        m += '<div class="post" idx="'+comment['idx']+'" post-id="'+comment['post_id']+'" depth="'+comment['depth']+'">';
+        var likes;
+        if( comment['good'] > 0 ) likes = comment['good'];
+        else likes = '';
+
+        m += '<div class="post comment clearfix" idx="'+comment['idx']+'" post-id="'+comment['post_id']+'" depth="'+comment['depth']+'" idx-parent="'+comment['idx_parent']+'">';
 
         m += '<div class="btn-group post-menu-philzine-top" role="group">';
         if( post.mine(comment) ) {
