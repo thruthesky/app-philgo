@@ -272,7 +272,7 @@ var html = {
         return m;
     },
     render_comment : function (comment) {
-		/*OLD comment
+
 		var m = '';
 
 		var date_full = etc.date_full(comment['stamp']);
@@ -316,51 +316,8 @@ var html = {
 		m += ' <span class="reply-button">Reply</span>, 추천, 비추천';
 		m += '</div>';
 		return m;
-		*/
-	
-	
-		/*
-		this is the new comment list, in case of bugs and/or errors, delete the text below until the end of the object and uncomment the text above
-		*/
-        var m = '';
 
-        var date_full = etc.date_full(comment['stamp']);
-        var date = etc.date_short(comment['stamp']);
-        var humanTime = etc.humanTime(comment['stamp']);
 
-        var likes;
-        if( comment['good'] > 0 ) likes = comment['good'];
-        else likes = '';
-
-        m += '<div class="post comment clearfix" idx="'+comment['idx']+'" post-id="'+comment['post_id']+'" depth="'+comment['depth']+'" idx-parent="'+comment['idx_parent']+'">';
-		m +=	'<div class="media post-info">';
-		m +=		'<a class="media-left" href="#">';
-		m +=		'<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
-		m +=		'</a>';
-		m +=		'<div class="media-body">';
-		m +=			'<div class="name">'+comment['user_name']+"</div>";
-		m +=			'<div class="date">'+date+'<span class="separator">|</span>'+humanTime+'</div>';
-		m +=			'<div class="content">';
-		m +=				'<div class="text">' + comment['content'] + '</div>';
-		if ( comment['photos'] ) m += comment['photos'];
-		m +=			'</div>';
-		m +=		'</div>';
-		m +=	'</div>';
-		m +=	'<nav class="btn-group post-menu-philzine-bottom pull-right">';
-		m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+likes+'</span></span>';
-		m +=		'<div class="btn dropdown">';
-		m +=			'<div class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-		m +=				'<span class="glyphicon glyphicon-option-horizontal"></span>';
-		m +=			'</div>';
-		m +=			'<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
-		m +=				'<li class="dropdown-item reply-button"><a href="#">Reply</a></li>';
-		m +=				'<li class="dropdown-item report"><a href="#">Report</a></li>';
-		m +=				'<li class="dropdown-item delete"><a href="#">Delete</a></li>';
-		m +=				'<li class="dropdown-item edit"><a href="#">Edit</a></li>';
-		m +=			'</ul>';
-		m +=		'</div>';
-		m +=	'</nav>';
-		m +='</div>';
 		
         return m;
     },
