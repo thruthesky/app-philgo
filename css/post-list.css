@@ -118,10 +118,22 @@
  * ========      POST EDIT ========
  */
 
+.post-edit [name='subject'] {
+    width:100%;
+    box-sizing: border-box;
+}
+.post-edit [name='content'] {
+    width:100%;
+    min-height:6em;
+    box-sizing: border-box;
+}
 .post-edit .cancel-button {
     cursor:pointer;
 }
 
+.post-edit .photos {
+    overflow:auto;
+}
 
 /** EO POST EDIT */
 

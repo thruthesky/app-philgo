@@ -234,6 +234,11 @@ var callback = {
         });
     },
     on_click_post_edit_cancel_button : function () {
-
+        var $this = $(this);
+        var $edit = $this.parents('.post-edit');
+        var idx = $edit.attr('idx');
+        var $post = el.post(idx);
+        $edit.remove();
+        $post.show();
     }
 };

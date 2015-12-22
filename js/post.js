@@ -15,7 +15,7 @@ var post = {
         return m;
     },
     edit_content : function (v) {
-        if (!_.isEmpty(v)) return;
+        if (_.isEmpty(v)) return;
         var m = '<div class="content">';
         m += '  <textarea name="content">';
         m +=        v;
