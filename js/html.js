@@ -283,37 +283,35 @@ var html = {
         else likes = '';
 
         m += '<div class="post comment clearfix" idx="'+comment['idx']+'" post-id="'+comment['post_id']+'" depth="'+comment['depth']+'" idx-parent="'+comment['idx_parent']+'">';
-
-        m += '<div class="btn-group post-menu-philzine-top" role="group">';
-        if( post.mine(comment) ) {
-            m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
-        }
-        else {
-            m += '<span type="button" class="btn btn-secondary post-edit-button"><img src="img/post/edit.png"/></span>';
-            m += '<span type="button" class="btn btn-secondary post-delete-button"><img src="img/post/delete.png"/></span>';
-        }
-        m += '  <span class="menu-separator"></span>';
-        m += '  <span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-        m += '      <img src="img/post/more.png"/>';
-        m += '  </span>';
-        m += '  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
-        m += '      <li><a href="#">Report</a></li>';
-        m += '      <li><a href="#">Blind</a></li>';
-        m += '      <li><a href="#">Block</a></li>';
-        m += '      <li><a href="#">Trash</a></li>';
-        m += '      <li><a href="#">Move</a></li>';
-        m += '      <li><a href="#">More Menu ...</a></li>';
-        m += '  </ul>';
-        m += '</div>';
-
-        m += ' 글번호 : '+comment['idx'];
-        m += ' 글쓴이: ' + comment['user_name'];
-        m += ' <span title="'+date_full+'">날짜: ' + date + '</span>';
-        m += ' 수정, 메뉴 더보기';
-        m += '  <div class="content">' + comment['content'] + '</div>';
-        if ( comment['photos'] ) m += comment['photos'];
-        m += ' <span class="reply-button">Reply</span>, 추천, 비추천';
-        m += '</div>';
+		m +=	'<div class="media post-info">';
+		m +=		'<a class="media-left" href="#">';
+		m +=		'<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
+		m +=		'</a>';
+		m +=		'<div class="media-body">';
+		m +=			'<div class="name">'+comment['user_name']+"</div>";
+		m +=			'<div class="date">'+date+'<span class="separator">|</span>'+humanTime+'</div>';
+		m +=			'<div class="content">';
+		m +=				'<div class="text">' + comment['content'] + '</div>';
+		if ( comment['photos'] ) m += comment['photos'];
+		m +=			'</div>';
+		m +=		'</div>';
+		m +=	'</div>';
+		m +=	'<nav class="btn-group post-menu-philzine-bottom pull-right">';
+		m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+likes+'</span></span>';
+		m +=		'<div class="btn dropdown">';
+		m +=			'<div class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+		m +=				'<span class="glyphicon glyphicon-option-horizontal"></span>';
+		m +=			'</div>';
+		m +=			'<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
+		m +=				'<li class="dropdown-item reply-button"><a href="#">Reply</a></li>';
+		m +=				'<li class="dropdown-item report"><a href="#">Report</a></li>';
+		m +=				'<li class="dropdown-item delete"><a href="#">Delete</a></li>';
+		m +=				'<li class="dropdown-item edit"><a href="#">Edit</a></li>';
+		m +=			'</ul>';
+		m +=		'</div>';
+		m +=	'</nav>';
+		m +='</div>';
+		
         return m;
     },
     render_post_edit : function ( $post ) {
