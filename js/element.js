@@ -28,7 +28,7 @@ var element = {
         return $('.post-list');
     },
     post : function (idx) {
-        return $("[idx='"+idx+"']");
+        return $(".post[idx='"+idx+"']");
     },
     post_button : function () {
         return $("footer .post-button");

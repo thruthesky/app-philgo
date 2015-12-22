@@ -296,12 +296,22 @@ var html = {
     },
     render_post_edit : function ( $post ) {
         var idx = $post.attr('idx');
-        var m = '';
+        var subject = $post.find('.subject').text();
+        var content = $post.find('.content').text();
+        var photos = '';
+        $post.find('.photos img').each(function(index){
+            var $this = $(this);
+            var idx = $this.attr('idx');
+            var url_thumbnail = $this.prop('src');
+            photos += html.render_photo({idx:idx, url_thumbnail: url_thumbnail});
+        });
 
+        var m = '';
         m += '<form>';
-        m += post.edit_subject($post.find('[name="subject"]').val());
-        m += post.edit_content($post.find('[name="content"]').val());
+        m += post.edit_subject(subject);
+        m += post.edit_content(content);
         m += post.edit_cancel();
+        if ( photos ) m += '  <div class="photos">'+photos+'</div>';
         m += '<input type="submit">';
         m += '</form>';
 
@@ -310,7 +320,12 @@ var html = {
     },
     /**
      *
-     * @param re - data['idx'] 와 data['url'], data['url_thumbnail'] 의 값만 들어오면 된다.
+     * '.photo' 클래스의 HTML 값을 리턴한다.
+     * 이것은 나중에 '.photos' 로 감싸져야 한다.
+     * @usage 이 함수를 사용하기 위해서는 아래의 값만 들어오면 된다.
+     *  - data['idx']
+     *  - data['url_thumbnail']
+     * @param data
      */
     render_photo : function (data) {
         //console.log('render_photo');
