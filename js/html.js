@@ -318,6 +318,10 @@ var html = {
 		return m;
 		*/
 	
+	
+		/*
+		this is the new comment list, in case of bugs and/or errors, delete the text below until the end of the object and uncomment the text above
+		*/
         var m = '';
 
         var date_full = etc.date_full(comment['stamp']);
