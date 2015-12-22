@@ -607,7 +607,7 @@
 	background-color:#fff;	
 }
 
-.post > .post-info, .post > .post-menu-philzine-bottom, .post > .content{
+.post > .post-info, .post > .post-menu-philzine-bottom, .post > .content,  .post > .subject{
 	padding:0 10px;
 }
 
