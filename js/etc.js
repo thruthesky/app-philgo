@@ -32,6 +32,10 @@ var etc = {
      * @returns {*}
      */
     humanTime : function (timestamp) {
+		d = new Date();
+		now = Math.floor( d.getTime() / 1000 );//js timestamp include milli seconds so, remove it
+		timestamp = now - timestamp;
+	
         function numberEnding (number) {
             return (number > 1) ? 's' : '';
         }

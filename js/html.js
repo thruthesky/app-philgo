@@ -188,8 +188,10 @@ var html = {
 
         var date_full = etc.date_full(p['stamp']);
         var date = etc.date_short(p['stamp']);
-
-
+//console.log( "STAMP: " + p['stamp'] );
+		
+		var humanTime = etc.humanTime( p['stamp'] );
+		
         m += '<div class="btn-group post-menu-philzine-top" role="group">';
         if( post.mine(p) ) {
             m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
@@ -220,6 +222,7 @@ var html = {
         m += '      <div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
         m += '      <div class="date" title="'+date_full+'">' + date;
         m += '          <span class="separator">|</span>';
+        m +=            humanTime + ' ago';
         m += '      </div>';
         m += '      <div class="location">Lives in Philippines<span class="separator">|</span>xx Fans</div>';
         m += '  </div>';
@@ -267,7 +270,8 @@ var html = {
         return m;
     },
     render_comment : function (comment) {
-        var m = '';
+        /*
+		var m = '';
 
         var date_full = etc.date_full(comment['stamp']);
         var date = etc.date_short(comment['stamp']);
@@ -305,6 +309,42 @@ var html = {
         m += ' <span class="reply-button">Reply</span>, 추천, 비추천';
         m += '</div>';
         return m;
+		*/
+		var m;
+		var date_full = etc.date_full(comment['stamp']);
+        var date = etc.date_short(comment['stamp']);
+        var humanTime = etc.humanTime(comment['stamp']);
+		
+		m = '<div class="comment clearfix" idx="'+comment['idx']+'" post-id="'+comment['post_id']+'" depth="'+comment['depth']+'" no-parent="'+comment['id_parent']+'">'
+		m +=	'<div class="media post-info">';
+		m +=		'<a class="media-left" href="#">';
+		m +=		'<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
+		m +=		'</a>';
+		m +=		'<div class="media-body">';
+		m +=			'<div class="name">'+comment['user_name']+"</div>";
+		m +=			'<div class="date">'+date+'<span class="separator">|</span>'+humanTime+'</div>';
+		m +=			'<div class="content">';
+		m +=				'<div class="text">' + comment['content'] + '</div>';
+		m +=			'</div>';
+		m +=		'</div>';
+		m +=	'</div>';
+		m +=	'<nav class="btn-group post-menu-philzine-bottom pull-right">';
+		m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+comment['good']+'</span></span>';
+		m +=		'<div class="btn dropdown">';
+		m +=			'<div class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+		m +=				'<span class="glyphicon glyphicon-option-horizontal"></span>';
+		m +=			'</div>';
+		m +=			'<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
+		m +=				'<span class="dropdown-item reply">Reply</span>';
+		m +=				'<span class="dropdown-item report">Report</span>';
+		m +=				'<span class="dropdown-item delete">Delete</span>';
+		m +=				'<span class="dropdown-item edit">edit</span>';
+		m +=			'</div>';
+		m +=		'</div>';
+		m +=	'</nav>';
+		m +='</div>';
+
+		return m;
     },
     render_post_edit : function ( $post ) {
         var idx = $post.attr('idx');
