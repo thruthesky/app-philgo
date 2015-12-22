@@ -53,20 +53,35 @@ form.login .row {
 
 header .top .glyphicon {
     float:left;
-    margin:0;
-    font-size:20px;
+    margin:0;   
     color:#fff;
 }
 
-header .top .glyphicon{
-    padding:10px;
+header .top .glyphicon.glyphicon-pencil, header .top .glyphicon.glyphicon-camera{    
+	padding:5px;
+	margin:8px 0 0 0;
+    font-size:14px;
+}
+
+header .top .glyphicon.glyphicon-pencil{    
+	padding:5px;
+    margin-right:3px;
+}
+
+header .top .glyphicon.glyphicon-home, header .top .glyphicon.glyphicon-th-list {   
+	padding:10px;
+	margin-right:3px;
+    font-size:20px;    
+}
+
+header .top .glyphicon{    
     border:2px solid #fff;
     border-radius:100%;
 }
 
 header .top .logo{
     float:none;
-    margin:0;
+    margin:0 62px 0 0;
     font-size:31px;
     color:#fff;
 }
