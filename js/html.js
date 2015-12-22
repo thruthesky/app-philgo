@@ -29,6 +29,8 @@ var html = {
         m += '<nav class="navbar navbar-default top">';
         m += '  <div class="container-fluid">';
         m += '      <span class="navbar-text glyphicon glyphicon-home" page-button="front" data-post-id="*"></span>';
+        m += '      <span class="navbar-text glyphicon glyphicon-pencil" data-post-id="*"></span>';
+        m += '      <span class="navbar-text glyphicon glyphicon-camera" data-post-id="*"></span>';
         m += '      <span class="navbar-text logo">LOGO</span>';
         m += '      <span class="navbar-text navbar-right glyphicon glyphicon-th-list menu-panel toggle"></span>';
         m += '  </div>';
@@ -188,19 +190,21 @@ var html = {
 
         var date_full = etc.date_full(p['stamp']);
         var date = etc.date_short(p['stamp']);
+//console.log( "STAMP: " + p['stamp'] );
 
+		var humanTime = etc.humanTime( p['stamp'] );
 
         m += '<div class="btn-group post-menu-philzine-top" role="group">';
         if( post.mine(p) ) {
             m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
         }
         else {
-            m += '<span type="button" class="btn btn-secondary post-edit-button"><img src="img/post/edit.png"/></span>';
-            m += '<span type="button" class="btn btn-secondary post-delete-button"><img src="img/post/delete.png"/></span>';
+            m += '<span type="button" class="btn btn-secondary post-edit-button"><span class="glyphicon glyphicon-pencil"></span></span>';
+            m += '<span type="button" class="btn btn-secondary post-delete-button"><span class="glyphicon glyphicon-trash"></span></span>';
         }
         m += '  <span class="menu-separator"></span>';
         m += '  <span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-        m += '      <img src="img/post/more.png"/>';
+        m += '      <span class="glyphicon glyphicon-option-vertical"></span>';
         m += '  </span>';
         m += '  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
         m += '      <li><a href="#">Report</a></li>';
@@ -220,6 +224,7 @@ var html = {
         m += '      <div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
         m += '      <div class="date" title="'+date_full+'">' + date;
         m += '          <span class="separator">|</span>';
+        m +=            humanTime + ' ago';
         m += '      </div>';
         m += '      <div class="location">Lives in Philippines<span class="separator">|</span>xx Fans</div>';
         m += '  </div>';
@@ -239,8 +244,8 @@ var html = {
 
         m += '<ul class="nav nav-pills post-menu-philzine-bottom">';
         //m += '  <li class="like">'+ p['idx']+'<img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
-        m += '  <li class="like"><img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
-        m += '  <li class="reply"><img src="img/post/comment.png"/>Comment ' + no_of_comment + '</li>';
+        m += '  <li class="like"><span class="glyphicon glyphicon-thumbs-up"></span>Like <span class="no">' + likes + '</span></li>';
+        m += '  <li class="reply"><span class="glyphicon glyphicon-comment"></span>Comment ' + no_of_comment + '</li>';
         m += '</ul>';
 
         m += this.comment_write_form(p);

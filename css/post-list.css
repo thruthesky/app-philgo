@@ -136,3 +136,233 @@
 }
 
 /** EO POST EDIT */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*post*/
+.post{
+	position:relative;
+	padding:10px 0 10px 0;
+	margin:0 0 10px 0;
+	background-color:#fff;	
+}
+
+.post > .post-info, .post > .post-menu-philzine-bottom, .post > .content,  .post > .subject{
+	padding:0 10px 10px 10px;
+}
+
+.post .profile-image{
+	width:50px;
+	max-width:initial;
+}
+
+/*post info*/
+.post .post-info{
+	margin:0 0 10px 0;
+}
+
+.post .post-info .name{
+	font-size:.9em;
+	font-weight:bold;
+}
+
+.post .post-info .name .send-message{
+	position:relative;
+	top:-1px;
+	margin-left:8px;
+}
+
+.post .post-info .date, .post .location{
+	font-size:.8em;	
+}
+
+.post .post-info .separator{
+	position:relative;
+	top:-2px;
+	font-size:.6em;	
+	margin:0 5px;
+}
+/*eo post info*/
+
+/*post-menu-philzine-top*/
+.post .post-menu-philzine-top{
+	position:absolute;
+	right:5px;
+	top:0;
+	padding:0;
+	color:#aaa;
+}
+
+.post .post-menu-philzine-top button{
+	background-color:initial!important;
+}
+
+.post .post-menu-philzine-top .menu-separator{
+	float: left;
+	height: 25px;
+	padding: 5px 0;
+	margin: 7px 5px 0 5px;
+	font-size: 1.1em;
+	border-left: 1px solid #e5e5e5;
+}
+
+.post .post-menu-philzine-top .btn{
+	border:0;
+}
+
+.post .post-menu-philzine-top .btn:active{
+    box-shadow:none;
+}
+
+.post .post-menu-philzine-top .glyphicon{
+	
+}
+
+.post .post-menu-philzine-top .glyphicon.glyphicon-pencil, .post .post-menu-philzine-top .glyphicon.glyphicon-trash{
+	top:5px;
+	font-size:1.2em;
+}
+
+.post .post-menu-philzine-top .glyphicon.glyphicon-option-vertical{
+	font-size:1.5em;
+}
+
+.post .post-menu-philzine-top .btn:hover{
+	background-color:#fff;
+}
+/*eo post-menu-philzine-top*/
+
+/*post-menu-philzine-bottom*/
+.post .post-menu-philzine-bottom{
+	
+}
+
+.post .post-menu-philzine-bottom .glyphicon{
+	margin-right:5px;
+}
+/*eo post-menu-philzine-bottom*/
+
+/*eo post*/
+
+
+/*Comment List*/
+.comment{
+	position:relative;
+	padding:10px 0 0 0;
+	margin:0 0 0 0;
+	background-color:#fff!important;/*temp for override*/
+}
+
+.comment .post-info,  > -menu-philzine-bottom{
+	padding:0 10px;
+}
+
+.comment .profile-image{
+	width:40px;
+	max-width:none;
+	border-radius:100%;
+}
+
+/*post info*/
+.comment .post-info{
+	margin:0 0 10px 0;
+}
+
+.comment .post-info .name{
+	font-size:.8em;
+	font-weight:bold;
+}
+
+.comment .post-info .name .send-message{
+	position:relative;
+	top:-1px;
+	margin-left:8px;
+}
+
+.comment .post-info .date,  .location{
+	font-size:.7em;	
+}
+
+.comment .post-info .separator{
+	position:relative;
+	top:-2px;
+	font-size:.6em;	
+	margin:0 5px;
+}
+/*eo post info*/
+
+/*content*/
+.comment .content{
+	font-size:.9em;
+}
+
+.comment .content .files {
+	font-size:.9em;
+}
+
+.comment .content .files .file{
+	width:25%;
+	max-width:150px;
+	margin:10px 0;
+}
+
+.comment .content .files .file img{
+	width:100%;
+}
+/*eo content*/
+
+/*post-menu-philzine-bottom*/
+.comment .post-menu-philzine-bottom{
+	font-size:.8em;
+	font-weight:bold;
+	color:#aaaaaa;	
+	padding:0 10px 0 10px;
+}
+
+.comment .post-menu-philzine-bottom.btn-group{
+	padding:0;
+}
+
+.comment .post-menu-philzine-bottom.btn-group .btn.like{
+	margin:1px 0 0 0;
+}
+
+.comment .post-menu-philzine-bottom .glyphicon{
+	position:relative;
+	top:2px;	
+}
+
+.comment .post-menu-philzine-bottom .glyphicon.glyphicon-thumbs-up{		
+	font-size:1em;
+}
+
+.comment .post-menu-philzine-bottom .glyphicon.glyphicon-option-horizontal{	
+	font-size:1.5em;
+}
+
+.comment .post-menu-philzine-bottom .btn{
+	padding: 0px 6px;
+}
+
+.comment .post-menu-philzine-bottom .btn:active{
+    box-shadow:none;
+}
+/*eo post-menu-philzine-bottom*/
+
+/*drop down*/
+.comment .dropdown-toggle{
+	padding:0
+}
+/*eo drop down*/
+/*EO Comment List*/
