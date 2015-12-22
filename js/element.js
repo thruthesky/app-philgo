@@ -38,6 +38,12 @@ var element = {
     },
     page_button : function ( page_name ) {
         return $("[page-button='"+page_name+"']");
+    },
+    post_edit : function ( idx ) {
+        return $('.post-edit[idx="'+idx+'"]');
+    },
+    photos : function ( idx ) {
+        return $('.photos[idx="'+idx+'"]');
     }
 };
 var el = element;

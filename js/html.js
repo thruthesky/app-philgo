@@ -195,8 +195,8 @@ var html = {
             m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
         }
         else {
-            m += '<span type="button" class="btn btn-secondary edit-button"><img src="img/post/edit.png"/></span>';
-            m += '<span type="button" class="btn btn-secondary delete-button"><img src="img/post/delete.png"/></span>';
+            m += '<span type="button" class="btn btn-secondary post-edit-button"><img src="img/post/edit.png"/></span>';
+            m += '<span type="button" class="btn btn-secondary post-delete-button"><img src="img/post/delete.png"/></span>';
         }
         m += '  <span class="menu-separator"></span>';
         m += '  <span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
@@ -245,7 +245,7 @@ var html = {
 
         m += this.comment_write_form(p);
 
-        m = '<div class="post" idx="'+p['idx']+'">' + m + '</div>';
+        m = '<div class="post" idx="'+p['idx']+'" gid="'+p['gid']+'">' + m + '</div>';
 
 
 
@@ -272,15 +272,15 @@ var html = {
         var date_full = etc.date_full(comment['stamp']);
         var date = etc.date_short(comment['stamp']);
 
-        m += '<div class="comment" idx="'+comment['idx']+'" post-id="'+comment['post_id']+'" depth="'+comment['depth']+'">';
+        m += '<div class="post" idx="'+comment['idx']+'" post-id="'+comment['post_id']+'" depth="'+comment['depth']+'">';
 
         m += '<div class="btn-group post-menu-philzine-top" role="group">';
         if( post.mine(comment) ) {
             m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
         }
         else {
-            m += '<span type="button" class="btn btn-secondary edit-button"><img src="img/post/edit.png"/></span>';
-            m += '<span type="button" class="btn btn-secondary delete-button"><img src="img/post/delete.png"/></span>';
+            m += '<span type="button" class="btn btn-secondary post-edit-button"><img src="img/post/edit.png"/></span>';
+            m += '<span type="button" class="btn btn-secondary post-delete-button"><img src="img/post/delete.png"/></span>';
         }
         m += '  <span class="menu-separator"></span>';
         m += '  <span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
@@ -308,6 +308,7 @@ var html = {
     },
     render_post_edit : function ( $post ) {
         var idx = $post.attr('idx');
+        var gid = $post.attr('gid');
         var subject = $post.find('.subject').text();
         var content = $post.find('.content').text();
         var photos = '';
@@ -315,15 +316,25 @@ var html = {
             var $this = $(this);
             var idx = $this.attr('idx');
             var url_thumbnail = $this.prop('src');
-            photos += html.render_photo({idx:idx, url_thumbnail: url_thumbnail});
+            var url = $this.attr('org');
+            photos += html.render_photo({idx:idx, url: url, url_thumbnail: url_thumbnail});
         });
 
         var m = '';
-        m += '<form>';
+        m += '<form class="post-edit-form"" idx="'+idx+'" action="'+url_server+'" method="post" enctype="multipart/form-data">';
+        m += '  <input type="hidden" name="module" value="ajax">';
+        m += '  <input type="hidden" name="action" value="post_edit_submit">';
+        m += '  <input type="hidden" name="idx" value="'+idx+'">';
+        m += '  <input type="hidden" name="gid" value="'+gid+'">';
+        m += "  <input type='hidden' name='idx_member' value='"+member.idx+"'>";
+        m += "  <input type='hidden' name='session_id' value='"+member.session_id+"'>";
         m += post.edit_subject(subject);
         m += post.edit_content(content);
+        //if ( photos ) m += '  <div class="photos">'+photos+'</div>';
+        if ( !_.isEmpty(photos) ) m += html.photos(idx, photos);
+
+        m += this.filebox();
         m += post.edit_cancel();
-        if ( photos ) m += '  <div class="photos">'+photos+'</div>';
         m += '<input type="submit">';
         m += '</form>';
 
@@ -341,10 +352,12 @@ var html = {
      */
     render_photo : function (data) {
         //console.log('render_photo');
-        //console.log(data);
-        var m = '<div class="photo" data-idx-data="'+data.idx+'">';
+        //trace(data['idx']);
+        if (_.isUndefined(data['url'])) alert('url of photo is empty');
+        if (_.isUndefined(data['idx'])) alert('idx of photo is empty');
+        var m = '<div class="photo" idx-data="'+data['idx']+'">';
         m += '<span class="glyphicon glyphicon-remove photo-delete-button"></span>';
-        m += '<img src="'+data['url_thumbnail']+'">';
+        m += '<img idx="'+data['idx']+'" src="'+data['url_thumbnail']+'" org="'+data.url+'">';
         m += '</div>';
         //console.log(m);
         return m;
@@ -376,5 +389,8 @@ var html = {
             m += 	'</div>';
         }
         return m;
+    },
+    photos : function ( idx, photos ) {
+        return '<div class="photos" idx="'+idx+'">' + photos + '</div>';
     }
 };

@@ -72,7 +72,7 @@ $(function(){
         el.page_button('qna').click();
         setTimeout(function() {
             var $post = $('.post-list > .post').first();
-            var $button = $post.find('.edit-button');
+            var $button = $post.find('.post-edit-button');
             $button.click();
         }, 400);
     }, 300);

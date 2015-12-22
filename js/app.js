@@ -81,15 +81,18 @@ var app = {
 
         on_submit('form.post-write-form', callback.post_form_submit);
         on_submit('form.comment-write-form', callback.comment_form_submit);
+        on_submit('form.post-edit-form', callback.edit_form_submit);
 
 
         on_click('.reply-button', callback.on_click_reply_button);
 
         on_click('.file-upload-button', callback.on_click_file_upload_button);
-        on_click('.edit-button', callback.on_click_edit_button);
+        on_click('.post-edit-button', callback.on_click_post_edit_button);
         on_click('.photo-delete-button', callback.on_click_photo_delete_button);
+        on_click('.post-delete-button', callback.on_click_post_delete_button);
 
         on_click('.post-edit .cancel-button', callback.on_click_post_edit_cancel_button);
+
 
     },
     setCurrentForum : function (post_id) {

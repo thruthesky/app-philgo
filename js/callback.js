@@ -66,7 +66,7 @@ var callback = {
     },
     on_click_reply_button : function () {
         var $this = $(this);
-        var $comment = $this.parents('.comment');
+        var $comment = $this.parents('.post');
         var p = {
             'idx' : $comment.attr('idx'),
             'post_id' : $comment.attr('post-id')
@@ -99,6 +99,37 @@ var callback = {
         });
         return false;
     },
+    edit_form_submit : function (e) {
+        e.preventDefault();
+        ajax_load_post(url_server, $(this).serialize(), function(re){
+            console.log(re);
+            var idx = re['idx'];
+            var $edit = el.post_edit(idx);
+            var $form = $(".post-edit-form[idx='"+idx+"']");
+            var gid = $form.find('[name="gid"]').val();
+            var subject = $form.find('[name="subject"]').val();
+            var content = $form.find('[name="content"]').val();
+            var photos = '';
+            $edit.find('.photos img').each(function(index){
+                photos = photos + ' ' + this.outerHTML;
+            });
+            console.log(photos);
+            if ( !_.isEmpty(photos) ) photos = html.photos(idx, photos);
+
+            console.log(photos);
+
+            $edit.remove();
+
+            var $post = el.post(idx);
+            $post.find('.subject').text(subject);
+            $post.find('.content').text(content);
+            if ( el.photos(idx).length ) el.photos(idx).replaceWith(photos);
+            else $post.append(photos);
+            $post.show();
+
+        });
+        return false;
+    },
     is_upload_submit : false,
     on_change_file_upload : function (filebox) {
         var $filebox = $(filebox);
@@ -117,13 +148,10 @@ var callback = {
                 catch (e) {
                     return alert(s.stripTags(xhr.responseText));
                 }
-
                 console.log(re);
-
                 if ( re['code'] ) {
                     return alert(re['message']);
                 }
-
                 var $photos = $form.find('.photos');
                 $photos.append( html.render_photo( re.data ) );
             }
@@ -213,7 +241,7 @@ var callback = {
             ['사진 찍기','사전 선택', '취소']
         );
     },
-    on_click_edit_button : function () {
+    on_click_post_edit_button : function () {
         var $this = $(this);
         var $post = $this.parents('.post');
         $post.hide();
@@ -223,7 +251,7 @@ var callback = {
         var $this = $(this);
         var $photo = $this.parents('.photo');
         var $form = $this.parents('form');
-        var idx = $photo.attr('data-idx-data');
+        var idx = $photo.attr('idx-data');
         var gid = $form.find('[name="gid"]').val();
         var url = url_server + '?module=ajax&action=data_delete_submit&gid='+gid + "&idx="+idx;
         ajax_load(url, function(re){
@@ -240,5 +268,10 @@ var callback = {
         var $post = el.post(idx);
         $edit.remove();
         $post.show();
+    },
+    on_click_post_delete_button : function () {
+        var $this = $(this);
+        var $post = $this.parents('.post');
+        var idx = $post.attr('idx');
     }
 };
