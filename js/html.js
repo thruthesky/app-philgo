@@ -190,9 +190,7 @@ var html = {
 
         var date_full = etc.date_full(p['stamp']);
         var date = etc.date_short(p['stamp']);
-//console.log( "STAMP: " + p['stamp'] );
 
-		var humanTime = etc.humanTime( p['stamp'] );
 
         m += '<div class="btn-group post-menu-philzine-top" role="group">';
         if( post.mine(p) ) {
@@ -212,11 +210,7 @@ var html = {
         m += '  </a>';
         m += '  <div class="media-body">';
         m += '      <div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
-        m += '      <div class="date" title="'+date_full+'">' + date;
-        m += '          <span class="separator">|</span>';
-        m +=            humanTime + ' ago';
-        m += '      </div>';
-        m += '      <div class="location">Lives in Philippines<span class="separator">|</span>xx Fans</div>';
+        m += '      <div class="date" title="'+date_full+'">' + date + '</div>';
         m += '  </div>';
         m += '</div>';
 
@@ -234,18 +228,13 @@ var html = {
 
         m += '<ul class="nav nav-pills post-menu-philzine-bottom">';
         //m += '  <li class="like">'+ p['idx']+'<img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
-        m += '  <li class="like"><span class="glyphicon glyphicon-thumbs-up"></span>Like <span class="no">' + likes + '</span></li>';
+        m += '  <li class="like like-button"><span class="glyphicon glyphicon-thumbs-up"></span>Like <span class="no">' + likes + '</span></li>';
         m += '  <li class="reply"><span class="glyphicon glyphicon-comment"></span>Comment ' + no_of_comment + '</li>';
         m += '</ul>';
 
         m += this.comment_write_form(p);
 
         m = '<div class="post" idx="'+p['idx']+'" gid="'+p['gid']+'">' + m + '</div>';
-
-
-
-
-
 
         //console.log(m);
         return m;
@@ -296,13 +285,18 @@ var html = {
         m += '<div class="content">' + post.content(comment) + '</div>';
 
 		if ( comment['photos'] ) m += comment['photos'];
-		m += ' <span class="reply-button">Reply</span>, 추천, 비추천';
+
+
+        m += '<ul class="nav nav-pills">';
+        //m += '  <li class="like">'+ p['idx']+'<img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
+        m += '  <li class="like like-button"><span class="glyphicon glyphicon-thumbs-up"></span>Like <span class="no">' + likes + '</span></li>';
+        m += '  <li class="reply reply-button"><span class="glyphicon glyphicon-comment"></span>Reply</li>';
+        m += '</ul>';
+
+
 		m += '</div>';
 		return m;
 
-
-		
-        return m;
     },
     render_post_edit : function ( $post ) {
         var idx = $post.attr('idx');
