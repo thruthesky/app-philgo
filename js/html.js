@@ -197,7 +197,7 @@ var html = {
             else m = '  <div class="file"><input type="file" name="file" onchange="callback.on_change_file_upload(this);"></div>';
         }
         else {
-            m = '<div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span> File Upload</div>';
+            m = '<div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span></div>';
         }
 		//m = '<div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span></div>';
         return m;
