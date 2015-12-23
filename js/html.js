@@ -233,7 +233,7 @@ var html = {
 
 
         m += '<div class="btn-group post-menu-philzine-top" role="group">';
-        if( post.mine(p) ) {
+        if( !post.mine(p) ) {
             m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
         }
         else {
