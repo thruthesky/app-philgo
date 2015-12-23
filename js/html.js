@@ -49,8 +49,16 @@ var html = {
     footer : function() {
         var m = '';
         m += '<ul class="nav nav-pills nav-justified bottom bottom-menu">';
-        m += '  <li page-button="profile"><span class="glyphicon glyphicon-user"></span>Profile</li>';
-        m += '  <li page-button="message"><span class="glyphicon glyphicon-envelope"></span>Message</li>';
+
+
+        if ( member.login() ) {
+            m += '  <li page-button="profile"><span class="glyphicon glyphicon-user"></span>Profile</li>';
+            m += '  <li page-button="message"><span class="glyphicon glyphicon-envelope"></span>Message</li>';
+        }
+        else {
+            m += '  <li page-button="login"><span class="glyphicon glyphicon-user"></span>Login</li>';
+            m += '  <li page-button="register"><span class="glyphicon glyphicon-envelope"></span>Register</li>';
+        }
         m += '  <li page-button="search"><span class="glyphicon glyphicon-search"></span>Search</li>';
         m += '  <li class="post-button" data-post-id=""><span class="glyphicon glyphicon-pencil"></span>Post</li>';
         m += '  <li class="setting-button"><span class="glyphicon glyphicon-wrench"></span>Setting</span></li>';
