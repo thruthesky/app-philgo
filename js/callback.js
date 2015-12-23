@@ -24,7 +24,7 @@ var callback = {
         //console.log('ajax_login() member.idx:'+member.idx);
         var $this = $(this);
         var id = $this.find('[name="id"]').val();
-        var url = app.url_server_login + '&id=' + id;
+        var url = app.url_server_login() + '&id=' + id;
         url += '&password=' + $this.find('[name="password"]').val();
         ajax_load( url, function(re) {
             //console.log(re);
@@ -78,7 +78,7 @@ var callback = {
     },
     post_form_submit : function (e) {
         e.preventDefault();
-        ajax_load_post(url_server, $(this).serialize(), function(re){
+        ajax_load_post(app.getServerURL(), $(this).serialize(), function(re){
             element.post_write_form().remove();
             element.content().prepend(html.render_post(re.post));
         });
@@ -86,7 +86,7 @@ var callback = {
     },
     comment_form_submit : function (e) {
         e.preventDefault();
-        ajax_load_post(url_server, $(this).serialize(), function(re){
+        ajax_load_post(app.getServerURL(), $(this).serialize(), function(re){
             var p = re.post;
             if ( p['depth'] > 1 ) {
                 element.comment_write_form(p['idx_parent']).remove();
@@ -101,7 +101,7 @@ var callback = {
     },
     edit_form_submit : function (e) {
         e.preventDefault();
-        ajax_load_post(url_server, $(this).serialize(), function(re){
+        ajax_load_post(app.getServerURL(), $(this).serialize(), function(re){
             console.log(re);
             var idx = re['idx'];
             var $edit = el.post_edit(idx);
@@ -206,7 +206,7 @@ var callback = {
             };
             console.log(options);
             var ft = new FileTransfer();
-            var url = url_server;
+            var url = app.getServerURL();
             console.log(url);
             ft.upload(fileURI, encodeURI(url), onFileTransferSuccess, onFileTransferFail, options);
         }
@@ -252,7 +252,7 @@ var callback = {
         var $form = $this.parents('form');
         var idx = $photo.attr('idx-data');
         var gid = $form.find('[name="gid"]').val();
-        var url = url_server + '?module=ajax&action=data_delete_submit&gid='+gid + "&idx="+idx;
+        var url = app.getServerURL() + '?module=ajax&action=data_delete_submit&gid='+gid + "&idx="+idx;
         ajax_load(url, function(re){
             console.log(re);
             var data = re['data'];
@@ -272,7 +272,7 @@ var callback = {
         var $this = $(this);
         var $post = $this.parents('.post');
         var idx = $post.attr('idx');
-        var url = url_server + '?module=ajax&action=post_delete_submit&idx=' + idx;
+        var url = app.getServerURL() + '?module=ajax&action=post_delete_submit&idx=' + idx;
         ajax_load(url, function(re){
             console.log(re);
             $post.html(lang('deleted'));
@@ -282,7 +282,7 @@ var callback = {
         var $this = $(this);
         var $post = $this.parents('.post');
         var idx = $post.attr('idx');
-        var url = url_server + '?module=ajax&action=post_vote_submit&idx=' + idx;
+        var url = app.getServerURL() + '?module=ajax&action=post_vote_submit&idx=' + idx;
         ajax_load(url, function(re){
             console.log(re);
             $this.find('.no').text(re['good']);
@@ -292,10 +292,17 @@ var callback = {
         var $this = $(this);
         var $post = $this.parents('.post');
         var idx = $post.attr('idx');
-        var url = url_server + '?module=ajax&action=post_report_submit&idx=' + idx;
+        var url = app.getServerURL() + '?module=ajax&action=post_report_submit&idx=' + idx;
         ajax_load(url, function(re){
             console.log(re);
             alert("글 신고가 되었습니다.");
         });
+    },
+    on_click_setting_button : function () {
+        html.setContent( html.page.setting() );
+    },
+    on_click_change_server_button : function () {
+        var url = prompt("Please, input server address:");
+        app.setServerURL(url);
     }
 };

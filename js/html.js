@@ -53,7 +53,7 @@ var html = {
         m += '  <li page-button="message"><span class="glyphicon glyphicon-envelope"></span>Message</li>';
         m += '  <li page-button="search"><span class="glyphicon glyphicon-search"></span>Search</li>';
         m += '  <li class="post-button" data-post-id=""><span class="glyphicon glyphicon-pencil"></span>Post</li>';
-        m += '  <li page-button="setting"><span class="glyphicon glyphicon-wrench"></span>Setting</span></li>';
+        m += '  <li class="setting-button"><span class="glyphicon glyphicon-wrench"></span>Setting</span></li>';
         m += '</ul>';
         return m;
     },
@@ -105,7 +105,7 @@ var html = {
             'company_book' : 'Company Book'
         };
         var m = '';
-        m += "<form class='post-write-form' action='"+url_server+"' method='post' enctype='multipart/form-data'>";
+        m += "<form class='post-write-form' action='"+app.getServerURL()+"' method='post' enctype='multipart/form-data'>";
         m += "  <input type='hidden' name='idx_member' value='"+member.idx+"'>";
         m += "  <input type='hidden' name='session_id' value='"+member.session_id+"'>";
         m += "  <input type='hidden' name='gid' value='"+gid+"'>";
@@ -133,7 +133,7 @@ var html = {
     comment_write_form : function (p) {
         var gid = etc.unique_id(member.idx + p['post_id']);
         var m = '';
-        m += '<form class="comment-write-form" data-idx-parent="'+p['idx']+'" action="'+url_server+'" method="post" enctype="multipart/form-data">';
+        m += '<form class="comment-write-form" data-idx-parent="'+p['idx']+'" action="'+app.getServerURL()+'" method="post" enctype="multipart/form-data">';
         m += "  <input type='hidden' name='idx_parent' value='"+p['idx']+"'>";
         m += "  <input type='hidden' name='gid' value='"+gid+"'>";
         m += "  <input type='hidden' name='idx_member' value='"+member.idx+"'>";
@@ -313,7 +313,7 @@ var html = {
         });
 
         var m = '';
-        m += '<form class="post-edit-form"" idx="'+idx+'" action="'+url_server+'" method="post" enctype="multipart/form-data">';
+        m += '<form class="post-edit-form"" idx="'+idx+'" action="'+app.getServerURL()+'" method="post" enctype="multipart/form-data">';
         m += '  <input type="hidden" name="module" value="ajax">';
         m += '  <input type="hidden" name="action" value="post_edit_submit">';
         m += '  <input type="hidden" name="idx" value="'+idx+'">';
@@ -384,5 +384,20 @@ var html = {
     },
     photos : function ( idx, photos ) {
         return '<div class="photos" idx="'+idx+'">' + photos + '</div>';
+    },
+    page : {
+        setting : function () {
+            var m = '';
+            m += '<div class="page-header">';
+            m += '  <h1>설정 <small>필리핀매거진</small></h1>';
+            m += '</div>';
+            m += '<ul class="list-group">';
+            m += '  <li class="list-group-item"><div class="reset">Reset</div></li>';
+            m += '  <li class="list-group-item"><div class="change-server-button">Change Server</div></li>';
+            m += '  <li class="list-group-item">Refresh</li>';
+            m += '  <li class="list-group-item">Show all menu on front page</li>';
+            m += '</ul>';
+            return m;
+        }
     }
 };

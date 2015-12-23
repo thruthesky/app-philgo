@@ -5,11 +5,23 @@
  */
 var app = {
     version : '51219', // 년 1자리, 월2자리, 일 2자리
-    url_server_widget : url_server + '?module=ajax&action=widget&submit=1&name=',
-    url_server_forum : url_server + '?module=ajax&action=post-list&submit=1&post_id=',
-    url_server_login : url_server + '?module=ajax&action=login&submit=1',
-    //url_server_javascript_update : cordova.file.applicationDirectory + 'index.html',//url_server + '?module=ajax&action=update-javascript&submit=1',
+    _user_server : null,
     current_page_name : null,
+    setServerURL : function (url) {
+        this._user_server = url;
+    },
+    getServerURL : function () {
+        return this._user_server;
+    },
+    url_server_widget : function () {
+        return this.getServerURL() + '?module=ajax&action=widget&submit=1&name=';
+    },
+    url_server_forum : function () {
+        return this.getServerURL() + '?module=ajax&action=post-list&submit=1&post_id=';
+    },
+    url_server_login : function () {
+        return this.getServerURL() + '?module=ajax&action=login&submit=1';
+    },
     addEventDeviceReady : function(callback) {
         trace('app.isCordova():' + app.isCordova());
         function onDeviceReady() {
@@ -78,6 +90,12 @@ var app = {
         on_click("footer .post-button", callback.on_click_post_button);
         on_submit('form.login', callback.form_login);
         on_click('.logout-button', callback.on_click_logout_button);
+
+
+        on_click('.setting-button', callback.on_click_setting_button);
+        on_click('.change-server-button', callback.on_click_change_server_button);
+
+
 
         on_submit('form.post-write-form', callback.post_form_submit);
         on_submit('form.comment-write-form', callback.comment_form_submit);
