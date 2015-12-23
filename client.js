@@ -5,6 +5,23 @@ _.templateSettings = {
 
 $(function(){
 
+    //var url_server = 'http://philgo.org/'; // 데스크톱 브라우저로 테스트
+    var url = 'http://192.168.137.1/'; // ICS 로 앱에서 테스트
+
+    if ( document.domain ) { // 데스크톱이면 자동으로 데스크톱 URL 을 지정한다.
+        var domain = document.domain;
+        if ( domain.indexOf('work') != -1 ) url = 'http://philgo.org';
+    }
+//        app.url_server = 'http://philgo.com';
+
+    /*
+    var url_server = db.get('url_server');
+    if ( url_server ) app.setServerURL(url_server);
+    else
+    */
+        app.setServerURL(url);
+
+
     // @doc How to use onDeviceRead
     app.addEventDeviceReady(
         function callback_onDeviceReady() {
@@ -81,8 +98,7 @@ $(function(){
     */
 
     // open front and temp forum
-    setTimeout(function(){cache.update('news', 'temp');}, 400);
-
+    // setTimeout(function(){cache.update('news', 'temp');}, 400);
 
     app.initEvent();
 });

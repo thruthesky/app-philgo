@@ -41,7 +41,7 @@ function endless_load_more_update(re) {
  * @param post_id
  */
 function endless_reset(page, post_id) {
-    var url = app.url_server_forum + post_id + '&page=' + page;
+    var url = app.url_server_forum() + post_id + '&page=' + page;
     endless_api = url + '&page_no=';
     endless_scroll_count = 1;
     endless_no_more_content = false;

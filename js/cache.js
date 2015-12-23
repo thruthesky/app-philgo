@@ -31,7 +31,7 @@ var cache = {
     update : function (name, post_id) {
         //console.log( "cache_update:" + name );
         html.setContent( db.get( name ), name );
-        var url_widget = app.url_server_widget + name;
+        var url_widget = app.url_server_widget() + name;
         ajax_load(url_widget, function(re){
             if ( re.html ) {
                 save_page( name, re );

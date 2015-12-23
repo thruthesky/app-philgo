@@ -18,7 +18,7 @@ function check_update_version() {
     setTimeout(check_version,1000 * 60); // fire after 1 minutes.
     setInterval(check_version, 1000 * 60 * 60 * 2);
     function check_version(){
-        ajax_load(url_server + '?module=ajax&action=version&submit=1', function(re){
+        ajax_load(app.getServerURL() + '?module=ajax&action=version&submit=1', function(re){
 
             console.log(re);
             note.post(
