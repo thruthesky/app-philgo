@@ -1,5 +1,7 @@
 debug.start();
-
+_.templateSettings = {
+    interpolate: /\{\{(.+?)\}\}/g
+};
 
 $(function(){
 
@@ -7,7 +9,6 @@ $(function(){
     app.addEventDeviceReady(
         function callback_onDeviceReady() {
             trace('go to ...');
-
 
             console.log(app.model());
             console.log(app.platform());
@@ -35,7 +36,6 @@ $(function(){
     html.setFooter();
     html.setPanel();
     cache.showFront();
-    //cache_update('front', 'freetalk');
 
 
     member.load();
@@ -69,6 +69,7 @@ $(function(){
     */
 
     // Open Q & A and Open the first post's edit page.
+    /*
     setTimeout(function(){
         el.page_button('qna').click();
         setTimeout(function() {
@@ -77,7 +78,10 @@ $(function(){
             //$button.click();
         }, 400);
     }, 300);
+    */
 
+    // open front and temp forum
+    setTimeout(function(){cache.update('news', 'temp');}, 400);
 
 
     app.initEvent();

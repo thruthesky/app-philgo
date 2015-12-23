@@ -16,7 +16,7 @@ var note = {
         this.timer = setTimeout(function() {
             note.clear();
             note.hide();
-        }, 1500);
+        }, 2500);
     },
     clear: function() {
         element.note().html('');

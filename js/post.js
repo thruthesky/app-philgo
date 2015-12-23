@@ -1,8 +1,8 @@
 var post = {
     mine : function (p) {
-        if ( typeof p['idx'] == 'undefined' ) return false;
-        if ( !_.isEmpty(member.login()) ) return false;
-        return p['idx'] == member.idx;
+        if ( typeof p['idx_member'] == 'undefined' ) return false;
+        if ( ! member.login() ) return false;
+        return p['idx_member'] == member.idx;
     },
     edit_cancel : function () {
         return '<span class="glyphicon glyphicon-remove cancel-button">Cancel</span>';
