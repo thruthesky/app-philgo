@@ -153,6 +153,7 @@ var callback = {
                     return alert(re['message']);
                 }
                 var $photos = $form.find('.photos');
+				if( $photos.css("display") == "none" ) $photos.show();//added by benjmami
                 $photos.append( html.render_photo( re.data ) );
             }
         });
@@ -185,6 +186,7 @@ var callback = {
                 alert(re['message']);
             }
             var $photos = $form.find('.photos');
+			if( $photos.css("display") == "none" ) $photos.show();//added by benjmami
             $photos.append( html.render_photo( re.data ) );
         }
         function onFileTransferFail(e) {
@@ -300,6 +302,12 @@ var callback = {
     },
 	//added by benjamin
 	on_click_post_edit_textarea : function() {
+		var $this = $(this);
+		var $form = $this.parents('form');
+		$this.height(100);
+		$form.find(".row.commands").show();
+	},
+	on_click_post_edit_comment_textarea : function() {
 		var $this = $(this);
 		$this.height(100);
 	},
