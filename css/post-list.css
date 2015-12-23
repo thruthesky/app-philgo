@@ -416,17 +416,17 @@
 
 
 /*file-button*/
-.file.desktop{
+.comment-write-form .file.desktop{
 	position:relative;
 }
 
-.file.desktop input[type='file']{
+.comment-write-form .file.desktop input[type='file']{
 	width:100%;
 	height:35px;
 	opacity:0;
 }
 
-.file .glyphicon{
+.comment-write-form .file .glyphicon{
 	position: absolute;
 	top:0;
 	left:0;
@@ -441,19 +441,19 @@
 	text-align: center;
 }
 
-.file.file-upload-button {
+.comment-write-form .file.file-upload-button {
 	padding:0;
 }
 
-.file.file-upload-button .glyphicon{
+.comment-write-form .file.file-upload-button .glyphicon{
 	position:relative;	
 }
 
-.commands .col-xs-6:first-child{
+.comment-write-form .commands .col-xs-6:first-child{
 	padding:0 5px 0 0;
 }
 
-.commands .col-xs-6:last-child{
+.comment-write-form .commands .col-xs-6:last-child{
 	padding:0 0 0 5px;
 }
 /*eo file-button*/
