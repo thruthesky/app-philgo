@@ -426,7 +426,7 @@
 
 .post-write-form  .row.commands{
 	display:none;
-	margin:0;
+	margin:0 0 10px 0;
 }
 
 .post-edit-form  .row.commands{
