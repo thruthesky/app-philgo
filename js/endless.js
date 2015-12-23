@@ -7,6 +7,7 @@ var endless_no_more_content = false;
 var endless_in_loading = false;
 function endless_load_more_update(re) {
     //console.log(re);
+
     if ( re.page ) {
         var page = element.post_list().attr('page');
         if ( page != re.page ) {

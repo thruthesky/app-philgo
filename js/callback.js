@@ -316,7 +316,8 @@ var callback = {
         html.setContent( html.page.setting() );
     },
     on_click_change_server_button : function () {
-        var url = prompt("Please, input server address:");
-        app.setServerURL(url);
-    },
+        if ( confirm("Connect to http://philgo.com/") ) return app.setServerURL('http://philgo.com/');
+        if ( confirm("Connect to http://philgo.org/") ) return app.setServerURL('http://philgo.org/');
+        if ( confirm("Connect to http://192.168.137.1/") ) return app.setServerURL('http://192.168.137.1/');
+    }
 };
