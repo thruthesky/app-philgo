@@ -292,6 +292,7 @@ var html = {
 		if( comment['good'] > 0 ) likes = comment['good'];
 		else likes = '';
 
+
 		m += '<div class="post comment clearfix" post-id="'+comment['post_id']+'" idx="'+comment['idx']+'" gid="'+comment['gid']+'" depth="'+comment['depth']+'" idx-parent="'+comment['idx_parent']+'">';
 
 		m += '<div class="btn-group post-menu-philzine-top" role="group">';
