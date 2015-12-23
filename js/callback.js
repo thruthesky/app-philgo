@@ -114,7 +114,7 @@ var callback = {
                 photos = photos + ' ' + this.outerHTML;
             });
             console.log(photos);
-            if ( !_.isEmpty(photos) ) photos = html.photos(idx, photos);
+            photos = html.photos(idx, photos); // .photos must exist
 
             console.log(photos);
 
@@ -186,7 +186,6 @@ var callback = {
             }
             var $photos = $form.find('.photos');
             $photos.append( html.render_photo( re.data ) );
-            //alert(JSON.stringify(re));
         }
         function onFileTransferFail(e) {
             alert('onFileTransferFail');
@@ -273,5 +272,10 @@ var callback = {
         var $this = $(this);
         var $post = $this.parents('.post');
         var idx = $post.attr('idx');
+        var url = url_server + '?module=ajax&action=post_delete_submit&idx=' + idx;
+        ajax_load(url, function(re){
+            console.log(re);
+            $post.html(lang('deleted'));
+        });
     }
 };
