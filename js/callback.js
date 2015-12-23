@@ -159,7 +159,6 @@ var callback = {
                 if ( app.isRegisterPage() ) html.update_primary_photo( re.data );
                 else {
                     var $photos = $form.find('.photos');
-                    if( $photos.css("display") == "none" ) $photos.show();//added by benjmami
                     $photos.append( html.render_photo( re.data ) );
                 }
             }
@@ -191,7 +190,6 @@ var callback = {
                 alert(re['message']);
             }
             var $photos = $form.find('.photos');
-			if( $photos.css("display") == "none" ) $photos.show();//added by benjmami
             $photos.append( html.render_photo( re.data ) );
         }
         function onFileTransferFail(e) {
