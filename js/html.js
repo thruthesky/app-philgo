@@ -272,7 +272,6 @@ var html = {
         return m;
     },
     render_comment : function (comment) {
-		/*OLD comment
 		var m = '';
 
 		var date_full = etc.date_full(comment['stamp']);
@@ -316,12 +315,7 @@ var html = {
 		m += ' <span class="reply-button">Reply</span>, 추천, 비추천';
 		m += '</div>';
 		return m;
-		*/
-	
-	
-		/*
-		this is the new comment list, in case of bugs and/or errors, delete the text below until the end of the object and uncomment the text above
-		*/
+/*
         var m = '';
 
         var date_full = etc.date_full(comment['stamp']);
@@ -363,6 +357,7 @@ var html = {
 		m +='</div>';
 		
         return m;
+*/
     },
     render_post_edit : function ( $post ) {
         var idx = $post.attr('idx');
