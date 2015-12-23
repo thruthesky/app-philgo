@@ -4,14 +4,26 @@
  *
  */
 var app = {
-    version : '51219', // 년 1자리, 월2자리, 일 2자리
+    version : '0.12.01', // 년.월.일 로 Major.medium.minor 로 표시한다. 2015 년이 0 년.
     _user_server : null,
     current_page_name : null,
+    getCurrentPage : function () {
+        return this.current_page_name;
+    },
+    isRegisterPage : function () {
+        return app.getCurrentPage() == 'register';
+    },
     setServerURL : function (url) {
         this._user_server = url;
     },
     getServerURL : function () {
         return this._user_server;
+    },
+    getServerCSSURL : function () {
+
+    },
+    getServerJavascriptURL : function () {
+
     },
     url_server_widget : function () {
         return this.getServerURL() + '?module=ajax&action=widget&submit=1&name=';
@@ -82,6 +94,9 @@ var app = {
     goTop : function() {
         scrollTo(0,0);
     },
+    init : function () {
+        this.version = db.get('version');
+    },
     initEvent : function() {
         on_click('[page-button]', callback.on_click_page);
         on_click('.menu-panel.toggle', callback.on_click_menu_panel);
@@ -100,6 +115,8 @@ var app = {
         on_submit('form.post-write-form', callback.post_form_submit);
         on_submit('form.comment-write-form', callback.comment_form_submit);
         on_submit('form.post-edit-form', callback.edit_form_submit);
+        on_submit('form.member-register-form', callback.member_register_submit);
+
 
 
         on_click('.reply-button', callback.on_click_reply_button);

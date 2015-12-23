@@ -22,6 +22,14 @@ var member = {
         }
         else this.unset();
     },
+    /**
+     *
+     * 아래의 값이 입력되면 로그인 처리를 한다.
+     *
+     * @param id
+     * @param re
+     *      re.idx_member, re.session_id, re.user_name
+     */
     setLogin : function (id, re) {
         db.set('user_id', id);
         db.set('idx_member', re['idx_member']);

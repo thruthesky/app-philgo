@@ -134,16 +134,7 @@ var html = {
 		/*
         var gid = etc.unique_id(member.idx + p['post_id']);
         var m = '';
-        m += '<form class="comment-write-form" data-idx-parent="'+p['idx']+'" action="'+app.getServerURL()+'" method="post" enctype="multipart/form-data">';
-        m += "  <input type='hidden' name='idx_parent' value='"+p['idx']+"'>";
-        m += "  <input type='hidden' name='gid' value='"+gid+"'>";
-        m += "  <input type='hidden' name='idx_member' value='"+member.idx+"'>";
-        m += "  <input type='hidden' name='session_id' value='"+member.session_id+"'>";
-        m += "  <input type='hidden' name='submit' value='1'>";
-        m += '  <input type="hidden" name="module" value="ajax">';
-        m += "  <input type='hidden' name='action' value='comment_write_submit'>";
-        m += '  <textarea name="content"></textarea>';
-        m += '  <div class="photos"></div>';
+
         m += this.filebox();
         m += '  <input type="submit">';
         m += '</form>';
@@ -447,7 +438,7 @@ var html = {
         setting : function () {
             var m = '';
             m += '<div class="page-header">';
-            m += '  <h1>설정 <small>필리핀매거진</small></h1>';
+            m += '  <h1>설정 <small>필리핀매거진 {{version}}</small></h1>';
             m += '</div>';
             m += '<ul class="list-group">';
             m += '  <li class="list-group-item"><div class="reset">Reset</div></li>';
@@ -455,7 +446,11 @@ var html = {
             m += '  <li class="list-group-item">Refresh</li>';
             m += '  <li class="list-group-item">Show all menu on front page</li>';
             m += '</ul>';
-            return m;
+            return _.template(m)(app);
         }
+    },
+    update_primary_photo : function ( data ) {
+        console.log(data);
+        el.primary_photo().prop('src', data.url);
     }
 };

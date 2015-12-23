@@ -24,6 +24,8 @@ function check_update_version() {
             note.post(
                 _.template('{{domain}} {{version}} 에 접속하였습니다.')(re)
             );
+            db.set('version', re['version']);
+            app.version = re['version'];
         });
     }
 }

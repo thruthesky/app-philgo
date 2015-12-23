@@ -137,6 +137,9 @@ var callback = {
         var $action = $form.find('[name="action"]');
         var action = $action.val();
         $action.val('file_upload_submit');
+
+        if ( app.isRegisterPage() ) $form.prop('action', app.getServerURL());
+
         this.is_upload_submit = true;
         $form.ajaxSubmit({
             complete: function (xhr) {
@@ -152,8 +155,12 @@ var callback = {
                 if ( re['code'] ) {
                     return alert(re['message']);
                 }
-                var $photos = $form.find('.photos');
-                $photos.append( html.render_photo( re.data ) );
+
+                if ( app.isRegisterPage() ) html.update_primary_photo( re.data );
+                else {
+                    var $photos = $form.find('.photos');
+                    $photos.append( html.render_photo( re.data ) );
+                }
             }
         });
         this.is_upload_submit = false;
@@ -164,8 +171,6 @@ var callback = {
         var $this = $(this);
         var $form = $this.parents('form');
         var gid = $form.find('[name="gid"]').val();
-        var idx_parent = $form.attr('data-idx-parent');
-        if ( typeof idx_parent == 'undefined' ) idx_parent = 0;
 
         function onCameraError(e) {
             alert('onCameraError');
@@ -192,6 +197,7 @@ var callback = {
             alert(JSON.stringify(e));
         }
         function onCameraSuccess(fileURI) {
+
             var options = new FileUploadOptions();
             options.fileKey = "file";
             options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
@@ -199,11 +205,18 @@ var callback = {
             options.params = {
                 'module' : 'ajax',
                 'action' : 'file_upload_submit',
-                'idx_parent': idx_parent,
                 'gid' : gid,
                 'idx_member' : member.idx,
                 'session_id' : member.session_id
             };
+            if ( app.current_page_name == 'register' ) {
+
+            }
+            else {
+                var idx_parent = $form.attr('data-idx-parent');
+                if ( typeof idx_parent == 'undefined' ) idx_parent = 0;
+                options['idx_parent'] = idx_parent;
+            }
             console.log(options);
             var ft = new FileTransfer();
             var url = app.getServerURL();
@@ -311,5 +324,12 @@ var callback = {
         if ( confirm("Connect to http://philgo.com/") ) return app.setServerURL('http://philgo.com/');
         if ( confirm("Connect to http://philgo.org/") ) return app.setServerURL('http://philgo.org/');
         if ( confirm("Connect to http://192.168.137.1/") ) return app.setServerURL('http://192.168.137.1/');
+    },
+    member_register_submit : function (e) {
+        e.preventDefault();
+        ajax_load_post(app.getServerURL(), $(this).serialize(), function(re){
+            console.log(re);
+        });
+        return false;
     }
 };
