@@ -17,3 +17,10 @@ function trace(v) {
     count_trace ++;
     console.log('[' + count_trace + '] ' + name + '() ' + v);
 }
+
+function lang(code) {
+    switch (code) {
+        case 'deleted' : return '<h5>글이 삭제되었습니다.</h5>';
+        default : return code;
+    }
+}

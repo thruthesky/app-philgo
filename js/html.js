@@ -203,17 +203,7 @@ var html = {
             m += '<span type="button" class="btn btn-secondary post-delete-button"><span class="glyphicon glyphicon-trash"></span></span>';
         }
         m += '  <span class="menu-separator"></span>';
-        m += '  <span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-        m += '      <span class="glyphicon glyphicon-option-vertical"></span>';
-        m += '  </span>';
-        m += '  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
-        m += '      <li><a href="#">Report</a></li>';
-        m += '      <li><a href="#">Blind</a></li>';
-        m += '      <li><a href="#">Block</a></li>';
-        m += '      <li><a href="#">Trash</a></li>';
-        m += '      <li><a href="#">Move</a></li>';
-        m += '      <li><a href="#">More Menu ...</a></li>';
-        m += '  </ul>';
+        m += post.markup.more(p['idx']);
         m += '</div>';
 
         m += '<div class="media post-info">';
@@ -234,8 +224,8 @@ var html = {
             //m += '<h3 class="subject">' + p['subject'] + '</h3>';
         }
         var no_of_comment, likes;
-        if ( p['subject'] ) m += '<div class="subject">' + p['subject'] + '</div>';
-        if ( p['content'] ) m += '<div class="content">' + p['content'] + '</div>';
+        m += '<div class="subject">' + post.subject(p) + '</div>';
+        m += '<div class="content">' + post.content(p) + '</div>';
         if ( p['photos'] ) m += p['photos'];
         if( p['good'] > 0 ) likes = p['good'];
         else likes = '';
@@ -282,64 +272,38 @@ var html = {
 		if( comment['good'] > 0 ) likes = comment['good'];
 		else likes = '';
 
-		m += '<div class="post comment clearfix" idx="'+comment['idx']+'" post-id="'+comment['post_id']+'" depth="'+comment['depth']+'" idx-parent="'+comment['idx_parent']+'">';
+		m += '<div class="post comment clearfix" post-id="'+comment['post_id']+'" idx="'+comment['idx']+'" gid="'+comment['gid']+'" depth="'+comment['depth']+'" idx-parent="'+comment['idx_parent']+'">';
 
 		m += '<div class="btn-group post-menu-philzine-top" role="group">';
-		if( post.mine(comment) ) {
-			m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
+		
+		if( !post.mine(comment) ) {
+			m += '<span type="button" class="btn btn-secondary post-delete-button glyphicon glyphicon-remove"></span>';
 		}
+		/*
 		else {
 			m += '<span type="button" class="btn btn-secondary post-edit-button"><img src="img/post/edit.png"/></span>';
 			m += '<span type="button" class="btn btn-secondary post-delete-button"><img src="img/post/delete.png"/></span>';
 		}
-		m += '  <span class="menu-separator"></span>';
-		m += '  <span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-		m += '      <img src="img/post/more.png"/>';
-		m += '  </span>';
-		m += '  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
-		m += '      <li><a href="#">Report</a></li>';
-		m += '      <li><a href="#">Blind</a></li>';
-		m += '      <li><a href="#">Block</a></li>';
-		m += '      <li><a href="#">Trash</a></li>';
-		m += '      <li><a href="#">Move</a></li>';
-		m += '      <li><a href="#">More Menu ...</a></li>';
-		m += '  </ul>';
+        m += '  <span class="menu-separator"></span>';
+        m += post.markup.more(comment['idx']);
+		*/
 		m += '</div>';
-
-		m += ' 글번호 : '+comment['idx'];
-		m += ' 글쓴이: ' + comment['user_name'];
-		m += ' <span title="'+date_full+'">날짜: ' + date + '</span>';
-		m += ' 수정, 메뉴 더보기';
-		m += '  <div class="content">' + comment['content'] + '</div>';
-		if ( comment['photos'] ) m += comment['photos'];
-		m += ' <span class="reply-button">Reply</span>, 추천, 비추천';
-		m += '</div>';
-		return m;
-/*
-        var m = '';
-
-        var date_full = etc.date_full(comment['stamp']);
-        var date = etc.date_short(comment['stamp']);
-        var humanTime = etc.humanTime(comment['stamp']);
-
-        var likes;
-        if( comment['good'] > 0 ) likes = comment['good'];
-        else likes = '';
-
-        m += '<div class="post comment clearfix" idx="'+comment['idx']+'" post-id="'+comment['post_id']+'" depth="'+comment['depth']+'" idx-parent="'+comment['idx_parent']+'">';
+		
+		
 		m +=	'<div class="media post-info">';
 		m +=		'<a class="media-left" href="#">';
 		m +=		'<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
 		m +=		'</a>';
 		m +=		'<div class="media-body">';
 		m +=			'<div class="name">'+comment['user_name']+"</div>";
-		m +=			'<div class="date">'+date+'<span class="separator">|</span>'+humanTime+'</div>';
+		m +=			'<div class="date" title="'+date_full+'">'+date+'<span class="separator">|</span>'+humanTime+'</div>';
 		m +=			'<div class="content">';
-		m +=				'<div class="text">' + comment['content'] + '</div>';
+		m +=				'<div class="text">' + post.content(comment) + '</div>';
 		if ( comment['photos'] ) m += comment['photos'];
 		m +=			'</div>';
 		m +=		'</div>';
 		m +=	'</div>';
+		
 		m +=	'<nav class="btn-group post-menu-philzine-bottom pull-right">';
 		m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+likes+'</span></span>';
 		m +=		'<div class="btn dropdown">';
@@ -347,17 +311,29 @@ var html = {
 		m +=				'<span class="glyphicon glyphicon-option-horizontal"></span>';
 		m +=			'</div>';
 		m +=			'<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
-		m +=				'<li class="dropdown-item reply-button"><a href="#">Reply</a></li>';
-		m +=				'<li class="dropdown-item report"><a href="#">Report</a></li>';
-		m +=				'<li class="dropdown-item delete"><a href="#">Delete</a></li>';
-		m +=				'<li class="dropdown-item edit"><a href="#">Edit</a></li>';
+		m +=				'<li class="dropdown-item reply-button">Reply</li>';
+		if( !post.mine(comment) ) {
+		m +=				'<li class="dropdown-item report-button">Report</li>';
+		}
+		//m +=				'<li class="dropdown-item delete"><a href="#">Delete</a></li>';
+		m +=				'<li class="dropdown-item post-edit-button">Edit</li>';
 		m +=			'</ul>';
 		m +=		'</div>';
 		m +=	'</nav>';
-		m +='</div>';
 		
-        return m;
-*/
+		/*
+		m += ' 글번호 : '+comment['idx'];
+		m += ' 글쓴이: ' + comment['user_name'];
+		m += ' <span title="'+date_full+'">날짜: ' + date + '</span>';
+		m += ' 수정, 메뉴 더보기';
+        m += '<div class="content">' + post.content(comment) + '</div>';
+		
+		if ( comment['photos'] ) m += comment['photos'];
+		*/
+		
+		//m += ' <span class="reply-button">Reply</span>, 추천, 비추천';
+		m += '</div>';
+		return m;
     },
     render_post_edit : function ( $post ) {
         var idx = $post.attr('idx');
@@ -383,8 +359,8 @@ var html = {
         m += "  <input type='hidden' name='session_id' value='"+member.session_id+"'>";
         m += post.edit_subject(subject);
         m += post.edit_content(content);
-        //if ( photos ) m += '  <div class="photos">'+photos+'</div>';
-        if ( !_.isEmpty(photos) ) m += html.photos(idx, photos);
+
+        m += html.photos(idx, photos); // .photos must exists.
 
         m += this.filebox();
         m += post.edit_cancel();

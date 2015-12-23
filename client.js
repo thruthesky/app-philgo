@@ -22,6 +22,7 @@ $(function(){
 
 
 
+
     //db.deleteAll();
 
 
@@ -73,7 +74,7 @@ $(function(){
         setTimeout(function() {
             var $post = $('.post-list > .post').first();
             var $button = $post.find('.post-edit-button');
-            $button.click();
+            //$button.click();
         }, 400);
     }, 300);
 

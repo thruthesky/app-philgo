@@ -19,9 +19,29 @@ var post = {
         var m = '<div class="content">';
         m += '  <textarea name="content">';
         m +=        v;
-        m += '  </textarea>';
+        m += '</textarea>';
         m += '</div>';
         return m;
+    },
+    subject : function( p ) {
+        if ( p['deleted'] == 1 ) return '';
+        else return p['subject'];
+    },
+    content : function( p ) {
+        if ( p['deleted'] == 1 ) return lang('deleted');
+        else return p['content'];
+    },
+    markup : {
+        more : function(idx) {
+            var m = '';
+            m += '  <span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+            m += '      <img src="img/post/more.png"/>';
+            m += '  </span>';
+            m += '  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
+            m += '      <li><span class="report-button">Report</span></li>';
+            m += '      <li><span class="report-button">Message</span></li>';
+            m += '  </ul>';
+            return m;
+        }
     }
-
 };
