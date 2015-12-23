@@ -438,13 +438,13 @@
 }
 
 .post-write-form  .row.commands > .category .caret{	
-	position:absolute;
-	right:7px;
-	top:14px;
-	border-top: 7px dashed;    
-    border-right: 6px solid transparent;
-    border-left: 6px solid transparent;
-	color:#fff;
+	position: absolute;
+	right: 8px;
+	top: 14px;
+	border-top: 6px dashed;
+	border-right: 5px solid transparent;
+	border-left: 5px solid transparent;
+	color: #fff;
 }
 
 .post-write-form  .row.commands > .col-xs-4:first-child{	
