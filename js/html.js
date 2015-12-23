@@ -112,11 +112,18 @@ var html = {
         m += "  <input type='hidden' name='submit' value='1'>";
         m += "  <input type='hidden' name='module' value='ajax'>";
         m += "  <input type='hidden' name='action' value='post_write_submit'>";
-        m += "  <div class='content'><textarea name='content'></textarea></div>";
-        m += '  <div class="photos"></div>';
-        m += this.filebox();
-        m += "  <div class='category'>";
-        m += "      <select name='post_id'>";
+		m += "	<div class='post-content-wrapper'>";
+        m += "  	<div class='content'>";
+		m += "			<textarea name='content' placeholder='Write a post.'></textarea>";		
+		m += "		</div>";        
+		m += '		<div class="photos clearfix"></div>';
+		m += "	</div>";
+		m += '<div class="row commands">';
+		m += '<div class="col-xs-4">';
+        m += 	this.filebox();
+		m += '</div>';
+        m += "  <div class='category col-xs-4'>";
+        m += "      <select class='form-control' name='post_id'>";
         for( var name in forums ) {
             if ( forums.hasOwnProperty(name) ) {
                 m += '<option value="'+name +'"';
@@ -125,8 +132,10 @@ var html = {
             }
         }
         m += "      </select>";
-        m += "  </div>";
-        m += "  <div class='submit'><input type='submit'></div>";
+		m += "		<span class='caret'></span>";
+        m += "</div>";
+        m += "<div class='submit col-xs-4'><input type='submit' value='Post'></div>";
+		m += "</div>";
         m += "</form>";
         return m;
     },
@@ -215,7 +224,7 @@ var html = {
 
 
         m += '<div class="btn-group post-menu-philzine-top" role="group">';
-        if( post.mine(p) ) {
+        if( !post.mine(p) ) {
             m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
         }
         else {
@@ -362,22 +371,34 @@ var html = {
         });
 
         var m = '';
-        m += '<form class="post-edit-form"" idx="'+idx+'" action="'+app.getServerURL()+'" method="post" enctype="multipart/form-data">';
+        m += '<form class="post-edit-form" idx="'+idx+'" action="'+app.getServerURL()+'" method="post" enctype="multipart/form-data">';
         m += '  <input type="hidden" name="module" value="ajax">';
         m += '  <input type="hidden" name="action" value="post_edit_submit">';
         m += '  <input type="hidden" name="idx" value="'+idx+'">';
         m += '  <input type="hidden" name="gid" value="'+gid+'">';
         m += "  <input type='hidden' name='idx_member' value='"+member.idx+"'>";
         m += "  <input type='hidden' name='session_id' value='"+member.session_id+"'>";
+		
+		m += "  <div class='post-content-wrapper'>";
+		
         m += post.edit_subject(subject);
         m += post.edit_content(content);
-
         m += html.photos(idx, photos); // .photos must exists.
+		
+		m += "</div>";
 
-        m += this.filebox();
-        m += post.edit_cancel();
-        m += '<input type="submit">';
+		m += '<div class="row commands">';
+		m += '	<div class="col-xs-4">';
+        m += 		this.filebox();
+		m += '	</div>';
+		m += '	<div class="col-xs-4">';
+        m += 		post.edit_cancel();
+		m += '	</div>';
+		m += '	<div class="col-xs-4">';
+        m += '		<input type="submit" value="Update">';
+		m += '	</div>';
         m += '</form>';
+		m += '</div>';
 
         m = '<div class="post-edit" idx="'+idx+'">' + m + '</div>';
         $post.after( m );

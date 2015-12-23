@@ -370,6 +370,99 @@
 
 
 
+
+
+/*post-write-form*/
+.post-write-form select {
+    height: 35px;
+    border: 0;
+    background-color: #b5c5c6;
+    color: #fff;
+}
+
+.post-write-form .post-content-wrapper{	
+	margin-bottom:10px;
+	border:1px solid #c7c7c7;
+	border-radius:3px;
+	background-color:#fff;
+	overflow:hidden;
+}
+
+.post-write-form .photos{
+	display:none;
+	padding:5px;
+	border-top:1px solid #c7c7c7;
+}
+
+.post-edit-form .photos{
+	display:block;
+}
+
+.post-write-form textarea{
+	display:block;
+	height:40px;
+	width:100%;
+	padding:5px;
+	border:0;
+	resize:none;
+	box-sizing:border-box;
+}
+
+.post-write-form textarea:focus{
+	outline:0;
+}
+
+.post-write-form input[type='submit']{	
+	height:35px;
+	width:100%;
+	padding:5px 0;
+	border:0;
+	border-radius:3px;
+	background-color:#2c8ac8;
+	font-weight:bold;
+	color:#fff;
+	box-sizing:border-box;
+}
+
+.post-write-form  .row.commands{
+	display:none;
+	margin:0 0 10px 0;
+}
+
+.post-edit-form  .row.commands{
+	display:block;	
+}
+
+.post-write-form  .row.commands > .category{	
+	position:relative;
+}
+
+.post-write-form  .row.commands > .category .caret{	
+	position: absolute;
+	right: 8px;
+	top: 14px;
+	border-top: 6px dashed;
+	border-right: 5px solid transparent;
+	border-left: 5px solid transparent;
+	color: #fff;
+}
+
+.post-write-form  .row.commands > .col-xs-4:first-child{	
+	padding:0 6.66px 0 0;
+}
+
+.post-write-form  .row.commands > .col-xs-4:nth-child(2){	
+	padding:0 3.33px 0 3.33px;
+}
+
+.post-write-form  .row.commands > .col-xs-4:last-child{	
+	padding:0 0 0 6.66px;
+}
+/*eo post-write-form*/
+
+
+
+
 /*comment-write-form*/
 .comment-write-form{
 	padding:0 10px;
@@ -415,18 +508,120 @@
 /*eo comment-write-form*/
 
 
-/*file-button*/
-.comment-write-form .file.desktop{
+
+/*post-edit-form*/
+.post-edit-form .glyphicon.glyphicon-remove.cancel-button {
+	display:block;
+    height: 35px;
+	padding:8px 0;
+    width:100%;
+	border-radius:2px;
+	background-color:red;
+	color:#fff;
+	text-align:center;
+	box-sizing:border-box;
+}
+
+.post-edit-form .glyphicon.glyphicon-remove.cancel-button:before {
+	position:relative;
+	top:2px;
+	margin-right:5px;
+}
+
+.post-edit-form .post-content-wrapper{	
+	margin-bottom:10px;
+	border:1px solid #c7c7c7;
+	border-radius:3px;
+	background-color:#fff;
+	overflow:hidden;
+}
+
+.post-edit-form .photos{
+	display:none;
+	padding:5px;
+	border-top:1px solid #c7c7c7;
+}
+
+.post-edit-form .photos{
+	display:block;
+}
+
+.post-edit-form textarea{
+	display:block;
+	height:40px;
+	width:100%;
+	padding:5px;
+	border:0;
+	resize:none;
+	box-sizing:border-box;
+}
+
+.post-edit-form textarea:focus{
+	outline:0;
+}
+
+.post-edit-form input[type='submit']{	
+	height:35px;
+	width:100%;
+	padding:5px 0;
+	border:0;
+	border-radius:3px;
+	background-color:#2c8ac8;
+	font-weight:bold;
+	color:#fff;
+	box-sizing:border-box;
+}
+
+.post-edit-form  .row.commands{
+	display:none;
+	margin:0;
+}
+
+.post-edit-form  .row.commands{
+	display:block;	
+}
+
+.post-edit-form  .row.commands > .category{	
 	position:relative;
 }
 
-.comment-write-form .file.desktop input[type='file']{
+.post-edit-form  .row.commands > .category .caret{	
+	position:absolute;
+	right:7px;
+	top:14px;
+	border-top: 7px dashed;    
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+	color:#fff;
+}
+
+.post-edit-form  .row.commands > .col-xs-4:first-child{	
+	padding:0 6.66px 0 0;
+}
+
+.post-edit-form  .row.commands > .col-xs-4:nth-child(2){	
+	padding:0 3.33px 0 3.33px;
+}
+
+.post-edit-form  .row.commands > .col-xs-4:last-child{	
+	padding:0 0 0 6.66px;
+}
+/*eo post-edit-form*/
+
+
+
+/*file-button*/
+.file.desktop{
+	position:relative;
+}
+
+.file.desktop input[type='file']{
 	width:100%;
 	height:35px;
 	opacity:0;
 }
 
-.comment-write-form .file .glyphicon{
+.file .glyphicon{
 	position: absolute;
 	top:0;
 	left:0;
@@ -441,25 +636,37 @@
 	text-align: center;
 }
 
-.comment-write-form .file.file-upload-button {
+.file.file-upload-button {
 	padding:0;
 }
 
-.comment-write-form .file.file-upload-button .glyphicon{
+.file.file-upload-button .glyphicon{
 	position:relative;	
 }
 
-.comment-write-form .commands .col-xs-6:first-child{
+.commands .col-xs-6:first-child{
 	padding:0 5px 0 0;
 }
 
-.comment-write-form .commands .col-xs-6:last-child{
+.commands .col-xs-6:last-child{
 	padding:0 0 0 5px;
 }
 /*eo file-button*/
 
 /*photos*/
-.photos .photo{
-	margin-top:10px;
+/*display*/
+.photos > img{	
+	width:49%;
+	padding:3px;
+	border:1px solid #ddd;
+	margin:2px .5% 0 .5%;
+	box-sizing:border-box;
 }
+/*eo display*/
+
+/*edit*/
+.photos .photo{
+	margin-top:5px;
+}
+/*eo edit*/
 /*eo photos*/
