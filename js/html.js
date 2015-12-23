@@ -154,7 +154,7 @@ var html = {
 		var gid = etc.unique_id(member.idx + p['post_id']);
 		var m = '';
 		
-		m += '<form class="comment-write-form clearfix" data-idx-parent="'+p['idx']+'" action="'+url_server+'" method="post" enctype="multipart/form-data">';
+		m += '<form class="comment-write-form clearfix" data-idx-parent="'+p['idx']+'" action="'+app.getServerURL()+'" method="post" enctype="multipart/form-data">';
 		m += "  <input type='hidden' name='idx_parent' value='"+p['idx']+"'>";
         m += "  <input type='hidden' name='gid' value='"+gid+"'>";
         m += "  <input type='hidden' name='idx_member' value='"+member.idx+"'>";
