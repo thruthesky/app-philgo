@@ -223,6 +223,7 @@ var callback = {
                     type = Camera.PictureSourceType.PHOTOLIBRARY;
                 }
             }
+
             setTimeout(function() {
                 navigator.camera.getPicture( onCameraSuccess, onCameraError, {
                     'quality' : 100,
@@ -297,6 +298,12 @@ var callback = {
             alert("글 신고가 되었습니다.");
         });
     },
+	//added by benjamin
+	on_click_post_edit_textarea : function() {
+		var $this = $(this);
+		$this.height(100);
+	},
+	//^ above is added by benjamin
     on_click_setting_button : function () {
         html.setContent( html.page.setting() );
     },

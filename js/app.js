@@ -112,6 +112,8 @@ var app = {
         on_click('.post-delete-button', callback.on_click_post_delete_button);
 
         on_click('.post-edit .cancel-button', callback.on_click_post_edit_cancel_button);
+		//added by benjamin
+        on_click('form textarea[name="content"]', callback.on_click_post_edit_textarea);
 
 
     },

@@ -131,6 +131,7 @@ var html = {
         return m;
     },
     comment_write_form : function (p) {
+		/*
         var gid = etc.unique_id(member.idx + p['post_id']);
         var m = '';
         m += '<form class="comment-write-form" data-idx-parent="'+p['idx']+'" action="'+app.getServerURL()+'" method="post" enctype="multipart/form-data">';
@@ -144,31 +145,61 @@ var html = {
         m += '  <textarea name="content"></textarea>';
         m += '  <div class="photos"></div>';
         m += this.filebox();
-        //m += this.filebox_photo();
         m += '  <input type="submit">';
         m += '</form>';
         return m;
+		*/
+		
+		
+		var gid = etc.unique_id(member.idx + p['post_id']);
+		var m = '';
+		
+		m += '<form class="comment-write-form clearfix" data-idx-parent="'+p['idx']+'" action="'+url_server+'" method="post" enctype="multipart/form-data">';
+		m += "  <input type='hidden' name='idx_parent' value='"+p['idx']+"'>";
+        m += "  <input type='hidden' name='gid' value='"+gid+"'>";
+        m += "  <input type='hidden' name='idx_member' value='"+member.idx+"'>";
+        m += "  <input type='hidden' name='session_id' value='"+member.session_id+"'>";
+        m += "  <input type='hidden' name='submit' value='1'>";
+        m += '  <input type="hidden" name="module" value="ajax">';
+        m += "  <input type='hidden' name='action' value='comment_write_submit'>";
+		m +=	'<div class="media post-info col-xs-8">';
+		
+		m +=		'<a class="media-left" href="#">';
+		m +=		'<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
+		m +=		'</a>';
+		m +=		'<div class="media-body">';
+		m +=		'<textarea name="content"></textarea>';
+		m += 		'<div class="photos"></div>';		
+		m +=		'</div>';
+		
+		m +=	'</div>';
+		m +=	'<div class="col-xs-4 commands">';
+		m +=		'<div class="col-xs-6">' + this.filebox() + '</div>';
+		m +=		'<div class="col-xs-6">' + '<input type="submit" value="Post">' + '</div>';
+		m +=	'</div>';
+		m += '</form>';
+		
+
+		//console.log( m );
+		return m;
+		
     },
     filebox : function () {
         var m;
         if ( app.isDesktop() ) {
-            m = '  <div class="file"><input type="file" name="file" onchange="callback.on_change_file_upload(this);"></div>';
+            m = '<div class="file desktop">';
+			m += '<span class="glyphicon glyphicon-camera"></span>';
+			m += '<input type="file" name="file" onchange="callback.on_change_file_upload(this);">';
+			m += '</div>';            
         }
         else if ( app.isBrowser() ) {
             if ( debug.browser_camera_upload ) m = '  <div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span> File Upload</div>';
             else m = '  <div class="file"><input type="file" name="file" onchange="callback.on_change_file_upload(this);"></div>';
         }
         else {
-            m = '  <div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span> File Upload</div>';
+            m = '<div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span></div>';
         }
-        return m;
-    },
-    filebox_photo : function () {
-        var m;
-		m = '<div class="file">'
-		m += '<input type="file" name="file" onchange="callback.on_change_file_upload(this);">';
-        m += '<div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span></div>';
-		m += '</div>';
+		//m = '<div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span></div>';
         return m;
     },
     clear_comment_write_form : function (p) {
@@ -251,7 +282,6 @@ var html = {
         return m;
     },
     render_comment : function (comment) {
-
 		var m = '';
 
 		var date_full = etc.date_full(comment['stamp']);
@@ -265,38 +295,65 @@ var html = {
 		m += '<div class="post comment clearfix" post-id="'+comment['post_id']+'" idx="'+comment['idx']+'" gid="'+comment['gid']+'" depth="'+comment['depth']+'" idx-parent="'+comment['idx_parent']+'">';
 
 		m += '<div class="btn-group post-menu-philzine-top" role="group">';
-		if( post.mine(comment) ) {
-			m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
+		
+		if( !post.mine(comment) ) {
+			m += '<span type="button" class="btn btn-secondary post-delete-button glyphicon glyphicon-remove"></span>';
 		}
+		/*
 		else {
 			m += '<span type="button" class="btn btn-secondary post-edit-button"><img src="img/post/edit.png"/></span>';
 			m += '<span type="button" class="btn btn-secondary post-delete-button"><img src="img/post/delete.png"/></span>';
 		}
         m += '  <span class="menu-separator"></span>';
         m += post.markup.more(comment['idx']);
+		*/
 		m += '</div>';
-
+		
+		
+		m +=	'<div class="media post-info">';
+		m +=		'<a class="media-left" href="#">';
+		m +=		'<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
+		m +=		'</a>';
+		m +=		'<div class="media-body">';
+		m +=			'<div class="name">'+comment['user_name']+"</div>";
+		m +=			'<div class="date" title="'+date_full+'">'+date+'<span class="separator">|</span>'+humanTime+'</div>';
+		m +=			'<div class="content">';
+		m +=				'<div class="text">' + post.content(comment) + '</div>';
+		if ( comment['photos'] ) m += comment['photos'];
+		m +=			'</div>';
+		m +=		'</div>';
+		m +=	'</div>';
+		
+		m +=	'<nav class="btn-group post-menu-philzine-bottom pull-right">';
+		m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+likes+'</span></span>';
+		m +=		'<div class="btn dropdown">';
+		m +=			'<div class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+		m +=				'<span class="glyphicon glyphicon-option-horizontal"></span>';
+		m +=			'</div>';
+		m +=			'<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
+		m +=				'<li class="dropdown-item reply-button">Reply</li>';
+		if( !post.mine(comment) ) {
+		m +=				'<li class="dropdown-item report-button">Report</li>';
+		}
+		//m +=				'<li class="dropdown-item delete"><a href="#">Delete</a></li>';
+		m +=				'<li class="dropdown-item post-edit-button">Edit</li>';
+		m +=			'</ul>';
+		m +=		'</div>';
+		m +=	'</nav>';
+		
+		/*
 		m += ' 글번호 : '+comment['idx'];
 		m += ' 글쓴이: ' + comment['user_name'];
 		m += ' <span title="'+date_full+'">날짜: ' + date + '</span>';
 		m += ' 수정, 메뉴 더보기';
-
-
         m += '<div class="content">' + post.content(comment) + '</div>';
-
+		
 		if ( comment['photos'] ) m += comment['photos'];
-
-
-        m += '<ul class="nav nav-pills">';
-        //m += '  <li class="like">'+ p['idx']+'<img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
-        m += '  <li class="like like-button"><span class="glyphicon glyphicon-thumbs-up"></span>Like <span class="no">' + likes + '</span></li>';
-        m += '  <li class="reply reply-button"><span class="glyphicon glyphicon-comment"></span>Reply</li>';
-        m += '</ul>';
-
-
+		*/
+		
+		//m += ' <span class="reply-button">Reply</span>, 추천, 비추천';
 		m += '</div>';
 		return m;
-
     },
     render_post_edit : function ( $post ) {
         var idx = $post.attr('idx');
