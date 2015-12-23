@@ -131,6 +131,7 @@ var html = {
         return m;
     },
     comment_write_form : function (p) {
+		/*
         var gid = etc.unique_id(member.idx + p['post_id']);
         var m = '';
         m += '<form class="comment-write-form" data-idx-parent="'+p['idx']+'" action="'+url_server+'" method="post" enctype="multipart/form-data">';
@@ -144,31 +145,61 @@ var html = {
         m += '  <textarea name="content"></textarea>';
         m += '  <div class="photos"></div>';
         m += this.filebox();
-        //m += this.filebox_photo();
         m += '  <input type="submit">';
         m += '</form>';
         return m;
+		*/
+		
+		
+		var gid = etc.unique_id(member.idx + p['post_id']);
+		var m = '';
+		
+		m += '<form class="comment-write-form clearfix" data-idx-parent="'+p['idx']+'" action="'+url_server+'" method="post" enctype="multipart/form-data">';
+		m += "  <input type='hidden' name='idx_parent' value='"+p['idx']+"'>";
+        m += "  <input type='hidden' name='gid' value='"+gid+"'>";
+        m += "  <input type='hidden' name='idx_member' value='"+member.idx+"'>";
+        m += "  <input type='hidden' name='session_id' value='"+member.session_id+"'>";
+        m += "  <input type='hidden' name='submit' value='1'>";
+        m += '  <input type="hidden" name="module" value="ajax">';
+        m += "  <input type='hidden' name='action' value='comment_write_submit'>";
+		m +=	'<div class="media post-info col-xs-8">';
+		
+		m +=		'<a class="media-left" href="#">';
+		m +=		'<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
+		m +=		'</a>';
+		m +=		'<div class="media-body">';
+		m +=		'<textarea name="content"></textarea>';
+		m += 		'<div class="photos"></div>';		
+		m +=		'</div>';
+		
+		m +=	'</div>';
+		m +=	'<div class="col-xs-4 commands">';
+		m +=		'<div class="col-xs-6">' + this.filebox() + '</div>';
+		m +=		'<div class="col-xs-6">' + '<input type="submit" value="Post">' + '</div>';
+		m +=	'</div>';
+		m += '</form>';
+		
+
+		//console.log( m );
+		return m;
+		
     },
     filebox : function () {
         var m;
         if ( app.isDesktop() ) {
-            m = '  <div class="file"><input type="file" name="file" onchange="callback.on_change_file_upload(this);"></div>';
+            m = '<div class="file desktop">';
+			m += '<span class="glyphicon glyphicon-camera"></span>';
+			m += '<input type="file" name="file" onchange="callback.on_change_file_upload(this);">';
+			m += '</div>';            
         }
         else if ( app.isBrowser() ) {
             if ( debug.browser_camera_upload ) m = '  <div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span> File Upload</div>';
             else m = '  <div class="file"><input type="file" name="file" onchange="callback.on_change_file_upload(this);"></div>';
         }
         else {
-            m = '  <div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span> File Upload</div>';
+            m = '<div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span> File Upload</div>';
         }
-        return m;
-    },
-    filebox_photo : function () {
-        var m;
-		m = '<div class="file">'
-		m += '<input type="file" name="file" onchange="callback.on_change_file_upload(this);">';
-        m += '<div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span></div>';
-		m += '</div>';
+		//m = '<div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span></div>';
         return m;
     },
     clear_comment_write_form : function (p) {
@@ -190,9 +221,7 @@ var html = {
 
         var date_full = etc.date_full(p['stamp']);
         var date = etc.date_short(p['stamp']);
-//console.log( "STAMP: " + p['stamp'] );
 
-		var humanTime = etc.humanTime( p['stamp'] );
 
         m += '<div class="btn-group post-menu-philzine-top" role="group">';
         if( post.mine(p) ) {
@@ -212,11 +241,7 @@ var html = {
         m += '  </a>';
         m += '  <div class="media-body">';
         m += '      <div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
-        m += '      <div class="date" title="'+date_full+'">' + date;
-        m += '          <span class="separator">|</span>';
-        m +=            humanTime + ' ago';
-        m += '      </div>';
-        m += '      <div class="location">Lives in Philippines<span class="separator">|</span>xx Fans</div>';
+        m += '      <div class="date" title="'+date_full+'">' + date + '</div>';
         m += '  </div>';
         m += '</div>';
 
@@ -234,18 +259,13 @@ var html = {
 
         m += '<ul class="nav nav-pills post-menu-philzine-bottom">';
         //m += '  <li class="like">'+ p['idx']+'<img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
-        m += '  <li class="like"><span class="glyphicon glyphicon-thumbs-up"></span>Like <span class="no">' + likes + '</span></li>';
+        m += '  <li class="like like-button"><span class="glyphicon glyphicon-thumbs-up"></span>Like <span class="no">' + likes + '</span></li>';
         m += '  <li class="reply"><span class="glyphicon glyphicon-comment"></span>Comment ' + no_of_comment + '</li>';
         m += '</ul>';
 
         m += this.comment_write_form(p);
 
         m = '<div class="post" idx="'+p['idx']+'" gid="'+p['gid']+'">' + m + '</div>';
-
-
-
-
-
 
         //console.log(m);
         return m;

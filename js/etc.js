@@ -27,9 +27,13 @@ var etc = {
     },
 
     /**
-     * @todo need to test this code.
+     *
      * @param timestamp
      * @returns {*}
+     * @code
+         var humanTime = etc.humanTime( p['stamp'] );
+         m +=            humanTime + ' ago';
+     * @endcode
      */
     humanTime : function (timestamp) {
 		d = new Date();

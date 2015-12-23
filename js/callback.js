@@ -277,5 +277,30 @@ var callback = {
             console.log(re);
             $post.html(lang('deleted'));
         });
-    }
+    },
+    on_click_like_button : function () {
+        var $this = $(this);
+        var $post = $this.parents('.post');
+        var idx = $post.attr('idx');
+        var url = url_server + '?module=ajax&action=post_vote_submit&idx=' + idx;
+        ajax_load(url, function(re){
+            console.log(re);
+            $this.find('.no').text(re['good']);
+        });
+    },
+    on_click_report_button : function () {
+        var $this = $(this);
+        var $post = $this.parents('.post');
+        var idx = $post.attr('idx');
+        var url = url_server + '?module=ajax&action=post_report_submit&idx=' + idx;
+        ajax_load(url, function(re){
+            console.log(re);
+            alert("글 신고가 되었습니다.");
+        });
+    },
+	//added by benjamin
+	on_click_post_edit_textarea : function() {
+		var $this = $(this);
+		$this.height(100);
+	},
 };

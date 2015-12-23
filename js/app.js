@@ -85,6 +85,8 @@ var app = {
 
 
         on_click('.reply-button', callback.on_click_reply_button);
+        on_click('.like-button', callback.on_click_like_button);
+        on_click('.report-button', callback.on_click_report_button);
 
         on_click('.file-upload-button', callback.on_click_file_upload_button);
         on_click('.post-edit-button', callback.on_click_post_edit_button);
@@ -92,6 +94,8 @@ var app = {
         on_click('.post-delete-button', callback.on_click_post_delete_button);
 
         on_click('.post-edit .cancel-button', callback.on_click_post_edit_cancel_button);
+		//added by benjamin
+        on_click('form textarea[name="content"]', callback.on_click_post_edit_textarea);
 
 
     },
