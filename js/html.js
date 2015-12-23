@@ -61,7 +61,7 @@ var html = {
         var m = '';
         m += '<div class="panel panel-default menu-panel-inner">';
         m += '  <ul class="list-group top">';
-        m += '      <li><div class="list-group-item">Menu 1<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item">전체 메뉴 보기<span class="glyphicon glyphicon-menu-right"></span></div></li>';
         m += '      <li><div class="list-group-item">Menu 2<span class="glyphicon glyphicon-menu-right"></span></div></li>';
         m += '      <li><div class="list-group-item">Menu 3<span class="glyphicon glyphicon-menu-right"></span></div></li>';
         m += '      <li><div class="list-group-item menu-panel toggle">Close Menu<span class="glyphicon glyphicon-remove"></span></div></li>';
@@ -72,10 +72,16 @@ var html = {
         m += '      <div class="name">Anonymous<div>User</div></div>';
         m += '  </div>';
         m += '  <ul class="list-group bottom">';
-        m += '      <li><div class="list-group-item" page-button="login">로그인 login<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item" page-button="register">회원가입 register<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+
+        if ( member.login() ) {
+            m += '      <li><div class="list-group-item" page-button="register">회원 정보<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+            m += '      <li><div class="list-group-item" page-button="login">로그아웃<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        }
+        else {
+            m += '      <li><div class="list-group-item" page-button="login">로그인 login<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+            m += '      <li><div class="list-group-item" page-button="register">회원가입 register<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        }
         m += '      <li><div class="list-group-item" page-button="admin">운영자 요청/건의 inquery<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item" page-button="menu-all">전체메뉴 all-menu<span class="glyphicon glyphicon-menu-right"></span></div></li>';
         m += '      <li><div class="list-group-item" page-button="setting">Settings<span class="glyphicon glyphicon-menu-right"></span></li>';
         m += '  </ul>';
         m += '  <div class="panel-copyright">';
@@ -430,6 +436,7 @@ var html = {
         if ( member.idx ) {
             m = '<h1>User Login</h1>';
             m += "<p>You have already logged in as <b>" + member.id + '</b></p>';
+            m += '<p>'+member.primary_photo()+'</p>';
             m += '<nav class="navbar navbar-default logout-button">';
             m += '<p class="navbar-brand">Logout</p>';
             m += '</nav>';
@@ -473,5 +480,10 @@ var html = {
     update_primary_photo : function ( data ) {
         console.log(data);
         el.primary_photo().prop('src', data.url);
+    },
+    focus : function ($obj) {
+        setTimeout(function(){
+            $obj.focus();
+        }, 100);
     }
 };

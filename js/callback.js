@@ -61,6 +61,7 @@ var callback = {
         var post_id = app.getCurrentForum();
         if ( element.post_write_form().length == 0 ) {
             element.content().prepend(html.post_write_form(post_id));
+            html.focus( el.post_write_form().find('[name="content"]') );
         }
         app.goTop();
     },
@@ -333,8 +334,16 @@ var callback = {
     },
     member_register_submit : function (e) {
         e.preventDefault();
-        ajax_load_post(app.getServerURL(), $(this).serialize(), function(re){
-            console.log(re);
+        var $form = $(this);
+        ajax_load_post(app.getServerURL(), $form.serialize(), function(re){
+            member.setLogin(re['id'], re);
+            if ( $form.find('[name="session_id"]').length ) {
+                alert("회원 정보를 업데이트 하였습니다.");
+            }
+            else {
+                alert("회원 가입을 하였습니다.");
+                cache.showFront();
+            }
         });
         return false;
     }

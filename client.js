@@ -48,7 +48,6 @@ $(function(){
     check_update_version();
     html.setHeader();
     html.setFooter();
-    html.setPanel();
     cache.showFront();
 
 
@@ -97,8 +96,13 @@ $(function(){
     // open front and temp forum
     // setTimeout(function(){cache.update('news', 'temp');}, 400);
 
+
+
     app.init();
     app.initEvent();
 
-    setTimeout(function(){ $('[page-button="register"]').click(); }, 700); // test : login page
+
+    /** panel 은 미리 세팅되지 않으므로 아래와 같이 먼저 세팅을 해 주어야 한다. */
+    setTimeout(function(){ html.setPanel(); $('[page-button="register"]').click(); }, 700); // test : login page
+
 });

@@ -13,6 +13,7 @@ var panel = {
     },
     toggle: function () {
         //console.log('panel.toggle()');
+        html.setPanel();
         var w ;
         if ( this.open() ) w = - this.width();
         else w = 0;

@@ -63,6 +63,7 @@ function ajax_load_post(url, data, callback) {
                 return note.post("Ajax_load_post() : caught an error : " + e.message);
             }
             if ( re['code'] ) {
+                console.log(re);
                 alert(re['message']);
             }
             else callback(re);
