@@ -5,37 +5,30 @@ _.templateSettings = {
 
 $(function(){
 
-    add_css(app.getServerCSSURL());
-    add_javascript(app.getServerJavascriptURL());
 
     var url = 'http://192.168.137.1/'; // ICS 로 앱에서 테스트
 
     if ( document.domain ) { // 데스크톱이면 자동으로 데스크톱 URL 을 지정한다.
         var domain = document.domain;
-        if ( domain.indexOf('work') != -1 ) url = 'http://philgo.org';
+        if ( domain.indexOf('localhost') != -1 ) url = 'http://philgo.org/';
+        else if ( domain.indexOf('work') != -1 ) url = 'http://philgo.org/';
     }
 
-        app.setServerURL(url);
 
+    app.setServerURL(url);
+
+    add_css(app.getServerCSSURL());
+    add_javascript(app.getServerJavascriptURL());
 
     // @doc How to use onDeviceRead
     app.addEventDeviceReady(
         function callback_onDeviceReady() {
             trace('go to ...');
-
             console.log(app.model());
             console.log(app.platform());
-
             //alert( app.platform() );
-
-
         }
     );
-
-
-
-
-
 
 
     //db.deleteAll();
@@ -45,7 +38,7 @@ $(function(){
     // 코드를 테스트 할 때에만 사용한다.
     // debug.browser_camera_upload = true;
 
-    check_update_version();
+
     html.setHeader();
     html.setFooter();
     cache.showFront();
@@ -65,11 +58,11 @@ $(function(){
     //db.deleteAll(); // test.
     //initApp();
     //setTimeout(function(){ showPage('setting'); }, 600); // test
-    //setTimeout(function(){ $('[page="news"]').click(); }, 700); // test : news page
-    //setTimeout(function(){ $('[page="freetalk"]').click(); }, 400); // test : news page
-    //setTimeout(function(){ $('[page="qna"]').click(); }, 200); // test : qna page
-    //setTimeout(function(){ $('[page="login"]').click(); }, 700); // test : login page
-    //setTimeout(function(){ $('[page="info"]').click(); }, 1300); // test : info page
+    //setTimeout(function(){ $('[page-button="news"]').click(); }, 700); // test : news page
+    //setTimeout(function(){ $('[page-button="freetalk"]').click(); }, 400); // test : news page
+    //setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
+    //setTimeout(function(){ $('[page-button="login"]').click(); }, 700); // test : login page
+    //setTimeout(function(){ $('[page-button="info"]').click(); }, 1300); // test : info page
     //setTimeout(togglePanel, 300); // test : open panel-menu
 
     //setTimeout( function()  { panel.toggle(); }, 300 );
@@ -100,9 +93,15 @@ $(function(){
 
     app.init();
     app.initEvent();
-
+    console.log(member);
+    check_update_version();
 
     /** panel 은 미리 세팅되지 않으므로 아래와 같이 먼저 세팅을 해 주어야 한다. */
-    setTimeout(function(){ html.setPanel(); $('[page-button="register"]').click(); }, 700); // test : login page
+    // setTimeout(function(){ html.setPanel(); $('[page-button="register"]').click(); }, 700); // test : login page
+
+    setTimeout(function(){ html.setPanel(); $('.message-button').click(); }, 700); // test : login page
+
+
+
 
 });

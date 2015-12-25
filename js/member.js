@@ -25,6 +25,15 @@ var member = {
         }
         else this.unset();
     },
+
+    update_name : function (name) {
+        db.set('user_name', name);
+        member.name = name;
+    },
+    update_photo_idx : function ( idx ) {
+        db.set('idx_photo', idx);
+        member.idx_photo = idx;
+    },
     /**
      *
      * 아래의 값이 입력되면 로그인 처리를 한다.
@@ -54,7 +63,8 @@ var member = {
         member.unset();
     },
     primary_photo : function () {
-        if ( member.idx_photo ) {
+        console.log(member);
+        if ( typeof member.idx_photo != 'undefined' ) {
             var idx = member.idx_photo;
             return _.template('<img src="{{url_server}}/data/upload/{{postfix}}/{{idx_photo}}">')
             ({
@@ -63,6 +73,7 @@ var member = {
                 idx_photo : idx
             });
         }
+        else return '';
     }
 
 };

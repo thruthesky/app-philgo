@@ -8,11 +8,12 @@
  * @param html - if it is true, it just return data without parsing.
  */
 function ajax_load(url, callback, html) {
+    if ( url.indexOf('?') == -1 ) url += '?';
+    else url += '&';
     if ( member.login() ) {
-        if ( url.indexOf('?') == -1 ) url += '?';
-        else url += '&';
         url += 'idx_member=' + member.id + '&session_id=' + member.session_id;
     }
+    url +=  '&page=' + app.getCurrentPage() + '&mobile=' + app.isMobile() + '&platform=' + app.platform();
     trace(url);
     $.ajax({
         url:url,
@@ -33,7 +34,7 @@ function ajax_load(url, callback, html) {
             if ( re.code ) alert(re.message);
             else callback(re);
         },
-        error: function(xhr, type){
+        error: function(xhr, type) {
             return note.post("Ajax load error : " + type);
             console.log(type);
             console.log(xhr);

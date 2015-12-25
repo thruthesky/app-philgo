@@ -4,9 +4,9 @@ var callback = {
     on_click_page : function () {
         var $this = $(this);
         var page_name = $this.attr('page-button');
-        var post_id = $this.attr('data-post-id');
+        var post_id = $this.attr('post-id');
         //console.log('on_click_page() : ' + page);
-        if ( app.offline() && $this.hasClass('check-online') ) {
+        if ( app.offline() && $this.hasClass('check-internet') ) {
             alert(page_name + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.");
             return;
         }
@@ -173,6 +173,15 @@ var callback = {
         var $form = $this.parents('form');
         var gid = $form.find('[name="gid"]').val();
 
+
+        app.confirm(
+            '사진을 찍으시겠습니까? 갤러리에서 선택하시겠습니까?',
+            onCameraConfirm,
+            '사진 올리기',
+            ['사진 찍기','사전 선택', '취소']
+        );
+
+
         function onCameraError(e) {
             alert('onCameraError');
             alert(JSON.stringify(e));
@@ -190,15 +199,21 @@ var callback = {
             if ( re['code'] ) {
                 alert(re['message']);
             }
-            var $photos = $form.find('.photos');
-            $photos.append( html.render_photo( re.data ) );
+
+            if ( app.current_page_name == 'register' ) {
+                $('.primary-photo').prop('src', re['data']['url']);
+                member.update_photo_idx(re['data']['idx']);
+            }
+            else {
+                var $photos = $form.find('.photos');
+                $photos.append( html.render_photo( re.data ) );
+            }
         }
         function onFileTransferFail(e) {
             alert('onFileTransferFail');
             alert(JSON.stringify(e));
         }
         function onCameraSuccess(fileURI) {
-
             var options = new FileUploadOptions();
             options.fileKey = "file";
             options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
@@ -206,12 +221,12 @@ var callback = {
             options.params = {
                 'module' : 'ajax',
                 'action' : 'file_upload_submit',
+                'page' : app.getCurrentPage(),
                 'gid' : gid,
                 'idx_member' : member.idx,
                 'session_id' : member.session_id
             };
             if ( app.current_page_name == 'register' ) {
-
             }
             else {
                 var idx_parent = $form.attr('data-idx-parent');
@@ -247,12 +262,6 @@ var callback = {
             },  0);
         }
 
-        app.confirm(
-            '사진을 찍으시겠습니까? 갤러리에서 선택하시겠습니까?',
-            onCameraConfirm,
-            '사진 올리기',
-            ['사진 찍기','사전 선택', '취소']
-        );
     },
     on_click_post_edit_button : function () {
         var $this = $(this);
@@ -325,11 +334,11 @@ var callback = {
 	},
 	//^ above is added by benjamin
     on_click_setting_button : function () {
-        html.setContent( html.page.setting() );
+        html.setContent( html.page.setting(), 'setting' );
     },
     on_click_change_server_button : function () {
         if ( confirm("Connect to http://philgo.com/") ) return app.setServerURL('http://philgo.com/');
-        if ( confirm("Connect to http://philgo.org/") ) return app.setServerURL('http://philgo.org/');
+        if ( confirm("Connect to http://work.philgo.org/") ) return app.setServerURL('http://work.philgo.org/');
         if ( confirm("Connect to http://192.168.137.1/") ) return app.setServerURL('http://192.168.137.1/');
     },
     member_register_submit : function (e) {

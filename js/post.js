@@ -31,6 +31,36 @@ var post = {
         if ( p['deleted'] == 1 ) return lang('deleted');
         else return p['content'];
     },
+    add_endless_container : function () {
+        if ( el.post_list().length == 0 ) el.content().append('<div class="post-list"></div>');
+    },
+    endless_update : function (re) {
+        //console.log(re);
+        post.add_endless_container();
+        var $page_button = el.page_button(re['page']);
+
+        if ( $page_button.attr('post-id') != re['post_id'] ) {
+            trace("Post data has been loaded but the page has changed. so, the posts will not be shown.")
+            return;
+        }
+
+        if (_.isEmpty(re['posts']) ) {
+            endless_show_no_more_content('<h1>No more content</h1>');
+        }
+        else {
+            var site = re['site'];
+            var post_id = re['post_id'];
+            var page_no = re['page_no'];
+            note.post(site + ' 사이트 : ' + post_id + '의 ' + page_no + " 페이지 내용이 추가되었습니다.");
+            var posts = re['posts'];
+            for ( var i in posts ) {
+                if (posts.hasOwnProperty(i)) {
+                    element.post_list().append(html.render_post(posts[i]));
+                    element.post_list().append(html.render_comments(posts[i]['comments']));
+                }
+            }
+        }
+    },
     markup : {
         more : function(idx) {
             var m = '';

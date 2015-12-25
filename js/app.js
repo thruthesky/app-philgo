@@ -7,6 +7,10 @@ var app = {
     version : '0.12.01', // 년.월.일 로 Major.medium.minor 로 표시한다. 2015 년이 0 년.
     _user_server : null,
     current_page_name : null,
+    deviceReady : false,
+    getVersion : function () {
+        return this.version;
+    },
     getCurrentPage : function () {
         return this.current_page_name;
     },
@@ -20,10 +24,14 @@ var app = {
         return this._user_server;
     },
     getServerCSSURL : function () {
-
+        var url = this.getServerURL() + 'module/ajax/server.css?version=' + this.getVersion();
+        if ( debug.mode ) url += new Date().getTime();
+        return url;
     },
     getServerJavascriptURL : function () {
-
+        var url = this.getServerURL() + 'module/ajax/server.js?version=' + this.getVersion();
+        if ( debug.mode ) url += new Date().getTime();
+        return url;
     },
     url_server_widget : function () {
         return this.getServerURL() + '?module=ajax&action=widget&submit=1&name=';
@@ -34,10 +42,14 @@ var app = {
     url_server_login : function () {
         return this.getServerURL() + '?module=ajax&action=login&submit=1';
     },
+    isDeviceReady : function () {
+        return this.deviceReady;
+    },
     addEventDeviceReady : function(callback) {
         trace('app.isCordova():' + app.isCordova());
         function onDeviceReady() {
             trace('onDeviceReady()');
+            app.deviceReady = true;
             callback();
         }
         if ( app.isCordova() ) {
@@ -50,26 +62,35 @@ var app = {
         }
     },
     isCordova : function() {
-        return !!window.cordova;
+        if ( this.isDeviceReady() ) {
+            return !!window.cordova;
+        }
+        else return false;
     },
     model : function() {
-        if ( this.isCordova() ) return device.model;
-        else return 'desktop';
+            if ( this.isCordova() ) {
+                if ( typeof device == 'undefined' ) return 'undefined';
+                return device.model;
+            }
+            else return 'isNotCordova';
     },
     platform : function() {
-        if ( this.isCordova() ) return device.platform;
-        else return 'desktop';
+        if ( this.isCordova() ) {
+            if ( typeof device == 'undefined' ) return 'undefined';
+            return device.platform;
+        }
+        else return 'isNotCordova';
     },
     isBrowser : function() {
         return this.platform() == 'browser';
     },
     isDesktop : function() {
-        return this.platform() == 'desktop';
+        return this.platform() == 'isNotCordova';
     },
     isMobile : function () {
         if ( this.isBrowser() ) return false;
         else if ( this.isDesktop() ) return false;
-        else return true;
+        return true;
     },
     reset : function () {
         db.deleteAll();
@@ -156,5 +177,8 @@ var app = {
         else {
             navigator.notification.confirm(message, callback, title, lables);
         }
+    },
+    vibrate : function ( time ) {
+        if ( this.isCordova() ) navigator.vibrate(time);
     }
 };

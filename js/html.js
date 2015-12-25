@@ -18,30 +18,31 @@ var html = {
      *      - it does extra tasks.
      * @param html
      */
-    setContent : function (html) {
+    setContent : function (html, name) {
         //console.log('setContent(...,' + page_name + ')');
         //if ( isPanelOpen() ) hidePanel();
         if ( panel.open() ) panel.close();
+        app.setCurrentPage(name);
         element.content().html(html);
     },
     header : function() {
         var m = '';
         m += '<nav class="navbar navbar-default top">';
         m += '  <div class="container-fluid">';
-        m += '      <span class="navbar-text glyphicon glyphicon-home" page-button="front" data-post-id="*"></span>';
-        m += '      <span class="navbar-text glyphicon glyphicon-pencil" data-post-id="*"></span>';
-        m += '      <span class="navbar-text glyphicon glyphicon-camera" data-post-id="*"></span>';
+        m += '      <span class="navbar-text glyphicon glyphicon-home" page-button="front" post-id="*"></span>';
+        m += '      <span class="navbar-text glyphicon glyphicon-pencil" post-id="*"></span>';
+        m += '      <span class="navbar-text glyphicon glyphicon-camera" post-id="*"></span>';
         m += '      <span class="navbar-text logo">LOGO</span>';
         m += '      <span class="navbar-text navbar-right glyphicon glyphicon-th-list menu-panel toggle"></span>';
         m += '  </div>';
         m += '</nav>';
         m += '<ul class="nav nav-pills nav-justified main-menu">';
-        m += '  <li page-button="news" data-post-id="news">뉴스</li>';
-        m += '  <li page-button="info" data-post-id="qna">정보</li>';
-        m += '  <li page-button="company" data-post-id="company_book">업소록</li>';
-        m += '  <li page-button="travel" data-post-id="travel">여행</li>';
-        m += '  <li page-button="qna" data-post-id="qna">질문</span></li>';
-        m += '  <li page-button="freetalk" data-post-id="freetalk,knowhow">토론</span></li>';
+        m += '  <li page-button="news" post-id="news">뉴스</li>';
+        m += '  <li page-button="info" post-id="qna">정보</li>';
+        m += '  <li page-button="company" post-id="company_book">업소록</li>';
+        m += '  <li page-button="travel" post-id="travel">여행</li>';
+        m += '  <li page-button="qna" post-id="qna">질문</span></li>';
+        m += '  <li page-button="freetalk" post-id="freetalk,knowhow">토론</span></li>';
         m += '  <li page-button="menu-all">더보기</span></li>';
         m += '</ul>';
         return m;
@@ -60,7 +61,7 @@ var html = {
             m += '  <li page-button="register"><span class="glyphicon glyphicon-envelope"></span>Register</li>';
         }
         m += '  <li page-button="search"><span class="glyphicon glyphicon-search"></span>Search</li>';
-        m += '  <li class="post-button" data-post-id=""><span class="glyphicon glyphicon-pencil"></span>Post</li>';
+        m += '  <li class="post-button" post-id=""><span class="glyphicon glyphicon-pencil"></span>Post</li>';
         m += '  <li class="setting-button"><span class="glyphicon glyphicon-wrench"></span>Setting</span></li>';
         m += '</ul>';
         return m;
@@ -70,14 +71,24 @@ var html = {
         m += '<div class="panel panel-default menu-panel-inner">';
         m += '  <ul class="list-group top">';
         m += '      <li><div class="list-group-item">전체 메뉴 보기<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item">Menu 2<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item message-button check-internet">쪽지 Message<span class="glyphicon glyphicon-menu-right"></span></div></li>';
         m += '      <li><div class="list-group-item">Menu 3<span class="glyphicon glyphicon-menu-right"></span></div></li>';
         m += '      <li><div class="list-group-item menu-panel toggle">Close Menu<span class="glyphicon glyphicon-remove"></span></div></li>';
         m += '  </ul>';
-        m += '  <div class="panel-user-profile">';
-        m += '      <img src="img/no_primary_photo.png"/>';
+
+        var primary_photo;
+        if ( member.login() ) primary_photo = member.primary_photo();
+        else primary_photo = '      <img src="img/no_primary_photo.png"/>';
+
+        m += '  <div class="panel-user-profile" page-button="register">';
+        m += primary_photo;
         m += '      <div class="bottom-space"></div>';
-        m += '      <div class="name">Anonymous<div>User</div></div>';
+        if ( member.login() ) {
+            m += '      <div class="name">{{name}}<div>{{id}}</div></div>';
+        }
+        else {
+            m += '      <div class="name">회원 가입<div>Sign Up</div></div>';
+        }
         m += '  </div>';
         m += '  <ul class="list-group bottom">';
 
@@ -86,11 +97,11 @@ var html = {
             m += '      <li><div class="list-group-item" page-button="login">로그아웃<span class="glyphicon glyphicon-menu-right"></span></div></li>';
         }
         else {
-            m += '      <li><div class="list-group-item" page-button="login">로그인 login<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+            m += '      <li><div class="list-group-item" page-button="login">로그인 (필고 아이디 로그인)<span class="glyphicon glyphicon-menu-right"></span></div></li>';
             m += '      <li><div class="list-group-item" page-button="register">회원가입 register<span class="glyphicon glyphicon-menu-right"></span></div></li>';
         }
         m += '      <li><div class="list-group-item" page-button="admin">운영자 요청/건의 inquery<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item" page-button="setting">Settings<span class="glyphicon glyphicon-menu-right"></span></li>';
+        m += '      <li><div class="list-group-item" page-button="setting">설정 Settings<span class="glyphicon glyphicon-menu-right"></span></li>';
         m += '  </ul>';
         m += '  <div class="panel-copyright">';
         /*
@@ -101,12 +112,15 @@ var html = {
         m += '      </ul>';
 		*/
         m += '      <div class="copy-right-text">';
-        m += '          Copyright (C) 2013 ~ 2015 우리에듀.<br>';
-        m += '          All Rights Reserved';
+        m += '          필리핀 교민 홈페이지 앱 무료 제작<br>';
+        m += '          신청 : thruthesky@gmail.com';
         m += '      </div>';
         m += '  </div>';
         m += '</div>';
-        return m;
+
+        var str = _.template(m)(member);
+
+        return str;
     },
     post_write_form : function (post_id) {
         var gid = etc.unique_id(member.idx + post_id);
@@ -311,17 +325,17 @@ var html = {
 
 		m += '<div class="btn-group post-menu-philzine-top" role="group">';
 		
-		if( !post.mine(comment) ) {
+		if( ! post.mine(comment) ) {
 			m += '<span type="button" class="btn btn-secondary post-delete-button glyphicon glyphicon-remove"></span>';
 		}
-		/*
+        /*
 		else {
 			m += '<span type="button" class="btn btn-secondary post-edit-button"><img src="img/post/edit.png"/></span>';
 			m += '<span type="button" class="btn btn-secondary post-delete-button"><img src="img/post/delete.png"/></span>';
 		}
         m += '  <span class="menu-separator"></span>';
         m += post.markup.more(comment['idx']);
-		*/
+        */
 		m += '</div>';
 		
 		
@@ -347,11 +361,13 @@ var html = {
 		m +=			'</div>';
 		m +=			'<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
 		m +=				'<li class="dropdown-item reply-button">Reply</li>';
-		if( !post.mine(comment) ) {
+		if( post.mine(comment) ) {
+            m +=				'<li class="dropdown-item post-delete-button">Delete</li>';
+            m +=				'<li class="dropdown-item post-edit-button">Edit</li>';
+        }
+        else {
 		m +=				'<li class="dropdown-item report-button">Report</li>';
 		}
-		//m +=				'<li class="dropdown-item delete"><a href="#">Delete</a></li>';
-		m +=				'<li class="dropdown-item post-edit-button">Edit</li>';
 		m +=			'</ul>';
 		m +=		'</div>';
 		m +=	'</nav>';
@@ -488,6 +504,7 @@ var html = {
     update_primary_photo : function ( data ) {
         console.log(data);
         el.primary_photo().prop('src', data.url);
+        member.update_photo_idx(data.idx);
     },
     focus : function ($obj) {
         setTimeout(function(){
