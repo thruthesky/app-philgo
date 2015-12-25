@@ -180,5 +180,16 @@ var app = {
     },
     vibrate : function ( time ) {
         if ( this.isCordova() ) navigator.vibrate(time);
+    },
+    alert : function (str) {
+        if ( navigator.notification ) {
+            navigator.notification.alert(
+                str,
+                function(){},
+                '필리핀 매거진',
+                '확인'
+            );
+        }
+        else alert(str);
     }
 };

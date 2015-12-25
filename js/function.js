@@ -55,14 +55,3 @@ function add_javascript(url) {
 }
 
 
-function popup_message(str) {
-    if ( navigator.notification ) {
-        navigator.notification.alert(
-            str,
-            function(){},
-            '필리핀 매거진',
-            '확인'
-        );
-    }
-    else alert(str);
-}

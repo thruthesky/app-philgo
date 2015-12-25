@@ -27,7 +27,7 @@ function check_update_version() {
                 db.set('version', re['version']);
                 app.version = re['version'];
                 app.vibrate(1000);
-                popup_message('앱 버젼 '+app.getVersion()+'으로 업데이트 되었습니다.');
+                app.alert('앱 버젼 '+app.getVersion()+'으로 업데이트 되었습니다.');
                 app.refresh();
             }
             if ( re['user_name'] != member.name ) member.update_name(re['user_name']);
