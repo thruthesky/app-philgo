@@ -103,6 +103,7 @@ $(function(){
     /**
      * 쪽지 열기
      */
+    /*
     setTimeout(function(){
         html.setPanel();
         $('.message-button').click();
@@ -111,6 +112,7 @@ $(function(){
 //            message.show_message_send_form('thruthesky');
   //      }, 200);
     },700);
+    */
 
 
 
