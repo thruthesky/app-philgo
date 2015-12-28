@@ -5,7 +5,7 @@
  */
 var app = {
     version : '0.12.01', // 년.월.일 로 Major.medium.minor 로 표시한다. 2015 년이 0 년.
-    _user_server : null,
+    url_server : null,
     current_page_name : null,
     deviceReady : false,
     getVersion : function () {
@@ -18,10 +18,10 @@ var app = {
         return app.getCurrentPage() == 'register';
     },
     setServerURL : function (url) {
-        this._user_server = url;
+        this.url_server = url;
     },
     getServerURL : function () {
-        return this._user_server;
+        return this.url_server;
     },
     getServerCSSURL : function () {
         var url = this.getServerURL() + 'module/ajax/server.css?version=' + this.getVersion();
@@ -32,6 +32,9 @@ var app = {
         var url = this.getServerURL() + 'module/ajax/server.js?version=' + this.getVersion();
         if ( debug.mode ) url += new Date().getTime();
         return url;
+    },
+    getHookJavascriptURL : function () {
+        return this.getServerURL() + 'module/ajax/hook-js.php?time=' + new Date().getTime();
     },
     url_server_widget : function () {
         return this.getServerURL() + '?module=ajax&action=widget&submit=1&name=';
@@ -66,6 +69,9 @@ var app = {
             return !!window.cordova;
         }
         else return false;
+    },
+    fileProtocol : function () {
+        return window.location.protocol === "file:";
     },
     model : function() {
             if ( this.isCordova() ) {
@@ -119,6 +125,21 @@ var app = {
         this.version = db.get('version');
     },
     initEvent : function() {
+        on_click('[callback]', function(e){
+            var $this = $(this);
+            var func = $this.attr('callback');
+            var call_func = 'callback_' + func;
+            if ( typeof window[call_func] == 'function' ) window[call_func]($this, e);
+            else window[func]($this, e);
+        });
+
+        on_click('[widget]', function(e){
+            var $this = $(this);
+            var widget_name = $this.attr('widget');
+            app.setCurrentPage(widget_name);
+            html.setWidget(widget_name);
+        });
+
         on_click('[page-button]', callback.on_click_page);
         on_click('.menu-panel.toggle', callback.on_click_menu_panel);
         on_click('.reset', callback.on_click_reset);
@@ -191,5 +212,12 @@ var app = {
             );
         }
         else alert(str);
+    },
+    getDataURL : function ( idx ) {
+        return '' +
+            app.getServerURL() +
+            'data/upload/' +
+            s.chars(idx).pop() +
+            '/' + idx;
     }
 };

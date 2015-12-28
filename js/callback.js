@@ -1,11 +1,10 @@
-
-
 var callback = {
     on_click_page : function () {
         var $this = $(this);
         var page_name = $this.attr('page-button');
+        app.setCurrentPage(page_name);
         var post_id = $this.attr('post-id');
-        //console.log('on_click_page() : ' + page);
+        //trace('on_click_page() : ' + page);
         if ( app.offline() && $this.hasClass('check-internet') ) {
             alert(page_name + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.");
             return;
@@ -21,20 +20,20 @@ var callback = {
         panel.close();
     },
     form_login : function () {
-        //console.log('ajax_login() member.idx:'+member.idx);
+        //trace('ajax_login() member.idx:'+member.idx);
         var $this = $(this);
         var id = $this.find('[name="id"]').val();
         var url = app.url_server_login() + '&id=' + id;
         url += '&password=' + $this.find('[name="password"]').val();
         ajax_load( url, function(re) {
-            //console.log(re);
+            //trace(re);
             if ( re.code == 504 ) alert('아이디를 입력하십시오.');
             else if ( re.code == 503 ) alert('비밀번호를 입력하십시오.');
             else if ( re.code == 502 ) alert('아이디를 찾을 수 없습니다.');
             else if ( re.code == 501 ) alert('비밀번호가 틀렸습니다. Wrong password.');
             else {
-                //console.log("login success!");
-                //console.log(re);
+                //trace("login success!");
+                //trace(re);
                 member.setLogin(id, re);
                 cache.showFront();
             }
@@ -50,7 +49,7 @@ var callback = {
      *
      */
     on_click_reset : function () {
-        //console.log('on_click_reset()');
+        //trace('on_click_reset()');
         var re = confirm("앱을 초기화 하시겠습니까? Do you want to reset?");
         if ( re ) {
             app.reset();
@@ -103,7 +102,7 @@ var callback = {
     edit_form_submit : function (e) {
         e.preventDefault();
         ajax_load_post(app.getServerURL(), $(this).serialize(), function(re){
-            console.log(re);
+            trace(re);
             var idx = re['idx'];
             var $edit = el.post_edit(idx);
             var $form = $(".post-edit-form[idx='"+idx+"']");
@@ -114,10 +113,10 @@ var callback = {
             $edit.find('.photos img').each(function(index){
                 photos = photos + ' ' + this.outerHTML;
             });
-            console.log(photos);
+            trace(photos);
             photos = html.photos(idx, photos); // .photos must exist
 
-            console.log(photos);
+            trace(photos);
 
             $edit.remove();
 
@@ -144,7 +143,7 @@ var callback = {
         this.is_upload_submit = true;
         $form.ajaxSubmit({
             complete: function (xhr) {
-                console.log("File upload completed thru jquery.form.js");
+                trace("File upload completed thru jquery.form.js");
                 var re;
                 try {
                     re = JSON.parse(xhr.responseText);
@@ -152,7 +151,7 @@ var callback = {
                 catch (e) {
                     return alert(s.stripTags(xhr.responseText));
                 }
-                console.log(re);
+                trace(re);
                 if ( re['code'] ) {
                     return alert(re['message']);
                 }
@@ -189,9 +188,9 @@ var callback = {
         function onFileTransferSuccess(data) {
             //alert('onFileTransferSuccess');
             //alert(JSON.stringify(data));
-            console.log("Code = " + data.responseCode);
-            console.log("Response = " + data.response);
-            console.log("Sent = " + data.bytesSent);
+            trace("Code = " + data.responseCode);
+            trace("Response = " + data.response);
+            trace("Sent = " + data.bytesSent);
             if ( app.isMobile() ) {
                 navigator.camera.cleanup();
             }
@@ -233,16 +232,16 @@ var callback = {
                 if ( typeof idx_parent == 'undefined' ) idx_parent = 0;
                 options['idx_parent'] = idx_parent;
             }
-            console.log(options);
+            trace(options);
             var ft = new FileTransfer();
             var url = app.getServerURL();
-            console.log(url);
+            trace(url);
             ft.upload(fileURI, encodeURI(url), onFileTransferSuccess, onFileTransferFail, options);
         }
         function onCameraConfirm(no) {
             var type = Camera.PictureSourceType.PHOTOLIBRARY; // default
             if ( app.isBrowser() ) { // @Attention This is only for test purpose.
-                console.log('TEST : for cordova broswer platform : mocking file transfer');
+                trace('TEST : for cordova broswer platform : mocking file transfer');
             }
             else {
                 if ( no == 1 ) {
@@ -277,7 +276,7 @@ var callback = {
         var gid = $form.find('[name="gid"]').val();
         var url = app.getServerURL() + '?module=ajax&action=data_delete_submit&gid='+gid + "&idx="+idx;
         ajax_load(url, function(re){
-            console.log(re);
+            trace(re);
             var data = re['data'];
             if ( data['code'] ) return alert(data['message']);
             $photo.remove();
@@ -297,7 +296,7 @@ var callback = {
         var idx = $post.attr('idx');
         var url = app.getServerURL() + '?module=ajax&action=post_delete_submit&idx=' + idx;
         ajax_load(url, function(re){
-            console.log(re);
+            trace(re);
             $post.html(lang('deleted'));
         });
     },
@@ -307,7 +306,7 @@ var callback = {
         var idx = $post.attr('idx');
         var url = app.getServerURL() + '?module=ajax&action=post_vote_submit&idx=' + idx;
         ajax_load(url, function(re){
-            console.log(re);
+            trace(re);
             $this.find('.no').text(re['good']);
         });
     },
@@ -317,7 +316,7 @@ var callback = {
         var idx = $post.attr('idx');
         var url = app.getServerURL() + '?module=ajax&action=post_report_submit&idx=' + idx;
         ajax_load(url, function(re){
-            console.log(re);
+            trace(re);
             alert("글 신고가 되었습니다.");
         });
     },
@@ -357,3 +356,8 @@ var callback = {
         return false;
     }
 };
+
+
+function menu_show_more() {
+    html.setWidget('menu-all');
+}

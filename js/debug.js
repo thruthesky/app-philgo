@@ -13,6 +13,12 @@ var debug = {
     stop: function() {
         this.mode = false;
     },
+    started : function () {
+        return this.mode;
+    },
+    not_started : function () {
+        return ! this.started();
+    },
     string : function() {
         return new Date().getTime().toString();
     },

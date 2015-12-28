@@ -17,12 +17,27 @@ var html = {
      * @Attention Use this function to set content on '.content'.
      *      - it does extra tasks.
      * @param html
+     * @param name
      */
     setContent : function (html, name) {
-        //console.log('setContent(...,' + page_name + ')');
+        //trace('setContent(...,' + page_name + ')');
         //if ( isPanelOpen() ) hidePanel();
         if ( panel.open() ) panel.close();
-        app.setCurrentPage(name);
+
+
+        // 클릭된 (보여줄) 페이지 이름과 데이터를 다운로드한 페이지 이름이 다르면
+        // 내용을 보여주지 않는다.
+        // 즉, 동시에 메뉴를 여러번 빨리 눌러서 ajax_load 가 많이 실행된 경우,
+        // 마지막에 클릭된 메뉴의 페이지만 보여 준다.
+        /*
+        if ( app.getCurrentPage() != name ) {
+            console.log(app.getCurrentPage());
+            console.log(name);
+            console.log("widget_name and page name is not the same. data voided.");
+            return;
+        }
+        */
+
         element.content().html(html);
     },
     header : function() {
@@ -32,7 +47,7 @@ var html = {
         m += '      <span class="navbar-text glyphicon glyphicon-home" page-button="front" post-id="*"></span>';
         m += '      <span class="navbar-text glyphicon glyphicon-pencil" post-id="*"></span>';
         m += '      <span class="navbar-text glyphicon glyphicon-camera" post-id="*"></span>';
-        m += '      <span class="navbar-text logo">LOGO</span>';
+        m += '      <span class="navbar-text logo">필리핀매거진</span>';
         m += '      <span class="navbar-text navbar-right glyphicon glyphicon-th-list menu-panel toggle"></span>';
         m += '  </div>';
         m += '</nav>';
@@ -43,7 +58,7 @@ var html = {
         m += '  <li page-button="travel" post-id="travel">여행</li>';
         m += '  <li page-button="qna" post-id="qna">질문</span></li>';
         m += '  <li page-button="freetalk" post-id="freetalk,knowhow">토론</span></li>';
-        m += '  <li page-button="menu-all">더보기</span></li>';
+        m += '  <li widget="menu-all">더보기</span></li>';
         m += '</ul>';
         return m;
     },
@@ -80,14 +95,14 @@ var html = {
         if ( member.login() ) primary_photo = member.primary_photo();
         else primary_photo = '      <img src="img/no_primary_photo.png"/>';
 
-        m += '  <div class="panel-user-profile" page-button="register">';
+        m += '  <div class="panel-user-profile" page-button="login">';
         m += primary_photo;
         m += '      <div class="bottom-space"></div>';
         if ( member.login() ) {
             m += '      <div class="name">{{name}}<div>{{id}}</div></div>';
         }
         else {
-            m += '      <div class="name">회원 가입<div>Sign Up</div></div>';
+            m += '      <div class="name">회원 로그인<div>Login</div></div>';
         }
         m += '  </div>';
         m += '  <ul class="list-group bottom">';
@@ -208,7 +223,7 @@ var html = {
 		m += '</form>';
 		
 
-		//console.log( m );
+		//trace( m );
 		return m;
 		
     },
@@ -239,12 +254,12 @@ var html = {
         $form.find('.photos').html('');
     },
     render_post : function (p) {
-        //console.log('get_post_render(p)');
+        //trace('get_post_render(p)');
         if (_.isEmpty(p) ) return;
-        //console.log('creating DOM');
+        //trace('creating DOM');
         var m = '';
 
-        //console.log( p );
+        trace( p );
 
 
         var date_full = etc.date_full(p['stamp']);
@@ -265,7 +280,10 @@ var html = {
 
         m += '<div class="media post-info">';
         m += '  <a class="media-left" href="#">';
-        m += '      <img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
+
+        var src = 'img/no_primary_photo.png';
+        if ( typeof p['member']['idx_primary_photo'] != 'undefined' ) src = app.getDataURL(p['member']['idx_primary_photo']);
+        m += '      <img class="media-object profile-image" src="'+src+'" alt="Generic placeholder image">';
         m += '  </a>';
         m += '  <div class="media-body">';
         m += '      <div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
@@ -295,7 +313,7 @@ var html = {
 
         m = '<div class="post" idx="'+p['idx']+'" gid="'+p['gid']+'">' + m + '</div>';
 
-        //console.log(m);
+        //trace(m);
         return m;
     },
     render_comments : function (comments) {
@@ -314,7 +332,7 @@ var html = {
 
 		var date_full = etc.date_full(comment['stamp']);
 		var date = etc.date_short(comment['stamp']);
-		var humanTime = etc.humanTime(comment['stamp']);
+		//var humanTime = etc.humanTime(comment['stamp']); // DO NOT USE Human Time.
 
 		var likes;
 		if( comment['good'] > 0 ) likes = comment['good'];
@@ -341,11 +359,15 @@ var html = {
 		
 		m +=	'<div class="media post-info">';
 		m +=		'<a class="media-left" href="#">';
-		m +=		'<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
+
+        var src = 'img/no_primary_photo.png';
+        if ( typeof comment['member']['idx_primary_photo'] != 'undefined' ) src = app.getDataURL(comment['member']['idx_primary_photo']);
+
+		m +=		'<img class="media-object profile-image" src="'+src+'" alt="Generic placeholder image">';
 		m +=		'</a>';
 		m +=		'<div class="media-body">';
 		m +=			'<div class="name">'+comment['user_name']+"</div>";
-		m +=			'<div class="date" title="'+date_full+'">'+date+'<span class="separator">|</span>'+humanTime+'</div>';
+		m +=			'<div class="date" title="'+date_full+'">'+date+'</div>';
 		m +=			'<div class="content">';
 		m +=				'<div class="text">' + post.content(comment) + '</div>';
 		if ( comment['photos'] ) m += comment['photos'];
@@ -376,7 +398,7 @@ var html = {
 		m += ' 글번호 : '+comment['idx'];
 		m += ' 글쓴이: ' + comment['user_name'];
 		m += ' <span title="'+date_full+'">날짜: ' + date + '</span>';
-		m += ' 수정, 메뉴 더보기';
+		m += ' 수정, 메뉴 ';
         m += '<div class="content">' + post.content(comment) + '</div>';
 		
 		if ( comment['photos'] ) m += comment['photos'];
@@ -443,7 +465,7 @@ var html = {
      * @param data
      */
     render_photo : function (data) {
-        //console.log('render_photo');
+        //trace('render_photo');
         //trace(data['idx']);
         if (_.isUndefined(data['url'])) alert('url of photo is empty');
         if (_.isUndefined(data['idx'])) alert('idx of photo is empty');
@@ -451,7 +473,7 @@ var html = {
         m += '<span class="glyphicon glyphicon-remove photo-delete-button"></span>';
         m += '<img idx="'+data['idx']+'" src="'+data['url_thumbnail']+'" org="'+data.url+'">';
         m += '</div>';
-        //console.log(m);
+        //trace(m);
         return m;
     },
     login_form : function () {
@@ -494,15 +516,15 @@ var html = {
             m += '</div>';
             m += '<ul class="list-group">';
             m += '  <li class="list-group-item"><div class="reset">Reset</div></li>';
-            m += '  <li class="list-group-item"><div class="change-server-button">Change Server</div></li>';
             m += '  <li class="list-group-item">Refresh</li>';
-            m += '  <li class="list-group-item">Show all menu on front page</li>';
+            m += '  <li class="list-group-item"><div class="change-server-button">Change Server - {{url_server}}</div></li>';
+            m += '  <li class="list-group-item"><a href="http://work.jaeho.org/apps/philzine2/platforms/android/build/outputs/apk/android-debug.apk">Download Debugging APK</a></li>';
             m += '</ul>';
             return _.template(m)(app);
         }
     },
     update_primary_photo : function ( data ) {
-        console.log(data);
+        trace(data);
         el.primary_photo().prop('src', data.url);
         member.update_photo_idx(data.idx);
     },
@@ -510,5 +532,60 @@ var html = {
         setTimeout(function(){
             $obj.focus();
         }, 100);
+    },
+    /**
+     * widget 폴더의 HTML 을 로드해서 화면에 보여준다.
+     *
+     *      1. 먼저 캐시된 정보를 보여준다.
+     *      2. 캐시된 정보가 없으면,
+     *          - 오프라인이면 로컬 widget 폴더의 HTML 파일을 로드해서 보여주고
+     *          - 온라인이면 서버 widget 폴더의 HTML 파일을 로드해서 보여 준다.
+     *
+     * @attention 이 함수는 캐시는 하지만 게시판이나 Endless load 를 보여주지는 않는다.
+     * @param widget_name
+     */
+    setWidget : function ( widget_name ) {
+
+        if (app.online()) {
+            return cache.update(widget_name);
+        }
+
+        this.setLocalWidget( widget_name );
+    },
+    /**
+     *
+     *
+     * 서버의 Widget HTML 을 로드하지 않고 그냥 로컬의 widget html 정보만 로드해서 보여준다.
+     *  즉, 앱을 컴파일 할 때, 같이 추가한 HTML 과 이미지를
+     *      앱 내부의 Widget 폴더에서만 보여 줄 때 사용한다.
+     *
+     * @param widget_name
+     * @returns {*}
+     */
+    setLocalWidget : function ( widget_name ) {
+        if ( debug.not_started() ) {
+            var data = db.get( widget_name );
+            if ( data ) return html.setContentWithCacheMark(widget_name, data);
+        }
+
+        ajax_load('widget/'+widget_name+'.html', function(markup){
+            trace(markup);
+            if ( markup ) {
+                var re = {
+                    html: markup,
+                    length: markup.length,
+                    md5: ''
+                };
+                save_page( widget_name, re );
+                html.setContent(re.html, widget_name);
+                note.post('html.setWidget() : ' + name + ' 페이지를 로드하였습니다.');
+                app.setCurrentForum('');
+            }
+        }, true);
+    },
+    setContentWithCacheMark : function (widget_name, data) {
+        var stamp = parseInt(db.get(widget_name + '.stamp')) / 1000;
+        var date = etc.date_full(stamp);
+        html.setContent( data + '<div class="cache-mark">cached at : '+date+'</div>', widget_name );
     }
 };

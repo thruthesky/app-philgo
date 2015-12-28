@@ -19,7 +19,7 @@ function check_update_version() {
     setInterval(check_version, 1000 * 60 * 60 * 2);
     function check_version(){
         ajax_load(app.getServerURL() + '?module=ajax&action=version&submit=1', function(re){
-            console.log(re);
+            trace(re);
             note.post(
                 _.template('{{domain}} {{version}} 에 접속하였습니다.')(re)
             );

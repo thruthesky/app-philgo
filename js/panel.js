@@ -12,22 +12,22 @@ var panel = {
         return this.get().width();
     },
     toggle: function () {
-        //console.log('panel.toggle()');
+        //trace('panel.toggle()');
         html.setPanel();
         var w ;
-        if ( this.open() ) w = - this.width();
+        if ( this.open() ) w = - ( this.width() + 2 ); // This is a bug from CSS. You must give 2 px to hide the border.
         else w = 0;
-        //console.log(w);
+        //trace(w);
         this.get().velocity({
             right: w
         }, function(){
-            //console.log("toggle panel complete...!")
+            //trace("toggle panel complete...!")
         });
     },
     close: function() {
         if ( this.inHideProgress ) return;
         if ( this.open() ) {
-            //console.log('panel.close() : is going to hide panel.');
+            //trace('panel.close() : is going to hide panel.');
             this.inHideProgress = true;
             this.get().velocity({
                 right: - panel.width()

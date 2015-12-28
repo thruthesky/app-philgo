@@ -35,7 +35,7 @@ var post = {
         if ( el.post_list().length == 0 ) el.content().append('<div class="post-list"></div>');
     },
     endless_update : function (re) {
-        //console.log(re);
+        //trace(re);
         post.add_endless_container();
         var $page_button = el.page_button(re['page']);
 
@@ -43,6 +43,12 @@ var post = {
             trace("Post data has been loaded but the page has changed. so, the posts will not be shown.")
             return;
         }
+        /*
+        if ( app.getCurrentPage() != re['page'] ) {
+            trace("post.endless_update() : widget_name and page name is not the same. data voided.");
+            return;
+        }
+        */
 
         if (_.isEmpty(re['posts']) ) {
             endless_show_no_more_content('<h1>No more content</h1>');

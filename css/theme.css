@@ -145,80 +145,6 @@ footer .nav-pills.bottom li:last-child{
 /* ============== EO Footer ============== */
 
 
-/* ===================== Panel ==================== */
-/*menu-panel*/
-.widget.menu-panel {
-    right: -262px;
-    border-left:2px solid #34495e;
-}
-.menu-panel-inner {
-    background-color:#efefef;
-    width:258px;
-}
-.widget.menu-panel .panel{
-    margin:0;
-    border:0;
-    border-radius:0;
-}
-.widget.menu-panel .panel .panel-heading{
-    padding-bottom:100px;
-    background-color:#fff;
-}
-.widget.menu-panel ul{
-    list-style:none;
-}
-.widget.menu-panel .list-group li .list-group-item{
-    border:0;
-}
-.widget.menu-panel .list-group li > div > .glyphicon{
-    display:inline-block;
-    position:absolute;
-    right:10px;
-    top:10px;
-    font-size:.8em;
-}
-.widget.menu-panel .list-group.top li > div > .glyphicon.glyphicon-menu-right{
-    color:#a2a2a2;
-}
-/*top*/
-.widget.menu-panel .list-group.top li > div > .glyphicon.glyphicon-remove{
-    color:red;
-}
-/*top*/
-/*panel-user-profile*/
-.panel-user-profile{
-    position:relative;
-    padding:63px 0 0 0;
-    background:url("../img/bgmenu_oval.png");
-    background-color: #fff;
-    background-repeat:no-repeat;
-}
-.panel-user-profile img{
-    position:absolute;
-    left:20px;
-    top:0;
-    width:70px;
-    border-radius:100%;
-}
-.panel-user-profile .bottom-space{
-    height:20px;
-    background-color:#00b4d1;
-}
-.panel-user-profile .name{
-    position:absolute;
-    left:0;
-    top:20px;
-    width:100%;
-    padding:0 0 0 120px;
-    font-weight:bold;
-    color:#fff;
-    box-sizing:border-box;
-    text-align:center;
-}
-.panel-user-profile .name > div{
-    font-weight:normal;
-}
-/*eo panel-user-profile*/
 /*list group bottom*/
 .widget.menu-panel .list-group.bottom li{
     border-top:1px solid #fff;
@@ -254,3 +180,43 @@ footer .nav-pills.bottom li:last-child{
 /*eo menu-panel*/
 /* ================= EO Panel ================= */
 
+
+
+
+/** J B U T T O N */
+
+.jbutton {
+    display:block;
+    width:100%;
+    overflow:auto;
+    background-color: #9e9e9e;
+}
+
+ul.jbutton {
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+.jbutton > span,
+.jbutton li {
+    display:block;
+    float:left;
+    padding:4px 24px;
+    color:white;
+    cursor:pointer;
+}
+.jbutton > span:first-child,
+.jbutton li:first-child {
+    padding-left:24px;
+}
+.jbutton > span:last-child,
+.jbutton li:last-child {
+    padding-right:24px;
+}
+.jbutton > span:hover,
+.jbutton li:hover
+{
+    background-color: rgba(53, 53, 53, 0.51);
+}
+
+/** EO jbutton */

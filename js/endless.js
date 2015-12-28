@@ -73,14 +73,14 @@ function endless_reset(url, callback) {
     var endless_distance = 400; // how far is the distance from bottom to get new page.
     $document.scroll(endless_load_more);
     function endless_load_more() {
-        // console.log('endless_load_more(e) : ');
-        if ( ! endless_api ) return console.log("no endless_api");
-        if ( endless_no_more_content ) return console.log("no more content. return.");
-        if ( endless_in_loading ) return console.log("endless is in loading page.");
+        // trace('endless_load_more(e) : ');
+        if ( ! endless_api ) return trace("no endless_api");
+        if ( endless_no_more_content ) return trace("no more content. return.");
+        if ( endless_in_loading ) return trace("endless is in loading page.");
         var top = $document.height() - $window.height() - endless_distance;
         if ($window.scrollTop() >= top) {
             endless_scroll_count ++;
-            //console.log("endless_listen_scroll():: count:" + endless_scroll_count);
+            //trace("endless_listen_scroll():: count:" + endless_scroll_count);
             endless_in_loading = true;
             endless_show_loader();
             ajax_load( endless_api + endless_scroll_count, function(re) {
@@ -92,17 +92,17 @@ function endless_reset(url, callback) {
     }
 })();
 function endless_hide_loader() {
-    //console.log("endless_hide_load()");
+    //trace("endless_hide_load()");
     var $loader = $('.endless-loader');
     if ( $loader.length ) $loader.remove();
 }
 function endless_show_loader() {
-    //console.log("endless_show_load()");
+    //trace("endless_show_load()");
     var markup = '<div class="endless-loader" style="margin:3em 0; padding:3em 0; text-align:center;"><img src="img/loader/loader9.gif"></div>';
     el.content().append(markup);
 }
 function endless_show_no_more_content(m) {
-    //console.log("endless_show_no_more_content");
+    //trace("endless_show_no_more_content");
     endless_no_more_content = true;
     el.content().append("<div class='no-more-content'>"+m+"</div>");
 }

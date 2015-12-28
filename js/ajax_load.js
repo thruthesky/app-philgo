@@ -8,13 +8,17 @@
  * @param html - if it is true, it just return data without parsing.
  */
 function ajax_load(url, callback, html) {
+
+
     if ( url.indexOf('?') == -1 ) url += '?';
     else url += '&';
     if ( member.login() ) {
-        url += 'idx_member=' + member.id + '&session_id=' + member.session_id;
+        url += 'idx_member=' + member.id + '&session_id=' + member.session_id + '&';
     }
-    url +=  '&page=' + app.getCurrentPage() + '&mobile=' + app.isMobile() + '&platform=' + app.platform();
+    url +=  'page=' + app.getCurrentPage() + '&mobile=' + app.isMobile() + '&platform=' + app.platform();
+
     trace(url);
+
     $.ajax({
         url:url,
         cache: false,
@@ -26,7 +30,9 @@ function ajax_load(url, callback, html) {
                 re = $.parseJSON(data);
             }
             catch ( e ) {
-                return note.post("Ajax_load() : caught an error : " + e.message);
+                note.post("Ajax_load() : caught an error : " + e.message);
+                console.log(data);
+                return;
             }
             /**
              * It must be here. It must not be in try {}
@@ -36,8 +42,8 @@ function ajax_load(url, callback, html) {
         },
         error: function(xhr, type) {
             return note.post("Ajax load error : " + type);
-            console.log(type);
-            console.log(xhr);
+            trace(type);
+            trace(xhr);
         }
     });
 }
@@ -64,15 +70,15 @@ function ajax_load_post(url, data, callback) {
                 return note.post("Ajax_load_post() : caught an error : " + e.message);
             }
             if ( re['code'] ) {
-                console.log(re);
+                trace(re);
                 alert(re['message']);
             }
             else callback(re);
         },
         error: function(xhr, type){
             return note.post("Ajax load error : " + type);
-            console.log(type);
-            console.log(xhr);
+            trace(type);
+            trace(xhr);
         }
     });
 }

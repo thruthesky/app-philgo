@@ -63,15 +63,11 @@ var member = {
         member.unset();
     },
     primary_photo : function () {
-        console.log(member);
+        trace(member);
         if ( typeof member.idx_photo != 'undefined' ) {
             var idx = member.idx_photo;
-            return _.template('<img src="{{url_server}}/data/upload/{{postfix}}/{{idx_photo}}">')
-            ({
-                url_server : app.getServerURL(),
-                postfix : s.chars(idx).pop(),
-                idx_photo : idx
-            });
+            var url = app.getDataURL(idx);
+            return '<img src="'+url+'">';
         }
         else return '';
     }
