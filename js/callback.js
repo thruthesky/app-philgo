@@ -111,7 +111,7 @@ var callback = {
             var content = $form.find('[name="content"]').val();
             var photos = '';
             $edit.find('.photos img').each(function(index){
-                photos = photos + ' ' + this.outerHTML;
+                photos = photos + '' + this.outerHTML;//added by benjamin, removed space ( ' ' => '' )  so no need to float left for the extra space when using inline block
             });
             trace(photos);
             photos = html.photos(idx, photos); // .photos must exist
@@ -124,7 +124,8 @@ var callback = {
             $post.find('.subject').text(subject);
             $post.find('.content').text(content);
             if ( el.photos(idx).length ) el.photos(idx).replaceWith(photos);
-            else $post.append(photos);
+            //else $post.append(photos);//edited by benjamin for design compatibility, moved the parent to .content instead...
+			else $post.find(".content").append(photos);
             $post.show();
 
         });
@@ -269,6 +270,8 @@ var callback = {
         html.render_post_edit($post);
     },
     on_click_photo_delete_button : function () {
+		re = confirm( "Are you sure you want to delete this photo?" );
+		if( !re ) return;
         var $this = $(this);
         var $photo = $this.parents('.photo');
         var $form = $this.parents('form');

@@ -163,7 +163,7 @@
 /*post*/
 .post{
 	position:relative;
-	padding:10px 0 10px 0;
+	padding:10px 0 0 0;
 	margin:0 0 10px 0;
 	background-color:#fff;	
 }
@@ -479,8 +479,9 @@
 
 /*comment-write-form*/
 .comment-write-form{
-	padding:0 10px;
-	margin-top:10px;
+	padding:10px;	
+	/*margin-top:10px;*/
+	background-color:#fff;
 }
 
 .comment-write-form .media.post-info{
@@ -496,8 +497,9 @@
 	padding:0;
 }
 
-.comment-write-form .profile-image{
+.comment-write-form .profile-image > img{
 	width:35px;
+	max-width:initial;
 }
 
 .comment-write-form textarea{
@@ -531,6 +533,8 @@
     width:100%;
 	border-radius:2px;
 	background-color:red;
+	font-family: 'Malgun Gothic', '맑은고딕', 'GulimChe', '굴림체', serif!important;
+	font-weight:bold;
 	color:#fff;
 	text-align:center;
 	box-sizing:border-box;
@@ -540,6 +544,7 @@
 	position:relative;
 	top:2px;
 	margin-right:5px;
+	font-family: 'Glyphicons Halflings';/*override*/
 }
 
 .post-edit-form .post-content-wrapper{	
@@ -560,7 +565,14 @@
 	display:block;
 }
 
-.post-edit-form textarea{
+.post-edit [name='subject']{
+	padding:5px;
+	border:0;
+	border-bottom:1px solid #c7c7c7;
+	box-sizing:border-box;
+}
+
+.post-edit [name='content']{
 	display:block;
 	height:40px;
 	width:100%;
@@ -570,7 +582,7 @@
 	box-sizing:border-box;
 }
 
-.post-edit-form textarea:focus{
+.post-edit [name='subject']:focus, .post-edit [name='content']:focus{
 	outline:0;
 }
 
@@ -669,7 +681,8 @@
 
 /*photos*/
 /*display*/
-.photos > img{	
+.photos > img{
+	display:inline-block;
 	width:49%;
 	padding:3px;
 	border:1px solid #ddd;
@@ -681,6 +694,36 @@
 /*edit*/
 .photos .photo{
 	margin-top:5px;
+	width:25%;
+	padding:0 5px;
+	box-sizing:border-box;
+}
+
+.photos .photo img{
+	width:100%;
+	border:1px solid #95a5a6;
+	box-sizing:border-box;
+}
+
+.photos .photo .photo-delete-button{
+	position:absolute;
+	left: 3px;
+	top: -6px;
+	width:100%;
+	height:100%;
+	padding:0;
+	background-color:transparent;
+}
+
+.photos .photo .photo-delete-button:before{
+	position:absolute;
+	right:0;
+	top:0;
+	padding:5px;
+	border-radius:100%;
+	background-color:#c03729;
+	font-size:.8em;
+	color:#fff;
 }
 /*eo edit*/
 /*eo photos*/

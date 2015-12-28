@@ -49,6 +49,7 @@ var html = {
         m += '      <span class="navbar-text glyphicon glyphicon-camera" post-id="*"></span>';
         m += '      <span class="navbar-text logo">필리핀매거진</span>';
         m += '      <span class="navbar-text navbar-right glyphicon glyphicon-th-list menu-panel toggle"></span>';
+        //m += '      <span class="navbar-text navbar-right">' + member.primary_photo() + '</span>';
         m += '  </div>';
         m += '</nav>';
         m += '<ul class="nav nav-pills nav-justified main-menu">';
@@ -207,8 +208,9 @@ var html = {
         m += "  <input type='hidden' name='action' value='comment_write_submit'>";
 		m +=	'<div class="media post-info col-xs-8">';
 		
-		m +=		'<a class="media-left" href="#">';
-		m +=		'<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
+		m +=		'<a class="media-left profile-image" href="#">';
+		if( member.login() && member.primary_photo().indexOf("undefined") == -1 ) m += member.primary_photo();
+		else m += '<img class="media-object" src="img/no_primary_photo.png" alt="Generic placeholder image">';
 		m +=		'</a>';
 		m +=		'<div class="media-body">';
 		m +=		'<textarea name="content"></textarea>';
@@ -371,7 +373,7 @@ var html = {
 		m +=			'<div class="date" title="'+date_full+'">'+date+'</div>';
 		m +=			'<div class="content">';
 		m +=				'<div class="text">' + post.content(comment) + '</div>';
-		if ( comment['photos'] ) m += comment['photos'];
+		if ( comment['photos'] ) m += comment['photos'];		
 		m +=			'</div>';
 		m +=		'</div>';
 		m +=	'</div>';
@@ -395,17 +397,6 @@ var html = {
 		m +=		'</div>';
 		m +=	'</nav>';
 		
-		/*
-		m += ' 글번호 : '+comment['idx'];
-		m += ' 글쓴이: ' + comment['user_name'];
-		m += ' <span title="'+date_full+'">날짜: ' + date + '</span>';
-		m += ' 수정, 메뉴 ';
-        m += '<div class="content">' + post.content(comment) + '</div>';
-		
-		if ( comment['photos'] ) m += comment['photos'];
-		*/
-		
-		//m += ' <span class="reply-button">Reply</span>, 추천, 비추천';
 		m += '</div>';
 		return m;
     },
