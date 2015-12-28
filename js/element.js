@@ -47,6 +47,11 @@ var element = {
     },
     primary_photo : function () {
         return $('img.primary-photo');
-    }
+    },
+	//added by benjamin
+	modal_window : function () {
+        return $('.modalWindow');
+    },	
+	//^ added by benjamin
 };
 var el = element;

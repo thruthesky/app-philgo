@@ -174,6 +174,8 @@ var app = {
 		//added by benjamin        
         on_click('form.post-write-form textarea[name="content"]', callback.on_click_post_edit_textarea);
 		on_click('form.comment-write-form textarea[name="content"]', callback.on_click_post_edit_comment_textarea);
+		on_click('.post .photos > img, .modalImage .arrow', callback.on_click_post_photos_img);//also used by arrow of modalWindow > modalImage
+		on_click('.modalWindow', callback.on_click_modal_window);
 
 
     },
@@ -219,5 +221,50 @@ var app = {
             'data/upload/' +
             s.chars(idx).pop() +
             '/' + idx;
-    }
+    },
+	//added by benjamin modal window
+	createModalWindowWithImage : function( idx ){		
+		if( !element.modal_window().length ) element.body().append( html.modalWindow );		
+		element.body().css('overflow','hidden');//disable browser scrolling
+		document.ontouchmove = function(e){ e.preventDefault(); }//disable mobile scrolling		
+		total_images = $(".post .photos img[idx='" + idx + "']").parent().find("img").length;
+		if( $(".modalImage[idx='" + idx + "']").length ){
+			$(".modalImage").hide();
+			$(".modalImage[idx='" + idx + "']").show();
+		}
+		else{
+			$(".modalImage").hide();
+			if( total_images > 1 ) add_arrow = true;
+			else add_arrow = false;
+			modalImage = html.modalImage( idx, $(".post .photos img[idx='" + idx + "']").attr("org"), add_arrow );
+			element.modal_window().append( modalImage );
+			$(".modalImage[idx='" + idx + "'] img").load( function(){
+				console.log( idx );
+				app.modalWindowAdjustImage( idx );
+			});
+		}
+	},
+	//adjusting the photo size to look better
+	modalWindowAdjustImage : function( idx ){
+		console.log("adjust");
+		var $selector = $(".modalImage[idx='" + idx + "'] img");
+		var window_width = $(window).width();
+		var window_height = $(window).height();
+		
+		if( $selector.height() >= $selector.width() ) {				
+			$selector.css('width','initial').css('height',$(window).height());			
+			if( $selector.width() > $(window).width() ) $selector.css('max-width','100%').css('height','initial');		
+		}
+		else if( $selector.width() >= $selector.height() ){
+			$selector.css('height','initial').css('max-width','100%');
+			if( $selector.height() > $(window).height() ) $selector.css('height', ( $(window).height() ) ).css('width','initial');		
+		}
+		
+		var margin_top = window_height/2 - $selector.height()/2;
+
+		if( margin_top < 0 ) margin_top = 0;
+		$selector.parent().css('margin-top',margin_top);//compatible for $(".modalWindow > .modalImage > img")
+		$selector.css("display","block");
+	}
+	//^ added by benjamin modal window
 };

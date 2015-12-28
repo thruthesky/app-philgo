@@ -331,6 +331,23 @@ var callback = {
 		var $this = $(this);
 		$this.height(100);
 	},
+	on_click_post_photos_img : function( e ) {
+		var $this = $(this);	
+		app.createModalWindowWithImage( $this.attr("idx") );
+	},
+	on_click_modal_window : function( e ) {
+		var $this = $(this);	
+		//element.modal_window().remove();
+		
+		if( $(e.target).hasClass('arrow') ){
+		
+		}
+		else{
+			element.modal_window().remove();
+			element.body().css('overflow','initial');
+			document.ontouchmove = function(e){}//remove the disabled mobile scrolling
+		}
+	},
 	//^ above is added by benjamin
     on_click_setting_button : function () {
         html.setContent( html.page.setting(), 'setting' );

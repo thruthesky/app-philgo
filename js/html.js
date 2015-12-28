@@ -212,7 +212,7 @@ var html = {
 		m +=		'</a>';
 		m +=		'<div class="media-body">';
 		m +=		'<textarea name="content"></textarea>';
-		m += 		'<div class="photos"></div>';		
+		//m += 		'<div class="photos"></div>';	
 		m +=		'</div>';
 		
 		m +=	'</div>';
@@ -220,6 +220,7 @@ var html = {
 		m +=		'<div class="col-xs-6">' + this.filebox() + '</div>';
 		m +=		'<div class="col-xs-6">' + '<input type="submit" value="Post">' + '</div>';
 		m +=	'</div>';
+		m += 	'<div class="photos col-xs-12 clearfix"></div>';
 		m += '</form>';
 		
 
@@ -587,5 +588,31 @@ var html = {
         var stamp = parseInt(db.get(widget_name + '.stamp')) / 1000;
         var date = etc.date_full(stamp);
         html.setContent( data + '<div class="cache-mark">cached at : '+date+'</div>', widget_name );
-    }
+    },
+	//added by benjamin modal window
+	modalWindow : function(){
+		m = '<div class="modalWindow"></div>';
+		return m;
+	},
+	modalImage : function( idx, url, add_arrow ){
+		m = '';
+		m += '<div class="modalImage" idx="' + idx + '">';
+		m += '<img src="' + url + '"/>'
+		if( add_arrow == true ){
+			if( $(".post .photos img[idx='" + idx + "']").prev().length ) prev = $(".post .photos img[idx='" + idx + "']").prev();
+			else prev = $(".post .photos:has(img[idx='" + idx + "']) img:last");
+			prev_idx = prev.attr("idx");
+			
+			if( $(".post .photos img[idx='" + idx + "']").next().length ) next = $(".post .photos img[idx='" + idx + "']").next();
+			else next = $(".post .photos:has(img[idx='" + idx + "']) img:first");
+			next_idx = next.attr("idx");
+			
+			m += '<span class="glyphicon glyphicon-menu-left arrow left" idx="' + prev_idx +'"></span>';
+			m += '<span class="glyphicon glyphicon-menu-right arrow right" idx="' + next_idx + '"></span>';
+		}
+		m += '</div>';
+		
+		return m;
+	},
+	//^ added by benjamin modal window
 };
