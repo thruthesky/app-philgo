@@ -262,7 +262,7 @@ var callback = {
         }
 
     },
-    on_click_post_edit_button : function () {
+    on_click_post_edit_button : function () {		
         var $this = $(this);
         var $post = $this.parents('.post');
         $post.hide();

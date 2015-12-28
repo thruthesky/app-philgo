@@ -378,18 +378,18 @@ var html = {
 		
 		m +=	'<nav class="btn-group post-menu-philzine-bottom pull-right">';
 		m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+likes+'</span></span>';
+		m +=		'<span class="btn post-edit-button"><span class="glyphicon glyphicon-pencil"></span> Edit</span>';		
 		m +=		'<div class="btn dropdown">';
 		m +=			'<div class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
 		m +=				'<span class="glyphicon glyphicon-option-horizontal"></span>';
 		m +=			'</div>';
 		m +=			'<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
-		m +=				'<li class="dropdown-item reply-button">Reply</li>';
+		m +=				'<li class="dropdown-item reply-button"><span class="glyphicon glyphicon-share-alt"></span>Reply</li>';
 		if( post.mine(comment) ) {
-            m +=				'<li class="dropdown-item post-delete-button">Delete</li>';
-            m +=				'<li class="dropdown-item post-edit-button">Edit</li>';
+            m +=				'<li class="dropdown-item post-delete-button"><span class="glyphicon glyphicon-trash"></span>Delete</li>';                    
         }
         else {
-		m +=				'<li class="dropdown-item report-button">Report</li>';
+			m +=				'<li class="dropdown-item report-button"><span class="glyphicon glyphicon-warning-sign"></span>Report</li>';
 		}
 		m +=			'</ul>';
 		m +=		'</div>';

@@ -90,11 +90,12 @@
 /*drop down*/
 .post .dropdown-toggle{
     border:0;
-    background-color:initial!important;
+    background-color:initial!important;	
+	box-shadow:none!important;
 }
 
 .post .dropdown-toggle:hover{
-    background-color:initial;
+    background-color:initial;	
 }
 
 .post .dropdown-toggle:after{
@@ -106,7 +107,16 @@
 }
 
 .post .dropdown-menu .dropdown-item{
+	padding:5px;
     cursor:pointer;
+}
+
+.post .dropdown-menu .dropdown-item:hover{
+	background-color:#f1f1f1;
+}
+
+.post .dropdown-menu .dropdown-item > .glyphicon{
+	margin-right:5px;
 }
 /*eo drop down*/
 
