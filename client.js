@@ -10,6 +10,7 @@ $(function(){
 
 
     var url = 'http://work.philgo.org/'; // ICS 로 앱에서 테스트
+    //var url = 'http://philgo.org/'; // ICS 로 앱에서 테스트
 
     if ( app.fileProtocol() ) {
 
