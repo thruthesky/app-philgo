@@ -11,12 +11,12 @@
  * @code
  *
  db.set('title', 'This is test');
- console.log( db.get('title') );
- console.log( db.getRecord('title') );
+ trace( db.get('title') );
+ trace( db.getRecord('title') );
  db.set('title', 'Test 2');
- console.log( db.getRecord('title') );
- console.log( db.get('No Key') == null );
- console.log( db.getRecord('No Key') );
+ trace( db.getRecord('title') );
+ trace( db.get('No Key') == null );
+ trace( db.getRecord('No Key') );
  * @endcode
  *
  */
@@ -87,7 +87,7 @@ var db = new function() {
 
 };
 function save_widget(key, re) {
-    db.set(key, re.html);
+    db.set(key, re['html']);
     db.set(key + '.length', re['length']);
     db.set(key + '.stamp', new Date().getTime());
     db.set(key + '.md5', re['md5']);

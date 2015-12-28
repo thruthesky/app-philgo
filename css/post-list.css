@@ -388,11 +388,15 @@
 	overflow:hidden;
 }
 
-.post-write-form .photos{
-	display:none;
+.post-write-form .photos {
 	padding:5px;
 	border-top:1px solid #c7c7c7;
 }
+
+.post-write-form .photos:empty {
+	display:none;
+}
+
 
 .post-edit-form .photos{
 	display:block;

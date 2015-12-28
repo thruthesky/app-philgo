@@ -44,6 +44,9 @@ var element = {
     },
     photos : function ( idx ) {
         return $('.photos[idx="'+idx+'"]');
+    },
+    primary_photo : function () {
+        return $('img.primary-photo');
     }
 };
 var el = element;

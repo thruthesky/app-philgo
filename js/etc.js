@@ -75,7 +75,7 @@ var etc = {
         var minute  = date.getMinutes();
         var seconds = date.getSeconds();
 
-        return date + '-' + year + '-' + ( month + 1 ) + ' ' + hour + ':' + minute;
+        return year + '-' + ( month + 1 ) + '-' + day + ' ' + hour + ':' + minute;
     },
     date_short : function ( stamp ) {
         var date = new Date(stamp * 1000);

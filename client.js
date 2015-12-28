@@ -1,45 +1,44 @@
-debug.start();
+debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
+
+
+
 _.templateSettings = {
     interpolate: /\{\{(.+?)\}\}/g
 };
 
 $(function(){
 
-    //var url_server = 'http://philgo.org/'; // 데스크톱 브라우저로 테스트
-    var url = 'http://192.168.137.1/'; // ICS 로 앱에서 테스트
 
-    if ( document.domain ) { // 데스크톱이면 자동으로 데스크톱 URL 을 지정한다.
-        var domain = document.domain;
-        if ( domain.indexOf('work') != -1 ) url = 'http://philgo.org';
+    var url = 'http://work.philgo.org/'; // ICS 로 앱에서 테스트
+    //var url = 'http://philgo.org/'; // ICS 로 앱에서 테스트
+
+    if ( app.fileProtocol() ) {
+
     }
-	//url = 'http://philgo.org';
-//        app.url_server = 'http://philgo.com';
+    else {
 
-    /*
-    var url_server = db.get('url_server');
-    if ( url_server ) app.setServerURL(url_server);
-    else
-    */
-        app.setServerURL(url);
+        if ( document.domain ) { // 데스크톱이면 자동으로 데스크톱 URL 을 지정한다.
+            var domain = document.domain;
+            if ( domain.indexOf('localhost') != -1 ) url = 'http://philgo.org/';
+            else if ( domain.indexOf('work.org') != -1 ) url = 'http://philgo.org/';
+        }
+    }
 
+    app.setServerURL(url);
+
+    add_css(app.getServerCSSURL());
+    add_javascript(app.getServerJavascriptURL());
+    add_javascript(app.getHookJavascriptURL ());
 
     // @doc How to use onDeviceRead
     app.addEventDeviceReady(
         function callback_onDeviceReady() {
             trace('go to ...');
-
-            console.log(app.model());
-            console.log(app.platform());
-
+            trace(app.model());
+            trace(app.platform());
             //alert( app.platform() );
-
         }
     );
-
-
-
-
-
 
 
     //db.deleteAll();
@@ -49,15 +48,16 @@ $(function(){
     // 코드를 테스트 할 때에만 사용한다.
     // debug.browser_camera_upload = true;
 
-    check_update_version();
+
     html.setHeader();
     html.setFooter();
-    html.setPanel();
-    cache.showFront();
-
 
     member.load();
-    //console.log(member.idx);
+
+    //trace(member.idx);
+
+
+    cache.showFront();
 
     if ( app.offline() ) {
         note.post('인터넷을 연결 해 주십시오. Connect to Internet.', 'alert alert-warning');
@@ -67,14 +67,16 @@ $(function(){
 		$("header > .top").css("background-color","#bb2718");//added by benjamin for header color
 	}
 
+
+
     //db.deleteAll(); // test.
     //initApp();
     //setTimeout(function(){ showPage('setting'); }, 600); // test
-    //setTimeout(function(){ $('[page="news"]').click(); }, 700); // test : news page
-    //setTimeout(function(){ $('[page="freetalk"]').click(); }, 400); // test : news page
-    //setTimeout(function(){ $('[page="qna"]').click(); }, 200); // test : qna page
-    //setTimeout(function(){ $('[page="login"]').click(); }, 700); // test : login page
-    //setTimeout(function(){ $('[page="info"]').click(); }, 1300); // test : info page
+    //setTimeout(function(){ $('[page-button="news"]').click(); }, 700); // test : news page
+    //setTimeout(function(){ $('[page-button="freetalk"]').click(); }, 400); // test : news page
+    //setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
+    //setTimeout(function(){ $('[page-button="login"]').click(); }, 700); // test : login page
+    //setTimeout(function(){ $('[page-button="info"]').click(); }, 1300); // test : info page
     //setTimeout(togglePanel, 300); // test : open panel-menu
 
     //setTimeout( function()  { panel.toggle(); }, 300 );
@@ -101,5 +103,51 @@ $(function(){
     // open front and temp forum
     // setTimeout(function(){cache.update('news', 'temp');}, 400);
 
+
+
+    app.init();
     app.initEvent();
+    trace(member);
+    check_update_version();
+
+    /** panel 은 미리 세팅되지 않으므로 아래와 같이 먼저 세팅을 해 주어야 한다. */
+    // setTimeout(function(){ html.setPanel(); $('[page-button="register"]').click(); }, 700); // test : login page
+
+
+    /**
+     * 쪽지 열기
+     */
+    /*
+    setTimeout(function(){
+        html.setPanel();
+        $('.message-button').click();
+
+        //setTimeout(function(){
+//            message.show_message_send_form('thruthesky');
+  //      }, 200);
+    },700);
+    */
+
+    // 전체 메뉴 열기
+    setTimeout(function(){
+        $('[widget="menu-all"]').click();
+    }, 100);
+
+
+
+
+    // 전체 메뉴 열고 => 과일 페이지 열기
+    setTimeout(function(){
+        $('[widget="menu-all"]').click();
+        setTimeout(function(){
+            $('[widget="fruit"]').click();
+        }, 100);
+    }, 100);
+
+
+
+
+
+
+
 });

@@ -1,0 +1,74 @@
+
+/* ===================== Panel ==================== */
+/*menu-panel*/
+.widget.menu-panel {
+    border-left:2px solid #34495e;
+    width: 260px;
+}
+.menu-panel-inner {
+    width:258px;
+}
+.widget.menu-panel .panel{
+    margin:0;
+    border:0;
+    border-radius:0;
+}
+.widget.menu-panel .panel .panel-heading{
+    padding-bottom:100px;
+    background-color:#fff;
+}
+.widget.menu-panel ul{
+    list-style:none;
+}
+.widget.menu-panel .list-group li .list-group-item{
+    border:0;
+}
+.widget.menu-panel .list-group li > div > .glyphicon{
+    display:inline-block;
+    position:absolute;
+    right:10px;
+    top:10px;
+    font-size:.8em;
+}
+.widget.menu-panel .list-group.top li > div > .glyphicon.glyphicon-menu-right{
+    color:#a2a2a2;
+}
+/*top*/
+.widget.menu-panel .list-group.top li > div > .glyphicon.glyphicon-remove{
+    color:red;
+}
+/*top*/
+/*panel-user-profile*/
+.panel-user-profile{
+    position:relative;
+    padding:63px 0 0 0;
+    background:url("../img/bgmenu_oval.png");
+    background-color: #fff;
+    background-repeat:no-repeat;
+}
+.panel-user-profile img{
+    position:absolute;
+    left:20px;
+    top:0;
+    width:70px;
+    border-radius:100%;
+}
+.panel-user-profile .bottom-space{
+    height:20px;
+    background-color:#00b4d1;
+}
+.panel-user-profile .name{
+    position:absolute;
+    left:0;
+    top:20px;
+    width:100%;
+    padding:0 0 0 120px;
+    font-weight:bold;
+    color:#fff;
+    box-sizing:border-box;
+    text-align:center;
+}
+.panel-user-profile .name > div{
+    font-weight:normal;
+}
+/*eo panel-user-profile*/

@@ -4,14 +4,37 @@
  *
  */
 var app = {
-    version : '51219', // 년 1자리, 월2자리, 일 2자리
-    _user_server : null,
+    version : '0.12.01', // 년.월.일 로 Major.medium.minor 로 표시한다. 2015 년이 0 년.
+    url_server : null,
     current_page_name : null,
+    deviceReady : false,
+    getVersion : function () {
+        return this.version;
+    },
+    getCurrentPage : function () {
+        return this.current_page_name;
+    },
+    isRegisterPage : function () {
+        return app.getCurrentPage() == 'register';
+    },
     setServerURL : function (url) {
-        this._user_server = url;
+        this.url_server = url;
     },
     getServerURL : function () {
-        return this._user_server;
+        return this.url_server;
+    },
+    getServerCSSURL : function () {
+        var url = this.getServerURL() + 'module/ajax/server.css?version=' + this.getVersion();
+        if ( debug.mode ) url += new Date().getTime();
+        return url;
+    },
+    getServerJavascriptURL : function () {
+        var url = this.getServerURL() + 'module/ajax/server.js?version=' + this.getVersion();
+        if ( debug.mode ) url += new Date().getTime();
+        return url;
+    },
+    getHookJavascriptURL : function () {
+        return this.getServerURL() + 'module/ajax/hook-js.php?time=' + new Date().getTime();
     },
     url_server_widget : function () {
         return this.getServerURL() + '?module=ajax&action=widget&submit=1&name=';
@@ -22,10 +45,14 @@ var app = {
     url_server_login : function () {
         return this.getServerURL() + '?module=ajax&action=login&submit=1';
     },
+    isDeviceReady : function () {
+        return this.deviceReady;
+    },
     addEventDeviceReady : function(callback) {
         trace('app.isCordova():' + app.isCordova());
         function onDeviceReady() {
             trace('onDeviceReady()');
+            app.deviceReady = true;
             callback();
         }
         if ( app.isCordova() ) {
@@ -38,26 +65,38 @@ var app = {
         }
     },
     isCordova : function() {
-        return !!window.cordova;
+        if ( this.isDeviceReady() ) {
+            return !!window.cordova;
+        }
+        else return false;
+    },
+    fileProtocol : function () {
+        return window.location.protocol === "file:";
     },
     model : function() {
-        if ( this.isCordova() ) return device.model;
-        else return 'desktop';
+            if ( this.isCordova() ) {
+                if ( typeof device == 'undefined' ) return 'undefined';
+                return device.model;
+            }
+            else return 'isNotCordova';
     },
     platform : function() {
-        if ( this.isCordova() ) return device.platform;
-        else return 'desktop';
+        if ( this.isCordova() ) {
+            if ( typeof device == 'undefined' ) return 'undefined';
+            return device.platform;
+        }
+        else return 'isNotCordova';
     },
     isBrowser : function() {
         return this.platform() == 'browser';
     },
     isDesktop : function() {
-        return this.platform() == 'desktop';
+        return this.platform() == 'isNotCordova';
     },
     isMobile : function () {
         if ( this.isBrowser() ) return false;
         else if ( this.isDesktop() ) return false;
-        else return true;
+        return true;
     },
     reset : function () {
         db.deleteAll();
@@ -82,7 +121,25 @@ var app = {
     goTop : function() {
         scrollTo(0,0);
     },
+    init : function () {
+        this.version = db.get('version');
+    },
     initEvent : function() {
+        on_click('[callback]', function(e){
+            var $this = $(this);
+            var func = $this.attr('callback');
+            var call_func = 'callback_' + func;
+            if ( typeof window[call_func] == 'function' ) window[call_func]($this, e);
+            else window[func]($this, e);
+        });
+
+        on_click('[widget]', function(e){
+            var $this = $(this);
+            var widget_name = $this.attr('widget');
+            app.setCurrentPage(widget_name);
+            html.setWidget(widget_name);
+        });
+
         on_click('[page-button]', callback.on_click_page);
         on_click('.menu-panel.toggle', callback.on_click_menu_panel);
         on_click('.reset', callback.on_click_reset);
@@ -100,6 +157,8 @@ var app = {
         on_submit('form.post-write-form', callback.post_form_submit);
         on_submit('form.comment-write-form', callback.comment_form_submit);
         on_submit('form.post-edit-form', callback.edit_form_submit);
+        on_submit('form.member-register-form', callback.member_register_submit);
+
 
 
         on_click('.reply-button', callback.on_click_reply_button);
@@ -139,5 +198,26 @@ var app = {
         else {
             navigator.notification.confirm(message, callback, title, lables);
         }
+    },
+    vibrate : function ( time ) {
+        if ( this.isCordova() ) navigator.vibrate(time);
+    },
+    alert : function (str) {
+        if ( navigator.notification ) {
+            navigator.notification.alert(
+                str,
+                function(){},
+                '필리핀 매거진',
+                '확인'
+            );
+        }
+        else alert(str);
+    },
+    getDataURL : function ( idx ) {
+        return '' +
+            app.getServerURL() +
+            'data/upload/' +
+            s.chars(idx).pop() +
+            '/' + idx;
     }
 };

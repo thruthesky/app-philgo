@@ -24,3 +24,34 @@ function lang(code) {
         default : return code;
     }
 }
+
+
+/**
+ *
+ * @param url
+ * @code
+ *      add_css('css/server.css?version=' + version);
+ * @endcode
+ */
+function add_css(url){
+    var link = document.createElement('link');
+    link.setAttribute('rel', 'stylesheet');
+    link.setAttribute('type', 'text/css');
+    link.setAttribute('href', url);
+    document.getElementsByTagName('head')[0].appendChild(link);
+}
+/**
+ *
+ * @param url
+ * @code
+ *      'js/server.js?version=' + version
+ * @endcode
+ *
+ */
+function add_javascript(url) {
+    var scriptTag = document.createElement('script');
+    scriptTag.src = url;
+    document.body.appendChild(scriptTag);
+}
+
+
