@@ -134,8 +134,6 @@ $(function(){
     }, 100);
 
 
-
-
     // 전체 메뉴 열고 => 과일 페이지 열기
     setTimeout(function(){
         $('[widget="menu-all"]').click();

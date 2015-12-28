@@ -178,6 +178,10 @@ var app = {
 		on_click('.modalWindow', callback.on_click_modal_window);
 
 
+
+        //
+        on_click('[post-view]', callback.on_click_post_view);
+
     },
     setCurrentForum : function (post_id) {
         element.post_button().attr('post-id', post_id);

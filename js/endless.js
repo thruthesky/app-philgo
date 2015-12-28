@@ -56,6 +56,8 @@ var endless_callback;
             }
         });
  * @endcode
+ *
+ * @attention url 값이 '' 임ㄴ ajax_load 를 호출하지 않는다.
  */
 function endless_reset(url, callback) {
     endless_callback = callback;
@@ -63,8 +65,9 @@ function endless_reset(url, callback) {
     endless_scroll_count = 1;
     endless_no_more_content = false;
     endless_in_loading = false;
-    var url_endless = endless_api + endless_scroll_count;
     endless_hide_no_more_content();
+    if( url == '' ) return;
+    var url_endless = endless_api + endless_scroll_count;
     ajax_load( url_endless, endless_callback);
 }
 (function () {
