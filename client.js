@@ -12,6 +12,7 @@ $(function(){
         var domain = document.domain;
         if ( domain.indexOf('work') != -1 ) url = 'http://philgo.org';
     }
+	//url = 'http://philgo.org';
 //        app.url_server = 'http://philgo.com';
 
     /*
