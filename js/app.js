@@ -176,6 +176,10 @@ var app = {
 		on_click('form.comment-write-form textarea[name="content"]', callback.on_click_post_edit_comment_textarea);
 
 
+
+        //
+        on_click('[post-view]', callback.on_click_post_view);
+
     },
     setCurrentForum : function (post_id) {
         element.post_button().attr('post-id', post_id);
