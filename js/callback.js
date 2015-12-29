@@ -25,18 +25,27 @@ var callback = {
         var id = $this.find('[name="id"]').val();
         var url = app.url_server_login() + '&id=' + id;
         url += '&password=' + $this.find('[name="password"]').val();
+        var $submit= $this.find('[type="submit"]');
+        $submit.hide();
+        html.showLoaderAfter(14, $('.password'));
         ajax_load( url, function(re) {
             //trace(re);
-            if ( re.code == 504 ) alert('아이디를 입력하십시오.');
+            console.log(re);
+            if ( re.code == 4101 ) alert('아이디와 비밀번호를 입력하십시오.');
             else if ( re.code == 503 ) alert('비밀번호를 입력하십시오.');
-            else if ( re.code == 502 ) alert('아이디를 찾을 수 없습니다.');
-            else if ( re.code == 501 ) alert('비밀번호가 틀렸습니다. Wrong password.');
+            else if ( re.code == 4102 ) alert('아이디를 찾을 수 없습니다.');
+            else if ( re.code == 4103 ) alert('비밀번호가 틀렸습니다. Wrong password.');
             else {
                 //trace("login success!");
                 //trace(re);
                 member.setLogin(id, re);
                 cache.showFront();
+                return false;
             }
+            html.hideLoader();
+            $submit.show();
+        }, {
+            error_check : false
         });
         return false;
     },
@@ -78,15 +87,22 @@ var callback = {
     },
     post_form_submit : function (e) {
         e.preventDefault();
-        ajax_load_post(app.getServerURL(), $(this).serialize(), function(re){
+        var $this = $(this);
+        var $submit = $this.find('.submit');
+        html.showLoaderOn(14, $submit);
+        ajax_load_post(app.getServerURL(), $this.serialize(), function(re){
             element.post_write_form().remove();
             element.content().prepend(html.render_post(re.post));
+            html.hideLoader();
         });
         return false;
     },
     comment_form_submit : function (e) {
         e.preventDefault();
-        ajax_load_post(app.getServerURL(), $(this).serialize(), function(re){
+        var $this = $(this);
+        var $submit = $this.find('[type="submit"]').parent();
+        html.showLoaderOn(14, $submit).css({'padding-left':'0.8em'});
+        ajax_load_post(app.getServerURL(), $this.serialize(), function(re){
             var p = re.post;
             if ( p['depth'] > 1 ) {
                 element.comment_write_form(p['idx_parent']).remove();
@@ -96,6 +112,7 @@ var callback = {
             }
             var m = html.render_comment(p);
             element.post(p['idx_parent']).after(m);
+            html.hideLoader();
         });
         return false;
     },
@@ -141,6 +158,9 @@ var callback = {
         if ( app.isRegisterPage() ) $form.prop('action', app.getServerURL());
 
         this.is_upload_submit = true;
+
+        html.showLoaderAfter(14,$filebox);
+
         $form.ajaxSubmit({
             complete: function (xhr) {
                 trace("File upload completed thru jquery.form.js");
@@ -161,6 +181,7 @@ var callback = {
                     var $photos = $form.find('.photos');
                     $photos.append( html.render_photo( re.data ) );
                 }
+                html.hideLoader();
             }
         });
         this.is_upload_submit = false;
@@ -343,6 +364,8 @@ var callback = {
     member_register_submit : function (e) {
         e.preventDefault();
         var $form = $(this);
+
+        html.showLoaderAfter(14, $('.year'));
         ajax_load_post(app.getServerURL(), $form.serialize(), function(re){
             member.setLogin(re['id'], re);
             if ( $form.find('[name="session_id"]').length ) {
@@ -352,20 +375,23 @@ var callback = {
                 alert("회원 가입을 하였습니다.");
                 cache.showFront();
             }
+            html.hideLoader();
+        }, function(re) {
+            html.hideLoader();
         });
         return false;
     },
     on_click_post_view : function () {
         var $this = $(this);
         var idx = $this.attr('post-view');
-        endless_reset('');
+
         ajax_load(app.getServerURL() + '?module=ajax&action=post_view_submit&idx='+idx, function(re){
 
+            app.setCurrentPage('post-view');
             var site = re['site'];
 
             note.post(site + ' 사이트의 글이 추가되었습니다.');
             var post = re['post'];
-
             el.content().html(html.render_post(post));
             el.content().append(html.render_comments(post['comments']));
         });

@@ -218,10 +218,11 @@ var app = {
         else alert(str);
     },
     getDataURL : function ( idx ) {
-        return '' +
+        if ( idx ) return '' +
             app.getServerURL() +
             'data/upload/' +
             s.chars(idx).pop() +
             '/' + idx;
+        else return '';
     }
 };

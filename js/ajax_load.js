@@ -5,10 +5,14 @@
  *
  * @param url       - must be GET URI
  * @param callback
- * @param html - if it is true, it just return data without parsing.
+ * @param option
+ *          - if it is true, it just return data without parsing.
+ *          - if it is object
+ *              -- if check_error is false, then it does not error check.
  */
-function ajax_load(url, callback, html) {
+function ajax_load(url, callback, option) {
 
+    console.log(option);
 
     if ( url.indexOf('?') == -1 ) url += '?';
     else url += '&';
@@ -24,7 +28,7 @@ function ajax_load(url, callback, html) {
         cache: false,
         success: function(data) {
             //trace(data);
-            if ( html ) return callback(data);
+            if ( option === true ) return callback(data);
             var re;
             try {
                 re = $.parseJSON(data);
@@ -37,8 +41,14 @@ function ajax_load(url, callback, html) {
             /**
              * It must be here. It must not be in try {}
              */
-            if ( re.code ) alert(re.message);
-            else callback(re);
+            if ( re.code ) {
+                if ( option && option['error_check'] === false ) {
+
+                }
+                else return alert(re.message);
+            }
+
+            callback(re);
         },
         error: function(xhr, type) {
             return note.post("Ajax load error : " + type);
@@ -51,9 +61,10 @@ function ajax_load(url, callback, html) {
  *                      ----- Ajax submit in POST method -----
  * @param url
  * @param data
- * @param callback
+ * @param success_callback
+ * @param error_callback
  */
-function ajax_load_post(url, data, callback) {
+function ajax_load_post(url, data, success_callback, error_callback) {
     trace(debug.url(url, data));
     $.ajax({
         url: url,
@@ -72,8 +83,9 @@ function ajax_load_post(url, data, callback) {
             if ( re['code'] ) {
                 trace(re);
                 alert(re['message']);
+                error_callback(re);
             }
-            else callback(re);
+            else success_callback(re);
         },
         error: function(xhr, type){
             return note.post("Ajax load error : " + type);

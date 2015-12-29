@@ -111,7 +111,7 @@ $(function(){
     check_update_version();
 
     /** panel 은 미리 세팅되지 않으므로 아래와 같이 먼저 세팅을 해 주어야 한다. */
-    // setTimeout(function(){ html.setPanel(); $('[page-button="register"]').click(); }, 700); // test : login page
+    setTimeout(function(){ html.setPanel(); $('[page-button="register"]').click(); }, 700); // test : login page
 
 
     /**
@@ -129,19 +129,21 @@ $(function(){
     */
 
     // 전체 메뉴 열기
+    /*
     setTimeout(function(){
         $('[widget="menu-all"]').click();
     }, 100);
-
+*/
 
     // 전체 메뉴 열고 => 과일 페이지 열기
+    /*
     setTimeout(function(){
         $('[widget="menu-all"]').click();
         setTimeout(function(){
             $('[widget="fruit"]').click();
         }, 100);
     }, 100);
-
+*/
 
 
 
