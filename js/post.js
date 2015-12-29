@@ -74,8 +74,8 @@ var post = {
             m += '      <img src="img/post/more.png"/>';
             m += '  </span>';
             m += '  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
-            m += '      <li><span class="report-button">Report</span></li>';
-            m += '      <li><span class="report-button">Message</span></li>';
+            //m += '      <li class="dropdown-item"><span class="glyphicon glyphicon-warning-sign"></span><span class="report-button">Report</span></li>';
+            m += '      <li class="dropdown-item"><span class="glyphicon glyphicon-envelope"></span><span class="report-button">Message</span></li>';
             m += '  </ul>';
             return m;
         }

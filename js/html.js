@@ -49,6 +49,7 @@ var html = {
         m += '      <span class="navbar-text glyphicon glyphicon-camera" post-id="*"></span>';
         m += '      <span class="navbar-text logo">필리핀매거진</span>';
         m += '      <span class="navbar-text navbar-right glyphicon glyphicon-th-list menu-panel toggle"></span>';
+        //m += '      <span class="navbar-text navbar-right">' + member.primary_photo() + '</span>';
         m += '  </div>';
         m += '</nav>';
         m += '<ul class="nav nav-pills nav-justified main-menu">';
@@ -206,12 +207,13 @@ var html = {
         m += "  <input type='hidden' name='action' value='comment_write_submit'>";
 		m +=	'<div class="media post-info col-xs-8">';
 		
-		m +=		'<a class="media-left" href="#">';
-		m +=		'<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
+		m +=		'<a class="media-left profile-image" href="#">';
+		if( member.login() && member.primary_photo().indexOf("undefined") == -1 ) m += member.primary_photo();
+		else m += '<img class="media-object" src="img/no_primary_photo.png" alt="Generic placeholder image">';
 		m +=		'</a>';
 		m +=		'<div class="media-body">';
 		m +=		'<textarea name="content"></textarea>';
-		m += 		'<div class="photos"></div>';		
+		//m += 		'<div class="photos"></div>';
 		m +=		'</div>';
 		
 		m +=	'</div>';
@@ -219,6 +221,7 @@ var html = {
 		m +=		'<div class="col-xs-6">' + this.filebox() + '</div>';
 		m +=		'<div class="col-xs-6">' + '<input type="submit" value="Post">' + '</div>';
 		m +=	'</div>';
+		m += 	'<div class="photos col-xs-12 clearfix"></div>';
 		m += '</form>';
 		
 
@@ -376,34 +379,24 @@ var html = {
 		
 		m +=	'<nav class="btn-group post-menu-philzine-bottom pull-right">';
 		m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+likes+'</span></span>';
+		m +=		'<span class="btn post-edit-button"><span class="glyphicon glyphicon-pencil"></span> Edit</span>';
 		m +=		'<div class="btn dropdown">';
 		m +=			'<div class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
 		m +=				'<span class="glyphicon glyphicon-option-horizontal"></span>';
 		m +=			'</div>';
 		m +=			'<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
-		m +=				'<li class="dropdown-item reply-button">Reply</li>';
+		m +=				'<li class="dropdown-item reply-button"><span class="glyphicon glyphicon-share-alt"></span>Reply</li>';
 		if( post.mine(comment) ) {
-            m +=				'<li class="dropdown-item post-delete-button">Delete</li>';
+            m +=				'<li class="dropdown-item post-delete-button"><span class="glyphicon glyphicon-trash"></span>Delete</li>';
             m +=				'<li class="dropdown-item post-edit-button">Edit</li>';
         }
         else {
-		m +=				'<li class="dropdown-item report-button">Report</li>';
+			m +=				'<li class="dropdown-item report-button"><span class="glyphicon glyphicon-warning-sign"></span>Report</li>';
 		}
 		m +=			'</ul>';
 		m +=		'</div>';
 		m +=	'</nav>';
-		
-		/*
-		m += ' 글번호 : '+comment['idx'];
-		m += ' 글쓴이: ' + comment['user_name'];
-		m += ' <span title="'+date_full+'">날짜: ' + date + '</span>';
-		m += ' 수정, 메뉴 ';
-        m += '<div class="content">' + post.content(comment) + '</div>';
-		
-		if ( comment['photos'] ) m += comment['photos'];
-		*/
-		
-		//m += ' <span class="reply-button">Reply</span>, 추천, 비추천';
+
 		m += '</div>';
 		return m;
     },
@@ -613,4 +606,31 @@ var html = {
     hideLoader : function () {
         $('.gif-loader').remove();
     }
+    },
+	//added by benjamin modal window
+	modalWindow : function(){
+		m = '<div class="modalWindow"></div>';
+		return m;
+	},
+	modalImage : function( idx, url, add_arrow ){
+		m = '';
+		m += '<div class="modalImage" idx="' + idx + '">';
+		m += '<img src="' + url + '"/>'
+		if( add_arrow == true ){
+			if( $(".post .photos img[idx='" + idx + "']").prev().length ) prev = $(".post .photos img[idx='" + idx + "']").prev();
+			else prev = $(".post .photos:has(img[idx='" + idx + "']) img:last");
+			prev_idx = prev.attr("idx");
+
+			if( $(".post .photos img[idx='" + idx + "']").next().length ) next = $(".post .photos img[idx='" + idx + "']").next();
+			else next = $(".post .photos:has(img[idx='" + idx + "']) img:first");
+			next_idx = next.attr("idx");
+
+			m += '<span class="glyphicon glyphicon-menu-left arrow left" idx="' + prev_idx +'"></span>';
+			m += '<span class="glyphicon glyphicon-menu-right arrow right" idx="' + next_idx + '"></span>';
+		}
+		m += '</div>';
+
+		return m;
+	},
+	//^ added by benjamin modal window
 };

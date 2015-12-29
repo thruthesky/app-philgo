@@ -128,7 +128,7 @@ var callback = {
             var content = $form.find('[name="content"]').val();
             var photos = '';
             $edit.find('.photos img').each(function(index){
-                photos = photos + ' ' + this.outerHTML;
+                photos = photos + '' + this.outerHTML;//added by benjamin, removed space ( ' ' => '' )  so no need to float left for the extra space when using inline block
             });
             trace(photos);
             photos = html.photos(idx, photos); // .photos must exist
@@ -141,7 +141,8 @@ var callback = {
             $post.find('.subject').text(subject);
             $post.find('.content').text(content);
             if ( el.photos(idx).length ) el.photos(idx).replaceWith(photos);
-            else $post.append(photos);
+            //else $post.append(photos);//edited by benjamin for design compatibility, moved the parent to .content instead...
+			else $post.find(".content").append(photos);
             $post.show();
 
         });
@@ -283,13 +284,15 @@ var callback = {
         }
 
     },
-    on_click_post_edit_button : function () {
+    on_click_post_edit_button : function () {		
         var $this = $(this);
         var $post = $this.parents('.post');
         $post.hide();
         html.render_post_edit($post);
     },
     on_click_photo_delete_button : function () {
+		re = confirm( "Are you sure you want to delete this photo?" );
+		if( !re ) return;
         var $this = $(this);
         var $photo = $this.parents('.photo');
         var $form = $this.parents('form');
@@ -351,6 +354,23 @@ var callback = {
 	on_click_post_edit_comment_textarea : function() {
 		var $this = $(this);
 		$this.height(100);
+	},
+	on_click_post_photos_img : function( e ) {
+		var $this = $(this);	
+		app.createModalWindowWithImage( $this.attr("idx") );
+	},
+	on_click_modal_window : function( e ) {
+		var $this = $(this);	
+		//element.modal_window().remove();
+		
+		if( $(e.target).hasClass('arrow') ){
+		
+		}
+		else{
+			element.modal_window().remove();
+			element.body().css('overflow','initial');
+			document.ontouchmove = function(e){}//remove the disabled mobile scrolling
+		}
 	},
 	//^ above is added by benjamin
     on_click_setting_button : function () {
