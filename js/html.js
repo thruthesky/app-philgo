@@ -379,7 +379,9 @@ var html = {
 		
 		m +=	'<nav class="btn-group post-menu-philzine-bottom pull-right">';
 		m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+likes+'</span></span>';
-		m +=		'<span class="btn post-edit-button"><span class="glyphicon glyphicon-pencil"></span> Edit</span>';
+		if( post.mine(comment) ) {
+			m +=		'<span class="btn post-edit-button"><span class="glyphicon glyphicon-pencil"></span> Edit</span>';
+		}
 		m +=		'<div class="btn dropdown">';
 		m +=			'<div class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
 		m +=				'<span class="glyphicon glyphicon-option-horizontal"></span>';
