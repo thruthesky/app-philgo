@@ -1,5 +1,9 @@
+html {
+	height:100%;
+}
+
 body {
-	
+	height:100%;
 }
 
 header {
@@ -19,9 +23,16 @@ footer {
     /*height:60px;*/
     overflow:hidden;
 }
+
+#layout{
+	height:100%;
+}
+
 section.widget.content {
-    margin-top:105px;
-    margin-bottom:50px;
+	height:100%;
+    padding-top:105px;
+    padding-bottom:50px;
+	box-sizing:border-box;
 }
 .widget.menu-panel {
 	position: fixed;

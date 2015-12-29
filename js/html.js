@@ -52,34 +52,34 @@ var html = {
         //m += '      <span class="navbar-text navbar-right">' + member.primary_photo() + '</span>';
         m += '  </div>';
         m += '</nav>';
-        m += '<ul class="nav nav-pills nav-justified main-menu">';
-        m += '  <li page-button="news" post-id="news">뉴스</li>';
-        m += '  <li page-button="info" post-id="qna">정보</li>';
-        m += '  <li page-button="company" post-id="company_book">업소록</li>';
-        m += '  <li page-button="travel" post-id="travel">여행</li>';
-        m += '  <li page-button="qna" post-id="qna">질문</span></li>';
-        m += '  <li page-button="freetalk" post-id="freetalk,knowhow">토론</span></li>';
-        m += '  <li widget="menu-all">더보기</span></li>';
-        m += '</ul>';
+        m += '<div class="btn-group btn-group-justified main-menu">';
+        m += '  <span class="btn" page-button="news" post-id="news">뉴스</span>';
+        m += '  <span class="btn" page-button="info" post-id="qna">정보</span>';
+        m += '  <span class="btn" page-button="company" post-id="company_book">업소록</span>';
+        m += '  <span class="btn" page-button="travel" post-id="travel">여행</span>';
+        m += '  <span class="btn" page-button="qna" post-id="qna">질문</span></span>';
+        m += '  <span class="btn" page-button="freetalk" post-id="freetalk,knowhow">토론</span></span>';
+        m += '  <span class="btn" widget="menu-all">더보기</span></span>';
+        m += '</div>';
         return m;
     },
     footer : function() {
         var m = '';
-        m += '<ul class="nav nav-pills nav-justified bottom bottom-menu">';
+        m += '<div class="btn-group btn-group-justified bottom bottom-menu">';
 
 
         if ( member.login() ) {
-            m += '  <li page-button="profile"><span class="glyphicon glyphicon-user"></span>Profile</li>';
-            m += '  <li page-button="message"><span class="glyphicon glyphicon-envelope"></span>Message</li>';
+            m += '  <span class="btn" page-button="profile"><span class="glyphicon glyphicon-user"></span>Profile</span>';
+            m += '  <span class="btn"  page-button="message"><span class="glyphicon glyphicon-envelope"></span>Message</span>';
         }
         else {
-            m += '  <li page-button="login"><span class="glyphicon glyphicon-user"></span>Login</li>';
-            m += '  <li page-button="register"><span class="glyphicon glyphicon-envelope"></span>Register</li>';
+            m += '  <span class="btn"  page-button="login"><span class="glyphicon glyphicon-user"></span>Login</span>';
+            m += '  <span class="btn"  page-button="register"><span class="glyphicon glyphicon-envelope"></span>Register</span>';
         }
-        m += '  <li page-button="search"><span class="glyphicon glyphicon-search"></span>Search</li>';
-        m += '  <li class="post-button" post-id=""><span class="glyphicon glyphicon-pencil"></span>Post</li>';
-        m += '  <li class="setting-button"><span class="glyphicon glyphicon-wrench"></span>Setting</span></li>';
-        m += '</ul>';
+        m += '  <span class="btn"  page-button="search"><span class="glyphicon glyphicon-search"></span>Search</span>';
+        m += '  <span class="btn"  class="post-button" post-id=""><span class="glyphicon glyphicon-pencil"></span>Post</span>';
+        m += '  <span class="btn"  class="setting-button"><span class="glyphicon glyphicon-wrench"></span>Setting</span></span>';
+        m += '</div>';
         return m;
     },
     panel : function() {
