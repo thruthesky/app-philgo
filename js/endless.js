@@ -102,15 +102,15 @@ function endless_hide_loader() {
 }
 function endless_show_loader() {
     //trace("endless_show_load()");
-    var markup = '<div class="endless-loader" style="margin:3em 0; padding:3em 0; text-align:center;"><img src="img/loader/loader9.gif"></div>';
+    //var markup = '<div class="endless-loader" style="margin:3em 0; padding:3em 0; text-align:center;"><img src="img/loader/loader9.gif"></div>';
 
-    /** It is now working.
+    /** It is now working.*/
     var markup = '';
 	markup += '<div class="endless-loader" style="padding:10px;margin-bottom:10px;background-color:#fff;text-align:center">';
 	markup += '<span style="margin-right:10px;font-weight:bold;color:#585858;">Loading</span>';
 	markup += '<img src="img/loader/custom_loader.gif">';
 	markup += '</div>';
-	*/
+	
     el.content().append(markup);
 }
 function endless_show_no_more_content(m) {

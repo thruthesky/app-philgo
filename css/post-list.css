@@ -233,6 +233,10 @@
 	border:0;
 }
 
+.post .post-menu-philzine-top .btn.glyphicon-remove{
+	padding:15px 10px 15px 30px;
+}
+
 .post .post-menu-philzine-top .btn:active{
     box-shadow:none;
 }
