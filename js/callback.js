@@ -16,8 +16,10 @@ var callback = {
             cache.update(page_name, post_id);
         }
     },
-    on_click_content: function () {
+    on_click_content: function ( e ) {
         panel.close();
+		//added by benjamin... need to fix this long if condition
+		if( !$(e.target).hasClass("message-commands") && !$(e.target).parents(".message-commands").length && !$(e.target).parent().hasClass("message-commands") ) message.search_close();
     },
     form_login : function () {
         //trace('ajax_login() member.idx:'+member.idx);

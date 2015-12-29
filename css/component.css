@@ -634,3 +634,118 @@
 	right:5px;
 }
 /*eo modalWindow*/
+
+/*message*/
+/*message-menu*/
+.message-menu{
+	margin-bottom:10px;
+}
+
+.message-menu .message-menu-button{
+	padding:15px 0;	
+	border:2px solid #1abc9c;
+	border-left:0;
+	background-color:#fff;	
+	font-size:1em;
+	font-weight:bold;
+	color:#1abc9c;
+}
+
+.message-menu .message-menu-button:first-child{
+	border-left:2px solid #1abc9c;
+}
+
+.message-menu .message-menu-button.is-active{
+	background-color:#1abc9c;
+	color:#fff;
+}
+/*eo message-menu*/
+/*message-commands*/
+.message-commands{
+	height:40px;	
+	border-radius:3px;
+	background-color:#fff;
+	box-sizing:border-box;
+	overflow:hidden;
+}
+
+.message-commands .input-group-addon{
+	border:0;
+	background-color:transparent;
+}
+
+.message-commands .input-group-addon .glyphicon{
+	cursor:pointer;
+}
+
+.message-commands .input-group-addon .glyphicon-unchecked, .message-commands .input-group-addon .glyphicon-check{
+	margin-right:10px;
+}
+
+.message-commands .form-control.text{
+	height:40px;
+	padding:0 12px;
+	border: 1px solid transparent;
+    box-shadow: none;
+}
+
+.message-commands .form-control.text > .inner{
+	position:relative;
+	overflow:hidden;
+}
+
+.message-commands .form-control.text > .inner .mark-as-read-button{
+	display:block;
+	padding:10px 0;
+}
+
+.message-commands .form-control.text > .inner input{
+	position:absolute;
+	right:-100%;
+	top:0;
+	height:40px;
+	border:0;
+	border-radius:0;
+	box-sizing:border-box;
+	box-shadow:none;
+}
+
+.message-commands .form-control.text > .inner input:focus{
+	outline:0!important;
+}
+
+.message-commands .message-search-button{
+	font-size:1.2em;
+	cursor:pointer;
+}
+
+.message-commands input[type="submit"]{
+	display:none;
+}
+/*eo message-commands*/
+
+/*send-message-button*/
+.message-send-button{
+	position:fixed;
+	bottom:68px;
+	right:20px;
+	height:60px;
+	width:60px;
+	padding: 12px 0;
+    border-radius: 100%;
+    background-color: #1abc9c;
+    font-size: 1.6em;
+	color:#fff;
+	z-index:1;
+	box-sizing:border-box;
+	text-align:center;
+	cursor:pointer;
+}
+/*eo send-message-button*/
+/*eo message*/
+
+/*btn group override*/
+.btn-group.btn-group-justified .btn{
+	box-shadow:none!important;
+}
+/*eo btn group override*/

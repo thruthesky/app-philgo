@@ -40,12 +40,15 @@ form.login .row {
     background-color:#fff;
     text-align:center;
 }
-.main-menu li {
-    display: table-cell;
-    padding:10px 0;
-    width: 1%;
+
+.main-menu span{
+	border:0;
+	border-bottom:2px solid transparent;	
+	border-radius:0!important;
+	font-size:1em;
 }
-.main-menu li:hover {
+
+.main-menu span:hover {
     cursor:pointer;
     color: #c43d31;
     border-bottom:2px solid #c43d31;
@@ -114,18 +117,18 @@ footer {
     box-sizing: border-box;
     background-color:#fff;
 }
-footer .nav-pills{
+footer .bottom-menu{
     background-color:#fff;
     text-align:center;
 }
-footer .nav-pills > li{
-    display: table-cell;
-    width: 1%;
-}
-footer .nav-pills.bottom li{
+
+footer .bottom-menu.bottom span{
+	padding:0;
+	border:0;
     border-right: 1px solid #00b4d1;
+	border-radius:0;
 }
-footer .nav-pills.bottom li:last-child{
+footer .bottom-menu.bottom span:last-child{
     border:0;
 }
 .bottom-menu {

@@ -30,7 +30,7 @@ var panel = {
             //trace('panel.close() : is going to hide panel.');
             this.inHideProgress = true;
             this.get().velocity({
-                right: - panel.width()
+                right: - panel.width() - 2
             }, function() {
                 panel.inHideProgress = false;
             });
