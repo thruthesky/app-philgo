@@ -605,7 +605,6 @@ var html = {
     },
     hideLoader : function () {
         $('.gif-loader').remove();
-    }
     },
 	//added by benjamin modal window
 	modalWindow : function(){
