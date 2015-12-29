@@ -663,6 +663,7 @@
 /*message-commands*/
 .message-commands{
 	height:40px;	
+	margin-bottom:10px;
 	border-radius:3px;
 	background-color:#fff;
 	box-sizing:border-box;
@@ -742,6 +743,105 @@
 	cursor:pointer;
 }
 /*eo send-message-button*/
+
+/*message-list*/
+.message-list{
+	background-color:#fff;
+}
+
+.message-list .message{
+	margin:0 10px;
+	padding:10px 0;
+	border-bottom:1px solid #ebeaea;
+}
+
+.message-list .message.open{
+	margin:0;
+	padding:10px;
+	border-left:3px solid #00b4d1;
+}
+
+.message-list .message .info .date-on-open{
+	display:none;
+}
+
+.message-list .message.open .info{
+	position:relative;
+	width:100%;
+}
+
+.message-list .message .commands{
+	display:none;
+	position:absolute;
+	top:0;
+	right:20px;
+}
+
+.message-list .message.open .commands{
+	display:block;	
+}
+
+.message-list .message.open .commands .glyphicon{
+	top:0;
+}
+
+.message-list .message.open .commands .glyphicon-trash{
+	top: 5px;
+    font-size: 1.2em;
+}
+
+.message-list .message.open .commands .btn{
+	border:0;	
+	box-shadow:none;
+}
+
+.message-list .message.open .commands .menu-separator{
+	float: left;
+	height: 25px;
+	padding: 5px 0;
+	margin: 7px 5px 0 5px;
+	font-size: 1.1em;
+	border-left: 1px solid #e5e5e5;
+}
+
+.message-list .message.open .commands .dropdown-menu{
+	padding:5px 10px;
+}
+
+.message-list .message.open .commands .dropdown-menu .dropdown-item .glyphicon{
+	margin-right:10px;
+}
+
+.message-list .message.open .commands .dropdown-menu .dropdown-item .glyphicon{
+	
+}
+
+.message-list .message.open .info{
+	position:relative;
+	width:100%;
+}
+
+.message-list .message.open .info .date{
+	display:none;
+}
+
+.message-list .message.open .info .date-on-open{
+	display:block;
+}
+
+.message-list .message .profile-image{
+	width: 40px;
+    max-width: initial;
+	border-radius:100%;
+}
+.message-list .message .subject{
+	margin:0;
+}
+.message-list .message .subject{
+	padding:10px 0;
+	background-color:transparent!important;
+}
+/*eo message-list*/
 /*eo message*/
 
 /*btn group override*/
