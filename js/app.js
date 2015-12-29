@@ -219,17 +219,18 @@ var app = {
         else alert(str);
     },
     getDataURL : function ( idx ) {
-        return '' +
+        if ( idx ) return '' +
             app.getServerURL() +
             'data/upload/' +
             s.chars(idx).pop() +
             '/' + idx;
+        else return '';
     },
 	//added by benjamin modal window
-	createModalWindowWithImage : function( idx ){		
-		if( !element.modal_window().length ) element.body().append( html.modalWindow );		
+	createModalWindowWithImage : function( idx ){
+		if( !element.modal_window().length ) element.body().append( html.modalWindow );
 		element.body().css('overflow','hidden');//disable browser scrolling
-		document.ontouchmove = function(e){ e.preventDefault(); }//disable mobile scrolling		
+		document.ontouchmove = function(e){ e.preventDefault(); }//disable mobile scrolling
 		total_images = $(".post .photos img[idx='" + idx + "']").parent().find("img").length;
 		if( $(".modalImage[idx='" + idx + "']").length ){
 			$(".modalImage").hide();
@@ -253,16 +254,16 @@ var app = {
 		var $selector = $(".modalImage[idx='" + idx + "'] img");
 		var window_width = $(window).width();
 		var window_height = $(window).height();
-		
-		if( $selector.height() >= $selector.width() ) {				
-			$selector.css('width','initial').css('height',$(window).height());			
-			if( $selector.width() > $(window).width() ) $selector.css('max-width','100%').css('height','initial');		
+
+		if( $selector.height() >= $selector.width() ) {
+			$selector.css('width','initial').css('height',$(window).height());
+			if( $selector.width() > $(window).width() ) $selector.css('max-width','100%').css('height','initial');
 		}
 		else if( $selector.width() >= $selector.height() ){
 			$selector.css('height','initial').css('max-width','100%');
-			if( $selector.height() > $(window).height() ) $selector.css('height', ( $(window).height() ) ).css('width','initial');		
+			if( $selector.height() > $(window).height() ) $selector.css('height', ( $(window).height() ) ).css('width','initial');
 		}
-		
+
 		var margin_top = window_height/2 - $selector.height()/2;
 
 		if( margin_top < 0 ) margin_top = 0;

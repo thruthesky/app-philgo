@@ -92,15 +92,14 @@ var html = {
         m += '      <li><div class="list-group-item menu-panel toggle">Close Menu<span class="glyphicon glyphicon-remove"></span></div></li>';
         m += '  </ul>';
 
-        var primary_photo;
-        if ( member.login() ) primary_photo = member.primary_photo();
-        else primary_photo = '      <img src="img/no_primary_photo.png"/>';
+        var primary_photo = member.primary_photo();
+        console.log(member);
 
         m += '  <div class="panel-user-profile" page-button="login">';
         m += primary_photo;
         m += '      <div class="bottom-space"></div>';
         if ( member.login() ) {
-            m += '      <div class="name">{{name}}<div>{{id}}</div></div>';
+            m += '      <div class="name">{{name}}/{{idx_photo}}<div>{{id}}</div></div>';
         }
         else {
             m += '      <div class="name">회원 로그인<div>Login</div></div>';
@@ -214,7 +213,7 @@ var html = {
 		m +=		'</a>';
 		m +=		'<div class="media-body">';
 		m +=		'<textarea name="content"></textarea>';
-		//m += 		'<div class="photos"></div>';	
+		//m += 		'<div class="photos"></div>';
 		m +=		'</div>';
 		
 		m +=	'</div>';
@@ -373,14 +372,14 @@ var html = {
 		m +=			'<div class="date" title="'+date_full+'">'+date+'</div>';
 		m +=			'<div class="content">';
 		m +=				'<div class="text">' + post.content(comment) + '</div>';
-		if ( comment['photos'] ) m += comment['photos'];		
+		if ( comment['photos'] ) m += comment['photos'];
 		m +=			'</div>';
 		m +=		'</div>';
 		m +=	'</div>';
 		
 		m +=	'<nav class="btn-group post-menu-philzine-bottom pull-right">';
 		m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+likes+'</span></span>';
-		m +=		'<span class="btn post-edit-button"><span class="glyphicon glyphicon-pencil"></span> Edit</span>';		
+		m +=		'<span class="btn post-edit-button"><span class="glyphicon glyphicon-pencil"></span> Edit</span>';
 		m +=		'<div class="btn dropdown">';
 		m +=			'<div class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
 		m +=				'<span class="glyphicon glyphicon-option-horizontal"></span>';
@@ -388,7 +387,8 @@ var html = {
 		m +=			'<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
 		m +=				'<li class="dropdown-item reply-button"><span class="glyphicon glyphicon-share-alt"></span>Reply</li>';
 		if( post.mine(comment) ) {
-            m +=				'<li class="dropdown-item post-delete-button"><span class="glyphicon glyphicon-trash"></span>Delete</li>';                    
+            m +=				'<li class="dropdown-item post-delete-button"><span class="glyphicon glyphicon-trash"></span>Delete</li>';
+            m +=				'<li class="dropdown-item post-edit-button">Edit</li>';
         }
         else {
 			m +=				'<li class="dropdown-item report-button"><span class="glyphicon glyphicon-warning-sign"></span>Report</li>';
@@ -396,7 +396,7 @@ var html = {
 		m +=			'</ul>';
 		m +=		'</div>';
 		m +=	'</nav>';
-		
+
 		m += '</div>';
 		return m;
     },
@@ -580,6 +580,32 @@ var html = {
         var date = etc.date_full(stamp);
         html.setContent( data + '<div class="cache-mark">cached at : '+date+'</div>', widget_name );
     },
+    /**
+     * loader 는 1번 부터 14번 까지 있는데, 몇번의 loader 를 어느 위치에 표시 할 것인지 지정한다.
+     * @note $.after() 를 사용해서, target $obj 의 다음에 넣는다.
+     * @param no
+     * @param $obj
+     */
+    showLoaderAfter : function ( no, $obj ) {
+        $obj.after('<div class="gif-loader" no="'+no+'"><img src="img/loader/loader'+no+'.gif"></div>');
+        return $('.gif-loader');
+    },
+    /**
+     * showLoaderAfter() 와 동일한데 단, $.html() 을 사용해서 target object 의 내부에 넣는다.
+     * @param no
+     * @param $obj
+     *
+     * @code
+     html.showLoaderOn(14, $submit).css({'padding-left':'0.8em'});
+     * @endcode
+     */
+    showLoaderOn : function ( no, $obj ) {
+        $obj.html('<img class="gif-loader" no="'+no+'" src="img/loader/loader'+no+'.gif">');
+        return $('.gif-loader');
+    },
+    hideLoader : function () {
+        $('.gif-loader').remove();
+    },
 	//added by benjamin modal window
 	modalWindow : function(){
 		m = '<div class="modalWindow"></div>';
@@ -593,16 +619,16 @@ var html = {
 			if( $(".post .photos img[idx='" + idx + "']").prev().length ) prev = $(".post .photos img[idx='" + idx + "']").prev();
 			else prev = $(".post .photos:has(img[idx='" + idx + "']) img:last");
 			prev_idx = prev.attr("idx");
-			
+
 			if( $(".post .photos img[idx='" + idx + "']").next().length ) next = $(".post .photos img[idx='" + idx + "']").next();
 			else next = $(".post .photos:has(img[idx='" + idx + "']) img:first");
 			next_idx = next.attr("idx");
-			
+
 			m += '<span class="glyphicon glyphicon-menu-left arrow left" idx="' + prev_idx +'"></span>';
 			m += '<span class="glyphicon glyphicon-menu-right arrow right" idx="' + next_idx + '"></span>';
 		}
 		m += '</div>';
-		
+
 		return m;
 	},
 	//^ added by benjamin modal window

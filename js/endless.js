@@ -61,12 +61,12 @@ var endless_callback;
  */
 function endless_reset(url, callback) {
     endless_callback = callback;
-    endless_api = url + '&page_no=';
     endless_scroll_count = 1;
     endless_no_more_content = false;
     endless_in_loading = false;
     endless_hide_no_more_content();
     if( url == '' ) return;
+    endless_api = url + '&page_no=';
     var url_endless = endless_api + endless_scroll_count;
     ajax_load( url_endless, endless_callback);
 }
@@ -77,6 +77,7 @@ function endless_reset(url, callback) {
     $document.scroll(endless_load_more);
     function endless_load_more() {
         // trace('endless_load_more(e) : ');
+        if ( app.getCurrentPage() == 'post-view' ) return trace("DO NOT endless load on 'post-view' page. return.");
         if ( ! endless_api ) return trace("no endless_api");
         if ( endless_no_more_content ) return trace("no more content. return.");
         if ( endless_in_loading ) return trace("endless is in loading page.");
@@ -86,13 +87,11 @@ function endless_reset(url, callback) {
             //trace("endless_listen_scroll():: count:" + endless_scroll_count);
             endless_in_loading = true;
             endless_show_loader();
-			setTimeout(function(){
-				ajax_load( endless_api + endless_scroll_count, function(re) {
-					endless_callback(re);
-					endless_callback_end();
-					endless_hide_loader();
-				});
-			},5000);
+            ajax_load( endless_api + endless_scroll_count, function(re) {
+                if ( typeof endless_callback == 'function' ) endless_callback(re);
+                endless_callback_end();
+                endless_hide_loader();
+            });
         }
     }
 })();
@@ -104,11 +103,14 @@ function endless_hide_loader() {
 function endless_show_loader() {
     //trace("endless_show_load()");
     //var markup = '<div class="endless-loader" style="margin:3em 0; padding:3em 0; text-align:center;"><img src="img/loader/loader9.gif"></div>';
-	var markup = '';
-	markup += '<div class="endless-loader" style="padding:10px;margin:10px 0;background-color:#fff;text-align:center">';
+
+    /** It is now working.*/
+    var markup = '';
+	markup += '<div class="endless-loader" style="padding:10px;margin-bottom:10px;background-color:#fff;text-align:center">';
 	markup += '<span style="margin-right:10px;font-weight:bold;color:#585858;">Loading</span>';
 	markup += '<img src="img/loader/custom_loader.gif">';
 	markup += '</div>';
+	
     el.content().append(markup);
 }
 function endless_show_no_more_content(m) {
