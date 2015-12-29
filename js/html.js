@@ -77,8 +77,8 @@ var html = {
             m += '  <span class="btn"  page-button="register"><span class="glyphicon glyphicon-envelope"></span>Register</span>';
         }
         m += '  <span class="btn"  page-button="search"><span class="glyphicon glyphicon-search"></span>Search</span>';
-        m += '  <span class="btn"  class="post-button" post-id=""><span class="glyphicon glyphicon-pencil"></span>Post</span>';
-        m += '  <span class="btn"  class="setting-button"><span class="glyphicon glyphicon-wrench"></span>Setting</span></span>';
+        m += '  <span class="btn post-button" post-id=""><span class="glyphicon glyphicon-pencil"></span>Post</span>';
+        m += '  <span class="btn setting-button"><span class="glyphicon glyphicon-wrench"></span>Setting</span></span>';
         m += '</div>';
         return m;
     },

@@ -165,6 +165,10 @@ var callback = {
         html.showLoaderAfter(14,$filebox);
 
         $form.ajaxSubmit({
+            error : function (xhr) {
+                alert("ERROR: ajax form upload ...");
+                html.hideLoader();
+            },
             complete: function (xhr) {
                 trace("File upload completed thru jquery.form.js");
                 var re;
@@ -172,7 +176,9 @@ var callback = {
                     re = JSON.parse(xhr.responseText);
                 }
                 catch (e) {
-                    return alert(s.stripTags(xhr.responseText));
+                    html.hideLoader();
+                    return alert("에러: 파일 업로드에 실패하였습니다.");
+                    //return alert(s.stripTags(xhr.responseText));
                 }
                 trace(re);
                 if ( re['code'] ) {
@@ -379,9 +385,19 @@ var callback = {
         html.setContent( html.page.setting(), 'setting' );
     },
     on_click_change_server_button : function () {
+
+        var $this = $(this);
+        var m = '<div class="input-url-server">' +
+            '<input type="text" name="url_server" placeholer="">' +
+                '<input type="submit">' +
+            '</div>';
+        $this.append(m);
+/*
         if ( confirm("Connect to http://philgo.com/") ) return app.setServerURL('http://philgo.com/');
         if ( confirm("Connect to http://work.philgo.org/") ) return app.setServerURL('http://work.philgo.org/');
         if ( confirm("Connect to http://192.168.137.1/") ) return app.setServerURL('http://192.168.137.1/');
+        if ( confirm("Connect to http://192.168.1.2/") ) return app.setServerURL('http://192.168.1.2/');
+*/
     },
     member_register_submit : function (e) {
         e.preventDefault();
