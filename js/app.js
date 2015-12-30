@@ -195,7 +195,7 @@ var app = {
      * @param title
      * @param lables
      */
-    confirm : function (message, callback, title, lables) {
+    confirmUpload : function (message, callback, title, lables) {
         if ( this.isBrowser() || this.isDesktop() ) {
             var re = confirm(message);
             if ( re ) callback();
@@ -204,9 +204,19 @@ var app = {
             navigator.notification.confirm(message, callback, title, lables);
         }
     },
+
     vibrate : function ( time ) {
         if ( this.isCordova() ) navigator.vibrate(time);
     },
+
+    /**
+     *
+     app.confirm('안녕하십니까?', function(re){
+        app.alert('re:' + re);
+    });
+
+     * @param str
+     */
     alert : function (str) {
 
         bootbox.dialog( {
@@ -220,19 +230,23 @@ var app = {
         }, function() {
             console.log('app.alert clicked');
         });
-
-
-        /*
-        if ( navigator.notification ) {
-            navigator.notification.alert(
-                str,
-                function(){},
-                '필리핀 매거진',
-                '확인'
-            );
-        }
-        else alert(str);
-        */
+    },
+    confirm : function (str, callback) {
+        bootbox.confirm( {
+            message : str,
+            buttons : {
+                cancel : {
+                    'label' : '아니오'
+                },
+                confirm : {
+                    label : '예'
+                }
+            },
+                callback : function(re) {
+                    callback(re);
+                }
+            }
+        );
     },
     getDataURL : function ( idx ) {
         if ( idx ) return '' +
