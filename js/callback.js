@@ -103,7 +103,7 @@ var callback = {
         e.preventDefault();
         var $this = $(this);
         var $submit = $this.find('[type="submit"]').parent();
-        html.showLoaderOn(14, $submit).css({'padding-left':'0.8em'});
+        html.showLoaderAfter(14, $submit).css({'padding-left':'0.8em'});
         ajax_load_post(app.getServerURL(), $this.serialize(), function(re){
             var p = re.post;
             if ( p['depth'] > 1 ) {
@@ -203,7 +203,7 @@ var callback = {
         var gid = $form.find('[name="gid"]').val();
 
 
-        app.confirm(
+        app.confirmUpload(
             '사진을 찍으시겠습니까? 갤러리에서 선택하시겠습니까?',
             onCameraConfirm,
             '사진 올리기',
@@ -299,20 +299,22 @@ var callback = {
         html.render_post_edit($post);
     },
     on_click_photo_delete_button : function () {
-		re = confirm( "Are you sure you want to delete this photo?" );
-		if( !re ) return;
         var $this = $(this);
-        var $photo = $this.parents('.photo');
-        var $form = $this.parents('form');
-        var idx = $photo.attr('idx-data');
-        var gid = $form.find('[name="gid"]').val();
-        var url = app.getServerURL() + '?module=ajax&action=data_delete_submit&gid='+gid + "&idx="+idx;
-        ajax_load(url, function(re){
-            trace(re);
-            var data = re['data'];
-            if ( data['code'] ) return alert(data['message']);
-            $photo.remove();
-        });
+		app.confirm( "사진을 삭제하시겠습니까?", function(re) {
+            if ( re ) {
+                var $photo = $this.parents('.photo');
+                var $form = $this.parents('form');
+                var idx = $photo.attr('idx-data');
+                var gid = $form.find('[name="gid"]').val();
+                var url = app.getServerURL() + '?module=ajax&action=data_delete_submit&gid='+gid + "&idx="+idx;
+                ajax_load(url, function(re){
+                    trace(re);
+                    var data = re['data'];
+                    if ( data['code'] ) return alert(data['message']);
+                    $photo.remove();
+                });
+            }
+        } );
     },
     on_click_post_edit_cancel_button : function () {
         var $this = $(this);
@@ -324,12 +326,16 @@ var callback = {
     },
     on_click_post_delete_button : function () {
         var $this = $(this);
-        var $post = $this.parents('.post');
-        var idx = $post.attr('idx');
-        var url = app.getServerURL() + '?module=ajax&action=post_delete_submit&idx=' + idx;
-        ajax_load(url, function(re){
-            trace(re);
-            $post.html(lang('deleted'));
+        app.confirm("글을 삭제하시겠습니까?", function(re) {
+            if ( re ) {
+                var $post = $this.parents('.post');
+                var idx = $post.attr('idx');
+                var url = app.getServerURL() + '?module=ajax&action=post_delete_submit&idx=' + idx;
+                ajax_load(url, function(re){
+                    trace(re);
+                    $post.html(lang('deleted'));
+                });
+            }
         });
     },
     on_click_like_button : function () {
@@ -388,10 +394,16 @@ var callback = {
 
         var $this = $(this);
         var m = '<div class="input-url-server">' +
-            '<input type="text" name="url_server" placeholer="">' +
-                '<input type="submit">' +
+            'http://<input style="width:8em;" type="text" name="url_server" placeholer="www.domain.com">/' +
+                '<button>Change</button>' +
             '</div>';
-        $this.append(m);
+        $('.input-url-server').remove();
+        $this.after(m);
+        $('.input-url-server button').click(function() {
+            var url = 'http://' + $('.input-url-server input').val() + '/';
+            app.setServerURL( url );
+            app.alert("서버가 변경되었습니다.");
+        });
 /*
         if ( confirm("Connect to http://philgo.com/") ) return app.setServerURL('http://philgo.com/');
         if ( confirm("Connect to http://work.philgo.org/") ) return app.setServerURL('http://work.philgo.org/');

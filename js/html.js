@@ -345,7 +345,7 @@ var html = {
 
 		m += '<div class="btn-group post-menu-philzine-top" role="group">';
 		
-		if( ! post.mine(comment) ) {
+		if( post.mine(comment) ) {
 			m += '<span type="button" class="btn btn-secondary post-delete-button glyphicon glyphicon-remove"></span>';
 		}
         /*

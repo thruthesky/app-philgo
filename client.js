@@ -111,9 +111,12 @@ $(function(){
     check_update_version();
 
     /** panel 은 미리 세팅되지 않으므로 아래와 같이 먼저 세팅을 해 주어야 한다. */
-    setTimeout(function(){ html.setPanel(); $('[page-button="register"]').click(); }, 700); // test : login page
-
-
+    /*
+    setTimeout(function(){
+        html.setPanel();
+        $('[page-button="register"]').click();
+    }, 700); // test : login page
+*/
     /**
      * 쪽지 열기
      */
