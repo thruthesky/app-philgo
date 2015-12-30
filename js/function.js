@@ -1,4 +1,7 @@
 var count_trace = 0;
+alert = function ( str ) {
+    app.alert(str);
+}
 function trace(v) {
     if ( ! debug.mode ) return ;
     var caller = arguments.callee.caller;
