@@ -821,7 +821,7 @@
 	width:100%;
 }
 
-.message-list .message.open .info .date{
+.message-list .message.open .date{
 	display:none;
 }
 
