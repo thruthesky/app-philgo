@@ -1,4 +1,6 @@
-
+.modal {
+    top:112px!important;
+}
 
 .note {
     z-index: 2000;

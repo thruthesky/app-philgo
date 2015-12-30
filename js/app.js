@@ -208,6 +208,21 @@ var app = {
         if ( this.isCordova() ) navigator.vibrate(time);
     },
     alert : function (str) {
+
+        bootbox.dialog( {
+            title : '헬로필리핀',
+            message : str,
+            buttons : {
+                success : {
+                    label : '확인'
+                }
+            }
+        }, function() {
+            console.log('app.alert clicked');
+        });
+
+
+        /*
         if ( navigator.notification ) {
             navigator.notification.alert(
                 str,
@@ -217,6 +232,7 @@ var app = {
             );
         }
         else alert(str);
+        */
     },
     getDataURL : function ( idx ) {
         if ( idx ) return '' +

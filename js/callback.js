@@ -388,10 +388,16 @@ var callback = {
 
         var $this = $(this);
         var m = '<div class="input-url-server">' +
-            '<input type="text" name="url_server" placeholer="">' +
-                '<input type="submit">' +
+            'http://<input style="width:8em;" type="text" name="url_server" placeholer="www.domain.com">/' +
+                '<button>Change</button>' +
             '</div>';
-        $this.append(m);
+        $('.input-url-server').remove();
+        $this.after(m);
+        $('.input-url-server button').click(function() {
+            var url = 'http://' + $('.input-url-server input').val() + '/';
+            app.setServerURL( url );
+            app.alert("서버가 변경되었습니다.");
+        });
 /*
         if ( confirm("Connect to http://philgo.com/") ) return app.setServerURL('http://philgo.com/');
         if ( confirm("Connect to http://work.philgo.org/") ) return app.setServerURL('http://work.philgo.org/');
