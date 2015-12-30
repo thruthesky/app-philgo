@@ -40,7 +40,7 @@ var html = {
 
         element.content().html(html);
     },
-    header : function() {
+    header : function() {		
         var m = '';
         m += '<nav class="navbar navbar-default top">';
         m += '  <div class="container-fluid">';
@@ -49,7 +49,12 @@ var html = {
         m += '      <span class="navbar-text glyphicon glyphicon-camera" post-id="*"></span>';
         m += '      <span class="navbar-text logo">필리핀매거진</span>';
         m += '      <span class="navbar-text navbar-right glyphicon glyphicon-th-list menu-panel toggle"></span>';
-        //m += '      <span class="navbar-text navbar-right">' + member.primary_photo() + '</span>';
+		
+		
+			
+		//m += '      <span class="navbar-text navbar-right">' + member.primary_photo() + '</span>';
+	
+		        
         m += '  </div>';
         m += '</nav>';
         m += '<div class="btn-group btn-group-justified main-menu">';
@@ -634,4 +639,24 @@ var html = {
 		return m;
 	},
 	//^ added by benjamin modal window
+	/*added by benjamin upload image loader*/
+	createUploadLoader : function( $selector ){
+		$selector.append("<div class='photo loader'><img src='img/loader/loader8.gif'/></div>");
+	},
+	/*
+	*$selector = the selector to append the loader
+	*idx only exists if the upload was a success	
+	*/
+	removeUploadLoader : function( $selector, idx ){
+		//for a much smoother display when the loader gets removed
+		if( typeof( idx ) == 'undefined' ) $( ".photo.loader" ).remove();	
+		else{
+			$(".photo[idx-data='" + idx + "']").hide();
+			$selector.find( "img" ).load( function(){
+				$(".photo[idx-data='" + idx + "']").show();
+				$( ".photo.loader" ).remove();
+			});
+		}
+	}
+	/*^ added by benjamin upload image loader*/
 };

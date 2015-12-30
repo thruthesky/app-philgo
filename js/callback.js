@@ -162,12 +162,14 @@ var callback = {
 
         this.is_upload_submit = true;
 
-        html.showLoaderAfter(14,$filebox);
+        //html.showLoaderAfter(14,$filebox);
+		html.createUploadLoader( $form.find(".photos") );//added by benjamin
 
         $form.ajaxSubmit({
             error : function (xhr) {
                 alert("ERROR: ajax form upload ...");
-                html.hideLoader();
+                //html.hideLoader();
+				html.removeUploadLoader( $form.find(".photos"), null );//added by benjamin
             },
             complete: function (xhr) {
                 trace("File upload completed thru jquery.form.js");
@@ -175,8 +177,9 @@ var callback = {
                 try {
                     re = JSON.parse(xhr.responseText);
                 }
-                catch (e) {
-                    html.hideLoader();
+                catch (e) {					
+                    //html.hideLoader();
+					html.removeUploadLoader( $form.find(".photos") );//added by benjamin
                     return alert("에러: 파일 업로드에 실패하였습니다.");
                     //return alert(s.stripTags(xhr.responseText));
                 }
@@ -190,7 +193,8 @@ var callback = {
                     var $photos = $form.find('.photos');
                     $photos.append( html.render_photo( re.data ) );
                 }
-                html.hideLoader();
+                //html.hideLoader();				
+				html.removeUploadLoader( $form.find(".photos"), re.data['idx'] );//added by benjamin
             }
         });
         this.is_upload_submit = false;
