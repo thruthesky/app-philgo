@@ -51,7 +51,8 @@ var callback = {
                 //trace("login success!");
                 //trace(re);
                 member.setLogin(id, re);
-                cache.showFront();
+                //cache.showFront();
+                app.refresh();
                 return false;
             }
             html.hideLoader();
@@ -63,7 +64,8 @@ var callback = {
     },
     on_click_logout_button : function () {
         member.setLogout();
-        cache.showFront();
+        //cache.showFront();
+        app.refresh();
     },
 
     /**
@@ -116,7 +118,7 @@ var callback = {
         e.preventDefault();
         var $this = $(this);
         var $submit = $this.find('[type="submit"]').parent();
-        html.showLoaderAfter(14, $submit).css({'padding-left':'0.8em'});
+        html.showLoaderAfter(14, $this).css({'padding-left':'0.8em'});
         ajax_load_post(app.getServerURL(), $this.serialize(), function(re){
             var p = re.post;
             if ( p['depth'] > 1 ) {
@@ -125,6 +127,7 @@ var callback = {
             else {
                 html.clear_comment_write_form(p);
             }
+            html.reset_comment_form($this);
             var m = html.render_comment(p);
             element.post(p['idx_parent']).after(m);
             html.hideLoader();
@@ -390,8 +393,9 @@ var callback = {
 	},
 	on_click_post_edit_comment_textarea : function() {
 		var $this = $(this);
-		$this.height(100);
-	},
+        var $form = $this.parents('form');
+        html.set_comment_form_for_writing($form);
+    },
 	on_click_post_photos_img : function( e ) {
 		var $this = $(this);	
 		app.createModalWindowWithImage( $this.attr("idx") );
@@ -447,7 +451,8 @@ var callback = {
             }
             else {
                 alert("회원 가입을 하였습니다.");
-                cache.showFront();
+                //cache.showFront();
+                app.refresh();
             }
             html.hideLoader();
         }, function(re) {

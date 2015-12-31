@@ -82,8 +82,8 @@ function ajax_load_post(url, data, success_callback, error_callback) {
             }
             if ( re['code'] ) {
                 trace(re);
+                if ( typeof error_callback == 'function' ) error_callback(re);
                 alert(re['message']);
-                error_callback(re);
             }
             else success_callback(re);
         },

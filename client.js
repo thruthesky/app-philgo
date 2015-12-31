@@ -50,7 +50,6 @@ $(function(){
 
 
     html.setHeader();
-    html.setFooter();
 
     member.load();
 
@@ -110,6 +109,9 @@ $(function(){
     trace(member);
     check_update_version();
 
+
+    html.setFooter(); // 회원 로그인 정보가 필요하므로 init 다음에 이 메소드가 호출되어야 한다.
+
     /** panel 은 미리 세팅되지 않으므로 아래와 같이 먼저 세팅을 해 주어야 한다. */
     /*
     setTimeout(function(){
@@ -159,6 +161,7 @@ $(function(){
 
 
 
+    setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
 
 
 

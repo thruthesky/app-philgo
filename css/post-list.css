@@ -423,10 +423,11 @@
 	height:100px;
 	width:100%;
 	padding:5px;
-	border:0;
 	resize:none;
 	box-sizing:border-box;
+	border: 1px solid #ada9a9;
 }
+
 
 .post-write-form textarea:focus{
 	outline:0;
@@ -484,42 +485,37 @@
 
 
 /*comment-write-form*/
-.comment-write-form{
+.comment-write-form {
 	padding:10px;	
 	/*margin-top:10px;*/
 	background-color:#fff;
 }
 
-.comment-write-form .media.post-info{
-	padding:0 10px 0 0;
-	margin:0;
+.comment-write-form .box td {
+    padding-right:10px;
 }
 
-.comment-write-form .media.post-info .media-left{
-	
+.comment-write-form td.submit-button {
+    padding-right:0;
 }
 
-.comment-write-form .commands{
-	padding:0;
+.post-list-primary-photo {
+    width:48px;
+    height:48px;
+    border-radius:50%;
 }
-
-.comment-write-form .profile-image > img{
-	width:35px;
-	max-width:initial;
-}
-
-.comment-write-form textarea{
-	display:block;
-	width:100%;
-	height:35px;
+.comment-write-form textarea {
+    width:100%;
+	height:48px;
 	padding:5px;
 	resize:none;
 	box-sizing:border-box;
+	border: 1px solid #9c9999;
 }
 
 .comment-write-form input[type='submit']{	
-	height:35px;
-	width:100%;
+	height:48px;
+	width:48px;
 	padding:5px 0;
 	border:0;
 	border-radius:3px;
@@ -648,23 +644,23 @@
 }
 
 .file.desktop input[type='file']{
-	width:100%;
-	height:35px;
-	opacity:0;
+	width:48px;
+	height:48px;
+	opacity:0.02;
 }
 
 .file .glyphicon{
 	position: absolute;
 	top:0;
 	left:0;
-	height: 35px;
-	width: 100%;
-	padding: 5px 0;
+    width:48px;
+	height: 48px;
+	padding: 10px 10px 0;
+    box-sizing: border-box;
 	border-radius: 3px;
 	background-color: #95a5a6;
 	font-size: 1.5em;
 	color: #fff;
-	box-sizing: border-box;
 	text-align: center;
 }
 
@@ -676,15 +672,26 @@
 	position:relative;	
 }
 
-.commands .col-xs-6:first-child{
-	padding:0 5px 0 0;
-}
 
-.commands .col-xs-6:last-child{
-	padding:0 0 0 5px;
-}
 /*eo file-button*/
 
+.alt-buttons {
+    padding-left:58px;
+}
+.alt-buttons .file {
+    float:left;
+    padding-right:24px;
+}
+.alt-buttons .file input[type='file'] {
+    width:100px;
+}
+.alt-buttons .glyphicon-camera {
+    width:100px;
+}
+
+.alt-buttons input[type='submit'] {
+    width:100px;
+}
 /*photos*/
 /*display*/
 .photos > img{

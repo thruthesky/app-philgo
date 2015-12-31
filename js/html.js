@@ -74,14 +74,15 @@ var html = {
 
 
         if ( member.login() ) {
-            m += '  <span class="btn" page-button="profile"><span class="glyphicon glyphicon-user"></span>Profile</span>';
-            m += '  <span class="btn"  page-button="message"><span class="glyphicon glyphicon-envelope"></span>Message</span>';
+            m += '  <span class="btn" page-button="register"><span class="glyphicon glyphicon-user"></span>Profile</span>';
+            m += '  <span class="btn message-button"><span class="glyphicon glyphicon-envelope"></span>Message</span>';
         }
         else {
-            m += '  <span class="btn"  page-button="login"><span class="glyphicon glyphicon-user"></span>Login</span>';
-            m += '  <span class="btn"  page-button="register"><span class="glyphicon glyphicon-envelope"></span>Register</span>';
+            m += '  <span class="btn"  page-button="login"><span class="glyphicon glyphicon-lock"></span>Login</span>';
+            m += '  <span class="btn"  page-button="register"><span class="glyphicon glyphicon-user"></span>Register</span>';
         }
-        m += '  <span class="btn"  page-button="search"><span class="glyphicon glyphicon-search"></span>Search</span>';
+
+        //m += '  <span class="btn"  page-button="search"><span class="glyphicon glyphicon-search"></span>Search</span>';
         m += '  <span class="btn post-button" post-id=""><span class="glyphicon glyphicon-pencil"></span>Post</span>';
         m += '  <span class="btn setting-button"><span class="glyphicon glyphicon-wrench"></span>Setting</span></span>';
         m += '</div>';
@@ -100,7 +101,10 @@ var html = {
         var primary_photo = member.primary_photo();
         console.log(member);
 
-        m += '  <div class="panel-user-profile" page-button="login">';
+        var button_name = 'login';
+        if ( member.login() ) button_name = 'register';
+
+        m += '  <div class="panel-user-profile" page-button="'+button_name+'">';
         m += primary_photo;
         m += '      <div class="bottom-space"></div>';
         if ( member.login() ) {
@@ -210,23 +214,22 @@ var html = {
         m += "  <input type='hidden' name='submit' value='1'>";
         m += '  <input type="hidden" name="module" value="ajax">';
         m += "  <input type='hidden' name='action' value='comment_write_submit'>";
-		m +=	'<div class="media post-info col-xs-8">';
-		
-		m +=		'<a class="media-left profile-image" href="#">';
-		if( member.login() && member.primary_photo().indexOf("undefined") == -1 ) m += member.primary_photo();
-		else m += '<img class="media-object" src="img/no_primary_photo.png" alt="Generic placeholder image">';
-		m +=		'</a>';
-		m +=		'<div class="media-body">';
-		m +=		'<textarea name="content"></textarea>';
-		//m += 		'<div class="photos"></div>';
-		m +=		'</div>';
-		
-		m +=	'</div>';
-		m +=	'<div class="col-xs-4 commands">';
-		m +=		'<div class="col-xs-6">' + this.filebox() + '</div>';
-		m +=		'<div class="col-xs-6">' + '<input type="submit" value="Post">' + '</div>';
-		m +=	'</div>';
-		m += 	'<div class="photos col-xs-12 clearfix"></div>';
+
+        m += '  <table class="box" width="100%" border="0" cellpadding="0" cellspacing="0">';
+        m += '      <tr valign="top">';
+        m += '          <td width="48">' + member.primary_photo() + '</td>';
+		m += '          <td width="99%"><textarea name="content"></textarea></td>';
+        m += '          <td class="comment-file-upload-button">' + this.filebox() + '</td>';
+		m += '          <td class="submit-button"><input type="submit" value="Post"></td>';
+        m += '      </tr>';
+        m += '  </table>';
+
+        m += '  <div class="alt-buttons" style="display:none;">';
+        m += '   ' + this.filebox() + '';
+        m += '   <input type="submit" value="Post">';
+        m += '  </div>';
+
+        m += '<div class="photos"></div>';
 		m += '</form>';
 		
 
@@ -361,6 +364,7 @@ var html = {
 		if( post.mine(comment) ) {
 			m += '<span type="button" class="btn btn-secondary post-delete-button glyphicon glyphicon-remove"></span>';
 		}
+
         /*
 		else {
 			m += '<span type="button" class="btn btn-secondary post-edit-button"><img src="img/post/edit.png"/></span>';
@@ -370,8 +374,7 @@ var html = {
         m += post.markup.more(comment['idx']);
         */
 		m += '</div>';
-		
-		
+
 		m +=	'<div class="media post-info">';
 		m +=		'<a class="media-left" href="#">';
 
@@ -393,13 +396,14 @@ var html = {
         //
         var onclick = html.message_onclick(comment['member']);
 		m +=	'<nav class="btn-group post-menu-philzine-bottom pull-right">';
-		m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+likes+'</span></span>';
+        m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+likes+'</span></span>';
+        m +=		'<span class="btn reply-button"><span class="glyphicon glyphicon-share-alt"></span> Reply</span>';
 		if( post.mine(comment) ) {
 			m +=		'<span class="btn post-edit-button"><span class="glyphicon glyphicon-pencil"></span> Edit</span>';
 		}
 		m +=		'<div class="btn dropdown">';
 		m +=			'<div class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-		m +=				'<span class="glyphicon glyphicon-option-horizontal"></span>';
+		m +=				' &nbsp; <span class="glyphicon glyphicon-option-horizontal"></span>';
 		m +=			'</div>';
 		m +=			'<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
 		m +=				'<li class="dropdown-item reply-button"><span class="glyphicon glyphicon-share-alt"></span>Reply</li>';
@@ -526,7 +530,7 @@ var html = {
             m += '</div>';
             m += '<ul class="list-group">';
             m += '  <li class="list-group-item"><div class="reset">Reset</div></li>';
-            m += '  <li class="list-group-item">Refresh</li>';
+            m += '  <li class="list-group-item" onclick="app.refresh();">Refresh</li>';
             m += '  <li class="list-group-item"><div class="change-server-button">Change Server - {{url_server}}</div></li>';
             m += '  <li class="list-group-item"><a href="http://work.jaeho.org/apps/philzine2/platforms/android/build/outputs/apk/android-debug.apk">Download Debugging APK</a></li>';
             m += '</ul>';
@@ -668,6 +672,23 @@ var html = {
 				$( ".photo.loader" ).remove();
 			});
 		}
-	}
-	/*^ added by benjamin upload image loader*/
+	},
+	/* eo  added by benjamin upload image loader*/
+
+
+    set_comment_form_for_writing : function ( $form ) {
+        $form.find('.comment-file-upload-button').hide();
+        $form.find('.submit-button').hide();
+        $form.find('textarea').height(100);
+        $form.find('.alt-buttons').show();
+    },
+
+    reset_comment_form : function ( $form ) {
+        $form.find('.comment-file-upload-button').show();
+        $form.find('.submit-button').show();
+        $form.find('textarea').height(48);
+        $form.find('.alt-buttons').hide();
+    }
+
+
 };

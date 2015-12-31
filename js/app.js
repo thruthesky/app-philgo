@@ -176,7 +176,7 @@ var app = {
         on_click('.post-delete-button', callback.on_click_post_delete_button);
 
         on_click('.post-edit .cancel-button', callback.on_click_post_edit_cancel_button);
-		//added by benjamin        
+		//added by benjamin
         on_click('form.post-write-form textarea[name="content"]', callback.on_click_post_edit_textarea);
 		on_click('form.comment-write-form textarea[name="content"]', callback.on_click_post_edit_comment_textarea);
 		on_click('.post .photos > img, .modalImage .arrow', callback.on_click_post_photos_img);//also used by arrow of modalWindow > modalImage
