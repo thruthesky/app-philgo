@@ -2,6 +2,8 @@ var callback = {
     on_click_page : function () {
         var $this = $(this);
         var page_name = $this.attr('page-button');
+        var title = $this.attr('title');
+        app.setTitle(title);
         app.setCurrentPage(page_name);
         var post_id = $this.attr('post-id');
         //trace('on_click_page() : ' + page);

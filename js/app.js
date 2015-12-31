@@ -11,6 +11,9 @@ var app = {
     getVersion : function () {
         return this.version;
     },
+    setTitle : function (str) {
+        $('header .logo').text(str);
+    },
     getCurrentPage : function () {
         return this.current_page_name;
     },
