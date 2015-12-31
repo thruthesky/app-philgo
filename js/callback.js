@@ -20,8 +20,16 @@ var callback = {
     },
     on_click_content: function ( e ) {
         panel.close();
+        /** This code has error when 'message' object is not available.
+         * And it's not clear what it wants to do.
+         * It does not close 'search box' anyway.
+         *
 		//added by benjamin... need to fix this long if condition
-		if( !$(e.target).hasClass("message-commands") && !$(e.target).parents(".message-commands").length && !$(e.target).parent().hasClass("message-commands") ) message.search_close();
+		if( !$(e.target).hasClass("message-commands")
+            && !$(e.target).parents(".message-commands").length
+            && !$(e.target).parent().hasClass("message-commands") )
+            message.search_close();
+            */
     },
     form_login : function () {
         //trace('ajax_login() member.idx:'+member.idx);
@@ -63,11 +71,14 @@ var callback = {
      */
     on_click_reset : function () {
         //trace('on_click_reset()');
-        var re = confirm("앱을 초기화 하시겠습니까? Do you want to reset?");
-        if ( re ) {
-            app.reset();
-            app.refresh();
-        }
+        app.confirm("앱을 초기화 하시겠습니까? Do you want to reset?", function(re) {
+            if ( re ) {
+                if ( re ) {
+                    app.reset();
+                    app.refresh();
+                }
+            }
+        });
     },
     on_click_post_button : function () {
         var post_id = app.getCurrentForum();
@@ -209,12 +220,17 @@ var callback = {
         var gid = $form.find('[name="gid"]').val();
 
 
+        /*
         app.confirmUpload(
             '사진을 찍으시겠습니까? 갤러리에서 선택하시겠습니까?',
             onCameraConfirm,
             '사진 올리기',
             ['사진 찍기','사전 선택', '취소']
         );
+        */
+        app.selectDialog('사진을 찍겠습니까? 또는 선택하시겠습니까?',
+            ['사진 찍기', '사진 선택', '취소'],
+            onCameraConfirm);
 
 
         function onCameraError(e) {
@@ -286,6 +302,7 @@ var callback = {
                 else if ( no == 2 ) {
                     type = Camera.PictureSourceType.PHOTOLIBRARY;
                 }
+                else return;
             }
 
             setTimeout(function() {
@@ -408,6 +425,7 @@ var callback = {
         $('.input-url-server button').click(function() {
             var url = 'http://' + $('.input-url-server input').val() + '/';
             app.setServerURL( url );
+            db.set('url_server', url);
             app.alert("서버가 변경되었습니다.");
         });
 /*

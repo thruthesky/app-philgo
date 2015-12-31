@@ -102,7 +102,9 @@ var app = {
         return true;
     },
     reset : function () {
+        var url_server = db.get('url_server');
         db.deleteAll();
+        db.set('url_server', url_server);
     },
     refresh : function () {
         location.href='index.html';
@@ -208,6 +210,10 @@ var app = {
         }
     },
 
+
+
+
+
     vibrate : function ( time ) {
         if ( this.isCordova() ) navigator.vibrate(time);
     },
@@ -250,6 +256,35 @@ var app = {
                 }
             }
         );
+    },
+    selectDialog : function ( message, labels, callback ) {
+        bootbox.dialog({
+            message: message,
+            title: "헬로필리핀",
+            buttons: {
+                success: {
+                    label: labels[0],
+                    className: "btn-success",
+                    callback: function() {
+                        callback(1)
+                    }
+                },
+                danger: {
+                    label:  labels[1],
+                    className: "btn-danger",
+                    callback: function() {
+                        callback(2);
+                    }
+                },
+                main: {
+                    label:  labels[2],
+                    className: "btn-primary",
+                    callback: function() {
+                        callback(3);
+                    }
+                }
+            }
+        });
     },
     getDataURL : function ( idx ) {
         if ( idx ) return '' +

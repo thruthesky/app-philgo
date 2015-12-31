@@ -68,14 +68,20 @@ var post = {
         }
     },
     markup : {
-        more : function(idx) {
+        more : function(p) {
+            var onclick = html.message_onclick(p['member']);
             var m = '';
             m += '  <span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
             m += '      <img src="img/post/more.png"/>';
             m += '  </span>';
             m += '  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
-            //m += '      <li class="dropdown-item"><span class="glyphicon glyphicon-warning-sign"></span><span class="report-button">Report</span></li>';
-            m += '      <li class="dropdown-item"><span class="glyphicon glyphicon-envelope"></span><span class="report-button">Message</span></li>';
+            if ( post.mine(p) ) {
+                m += '      <li class="dropdown-item"><span class="glyphicon glyphicon-warning-sign"></span><span class="post-edit-button">Edit</span></li>';
+            }
+            else {
+                m += '      <li class="dropdown-item" '+onclick+'><span class="glyphicon glyphicon-envelope"></span><span>Message</span></li>';
+            }
+            m += '      <li class="dropdown-item"><span class="glyphicon glyphicon-warning-sign"></span><span class="report-button">Report</span></li>';
             m += '  </ul>';
             return m;
         }

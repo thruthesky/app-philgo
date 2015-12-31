@@ -12,11 +12,11 @@ $(function(){
     var url = 'http://work.philgo.org/'; // ICS 로 앱에서 테스트
     //var url = 'http://philgo.org/'; // ICS 로 앱에서 테스트
 
+    url = db.get('url_server');
     if ( app.fileProtocol() ) {
 
     }
     else {
-
         if ( document.domain ) { // 데스크톱이면 자동으로 데스크톱 URL 을 지정한다.
             var domain = document.domain;
             if ( domain.indexOf('localhost') != -1 ) url = 'http://philgo.org/';
@@ -120,7 +120,7 @@ $(function(){
     /**
      * 쪽지 열기
      */
-    /*
+/*
     setTimeout(function(){
         html.setPanel();
         $('.message-button').click();
@@ -129,7 +129,16 @@ $(function(){
 //            message.show_message_send_form('thruthesky');
   //      }, 200);
     },700);
+*/
+
+    // 특정인에게 쪽지 쓰기
+    /*
+    setTimeout(function(){
+        message.show_message_send_form('admin');
+    },
+    500);
     */
+
 
     // 전체 메뉴 열기
     /*

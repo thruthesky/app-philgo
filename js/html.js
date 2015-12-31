@@ -260,6 +260,13 @@ var html = {
         $content.val('');
         $form.find('.photos').html('');
     },
+    message_onclick : function ( member ) {
+        var onclick = '';
+        if ( typeof message != 'undefined' && typeof member.id != 'undefined' ) {
+            onclick = message.getOnClick(member.id);
+        }
+        return onclick;
+    },
     render_post : function (p) {
         //trace('get_post_render(p)');
         if (_.isEmpty(p) ) return;
@@ -282,17 +289,18 @@ var html = {
             m += '<span type="button" class="btn btn-secondary post-delete-button"><span class="glyphicon glyphicon-trash"></span></span>';
         }
         m += '  <span class="menu-separator"></span>';
-        m += post.markup.more(p['idx']);
+        m += post.markup.more(p);
         m += '</div>';
 
         m += '<div class="media post-info">';
         m += '  <a class="media-left" href="#">';
 
         var src = 'img/no_primary_photo.png';
+
         if ( typeof p['member']['idx_primary_photo'] != 'undefined' ) src = app.getDataURL(p['member']['idx_primary_photo']);
         m += '      <img class="media-object profile-image" src="'+src+'" alt="Generic placeholder image">';
         m += '  </a>';
-        m += '  <div class="media-body">';
+        m += '  <div class="media-body" '+this.message_onclick(p['member'])+'>';
         m += '      <div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
         m += '      <div class="date" title="'+date_full+'">' + date + '</div>';
         m += '  </div>';
@@ -372,16 +380,18 @@ var html = {
 
 		m +=		'<img class="media-object profile-image" src="'+src+'" alt="Generic placeholder image">';
 		m +=		'</a>';
-		m +=		'<div class="media-body">';
-		m +=			'<div class="name">'+comment['user_name']+"</div>";
+		m +=		'<div class="media-body" '+this.message_onclick(comment['member'])+'>';
+		m +=			'<div class="name">'+comment['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
 		m +=			'<div class="date" title="'+date_full+'">'+date+'</div>';
-		m +=			'<div class="content">';
-		m +=				'<div class="text">' + post.content(comment) + '</div>';
-		if ( comment['photos'] ) m += comment['photos'];
-		m +=			'</div>';
 		m +=		'</div>';
+        m +=			'<div class="content">';
+        m +=				'<div class="text">' + post.content(comment) + '</div>';
+        if ( comment['photos'] ) m += comment['photos'];
+        m +=			'</div>';
 		m +=	'</div>';
-		
+
+        //
+        var onclick = html.message_onclick(comment['member']);
 		m +=	'<nav class="btn-group post-menu-philzine-bottom pull-right">';
 		m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+likes+'</span></span>';
 		if( post.mine(comment) ) {
@@ -395,10 +405,11 @@ var html = {
 		m +=				'<li class="dropdown-item reply-button"><span class="glyphicon glyphicon-share-alt"></span>Reply</li>';
 		if( post.mine(comment) ) {
             m +=				'<li class="dropdown-item post-delete-button"><span class="glyphicon glyphicon-trash"></span>Delete</li>';
-            m +=				'<li class="dropdown-item post-edit-button">Edit</li>';
+            m +=				'<li class="dropdown-item post-edit-button"><span class="glyphicon glyphicon-pencil"></span>Edit</li>';
         }
         else {
-			m +=				'<li class="dropdown-item report-button"><span class="glyphicon glyphicon-warning-sign"></span>Report</li>';
+            m +=				'<li class="dropdown-item report-button" '+onclick+'><span class="glyphicon glyphicon-envelope"></span> Message</li>';
+            m +=				'<li class="dropdown-item report-button"><span class="glyphicon glyphicon-warning-sign"></span>Report</li>';
 		}
 		m +=			'</ul>';
 		m +=		'</div>';
