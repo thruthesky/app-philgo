@@ -1,0 +1,35 @@
+
+/*top group-list overrides*/
+.text-top ul {
+    list-style:none;
+    margin-bottom:10px;
+    background-color:#fff;
+}
+
+
+
+.bullet-list .list-group .list-group-item .label {
+    position:relative;
+    top:-3px;
+    font-size:.6em;
+}
+
+.text-top .subject {
+    display: inline-block;
+    position: relative;
+    top: 3px;
+    height: 16px;
+    max-width: 70%;
+    font-size: 1em;
+    font-weight: normal;
+    color: #343434;
+    margin: 0px 0 0 0;
+    overflow: hidden;
+    box-sizing: border-box;
+    word-break:break-all;
+}
+
+.bullet-list .list-group .list-group-item .count{
+    color:#ff849c;
+}
+/*eo top group-list overrides*/
