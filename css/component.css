@@ -640,3 +640,10 @@
 	box-shadow:none!important;
 }
 /*eo btn group override*/
+
+
+/** change server url */
+
+.input-url-server {
+    padding:1em 0;
+}

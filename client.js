@@ -1,4 +1,4 @@
-debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
+//debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
 
 
 
@@ -9,8 +9,8 @@ _.templateSettings = {
 $(function(){
 
 
-    var url = 'http://work.philgo.org/'; // ICS 로 앱에서 테스트
-    //var url = 'http://philgo.org/'; // ICS 로 앱에서 테스트
+    //var url = 'http://work.philgo.org/'; // ICS 로 앱에서 테스트
+    var url = 'http://philgo.org/'; // ICS 로 앱에서 테스트
 
     url = db.get('url_server');
     if ( app.fileProtocol() ) {
@@ -161,7 +161,7 @@ $(function(){
 
 
 
-    setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
+    //setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
 
 
 

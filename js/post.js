@@ -57,7 +57,7 @@ var post = {
             var site = re['site'];
             var post_id = re['post_id'];
             var page_no = re['page_no'];
-            note.post(site + ' 사이트 : ' + post_id + '의 ' + page_no + " 페이지 내용이 추가되었습니다.");
+            //note.post(site + ' 사이트 : ' + post_id + '의 ' + page_no + " 페이지 내용이 추가되었습니다.");
             var posts = re['posts'];
             for ( var i in posts ) {
                 if (posts.hasOwnProperty(i)) {

@@ -49,7 +49,7 @@ var cache = {
 
                 html.setContent(re.html, name);
                 //alert('curr page: ' + app.getCurrentPage() + ', loaded page:' + re['page']);
-                note.post(name + ' 페이지를 로드하였습니다.');
+                //note.post(name + ' 페이지를 로드하였습니다.');
                 app.setCurrentForum(post_id);
                 if ( post_id ) {
                     endless_reset(app.url_server_forum() + post_id, post.endless_update);

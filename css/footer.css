@@ -1,0 +1,40 @@
+
+/** ============ Footer ============= */
+footer {
+    border-top:3px solid #00b4d1;
+    padding:0;
+    box-sizing: border-box;
+    background-color:#fff;
+}
+footer .bottom-menu {
+    background-color:#fff;
+    text-align:center;
+}
+
+footer .bottom-menu.bottom > span {
+
+    padding:10px 0 6px;
+    box-sizing: border-box;
+    border:0;
+    border-right: 1px solid #00b4d1;
+    border-radius:0;
+}
+footer .bottom-menu.bottom span:last-child{
+    border:0;
+}
+.bottom-menu {
+    display:inline-block;
+    padding:0;
+    color:#00b4d1;
+    font-size:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.bottom-menu .glyphicon {
+    display:block;
+    margin-bottom:5px;
+    font-size:20px;
+    color:#00b4d1;
+}
+/* ============== EO Footer ============== */

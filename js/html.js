@@ -529,7 +529,7 @@ var html = {
             m += '  <h1>설정 <small>필리핀매거진 {{version}}</small></h1>';
             m += '</div>';
             m += '<ul class="list-group">';
-            m += '  <li class="list-group-item"><div class="reset">Reset</div></li>';
+            m += '  <li class="list-group-item reset"><div>Reset</div></li>';
             m += '  <li class="list-group-item" onclick="app.refresh();">Refresh</li>';
             m += '  <li class="list-group-item"><div class="change-server-button">Change Server - {{url_server}}</div></li>';
             m += '  <li class="list-group-item"><a href="http://work.jaeho.org/apps/philzine2/platforms/android/build/outputs/apk/android-debug.apk">Download Debugging APK</a></li>';
