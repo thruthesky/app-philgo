@@ -21,7 +21,14 @@ var member = {
             member.id = db.get('user_id');
             member.session_id = db.get('session_id');
             member.name = db.get('user_name');
-            member.idx_photo = db.get('idx_photo');
+            var idx_photo = db.get('idx_photo');
+            if ( idx_photo && idx_photo != 'undefined' ) {
+
+            }
+            else {
+                idx_photo = 0;
+            }
+            member.idx_photo = idx_photo;
         }
         else this.unset();
     },
@@ -31,8 +38,13 @@ var member = {
         member.name = name;
     },
     update_photo_idx : function ( idx ) {
+        if (_.isUndefined(idx) || ! idx ) {
+            idx = 0;
+        }
+
         db.set('idx_photo', idx);
         member.idx_photo = idx;
+
     },
     /**
      *
@@ -63,17 +75,13 @@ var member = {
         member.unset();
     },
     primary_photo : function () {
-        console.log(member);
-        if ( typeof member.idx_photo != 'undefined' ) {
-            var idx = member.idx_photo;
-            return _.template('<img src="{{url_server}}/data/upload/{{postfix}}/{{idx_photo}}">')
-            ({
-                url_server : app.getServerURL(),
-                postfix : s.chars(idx).pop(),
-                idx_photo : idx
-            });
+        //console.log(member);
+        var idx =  member.idx_photo;
+        if ( idx ) {
+            var url = app.getDataURL(idx);
+            return '<img class="post-list-primary-photo" src="'+url+'">';
         }
-        else return '';
+        else return '<img  class="post-list-primary-photo-default" src="img/no_primary_photo.png"/>';
     }
 
 };

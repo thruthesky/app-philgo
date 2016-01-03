@@ -5,39 +5,58 @@
  *
  * @param url       - must be GET URI
  * @param callback
- * @param html - if it is true, it just return data without parsing.
+ * @param option
+ *          - if it is true, it just return data without parsing.
+ *          - if it is object
+ *              -- if check_error is false, then it does not error check.
  */
-function ajax_load(url, callback, html) {
+function ajax_load(url, callback, option) {
+
+//    console.log(option);
+
     if ( url.indexOf('?') == -1 ) url += '?';
     else url += '&';
     if ( member.login() ) {
-        url += 'idx_member=' + member.id + '&session_id=' + member.session_id;
+        url += 'idx_member=' + member.id + '&session_id=' + member.session_id + '&';
     }
-    url +=  '&page=' + app.getCurrentPage() + '&mobile=' + app.isMobile() + '&platform=' + app.platform();
+    url +=  'page=' + app.getCurrentPage() + '&mobile=' + app.isMobile() + '&platform=' + app.platform();
+
     trace(url);
+
     $.ajax({
         url:url,
         cache: false,
         success: function(data) {
             //trace(data);
-            if ( html ) return callback(data);
+            if ( option === true ) return callback(data);
             var re;
             try {
                 re = $.parseJSON(data);
             }
             catch ( e ) {
-                return note.post("Ajax_load() : caught an error : " + e.message);
+                note.post("접속 에러 : " + e.message);
+                html.hideLoader();
+                console.log(data);
+                return;
             }
             /**
              * It must be here. It must not be in try {}
              */
-            if ( re.code ) alert(re.message);
-            else callback(re);
+            if ( re.code ) {
+                if ( option && option['error_check'] === false ) {
+
+                }
+                else return alert(re.message);
+            }
+
+            callback(re);
         },
         error: function(xhr, type) {
-            return note.post("Ajax load error : " + type);
-            console.log(type);
-            console.log(xhr);
+
+            note.post("접속에러 : " + type);
+            html.hideLoader();
+            //trace(type);
+            //trace(xhr);
         }
     });
 }
@@ -45,10 +64,11 @@ function ajax_load(url, callback, html) {
  *                      ----- Ajax submit in POST method -----
  * @param url
  * @param data
- * @param callback
+ * @param success_callback
+ * @param error_callback
  */
-function ajax_load_post(url, data, callback) {
-    trace(debug.url(url, data));
+function ajax_load_post(url, data, success_callback, error_callback) {
+    //trace(debug.url(url, data));
     $.ajax({
         url: url,
         type: 'POST',
@@ -60,19 +80,20 @@ function ajax_load_post(url, data, callback) {
                 re = $.parseJSON(data);
             }
             catch ( e ) {
-                trace(e);
-                return note.post("Ajax_load_post() : caught an error : " + e.message);
+                //trace(e);
+                return note.post("접속 에러 2 : caught an error : " + e.message);
             }
             if ( re['code'] ) {
-                console.log(re);
+                //trace(re);
+                if ( typeof error_callback == 'function' ) error_callback(re);
                 alert(re['message']);
             }
-            else callback(re);
+            else success_callback(re);
         },
         error: function(xhr, type){
-            return note.post("Ajax load error : " + type);
-            console.log(type);
-            console.log(xhr);
+            return note.post("접속 에러 : " + type);
+            //trace(type);
+            //trace(xhr);
         }
     });
 }

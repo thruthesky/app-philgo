@@ -47,7 +47,8 @@
 
 /*content*/
 .post .content{
-    font-size:.9em;
+    font-size:1em;
+	word-break: break-all;
 }
 
 .post .photos {
@@ -90,11 +91,12 @@
 /*drop down*/
 .post .dropdown-toggle{
     border:0;
-    background-color:initial!important;
+    background-color:initial!important;	
+	box-shadow:none!important;
 }
 
 .post .dropdown-toggle:hover{
-    background-color:initial;
+    background-color:initial;	
 }
 
 .post .dropdown-toggle:after{
@@ -106,7 +108,16 @@
 }
 
 .post .dropdown-menu .dropdown-item{
+	padding:5px;
     cursor:pointer;
+}
+
+.post .dropdown-menu .dropdown-item:hover{
+	background-color:#f1f1f1;
+}
+
+.post .dropdown-menu .dropdown-item > .glyphicon{
+	margin-right:5px;
 }
 /*eo drop down*/
 
@@ -140,7 +151,9 @@
 
 
 
-
+[post-view] {
+	cursor:pointer;
+}
 
 
 
@@ -151,17 +164,23 @@
 
 
 /*post*/
-.post{
+.post {
 	position:relative;
-	padding:10px 0 10px 0;
+	padding:10px 0 0 0;
 	margin:0 0 10px 0;
 	background-color:#fff;	
 }
 
-.post > .post-info, .post > .post-menu-philzine-bottom, .post > .content,  .post > .subject{
+.post > .post-info,
+.post > .post-menu-philzine-bottom,
+.post > .content,
+.post > .subject {
 	padding:0 10px 10px 10px;
 }
 
+.post .subject {
+    font-weight:bold;
+}
 .post .profile-image{
 	width:50px;
 	max-width:initial;
@@ -219,6 +238,10 @@
 
 .post .post-menu-philzine-top .btn{
 	border:0;
+}
+
+.post .post-menu-philzine-top .btn.glyphicon-remove{
+	padding:15px 10px 15px 30px;
 }
 
 .post .post-menu-philzine-top .btn:active{
@@ -407,10 +430,11 @@
 	height:100px;
 	width:100%;
 	padding:5px;
-	border:0;
 	resize:none;
 	box-sizing:border-box;
+	border: 1px solid #ada9a9;
 }
+
 
 .post-write-form textarea:focus{
 	outline:0;
@@ -468,40 +492,40 @@
 
 
 /*comment-write-form*/
-.comment-write-form{
-	padding:0 10px;
-	margin-top:10px;
+.comment-write-form {
+	padding:10px;	
+	/*margin-top:10px;*/
+	background-color:#fff;
 }
 
-.comment-write-form .media.post-info{
-	padding:0 10px 0 0;
-	margin:0;
+.comment-write-form .box td {
+    padding-right:10px;
 }
 
-.comment-write-form .media.post-info .media-left{
-	
+.comment-write-form td.submit-button {
+    padding-right:0;
 }
-
-.comment-write-form .commands{
-	padding:0;
+.post-list-primary-photo-default {
+    width:48px;
+    height:48px;
 }
-
-.comment-write-form .profile-image{
-	width:35px;
+.post-list-primary-photo {
+    width:48px;
+    height:48px;
+    border-radius:50%;
 }
-
-.comment-write-form textarea{
-	display:block;
-	width:100%;
-	height:35px;
+.comment-write-form textarea {
+    width:100%;
+	height:48px;
 	padding:5px;
 	resize:none;
 	box-sizing:border-box;
+	border: 1px solid #9c9999;
 }
 
 .comment-write-form input[type='submit']{	
-	height:35px;
-	width:100%;
+	height:48px;
+	width:48px;
 	padding:5px 0;
 	border:0;
 	border-radius:3px;
@@ -521,6 +545,8 @@
     width:100%;
 	border-radius:2px;
 	background-color:red;
+	font-family: 'Malgun Gothic', '맑은고딕', 'GulimChe', '굴림체', serif!important;
+	font-weight:bold;
 	color:#fff;
 	text-align:center;
 	box-sizing:border-box;
@@ -530,6 +556,7 @@
 	position:relative;
 	top:2px;
 	margin-right:5px;
+	font-family: 'Glyphicons Halflings';/*override*/
 }
 
 .post-edit-form .post-content-wrapper{	
@@ -550,7 +577,14 @@
 	display:block;
 }
 
-.post-edit-form textarea{
+.post-edit [name='subject']{
+	padding:5px;
+	border:0;
+	border-bottom:1px solid #c7c7c7;
+	box-sizing:border-box;
+}
+
+.post-edit [name='content']{
 	display:block;
 	height:40px;
 	width:100%;
@@ -560,7 +594,7 @@
 	box-sizing:border-box;
 }
 
-.post-edit-form textarea:focus{
+.post-edit [name='subject']:focus, .post-edit [name='content']:focus{
 	outline:0;
 }
 
@@ -620,25 +654,37 @@
 }
 
 .file.desktop input[type='file']{
-	width:100%;
-	height:35px;
-	opacity:0;
+	width:48px;
+	height:48px;
+	opacity:0.02;
 }
 
 .file .glyphicon{
 	position: absolute;
 	top:0;
 	left:0;
-	height: 35px;
-	width: 100%;
-	padding: 5px 0;
+    width:48px;
+	height: 48px;
+	padding: 10px 10px 0;
+    box-sizing: border-box;
 	border-radius: 3px;
 	background-color: #95a5a6;
 	font-size: 1.5em;
 	color: #fff;
-	box-sizing: border-box;
 	text-align: center;
 }
+
+.post-write-form .file.desktop input[type='file']{
+	width:100%;
+	height:35px;
+}
+
+.post-write-form .file .glyphicon{
+	width:100%;
+	height:35px;
+	padding-top:5px;
+}
+
 
 .file.file-upload-button {
 	padding:0;
@@ -648,18 +694,30 @@
 	position:relative;	
 }
 
-.commands .col-xs-6:first-child{
-	padding:0 5px 0 0;
-}
 
-.commands .col-xs-6:last-child{
-	padding:0 0 0 5px;
-}
 /*eo file-button*/
 
+.alt-buttons {
+    padding-left:58px;
+}
+.alt-buttons .file {
+    float:left;
+    padding-right:24px;
+}
+.alt-buttons .file input[type='file'] {
+    width:100px;
+}
+.alt-buttons .glyphicon-camera {
+    width:100px;
+}
+
+.alt-buttons input[type='submit'] {
+    width:100px;
+}
 /*photos*/
 /*display*/
-.photos > img{	
+.photos > img{
+	display:inline-block;
 	width:49%;
 	padding:3px;
 	border:1px solid #ddd;
@@ -671,6 +729,36 @@
 /*edit*/
 .photos .photo{
 	margin-top:5px;
+	width:25%;
+	padding:0 5px;
+	box-sizing:border-box;
+}
+
+.photos .photo img{
+	width:100%;
+	border:1px solid #95a5a6;
+	box-sizing:border-box;
+}
+
+.photos .photo .photo-delete-button{
+	position:absolute;
+	left: 3px;
+	top: -6px;
+	width:100%;
+	height:100%;
+	padding:0;
+	background-color:transparent;
+}
+
+.photos .photo .photo-delete-button:before{
+	position:absolute;
+	right:0;
+	top:0;
+	padding:5px;
+	border-radius:100%;
+	background-color:#c03729;
+	font-size:.8em;
+	color:#fff;
 }
 /*eo edit*/
 /*eo photos*/

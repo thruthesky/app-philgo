@@ -9,6 +9,7 @@ var note = {
     },
     post: function (message, cls) {
         this.get().show();
+        if ( typeof cls == 'undefined' ) cls = '';
         this.get().append("<div class='row "+cls+"'>"+message+"</div>").show();
         if ( note.timer ) {
             clearTimeout(note.timer);
@@ -16,7 +17,7 @@ var note = {
         this.timer = setTimeout(function() {
             note.clear();
             note.hide();
-        }, 2000);
+        }, 5000);
     },
     clear: function() {
         element.note().html('');

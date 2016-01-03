@@ -17,53 +17,75 @@ var html = {
      * @Attention Use this function to set content on '.content'.
      *      - it does extra tasks.
      * @param html
+     * @param name
      */
     setContent : function (html, name) {
-        //console.log('setContent(...,' + page_name + ')');
+        //trace('setContent(...,' + page_name + ')');
         //if ( isPanelOpen() ) hidePanel();
         if ( panel.open() ) panel.close();
-        app.setCurrentPage(name);
+
+
+        // 클릭된 (보여줄) 페이지 이름과 데이터를 다운로드한 페이지 이름이 다르면
+        // 내용을 보여주지 않는다.
+        // 즉, 동시에 메뉴를 여러번 빨리 눌러서 ajax_load 가 많이 실행된 경우,
+        // 마지막에 클릭된 메뉴의 페이지만 보여 준다.
+        /*
+        if ( app.getCurrentPage() != name ) {
+            console.log(app.getCurrentPage());
+            console.log(name);
+            console.log("widget_name and page name is not the same. data voided.");
+            return;
+        }
+        */
+
         element.content().html(html);
     },
-    header : function() {
+    header : function() {		
         var m = '';
         m += '<nav class="navbar navbar-default top">';
         m += '  <div class="container-fluid">';
-        m += '      <span class="navbar-text glyphicon glyphicon-home" page-button="front" post-id="*"></span>';
-        m += '      <span class="navbar-text glyphicon glyphicon-pencil" post-id="*"></span>';
-        m += '      <span class="navbar-text glyphicon glyphicon-camera" post-id="*"></span>';
-        m += '      <span class="navbar-text logo">LOGO</span>';
+        m += '      <span class="navbar-text glyphicon glyphicon-home" page-button="front" post-id="*" title="헬로필리핀"></span>';
+        m += '      <span class="navbar-text glyphicon glyphicon-pencil"></span>';
+        m += '      <span class="navbar-text glyphicon glyphicon-camera"></span>';
+        m += '      <span class="navbar-text logo">필리핀매거진</span>';
         m += '      <span class="navbar-text navbar-right glyphicon glyphicon-th-list menu-panel toggle"></span>';
+		
+		
+			
+		//m += '      <span class="navbar-text navbar-right">' + member.primary_photo() + '</span>';
+	
+		        
         m += '  </div>';
         m += '</nav>';
-        m += '<ul class="nav nav-pills nav-justified main-menu">';
-        m += '  <li page-button="news" post-id="news">뉴스</li>';
-        m += '  <li page-button="info" post-id="qna">정보</li>';
-        m += '  <li page-button="company" post-id="company_book">업소록</li>';
-        m += '  <li page-button="travel" post-id="travel">여행</li>';
-        m += '  <li page-button="qna" post-id="qna">질문</span></li>';
-        m += '  <li page-button="freetalk" post-id="freetalk,knowhow">토론</span></li>';
-        m += '  <li page-button="menu-all">더보기</span></li>';
-        m += '</ul>';
+        m += '<div class="btn-group btn-group-justified main-menu">';
+        m += '  <span class="btn" page-button="news" post-id="news" title="필리핀 뉴스">뉴스</span>';
+        m += '  <span class="btn" page-button="info" post-id="qna" title="필리핀정보">정보</span>';
+        m += '  <span class="btn" page-button="company" post-id="" title="필리핀업소록">업소록</span>';
+        m += '  <span class="btn" page-button="travel" post-id="travel" title="필리핀여행">여행</span>';
+        m += '  <span class="btn" page-button="qna" post-id="qna" title="질문과답변">질문</span></span>';
+        m += '  <span class="btn" page-button="freetalk" post-id="freetalk,knowhow" title="커뮤니티">토론</span></span>';
+        m += '  <span class="btn" widget="menu-all">더보기</span></span>';
+        m += '</div>';
         return m;
     },
     footer : function() {
         var m = '';
-        m += '<ul class="nav nav-pills nav-justified bottom bottom-menu">';
+        m += '<div class="btn-group btn-group-justified bottom bottom-menu">';
 
 
         if ( member.login() ) {
-            m += '  <li page-button="profile"><span class="glyphicon glyphicon-user"></span>Profile</li>';
-            m += '  <li page-button="message"><span class="glyphicon glyphicon-envelope"></span>Message</li>';
+            m += '  <span class="btn" page-button="register"><span class="glyphicon glyphicon-user"></span>Profile</span>';
+            m += '  <span class="btn message-button"><span class="glyphicon glyphicon-envelope"></span>Message</span>';
         }
         else {
-            m += '  <li page-button="login"><span class="glyphicon glyphicon-user"></span>Login</li>';
-            m += '  <li page-button="register"><span class="glyphicon glyphicon-envelope"></span>Register</li>';
+            m += '  <span class="btn"  page-button="login"><span class="glyphicon glyphicon-lock"></span>Login</span>';
+            m += '  <span class="btn"  page-button="register"><span class="glyphicon glyphicon-user"></span>Register</span>';
         }
-        m += '  <li page-button="search"><span class="glyphicon glyphicon-search"></span>Search</li>';
-        m += '  <li class="post-button" post-id=""><span class="glyphicon glyphicon-pencil"></span>Post</li>';
-        m += '  <li class="setting-button"><span class="glyphicon glyphicon-wrench"></span>Setting</span></li>';
-        m += '</ul>';
+
+        //m += '  <span class="btn"  page-button="search"><span class="glyphicon glyphicon-search"></span>Search</span>';
+        m += '  <span class="btn post-button" post-id=""><span class="glyphicon glyphicon-pencil"></span>Post</span>';
+        m += '  <span class="btn setting-button"><span class="glyphicon glyphicon-wrench"></span>Setting</span></span>';
+        m += '</div>';
         return m;
     },
     panel : function() {
@@ -76,18 +98,20 @@ var html = {
         m += '      <li><div class="list-group-item menu-panel toggle">Close Menu<span class="glyphicon glyphicon-remove"></span></div></li>';
         m += '  </ul>';
 
-        var primary_photo;
-        if ( member.login() ) primary_photo = member.primary_photo();
-        else primary_photo = '      <img src="img/no_primary_photo.png"/>';
+        var primary_photo = member.primary_photo();
+        console.log(member);
 
-        m += '  <div class="panel-user-profile" page-button="register">';
+        var button_name = 'login';
+        if ( member.login() ) button_name = 'register';
+
+        m += '  <div class="panel-user-profile" page-button="'+button_name+'">';
         m += primary_photo;
         m += '      <div class="bottom-space"></div>';
         if ( member.login() ) {
-            m += '      <div class="name">{{name}}<div>{{id}}</div></div>';
+            m += '      <div class="name">{{name}}/{{idx_photo}}<div>{{id}}</div></div>';
         }
         else {
-            m += '      <div class="name">회원 가입<div>Sign Up</div></div>';
+            m += '      <div class="name">회원 로그인<div>Login</div></div>';
         }
         m += '  </div>';
         m += '  <ul class="list-group bottom">';
@@ -190,25 +214,26 @@ var html = {
         m += "  <input type='hidden' name='submit' value='1'>";
         m += '  <input type="hidden" name="module" value="ajax">';
         m += "  <input type='hidden' name='action' value='comment_write_submit'>";
-		m +=	'<div class="media post-info col-xs-8">';
-		
-		m +=		'<a class="media-left" href="#">';
-		m +=		'<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
-		m +=		'</a>';
-		m +=		'<div class="media-body">';
-		m +=		'<textarea name="content"></textarea>';
-		m += 		'<div class="photos"></div>';		
-		m +=		'</div>';
-		
-		m +=	'</div>';
-		m +=	'<div class="col-xs-4 commands">';
-		m +=		'<div class="col-xs-6">' + this.filebox() + '</div>';
-		m +=		'<div class="col-xs-6">' + '<input type="submit" value="Post">' + '</div>';
-		m +=	'</div>';
+
+        m += '  <table class="box" width="100%" border="0" cellpadding="0" cellspacing="0">';
+        m += '      <tr valign="top">';
+        m += '          <td width="48">' + member.primary_photo() + '</td>';
+		m += '          <td width="99%"><textarea name="content"></textarea></td>';
+        m += '          <td class="comment-file-upload-button">' + this.filebox() + '</td>';
+		m += '          <td class="submit-button"><input type="submit" value="Post"></td>';
+        m += '      </tr>';
+        m += '  </table>';
+
+        m += '  <div class="alt-buttons" style="display:none;">';
+        m += '   ' + this.filebox() + '';
+        m += '   <input type="submit" value="Post">';
+        m += '  </div>';
+
+        m += '<div class="photos"></div>';
 		m += '</form>';
 		
 
-		//console.log( m );
+		//trace( m );
 		return m;
 		
     },
@@ -238,13 +263,20 @@ var html = {
         $content.val('');
         $form.find('.photos').html('');
     },
+    message_onclick : function ( member ) {
+        var onclick = '';
+        if ( typeof message != 'undefined' && typeof member.id != 'undefined' ) {
+            onclick = message.getOnClick(member.id);
+        }
+        return onclick;
+    },
     render_post : function (p) {
-        //console.log('get_post_render(p)');
+        //trace('get_post_render(p)');
         if (_.isEmpty(p) ) return;
-        //console.log('creating DOM');
+        //trace('creating DOM');
         var m = '';
 
-        //console.log( p );
+        //trace( p );
 
 
         var date_full = etc.date_full(p['stamp']);
@@ -260,14 +292,18 @@ var html = {
             m += '<span type="button" class="btn btn-secondary post-delete-button"><span class="glyphicon glyphicon-trash"></span></span>';
         }
         m += '  <span class="menu-separator"></span>';
-        m += post.markup.more(p['idx']);
+        m += post.markup.more(p);
         m += '</div>';
 
         m += '<div class="media post-info">';
         m += '  <a class="media-left" href="#">';
-        m += '      <img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
+
+        var src = 'img/no_primary_photo.png';
+
+        if ( typeof p['member']['idx_primary_photo'] != 'undefined' ) src = app.getDataURL(p['member']['idx_primary_photo']);
+        m += '      <img class="media-object profile-image" src="'+src+'" alt="Generic placeholder image">';
         m += '  </a>';
-        m += '  <div class="media-body">';
+        m += '  <div class="media-body" '+this.message_onclick(p['member'])+'>';
         m += '      <div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
         m += '      <div class="date" title="'+date_full+'">' + date + '</div>';
         m += '  </div>';
@@ -295,7 +331,7 @@ var html = {
 
         m = '<div class="post" idx="'+p['idx']+'" gid="'+p['gid']+'">' + m + '</div>';
 
-        //console.log(m);
+        //trace(m);
         return m;
     },
     render_comments : function (comments) {
@@ -314,7 +350,7 @@ var html = {
 
 		var date_full = etc.date_full(comment['stamp']);
 		var date = etc.date_short(comment['stamp']);
-		var humanTime = etc.humanTime(comment['stamp']);
+		//var humanTime = etc.humanTime(comment['stamp']); // DO NOT USE Human Time.
 
 		var likes;
 		if( comment['good'] > 0 ) likes = comment['good'];
@@ -325,9 +361,10 @@ var html = {
 
 		m += '<div class="btn-group post-menu-philzine-top" role="group">';
 		
-		if( ! post.mine(comment) ) {
+		if( post.mine(comment) ) {
 			m += '<span type="button" class="btn btn-secondary post-delete-button glyphicon glyphicon-remove"></span>';
 		}
+
         /*
 		else {
 			m += '<span type="button" class="btn btn-secondary post-edit-button"><img src="img/post/edit.png"/></span>';
@@ -337,52 +374,51 @@ var html = {
         m += post.markup.more(comment['idx']);
         */
 		m += '</div>';
-		
-		
+
 		m +=	'<div class="media post-info">';
 		m +=		'<a class="media-left" href="#">';
-		m +=		'<img class="media-object profile-image" src="img/no_primary_photo.png" alt="Generic placeholder image">';
+
+        var src = 'img/no_primary_photo.png';
+        if ( typeof comment['member']['idx_primary_photo'] != 'undefined' ) src = app.getDataURL(comment['member']['idx_primary_photo']);
+
+		m +=		'<img class="media-object profile-image" src="'+src+'" alt="Generic placeholder image">';
 		m +=		'</a>';
-		m +=		'<div class="media-body">';
-		m +=			'<div class="name">'+comment['user_name']+"</div>";
-		m +=			'<div class="date" title="'+date_full+'">'+date+'<span class="separator">|</span>'+humanTime+'</div>';
-		m +=			'<div class="content">';
-		m +=				'<div class="text">' + post.content(comment) + '</div>';
-		if ( comment['photos'] ) m += comment['photos'];
-		m +=			'</div>';
+		m +=		'<div class="media-body" '+this.message_onclick(comment['member'])+'>';
+		m +=			'<div class="name">'+comment['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
+		m +=			'<div class="date" title="'+date_full+'">'+date+'</div>';
 		m +=		'</div>';
+        m +=			'<div class="content">';
+        m +=				'<div class="text">' + post.content(comment) + '</div>';
+        if ( comment['photos'] ) m += comment['photos'];
+        m +=			'</div>';
 		m +=	'</div>';
-		
+
+        //
+        var onclick = html.message_onclick(comment['member']);
 		m +=	'<nav class="btn-group post-menu-philzine-bottom pull-right">';
-		m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+likes+'</span></span>';
+        m +=		'<span class="btn like"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span class="no">'+likes+'</span></span>';
+        m +=		'<span class="btn reply-button"><span class="glyphicon glyphicon-share-alt"></span> Reply</span>';
+		if( post.mine(comment) ) {
+			m +=		'<span class="btn post-edit-button"><span class="glyphicon glyphicon-pencil"></span> Edit</span>';
+		}
 		m +=		'<div class="btn dropdown">';
 		m +=			'<div class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-		m +=				'<span class="glyphicon glyphicon-option-horizontal"></span>';
+		m +=				' &nbsp; <span class="glyphicon glyphicon-option-horizontal"></span>';
 		m +=			'</div>';
 		m +=			'<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">';
-		m +=				'<li class="dropdown-item reply-button">Reply</li>';
+		m +=				'<li class="dropdown-item reply-button"><span class="glyphicon glyphicon-share-alt"></span>Reply</li>';
 		if( post.mine(comment) ) {
-            m +=				'<li class="dropdown-item post-delete-button">Delete</li>';
-            m +=				'<li class="dropdown-item post-edit-button">Edit</li>';
+            m +=				'<li class="dropdown-item post-delete-button"><span class="glyphicon glyphicon-trash"></span>Delete</li>';
+            m +=				'<li class="dropdown-item post-edit-button"><span class="glyphicon glyphicon-pencil"></span>Edit</li>';
         }
         else {
-		m +=				'<li class="dropdown-item report-button">Report</li>';
+            m +=				'<li class="dropdown-item report-button" '+onclick+'><span class="glyphicon glyphicon-envelope"></span> Message</li>';
+            m +=				'<li class="dropdown-item report-button"><span class="glyphicon glyphicon-warning-sign"></span>Report</li>';
 		}
 		m +=			'</ul>';
 		m +=		'</div>';
 		m +=	'</nav>';
-		
-		/*
-		m += ' 글번호 : '+comment['idx'];
-		m += ' 글쓴이: ' + comment['user_name'];
-		m += ' <span title="'+date_full+'">날짜: ' + date + '</span>';
-		m += ' 수정, 메뉴 더보기';
-        m += '<div class="content">' + post.content(comment) + '</div>';
-		
-		if ( comment['photos'] ) m += comment['photos'];
-		*/
-		
-		//m += ' <span class="reply-button">Reply</span>, 추천, 비추천';
+
 		m += '</div>';
 		return m;
     },
@@ -443,7 +479,7 @@ var html = {
      * @param data
      */
     render_photo : function (data) {
-        //console.log('render_photo');
+        //trace('render_photo');
         //trace(data['idx']);
         if (_.isUndefined(data['url'])) alert('url of photo is empty');
         if (_.isUndefined(data['idx'])) alert('idx of photo is empty');
@@ -451,7 +487,7 @@ var html = {
         m += '<span class="glyphicon glyphicon-remove photo-delete-button"></span>';
         m += '<img idx="'+data['idx']+'" src="'+data['url_thumbnail']+'" org="'+data.url+'">';
         m += '</div>';
-        //console.log(m);
+        //trace(m);
         return m;
     },
     login_form : function () {
@@ -493,16 +529,16 @@ var html = {
             m += '  <h1>설정 <small>필리핀매거진 {{version}}</small></h1>';
             m += '</div>';
             m += '<ul class="list-group">';
-            m += '  <li class="list-group-item"><div class="reset">Reset</div></li>';
-            m += '  <li class="list-group-item"><div class="change-server-button">Change Server</div></li>';
-            m += '  <li class="list-group-item">Refresh</li>';
-            m += '  <li class="list-group-item">Show all menu on front page</li>';
+            m += '  <li class="list-group-item reset"><div>Reset</div></li>';
+            m += '  <li class="list-group-item" onclick="app.refresh();">Refresh</li>';
+            m += '  <li class="list-group-item"><div class="change-server-button">Change Server - {{url_server}}</div></li>';
+            m += '  <li class="list-group-item"><a href="http://work.jaeho.org/apps/philzine2/platforms/android/build/outputs/apk/android-debug.apk">Download Debugging APK</a></li>';
             m += '</ul>';
             return _.template(m)(app);
         }
     },
     update_primary_photo : function ( data ) {
-        console.log(data);
+        //trace(data);
         el.primary_photo().prop('src', data.url);
         member.update_photo_idx(data.idx);
     },
@@ -510,5 +546,175 @@ var html = {
         setTimeout(function(){
             $obj.focus();
         }, 100);
+    },
+    /**
+     * widget 폴더의 HTML 을 로드해서 화면에 보여준다.
+     *
+     *      1. 먼저 캐시된 정보를 보여준다.
+     *      2. 캐시된 정보가 없으면,
+     *          - 오프라인이면 로컬 widget 폴더의 HTML 파일을 로드해서 보여주고
+     *          - 온라인이면 서버 widget 폴더의 HTML 파일을 로드해서 보여 준다.
+     *
+     * @attention 이 함수는 캐시는 하지만 게시판이나 Endless load 를 보여주지는 않는다.
+     * @param widget_name
+     */
+    setWidget : function ( widget_name ) {
+
+        if (app.online()) {
+            return cache.update(widget_name);
+        }
+
+        this.setLocalWidget( widget_name );
+    },
+    /**
+     *
+     *
+     * 서버의 Widget HTML 을 로드하지 않고 그냥 로컬의 widget html 정보만 로드해서 보여준다.
+     *  즉, 앱을 컴파일 할 때, 같이 추가한 HTML 과 이미지를
+     *      앱 내부의 Widget 폴더에서만 보여 줄 때 사용한다.
+     *
+     * @param widget_name
+     * @returns {*}
+     */
+    setLocalWidget : function ( widget_name ) {
+        if ( debug.not_started() ) {
+            var data = db.get( widget_name );
+            if ( data ) return html.setContentWithCacheMark(widget_name, data);
+        }
+
+        ajax_load('widget/'+widget_name+'.html', function(markup){
+            //trace(markup);
+            if ( markup ) {
+                var re = {
+                    html: markup,
+                    length: markup.length,
+                    md5: ''
+                };
+                save_page( widget_name, re );
+                html.setContent(re.html, widget_name);
+                //note.post('html.setWidget() : ' + name + ' 페이지를 로드하였습니다.');
+                app.setCurrentForum('');
+            }
+        }, true);
+    },
+    setContentWithCacheMark : function (widget_name, data) {
+        var stamp = parseInt(db.get(widget_name + '.stamp')) / 1000;
+        var date = etc.date_full(stamp);
+        html.setContent( data + '<div class="cache-mark">cached at : '+date+'</div>', widget_name );
+    },
+
+    /**
+     * 전체 화면에 로더를 표시한다.
+     */
+    showLoader : function () {
+        $('<div id="post-loader"><i class="fa fa-spinner fa-spin"></i></div>').appendTo('body')
+            .css({
+                position: 'fixed',
+                'z-index': 99999,
+                'background-color' : 'rgba(200,200,200,0.5)',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                'padding-top' : '40%',
+                'text-align':'center',
+                'color' : 'white',
+                'font-size' : '3.4em'
+            });
+    },
+    /**
+     * loader 는 1번 부터 14번 까지 있는데, 몇번의 loader 를 어느 위치에 표시 할 것인지 지정한다.
+     * @note $.after() 를 사용해서, target $obj 의 다음에 넣는다.
+     * @param no
+     * @param $obj
+     */
+    showLoaderAfter : function ( no, $obj ) {
+        $obj.after('<div class="gif-loader" no="'+no+'"><img src="img/loader/loader'+no+'.gif"></div>');
+        return $('.gif-loader');
+    },
+    /**
+     * showLoaderAfter() 와 동일한데 단, $.html() 을 사용해서 target object 의 내부에 넣는다.
+     * @param no
+     * @param $obj
+     *
+     * @code
+     html.showLoaderOn(14, $submit).css({'padding-left':'0.8em'});
+     * @endcode
+     */
+    showLoaderOn : function ( no, $obj ) {
+        $obj.html('<img class="gif-loader" no="'+no+'" src="img/loader/loader'+no+'.gif">');
+        return $('.gif-loader');
+    },
+    hideLoader : function () {
+        setTimeout(function(){
+
+            var $ajax_loader = $('.gif-loader');
+            if ( $ajax_loader.length ) $ajax_loader.remove();
+            var $post_loader = $('#post-loader');
+            if ( $post_loader.length ) $post_loader.remove();
+
+        },200);},
+	//added by benjamin modal window
+	modalWindow : function(){
+		m = '<div class="modalWindow"></div>';
+		return m;
+	},
+	modalImage : function( idx, url, add_arrow ){
+		m = '';
+		m += '<div class="modalImage" idx="' + idx + '">';
+		m += '<img src="' + url + '"/>'
+		if( add_arrow == true ){
+			if( $(".post .photos img[idx='" + idx + "']").prev().length ) prev = $(".post .photos img[idx='" + idx + "']").prev();
+			else prev = $(".post .photos:has(img[idx='" + idx + "']) img:last");
+			prev_idx = prev.attr("idx");
+
+			if( $(".post .photos img[idx='" + idx + "']").next().length ) next = $(".post .photos img[idx='" + idx + "']").next();
+			else next = $(".post .photos:has(img[idx='" + idx + "']) img:first");
+			next_idx = next.attr("idx");
+
+			m += '<span class="glyphicon glyphicon-menu-left arrow left" idx="' + prev_idx +'"></span>';
+			m += '<span class="glyphicon glyphicon-menu-right arrow right" idx="' + next_idx + '"></span>';
+		}
+		m += '</div>';
+
+		return m;
+	},
+	//^ added by benjamin modal window
+	/*added by benjamin upload image loader*/
+	createUploadLoader : function( $selector ){
+		$selector.append("<div class='photo loader'><img src='img/loader/loader8.gif'/></div>");
+	},
+	/*
+	*$selector = the selector to append the loader
+	*idx only exists if the upload was a success	
+	*/
+	removeUploadLoader : function( $selector, idx ){
+		//for a much smoother display when the loader gets removed
+		if( typeof( idx ) == 'undefined' ) $( ".photo.loader" ).remove();	
+		else{
+			$(".photo[idx-data='" + idx + "']").hide();
+			$selector.find( "img" ).load( function(){
+				$(".photo[idx-data='" + idx + "']").show();
+				$( ".photo.loader" ).remove();
+			});
+		}
+	},
+	/* eo  added by benjamin upload image loader*/
+
+
+    set_comment_form_for_writing : function ( $form ) {
+        $form.find('.comment-file-upload-button').hide();
+        $form.find('.submit-button').hide();
+        $form.find('textarea').height(100);
+        $form.find('.alt-buttons').show();
+    },
+
+    reset_comment_form : function ( $form ) {
+        $form.find('.comment-file-upload-button').show();
+        $form.find('.submit-button').show();
+        $form.find('textarea').height(48);
+        $form.find('.alt-buttons').hide();
     }
+
+
 };

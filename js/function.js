@@ -1,4 +1,10 @@
 var count_trace = 0;
+alert = function ( str ) {
+    app.alert(str);
+};
+confirm = function ( str ) {
+    app.alert("confirm 대신 app.confirm 을 사용하십시오.");
+};
 function trace(v) {
     if ( ! debug.mode ) return ;
     var caller = arguments.callee.caller;

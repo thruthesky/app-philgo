@@ -2,6 +2,7 @@
 
 var cache = {
     content : function (page, post_id) {
+        app.setCurrentPage(page);
         this.update(page, post_id);
         // element.content().html(db.get( 'front' ));
     },
@@ -33,15 +34,25 @@ var cache = {
      *      - 이 값이 '*' 이면 전체 게시판의 게시물을 로드한다. 예를 들어 front 페이지를 클릭 할 때에는 post-id 를 '*' 로 해주면 전체 글을 보여준다.
      */
     update : function (name, post_id) {
-        //console.log( "cache_update:" + name );
+        trace( "cache.update():" + name );
+        endless_reset('');
         html.setContent( db.get( name ), name );
         var url_widget = app.url_server_widget() + name;
         ajax_load(url_widget, function(re){
             if ( re.html ) {
                 save_page( name, re );
+
+                if ( app.getCurrentPage() != re['page'] ) {
+                    console.log(re);
+                    trace("cache.update() : current page: "+app.getCurrentPage()+", loaded page: "+re['page']+" : current page and loaded page are differenct. data voided.")
+                    return;
+                }
+
                 html.setContent(re.html, name);
-                note.post(name + ' 페이지를 로드하였습니다.');
+                //alert('curr page: ' + app.getCurrentPage() + ', loaded page:' + re['page']);
+                //note.post(name + ' 페이지를 로드하였습니다.');
                 app.setCurrentForum(post_id);
+                //console.log("==================== ajax_load() : endless_reset:")
                 if ( post_id ) {
                     endless_reset(app.url_server_forum() + post_id, post.endless_update);
                 }

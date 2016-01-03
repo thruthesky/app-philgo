@@ -1,0 +1,86 @@
+
+/** ================ Header =================== */
+/* top */
+header .top{
+    padding:10px 0;
+    margin-bottom:0;
+    background-color:#2980b9;
+    border:0;
+    border-radius:0;
+    text-align:center;
+}
+.main-menu {
+    cursor:pointer;
+    background-color:#fff;
+    text-align:center;
+}
+
+.main-menu span {
+    padding:12px 0;
+    border:0;
+    border-bottom:2px solid transparent;
+    border-radius:0!important;
+    font-size:1em;
+}
+
+.main-menu span:hover {
+    cursor:pointer;
+    color: #c43d31;
+    border-bottom:2px solid #c43d31;
+}
+
+header .top .glyphicon {
+    float:left;
+    margin:0;
+    color:#fff;
+}
+
+header .top .glyphicon.glyphicon-camera{
+    display:none;
+    padding:5px;
+    margin:8px 0 0 0;
+    font-size:14px;
+}
+
+header .top .glyphicon.glyphicon-pencil{
+    display:none;
+    padding:8px;
+    margin:5px 5px 0 0;
+    font-size:14px;
+}
+
+header .top .glyphicon.glyphicon-home, header .top .glyphicon.glyphicon-th-list {
+    padding:10px;
+    font-size:20px;
+}
+
+header .top .glyphicon.glyphicon-home{
+    margin-right:5px;
+}
+
+header .top .glyphicon{
+    border:2px solid #fff;
+    border-radius:100%;
+}
+
+header .top .logo{
+    float:none;
+    margin:0 0 0 0;
+    font-size:31px;
+    color:#fff;
+}
+
+header .top .navbar-right {
+    float:right;
+    margin-right:0;
+}
+@media (min-width:480px){
+    header .top .logo{
+        margin:0 62px 0 0;
+    }
+
+    header .top .glyphicon.glyphicon-pencil, header .top .glyphicon.glyphicon-camera{
+        display:block;
+    }
+}
+/** ========== EO Header ============ */

@@ -1,11 +1,12 @@
-
-
 var callback = {
     on_click_page : function () {
         var $this = $(this);
         var page_name = $this.attr('page-button');
+        var title = $this.attr('title');
+        app.setTitle(title);
+        app.setCurrentPage(page_name);
         var post_id = $this.attr('post-id');
-        //console.log('on_click_page() : ' + page);
+        // trace('on_click_page() : ' + page_name);
         if ( app.offline() && $this.hasClass('check-internet') ) {
             alert(page_name + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.");
             return;
@@ -17,45 +18,69 @@ var callback = {
             cache.update(page_name, post_id);
         }
     },
-    on_click_content: function () {
+    on_click_content: function ( e ) {
         panel.close();
+        /** This code has error when 'message' object is not available.
+         * And it's not clear what it wants to do.
+         * It does not close 'search box' anyway.
+         *
+		//added by benjamin... need to fix this long if condition
+		if( !$(e.target).hasClass("message-commands")
+            && !$(e.target).parents(".message-commands").length
+            && !$(e.target).parent().hasClass("message-commands") )
+            message.search_close();
+            */
     },
     form_login : function () {
-        //console.log('ajax_login() member.idx:'+member.idx);
+        //trace('ajax_login() member.idx:'+member.idx);
         var $this = $(this);
         var id = $this.find('[name="id"]').val();
         var url = app.url_server_login() + '&id=' + id;
         url += '&password=' + $this.find('[name="password"]').val();
+        var $submit= $this.find('[type="submit"]');
+        $submit.hide();
+        html.showLoaderAfter(14, $('.password'));
         ajax_load( url, function(re) {
-            //console.log(re);
-            if ( re.code == 504 ) alert('아이디를 입력하십시오.');
+            //trace(re);
+            console.log(re);
+            if ( re.code == 4101 ) alert('아이디와 비밀번호를 입력하십시오.');
             else if ( re.code == 503 ) alert('비밀번호를 입력하십시오.');
-            else if ( re.code == 502 ) alert('아이디를 찾을 수 없습니다.');
-            else if ( re.code == 501 ) alert('비밀번호가 틀렸습니다. Wrong password.');
+            else if ( re.code == 4102 ) alert('아이디를 찾을 수 없습니다.');
+            else if ( re.code == 4103 ) alert('비밀번호가 틀렸습니다. Wrong password.');
             else {
-                //console.log("login success!");
-                //console.log(re);
+                //trace("login success!");
+                //trace(re);
                 member.setLogin(id, re);
-                cache.showFront();
+                //cache.showFront();
+                app.refresh();
+                return false;
             }
+            html.hideLoader();
+            $submit.show();
+        }, {
+            error_check : false
         });
         return false;
     },
     on_click_logout_button : function () {
         member.setLogout();
-        cache.showFront();
+        //cache.showFront();
+        app.refresh();
     },
 
     /**
      *
      */
     on_click_reset : function () {
-        //console.log('on_click_reset()');
-        var re = confirm("앱을 초기화 하시겠습니까? Do you want to reset?");
-        if ( re ) {
-            app.reset();
-            app.refresh();
-        }
+        //trace('on_click_reset()');
+        app.confirm("앱을 초기화 하시겠습니까? Do you want to reset?", function(re) {
+            if ( re ) {
+                if ( re ) {
+                    app.reset();
+                    app.refresh();
+                }
+            }
+        });
     },
     on_click_post_button : function () {
         var post_id = app.getCurrentForum();
@@ -79,15 +104,22 @@ var callback = {
     },
     post_form_submit : function (e) {
         e.preventDefault();
-        ajax_load_post(app.getServerURL(), $(this).serialize(), function(re){
+        var $this = $(this);
+        var $submit = $this.find('.submit');
+        html.showLoaderOn(14, $submit);
+        ajax_load_post(app.getServerURL(), $this.serialize(), function(re){
             element.post_write_form().remove();
             element.content().prepend(html.render_post(re.post));
+            html.hideLoader();
         });
         return false;
     },
     comment_form_submit : function (e) {
         e.preventDefault();
-        ajax_load_post(app.getServerURL(), $(this).serialize(), function(re){
+        var $this = $(this);
+        var $submit = $this.find('[type="submit"]').parent();
+        html.showLoaderAfter(14, $this).css({'padding-left':'0.8em'});
+        ajax_load_post(app.getServerURL(), $this.serialize(), function(re){
             var p = re.post;
             if ( p['depth'] > 1 ) {
                 element.comment_write_form(p['idx_parent']).remove();
@@ -95,15 +127,17 @@ var callback = {
             else {
                 html.clear_comment_write_form(p);
             }
+            html.reset_comment_form($this);
             var m = html.render_comment(p);
             element.post(p['idx_parent']).after(m);
+            html.hideLoader();
         });
         return false;
     },
     edit_form_submit : function (e) {
         e.preventDefault();
         ajax_load_post(app.getServerURL(), $(this).serialize(), function(re){
-            console.log(re);
+            //trace(re);
             var idx = re['idx'];
             var $edit = el.post_edit(idx);
             var $form = $(".post-edit-form[idx='"+idx+"']");
@@ -112,12 +146,12 @@ var callback = {
             var content = $form.find('[name="content"]').val();
             var photos = '';
             $edit.find('.photos img').each(function(index){
-                photos = photos + ' ' + this.outerHTML;
+                photos = photos + '' + this.outerHTML;//added by benjamin, removed space ( ' ' => '' )  so no need to float left for the extra space when using inline block
             });
-            console.log(photos);
+            //trace(photos);
             photos = html.photos(idx, photos); // .photos must exist
 
-            console.log(photos);
+            //trace(photos);
 
             $edit.remove();
 
@@ -125,7 +159,8 @@ var callback = {
             $post.find('.subject').text(subject);
             $post.find('.content').text(content);
             if ( el.photos(idx).length ) el.photos(idx).replaceWith(photos);
-            else $post.append(photos);
+            //else $post.append(photos);//edited by benjamin for design compatibility, moved the parent to .content instead...
+			else $post.find(".content").append(photos);
             $post.show();
 
         });
@@ -142,17 +177,29 @@ var callback = {
         if ( app.isRegisterPage() ) $form.prop('action', app.getServerURL());
 
         this.is_upload_submit = true;
+
+        //html.showLoaderAfter(14,$filebox);
+		html.createUploadLoader( $form.find(".photos") );//added by benjamin
+
         $form.ajaxSubmit({
+            error : function (xhr) {
+                alert("ERROR: ajax form upload ...");
+                //html.hideLoader();
+				html.removeUploadLoader( $form.find(".photos"), null );//added by benjamin
+            },
             complete: function (xhr) {
-                console.log("File upload completed thru jquery.form.js");
+                //trace("File upload completed thru jquery.form.js");
                 var re;
                 try {
                     re = JSON.parse(xhr.responseText);
                 }
-                catch (e) {
-                    return alert(s.stripTags(xhr.responseText));
+                catch (e) {					
+                    //html.hideLoader();
+					html.removeUploadLoader( $form.find(".photos") );//added by benjamin
+                    return alert("에러: 파일 업로드에 실패하였습니다.");
+                    //return alert(s.stripTags(xhr.responseText));
                 }
-                console.log(re);
+                //trace(re);
                 if ( re['code'] ) {
                     return alert(re['message']);
                 }
@@ -162,6 +209,8 @@ var callback = {
                     var $photos = $form.find('.photos');
                     $photos.append( html.render_photo( re.data ) );
                 }
+                //html.hideLoader();				
+				html.removeUploadLoader( $form.find(".photos"), re.data['idx'] );//added by benjamin
             }
         });
         this.is_upload_submit = false;
@@ -174,24 +223,29 @@ var callback = {
         var gid = $form.find('[name="gid"]').val();
 
 
-        app.confirm(
+        /*
+        app.confirmUpload(
             '사진을 찍으시겠습니까? 갤러리에서 선택하시겠습니까?',
             onCameraConfirm,
             '사진 올리기',
             ['사진 찍기','사전 선택', '취소']
         );
+        */
+        app.selectDialog('사진을 찍겠습니까? 또는 선택하시겠습니까?',
+            ['사진 찍기', '사진 선택', '취소'],
+            onCameraConfirm);
 
 
         function onCameraError(e) {
-            alert('onCameraError');
-            alert(JSON.stringify(e));
+            //alert('onCameraError');
+            alert('카메라 동작 실패: ' + JSON.stringify(e));
         }
         function onFileTransferSuccess(data) {
             //alert('onFileTransferSuccess');
             //alert(JSON.stringify(data));
-            console.log("Code = " + data.responseCode);
-            console.log("Response = " + data.response);
-            console.log("Sent = " + data.bytesSent);
+            //trace("Code = " + data.responseCode);
+            //trace("Response = " + data.response);
+            //trace("Sent = " + data.bytesSent);
             if ( app.isMobile() ) {
                 navigator.camera.cleanup();
             }
@@ -233,16 +287,16 @@ var callback = {
                 if ( typeof idx_parent == 'undefined' ) idx_parent = 0;
                 options['idx_parent'] = idx_parent;
             }
-            console.log(options);
+            //trace(options);
             var ft = new FileTransfer();
             var url = app.getServerURL();
-            console.log(url);
+            //trace(url);
             ft.upload(fileURI, encodeURI(url), onFileTransferSuccess, onFileTransferFail, options);
         }
         function onCameraConfirm(no) {
             var type = Camera.PictureSourceType.PHOTOLIBRARY; // default
             if ( app.isBrowser() ) { // @Attention This is only for test purpose.
-                console.log('TEST : for cordova broswer platform : mocking file transfer');
+                //trace('TEST : for cordova broswer platform : mocking file transfer');
             }
             else {
                 if ( no == 1 ) {
@@ -251,6 +305,7 @@ var callback = {
                 else if ( no == 2 ) {
                     type = Camera.PictureSourceType.PHOTOLIBRARY;
                 }
+                else return;
             }
 
             setTimeout(function() {
@@ -263,7 +318,7 @@ var callback = {
         }
 
     },
-    on_click_post_edit_button : function () {
+    on_click_post_edit_button : function () {		
         var $this = $(this);
         var $post = $this.parents('.post');
         $post.hide();
@@ -271,17 +326,21 @@ var callback = {
     },
     on_click_photo_delete_button : function () {
         var $this = $(this);
-        var $photo = $this.parents('.photo');
-        var $form = $this.parents('form');
-        var idx = $photo.attr('idx-data');
-        var gid = $form.find('[name="gid"]').val();
-        var url = app.getServerURL() + '?module=ajax&action=data_delete_submit&gid='+gid + "&idx="+idx;
-        ajax_load(url, function(re){
-            console.log(re);
-            var data = re['data'];
-            if ( data['code'] ) return alert(data['message']);
-            $photo.remove();
-        });
+		app.confirm( "사진을 삭제하시겠습니까?", function(re) {
+            if ( re ) {
+                var $photo = $this.parents('.photo');
+                var $form = $this.parents('form');
+                var idx = $photo.attr('idx-data');
+                var gid = $form.find('[name="gid"]').val();
+                var url = app.getServerURL() + '?module=ajax&action=data_delete_submit&gid='+gid + "&idx="+idx;
+                ajax_load(url, function(re){
+                    //trace(re);
+                    var data = re['data'];
+                    if ( data['code'] ) return alert(data['message']);
+                    $photo.remove();
+                });
+            }
+        } );
     },
     on_click_post_edit_cancel_button : function () {
         var $this = $(this);
@@ -293,12 +352,16 @@ var callback = {
     },
     on_click_post_delete_button : function () {
         var $this = $(this);
-        var $post = $this.parents('.post');
-        var idx = $post.attr('idx');
-        var url = app.getServerURL() + '?module=ajax&action=post_delete_submit&idx=' + idx;
-        ajax_load(url, function(re){
-            console.log(re);
-            $post.html(lang('deleted'));
+        app.confirm("글을 삭제하시겠습니까?", function(re) {
+            if ( re ) {
+                var $post = $this.parents('.post');
+                var idx = $post.attr('idx');
+                var url = app.getServerURL() + '?module=ajax&action=post_delete_submit&idx=' + idx;
+                ajax_load(url, function(re){
+                    //trace(re);
+                    $post.html(lang('deleted'));
+                });
+            }
         });
     },
     on_click_like_button : function () {
@@ -307,7 +370,7 @@ var callback = {
         var idx = $post.attr('idx');
         var url = app.getServerURL() + '?module=ajax&action=post_vote_submit&idx=' + idx;
         ajax_load(url, function(re){
-            console.log(re);
+            //trace(re);
             $this.find('.no').text(re['good']);
         });
     },
@@ -317,7 +380,7 @@ var callback = {
         var idx = $post.attr('idx');
         var url = app.getServerURL() + '?module=ajax&action=post_report_submit&idx=' + idx;
         ajax_load(url, function(re){
-            console.log(re);
+            //trace(re);
             alert("글 신고가 되었습니다.");
         });
     },
@@ -330,20 +393,57 @@ var callback = {
 	},
 	on_click_post_edit_comment_textarea : function() {
 		var $this = $(this);
-		$this.height(100);
+        var $form = $this.parents('form');
+        html.set_comment_form_for_writing($form);
+    },
+	on_click_post_photos_img : function( e ) {
+		var $this = $(this);	
+		app.createModalWindowWithImage( $this.attr("idx") );
+	},
+	on_click_modal_window : function( e ) {
+		var $this = $(this);	
+		//element.modal_window().remove();
+		
+		if( $(e.target).hasClass('arrow') ){
+		
+		}
+		else{
+			element.modal_window().remove();
+			element.body().css('overflow','initial');
+			document.ontouchmove = function(e){}//remove the disabled mobile scrolling
+		}
 	},
 	//^ above is added by benjamin
     on_click_setting_button : function () {
         html.setContent( html.page.setting(), 'setting' );
     },
     on_click_change_server_button : function () {
+
+        var $this = $(this);
+        var m = '<div class="input-url-server">' +
+            'http://<input style="width:8em;" type="text" name="url_server" placeholer="www.domain.com">/' +
+                '<button>Change</button>' +
+            '</div>';
+        $('.input-url-server').remove();
+        $this.after(m);
+        $('.input-url-server button').click(function() {
+            var url = 'http://' + $('.input-url-server input').val() + '/';
+            app.setServerURL( url );
+            db.set('url_server', url);
+            app.alert("서버가 변경되었습니다.");
+        });
+/*
         if ( confirm("Connect to http://philgo.com/") ) return app.setServerURL('http://philgo.com/');
         if ( confirm("Connect to http://work.philgo.org/") ) return app.setServerURL('http://work.philgo.org/');
         if ( confirm("Connect to http://192.168.137.1/") ) return app.setServerURL('http://192.168.137.1/');
+        if ( confirm("Connect to http://192.168.1.2/") ) return app.setServerURL('http://192.168.1.2/');
+*/
     },
     member_register_submit : function (e) {
         e.preventDefault();
         var $form = $(this);
+
+        html.showLoaderAfter(14, $('.year'));
         ajax_load_post(app.getServerURL(), $form.serialize(), function(re){
             member.setLogin(re['id'], re);
             if ( $form.find('[name="session_id"]').length ) {
@@ -351,9 +451,37 @@ var callback = {
             }
             else {
                 alert("회원 가입을 하였습니다.");
-                cache.showFront();
+                //cache.showFront();
+                app.refresh();
             }
+            html.hideLoader();
+        }, function(re) {
+            html.hideLoader();
         });
         return false;
+    },
+    on_click_post_view : function () {
+        html.showLoader();
+        var $this = $(this);
+        var idx = $this.attr('post-view');
+        ajax_load(app.getServerURL() + '?module=ajax&action=post_view_submit&idx='+idx, function(re){
+
+            app.setCurrentPage('post-view');
+            var site = re['site'];
+
+            //note.post(site + ' 사이트의 글이 추가되었습니다.');
+            var post = re['post'];
+            el.content().html(html.render_post(post));
+            el.content().append(html.render_comments(post['comments']));
+
+            html.hideLoader();
+
+
+        });
     }
 };
+
+
+function menu_show_more() {
+    html.setWidget('menu-all');
+}

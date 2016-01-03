@@ -1,4 +1,7 @@
-debug.start();
+debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
+
+
+
 _.templateSettings = {
     interpolate: /\{\{(.+?)\}\}/g
 };
@@ -6,26 +9,39 @@ _.templateSettings = {
 $(function(){
 
 
-    var url = 'http://192.168.137.1/'; // ICS 로 앱에서 테스트
+    //var url = 'http://work.philgo.org/'; // ICS 로 앱에서 테스트
+    var url = 'http://philgo.org/'; // ICS 로 앱에서 테스트
 
-    if ( document.domain ) { // 데스크톱이면 자동으로 데스크톱 URL 을 지정한다.
-        var domain = document.domain;
-        if ( domain.indexOf('localhost') != -1 ) url = 'http://philgo.org/';
-        else if ( domain.indexOf('work') != -1 ) url = 'http://philgo.org/';
+    url = db.get('url_server');
+    if ( url ) {
+
     }
+    else {
+        if ( app.fileProtocol() ) {
 
+        }
+        else {
+            if ( document.domain ) { // 데스크톱이면 자동으로 데스크톱 URL 을 지정한다.
+                var domain = document.domain;
+                if ( domain.indexOf('localhost') != -1 ) url = 'http://philgo.org/';
+                else if ( domain.indexOf('work.org') != -1 ) url = 'http://philgo.org/';
+            }
+        }
+
+    }
 
     app.setServerURL(url);
 
     add_css(app.getServerCSSURL());
     add_javascript(app.getServerJavascriptURL());
+    add_javascript(app.getHookJavascriptURL ());
 
     // @doc How to use onDeviceRead
     app.addEventDeviceReady(
         function callback_onDeviceReady() {
-            trace('go to ...');
-            console.log(app.model());
-            console.log(app.platform());
+            //trace('go to ...');
+            //trace(app.model());
+            //trace(app.platform());
             //alert( app.platform() );
         }
     );
@@ -40,12 +56,13 @@ $(function(){
 
 
     html.setHeader();
-    html.setFooter();
-    cache.showFront();
-
 
     member.load();
-    //console.log(member.idx);
+
+    //trace(member.idx);
+
+
+    cache.showFront();
 
     if ( app.offline() ) {
         note.post('인터넷을 연결 해 주십시오. Connect to Internet.', 'alert alert-warning');
@@ -54,6 +71,8 @@ $(function(){
 	else{
 		$("header > .top").css("background-color","#bb2718");//added by benjamin for header color
 	}
+
+
 
     //db.deleteAll(); // test.
     //initApp();
@@ -93,17 +112,23 @@ $(function(){
 
     app.init();
     app.initEvent();
-    console.log(member);
+    //trace(member);
     check_update_version();
 
+
+    html.setFooter(); // 회원 로그인 정보가 필요하므로 init 다음에 이 메소드가 호출되어야 한다.
+
     /** panel 은 미리 세팅되지 않으므로 아래와 같이 먼저 세팅을 해 주어야 한다. */
-    // setTimeout(function(){ html.setPanel(); $('[page-button="register"]').click(); }, 700); // test : login page
-
-
+    /*
+    setTimeout(function(){
+        html.setPanel();
+        $('[page-button="register"]').click();
+    }, 700); // test : login page
+*/
     /**
      * 쪽지 열기
      */
-    /*
+/*
     setTimeout(function(){
         html.setPanel();
         $('.message-button').click();
@@ -112,12 +137,46 @@ $(function(){
 //            message.show_message_send_form('thruthesky');
   //      }, 200);
     },700);
+*/
+
+    // 특정인에게 쪽지 쓰기
+    /*
+    setTimeout(function(){
+        message.show_message_send_form('admin');
+    },
+    500);
     */
 
 
+    // 전체 메뉴 열기
+    /*
+    setTimeout(function(){
+        $('[widget="menu-all"]').click();
+    }, 100);
+*/
+
+    // 전체 메뉴 열고 => 과일 페이지 열기
+    /*
+    setTimeout(function(){
+        $('[widget="menu-all"]').click();
+        setTimeout(function(){
+            $('[widget="fruit"]').click();
+        }, 100);
+    }, 100);
+*/
 
 
 
 
+    //setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
+    //setTimeout(function(){ $('[page-button="news"]').click(); }, 200); // test : qna page
+//    setTimeout(function(){ $('[page-button="info"]').click(); }, 200); // test : qna page
+    setTimeout(function(){ $('[page-button="company"]').click(); }, 200); // test : qna page
 
+    /*
+    html.showLoader();
+    setTimeout(function(){
+        html.hideLoader();
+    },1000);
+    */
 });

@@ -1,0 +1,11 @@
+.note {
+    z-index: 2000;
+    margin:0 10%;
+    background-color: #a2b7e6;
+    color:white;
+}
+
+.note .row {
+    margin:0;
+    padding:1em 1em;
+}
