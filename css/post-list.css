@@ -47,7 +47,8 @@
 
 /*content*/
 .post .content{
-    font-size:.9em;
+    font-size:1em;
+	word-break: break-all;
 }
 
 .post .photos {
@@ -163,17 +164,23 @@
 
 
 /*post*/
-.post{
+.post {
 	position:relative;
 	padding:10px 0 0 0;
 	margin:0 0 10px 0;
 	background-color:#fff;	
 }
 
-.post > .post-info, .post > .post-menu-philzine-bottom, .post > .content,  .post > .subject{
+.post > .post-info,
+.post > .post-menu-philzine-bottom,
+.post > .content,
+.post > .subject {
 	padding:0 10px 10px 10px;
 }
 
+.post .subject {
+    font-weight:bold;
+}
 .post .profile-image{
 	width:50px;
 	max-width:initial;

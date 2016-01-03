@@ -11,14 +11,6 @@ body.modal {
     overflow-y: hidden;
 }
 
-.note {
-    z-index: 2000;
-    margin:0 10% 1em;
-    padding:1em 1em 0;
-    background-color: #a2b7e6;
-    color:white;
-}
-
 
 .endless-list {
     padding:0.6em 0.6em 20em;

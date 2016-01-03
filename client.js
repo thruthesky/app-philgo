@@ -1,4 +1,4 @@
-//debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
+debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
 
 
 
@@ -13,15 +13,21 @@ $(function(){
     var url = 'http://philgo.org/'; // ICS 로 앱에서 테스트
 
     url = db.get('url_server');
-    if ( app.fileProtocol() ) {
+    if ( url ) {
 
     }
     else {
-        if ( document.domain ) { // 데스크톱이면 자동으로 데스크톱 URL 을 지정한다.
-            var domain = document.domain;
-            if ( domain.indexOf('localhost') != -1 ) url = 'http://philgo.org/';
-            else if ( domain.indexOf('work.org') != -1 ) url = 'http://philgo.org/';
+        if ( app.fileProtocol() ) {
+
         }
+        else {
+            if ( document.domain ) { // 데스크톱이면 자동으로 데스크톱 URL 을 지정한다.
+                var domain = document.domain;
+                if ( domain.indexOf('localhost') != -1 ) url = 'http://philgo.org/';
+                else if ( domain.indexOf('work.org') != -1 ) url = 'http://philgo.org/';
+            }
+        }
+
     }
 
     app.setServerURL(url);
@@ -33,9 +39,9 @@ $(function(){
     // @doc How to use onDeviceRead
     app.addEventDeviceReady(
         function callback_onDeviceReady() {
-            trace('go to ...');
-            trace(app.model());
-            trace(app.platform());
+            //trace('go to ...');
+            //trace(app.model());
+            //trace(app.platform());
             //alert( app.platform() );
         }
     );
@@ -106,7 +112,7 @@ $(function(){
 
     app.init();
     app.initEvent();
-    trace(member);
+    //trace(member);
     check_update_version();
 
 
@@ -161,8 +167,16 @@ $(function(){
 
 
 
+
     //setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
+    //setTimeout(function(){ $('[page-button="news"]').click(); }, 200); // test : qna page
+//    setTimeout(function(){ $('[page-button="info"]').click(); }, 200); // test : qna page
+    setTimeout(function(){ $('[page-button="company"]').click(); }, 200); // test : qna page
 
-
-
+    /*
+    html.showLoader();
+    setTimeout(function(){
+        html.hideLoader();
+    },1000);
+    */
 });

@@ -35,7 +35,7 @@ var post = {
         if ( el.post_list().length == 0 ) el.content().append('<div class="post-list"></div>');
     },
     endless_update : function (re) {
-        //trace(re);
+        //console.log(re);
         post.add_endless_container();
         var $page_button = el.page_button(re['page']);
 
@@ -50,6 +50,17 @@ var post = {
         }
         */
 
+        post.display_posts(re);
+    },
+    /**
+     * 게시판 글을 로드해서 화면에 표시한다.
+     * 특히, endless load 를 한 다음에 데이터를 표시한다.
+     * @attention 페이지를 보여 줄지 말지를 이 메소드를 호출하기 전에 결정해야 한다.
+     *  예를 들어, 메뉴를 연속으로 막 클릭 할 때, 맨 마지막 메뉴의 게시판 글만 표시하려 할 때
+     *  그러한 옵션 처리는 이 함수를 호출하기 전에 해야 한다.
+     * @param re
+     */
+    display_posts : function ( re ) {
         if (_.isEmpty(re['posts']) ) {
             endless_show_no_more_content('<h1>No more content</h1>');
         }

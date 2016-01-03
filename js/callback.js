@@ -6,7 +6,7 @@ var callback = {
         app.setTitle(title);
         app.setCurrentPage(page_name);
         var post_id = $this.attr('post-id');
-        //trace('on_click_page() : ' + page);
+        // trace('on_click_page() : ' + page_name);
         if ( app.offline() && $this.hasClass('check-internet') ) {
             alert(page_name + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.");
             return;
@@ -137,7 +137,7 @@ var callback = {
     edit_form_submit : function (e) {
         e.preventDefault();
         ajax_load_post(app.getServerURL(), $(this).serialize(), function(re){
-            trace(re);
+            //trace(re);
             var idx = re['idx'];
             var $edit = el.post_edit(idx);
             var $form = $(".post-edit-form[idx='"+idx+"']");
@@ -148,10 +148,10 @@ var callback = {
             $edit.find('.photos img').each(function(index){
                 photos = photos + '' + this.outerHTML;//added by benjamin, removed space ( ' ' => '' )  so no need to float left for the extra space when using inline block
             });
-            trace(photos);
+            //trace(photos);
             photos = html.photos(idx, photos); // .photos must exist
 
-            trace(photos);
+            //trace(photos);
 
             $edit.remove();
 
@@ -188,7 +188,7 @@ var callback = {
 				html.removeUploadLoader( $form.find(".photos"), null );//added by benjamin
             },
             complete: function (xhr) {
-                trace("File upload completed thru jquery.form.js");
+                //trace("File upload completed thru jquery.form.js");
                 var re;
                 try {
                     re = JSON.parse(xhr.responseText);
@@ -199,7 +199,7 @@ var callback = {
                     return alert("에러: 파일 업로드에 실패하였습니다.");
                     //return alert(s.stripTags(xhr.responseText));
                 }
-                trace(re);
+                //trace(re);
                 if ( re['code'] ) {
                     return alert(re['message']);
                 }
@@ -237,15 +237,15 @@ var callback = {
 
 
         function onCameraError(e) {
-            alert('onCameraError');
-            alert(JSON.stringify(e));
+            //alert('onCameraError');
+            alert('카메라 동작 실패: ' + JSON.stringify(e));
         }
         function onFileTransferSuccess(data) {
             //alert('onFileTransferSuccess');
             //alert(JSON.stringify(data));
-            trace("Code = " + data.responseCode);
-            trace("Response = " + data.response);
-            trace("Sent = " + data.bytesSent);
+            //trace("Code = " + data.responseCode);
+            //trace("Response = " + data.response);
+            //trace("Sent = " + data.bytesSent);
             if ( app.isMobile() ) {
                 navigator.camera.cleanup();
             }
@@ -287,16 +287,16 @@ var callback = {
                 if ( typeof idx_parent == 'undefined' ) idx_parent = 0;
                 options['idx_parent'] = idx_parent;
             }
-            trace(options);
+            //trace(options);
             var ft = new FileTransfer();
             var url = app.getServerURL();
-            trace(url);
+            //trace(url);
             ft.upload(fileURI, encodeURI(url), onFileTransferSuccess, onFileTransferFail, options);
         }
         function onCameraConfirm(no) {
             var type = Camera.PictureSourceType.PHOTOLIBRARY; // default
             if ( app.isBrowser() ) { // @Attention This is only for test purpose.
-                trace('TEST : for cordova broswer platform : mocking file transfer');
+                //trace('TEST : for cordova broswer platform : mocking file transfer');
             }
             else {
                 if ( no == 1 ) {
@@ -334,7 +334,7 @@ var callback = {
                 var gid = $form.find('[name="gid"]').val();
                 var url = app.getServerURL() + '?module=ajax&action=data_delete_submit&gid='+gid + "&idx="+idx;
                 ajax_load(url, function(re){
-                    trace(re);
+                    //trace(re);
                     var data = re['data'];
                     if ( data['code'] ) return alert(data['message']);
                     $photo.remove();
@@ -358,7 +358,7 @@ var callback = {
                 var idx = $post.attr('idx');
                 var url = app.getServerURL() + '?module=ajax&action=post_delete_submit&idx=' + idx;
                 ajax_load(url, function(re){
-                    trace(re);
+                    //trace(re);
                     $post.html(lang('deleted'));
                 });
             }
@@ -370,7 +370,7 @@ var callback = {
         var idx = $post.attr('idx');
         var url = app.getServerURL() + '?module=ajax&action=post_vote_submit&idx=' + idx;
         ajax_load(url, function(re){
-            trace(re);
+            //trace(re);
             $this.find('.no').text(re['good']);
         });
     },
@@ -380,7 +380,7 @@ var callback = {
         var idx = $post.attr('idx');
         var url = app.getServerURL() + '?module=ajax&action=post_report_submit&idx=' + idx;
         ajax_load(url, function(re){
-            trace(re);
+            //trace(re);
             alert("글 신고가 되었습니다.");
         });
     },
@@ -461,18 +461,22 @@ var callback = {
         return false;
     },
     on_click_post_view : function () {
+        html.showLoader();
         var $this = $(this);
         var idx = $this.attr('post-view');
-
         ajax_load(app.getServerURL() + '?module=ajax&action=post_view_submit&idx='+idx, function(re){
 
             app.setCurrentPage('post-view');
             var site = re['site'];
 
-            note.post(site + ' 사이트의 글이 추가되었습니다.');
+            //note.post(site + ' 사이트의 글이 추가되었습니다.');
             var post = re['post'];
             el.content().html(html.render_post(post));
             el.content().append(html.render_comments(post['comments']));
+
+            html.hideLoader();
+
+
         });
     }
 };

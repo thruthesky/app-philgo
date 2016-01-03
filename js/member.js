@@ -75,7 +75,7 @@ var member = {
         member.unset();
     },
     primary_photo : function () {
-        console.log(member);
+        //console.log(member);
         var idx =  member.idx_photo;
         if ( idx ) {
             var url = app.getDataURL(idx);

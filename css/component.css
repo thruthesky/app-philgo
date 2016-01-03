@@ -359,69 +359,6 @@
 
 
 
-/*login*/
-.form-wrapper{	
-	padding:5% 7% 3% 7%;
-	margin:50px 10% 0 10%;
-	text-align:center;
-}
-
-.member-login-form label{
-	display:none;
-}
-
-.member-login-form .input-group{
-	margin-bottom:2px;
-}
-
-.member-login-form .input-group .glyphicon{
-	top:0;
-}
-
-.member-login-form .input-group input{
-	border-right:0;
-	background-color:#fff;
-}
-
-.member-login-form .input-group.username input{
-	border-bottom-left-radius:0;
-}
-
-.member-login-form .input-group.username .input-group-addon{
-	border-bottom-right-radius:0;
-}
-
-.member-login-form .input-group.password input{
-	border-top-left-radius:0;
-}
-
-.member-login-form .input-group.password .input-group-addon{
-	border-top-right-radius:0;
-}
-
-.member-login-form .input-group .input-group-addon{
-	background-color:#fff;
-}
-
-.member-login-form [type='submit']{
-	width:100%;
-	padding:10px 10px;
-	font-weight:bold;
-	margin:30px 0 10px 0;
-}
-
-.forgot-password{
-	color:#e74c3c;
-	font-size:.8em;
-}
-
-@media (min-width: 48em) { 
-	.form-wrapper{	
-		margin:50px 20% 0 20%;
-	}
-}
-/*eo login*/
-
 /*register*/
 .form-wrapper{	
 	padding:0 0 3% 0%;

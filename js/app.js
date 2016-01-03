@@ -37,7 +37,7 @@ var app = {
         return url;
     },
     getHookJavascriptURL : function () {
-        return this.getServerURL() + 'module/ajax/hook-js.php?time=' + new Date().getTime();
+        return this.getServerURL() + 'module/ajax/hook.js?time=' + new Date().getTime();
     },
     url_server_widget : function () {
         return this.getServerURL() + '?module=ajax&action=widget&submit=1&name=';
@@ -186,6 +186,16 @@ var app = {
 
         //
         on_click('[post-view]', callback.on_click_post_view);
+
+        on_click('[open-post-id]', function(){
+            var id = $(this).attr('open-post-id');
+            html.setContent('');
+            app.setCurrentForum(id);
+            endless_reset(app.url_server_forum() + id, function(re) {
+                post.add_endless_container();
+                post.display_posts(re);
+            });
+        });
     },
     setCurrentForum : function (post_id) {
         element.post_button().attr('post-id', post_id);

@@ -60,7 +60,7 @@ var html = {
         m += '<div class="btn-group btn-group-justified main-menu">';
         m += '  <span class="btn" page-button="news" post-id="news" title="필리핀 뉴스">뉴스</span>';
         m += '  <span class="btn" page-button="info" post-id="qna" title="필리핀정보">정보</span>';
-        m += '  <span class="btn" page-button="company" post-id="company_book" title="필리핀업소록">업소록</span>';
+        m += '  <span class="btn" page-button="company" post-id="" title="필리핀업소록">업소록</span>';
         m += '  <span class="btn" page-button="travel" post-id="travel" title="필리핀여행">여행</span>';
         m += '  <span class="btn" page-button="qna" post-id="qna" title="질문과답변">질문</span></span>';
         m += '  <span class="btn" page-button="freetalk" post-id="freetalk,knowhow" title="커뮤니티">토론</span></span>';
@@ -276,7 +276,7 @@ var html = {
         //trace('creating DOM');
         var m = '';
 
-        trace( p );
+        //trace( p );
 
 
         var date_full = etc.date_full(p['stamp']);
@@ -538,7 +538,7 @@ var html = {
         }
     },
     update_primary_photo : function ( data ) {
-        trace(data);
+        //trace(data);
         el.primary_photo().prop('src', data.url);
         member.update_photo_idx(data.idx);
     },
@@ -583,7 +583,7 @@ var html = {
         }
 
         ajax_load('widget/'+widget_name+'.html', function(markup){
-            trace(markup);
+            //trace(markup);
             if ( markup ) {
                 var re = {
                     html: markup,
@@ -592,7 +592,7 @@ var html = {
                 };
                 save_page( widget_name, re );
                 html.setContent(re.html, widget_name);
-                note.post('html.setWidget() : ' + name + ' 페이지를 로드하였습니다.');
+                //note.post('html.setWidget() : ' + name + ' 페이지를 로드하였습니다.');
                 app.setCurrentForum('');
             }
         }, true);
@@ -601,6 +601,26 @@ var html = {
         var stamp = parseInt(db.get(widget_name + '.stamp')) / 1000;
         var date = etc.date_full(stamp);
         html.setContent( data + '<div class="cache-mark">cached at : '+date+'</div>', widget_name );
+    },
+
+    /**
+     * 전체 화면에 로더를 표시한다.
+     */
+    showLoader : function () {
+        $('<div id="post-loader"><i class="fa fa-spinner fa-spin"></i></div>').appendTo('body')
+            .css({
+                position: 'fixed',
+                'z-index': 99999,
+                'background-color' : 'rgba(200,200,200,0.5)',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                'padding-top' : '40%',
+                'text-align':'center',
+                'color' : 'white',
+                'font-size' : '3.4em'
+            });
     },
     /**
      * loader 는 1번 부터 14번 까지 있는데, 몇번의 loader 를 어느 위치에 표시 할 것인지 지정한다.
@@ -626,8 +646,14 @@ var html = {
         return $('.gif-loader');
     },
     hideLoader : function () {
-        $('.gif-loader').remove();
-    },
+        setTimeout(function(){
+
+            var $ajax_loader = $('.gif-loader');
+            if ( $ajax_loader.length ) $ajax_loader.remove();
+            var $post_loader = $('#post-loader');
+            if ( $post_loader.length ) $post_loader.remove();
+
+        },200);},
 	//added by benjamin modal window
 	modalWindow : function(){
 		m = '<div class="modalWindow"></div>';

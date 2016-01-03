@@ -31,7 +31,7 @@ footer {
 
 section.widget.content {
 	min-height:100%;
-    padding-top:105px;
+    padding-top:118px;
     padding-bottom:75px;
 	box-sizing:border-box;
 }
@@ -44,5 +44,5 @@ section.widget.content {
 
 .note {
     position:fixed;
-    top:106px;
+    top:100px;
 }

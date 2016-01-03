@@ -12,7 +12,7 @@
  */
 function ajax_load(url, callback, option) {
 
-    console.log(option);
+//    console.log(option);
 
     if ( url.indexOf('?') == -1 ) url += '?';
     else url += '&';
@@ -34,7 +34,8 @@ function ajax_load(url, callback, option) {
                 re = $.parseJSON(data);
             }
             catch ( e ) {
-                note.post("Ajax_load() : caught an error : " + e.message);
+                note.post("접속 에러 : " + e.message);
+                html.hideLoader();
                 console.log(data);
                 return;
             }
@@ -51,9 +52,11 @@ function ajax_load(url, callback, option) {
             callback(re);
         },
         error: function(xhr, type) {
-            return note.post("Ajax load error : " + type);
-            trace(type);
-            trace(xhr);
+
+            note.post("접속에러 : " + type);
+            html.hideLoader();
+            //trace(type);
+            //trace(xhr);
         }
     });
 }
@@ -65,7 +68,7 @@ function ajax_load(url, callback, option) {
  * @param error_callback
  */
 function ajax_load_post(url, data, success_callback, error_callback) {
-    trace(debug.url(url, data));
+    //trace(debug.url(url, data));
     $.ajax({
         url: url,
         type: 'POST',
@@ -77,20 +80,20 @@ function ajax_load_post(url, data, success_callback, error_callback) {
                 re = $.parseJSON(data);
             }
             catch ( e ) {
-                trace(e);
-                return note.post("Ajax_load_post() : caught an error : " + e.message);
+                //trace(e);
+                return note.post("접속 에러 2 : caught an error : " + e.message);
             }
             if ( re['code'] ) {
-                trace(re);
+                //trace(re);
                 if ( typeof error_callback == 'function' ) error_callback(re);
                 alert(re['message']);
             }
             else success_callback(re);
         },
         error: function(xhr, type){
-            return note.post("Ajax load error : " + type);
-            trace(type);
-            trace(xhr);
+            return note.post("접속 에러 : " + type);
+            //trace(type);
+            //trace(xhr);
         }
     });
 }

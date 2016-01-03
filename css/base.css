@@ -1,7 +1,6 @@
 body {
     font-size:12pt;
-    font-family: 'Malgun Gothic', '맑은고딕', 'GulimChe', '굴림체', serif!important;
-	background-color:#ecf0f5!important;
+    background-color:#ecf0f5!important;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -10,3 +9,6 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
 }
 
+body, td {
+    font-family: 'Malgun Gothic', '맑은고딕', 'GulimChe', '굴림체', serif!important;
+}
