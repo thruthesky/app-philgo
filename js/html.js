@@ -74,17 +74,17 @@ var html = {
 
 
         if ( member.login() ) {
-            m += '  <span class="btn" page-button="register"><span class="glyphicon glyphicon-user"></span>Profile</span>';
-            m += '  <span class="btn message-button"><span class="glyphicon glyphicon-envelope"></span>Message</span>';
+            m += '  <span class="btn" page-button="register"><span class="glyphicon glyphicon-user"></span>나의정보</span>';
+            m += '  <span class="btn message-button"><span class="glyphicon glyphicon-envelope"></span>쪽지</span>';
         }
         else {
-            m += '  <span class="btn"  page-button="login"><span class="glyphicon glyphicon-lock"></span>Login</span>';
-            m += '  <span class="btn"  page-button="register"><span class="glyphicon glyphicon-user"></span>Register</span>';
+            m += '  <span class="btn"  page-button="login"><span class="glyphicon glyphicon-lock"></span>로그인</span>';
+            m += '  <span class="btn"  page-button="register"><span class="glyphicon glyphicon-user"></span>회원가입</span>';
         }
 
         //m += '  <span class="btn"  page-button="search"><span class="glyphicon glyphicon-search"></span>Search</span>';
-        m += '  <span class="btn post-button" post-id=""><span class="glyphicon glyphicon-pencil"></span>Post</span>';
-        m += '  <span class="btn setting-button"><span class="glyphicon glyphicon-wrench"></span>Setting</span></span>';
+        m += '  <span class="btn post-button" post-id=""><span class="glyphicon glyphicon-pencil"></span>글쓰기</span>';
+        m += '  <span class="btn setting-button"><span class="glyphicon glyphicon-wrench"></span>설정</span></span>';
         m += '</div>';
         return m;
     },
@@ -146,6 +146,7 @@ var html = {
 
         return str;
     },
+
     post_write_form : function (post_id) {
         var gid = etc.unique_id(member.idx + post_id);
         var forums = {
@@ -186,7 +187,7 @@ var html = {
         m += "      </select>";
 		m += "		<span class='caret'></span>";
         m += "</div>";
-        m += "<div class='submit col-xs-4'><input type='submit' value='Post'></div>";
+        m += "<div class='submit col-xs-4'><input type='submit' value='글쓰기'></div>";
 		m += "</div>";
         m += "</form>";
         return m;
@@ -220,13 +221,13 @@ var html = {
         m += '          <td width="48">' + member.primary_photo() + '</td>';
 		m += '          <td width="99%"><textarea name="content"></textarea></td>';
         m += '          <td class="comment-file-upload-button">' + this.filebox() + '</td>';
-		m += '          <td class="submit-button"><input type="submit" value="Post"></td>';
+		m += '          <td class="submit-button"><input type="submit" value="글쓰기"></td>';
         m += '      </tr>';
         m += '  </table>';
 
         m += '  <div class="alt-buttons" style="display:none;">';
         m += '   ' + this.filebox() + '';
-        m += '   <input type="submit" value="Post">';
+        m += '   <input type="submit" value="글쓰기">';
         m += '  </div>';
 
         m += '<div class="photos"></div>';
@@ -512,8 +513,9 @@ var html = {
             m += 	'<input name="password"  type="password" class="form-control" placeholder="Enter password">';
             m += 	'<span class="input-group-addon glyphicon glyphicon-lock"></span>';
             m += 	'</div>';
-            m += 	'<input type="submit" class="btn btn-primary" value="Login">';
-            m += 	'<a class="forgot-password" href="#">Forgot Password?</a>';
+            m += 	'<input type="submit" class="btn btn-primary" value="로그인">';
+            m += 	'<a class="forgot-password" href="https://www.philgo.com/?module=member&action=find_id_password" target="_blank">비밀번호 찾기 ...</a>';
+            m +=    '<div class="register" page-button="register">회원가입 ...</div>';
             m += 	'</form>';
             m += 	'</div>';
         }

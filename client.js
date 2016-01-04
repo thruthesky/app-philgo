@@ -27,7 +27,6 @@ $(function(){
                 else if ( domain.indexOf('work.org') != -1 ) url = 'http://philgo.org/';
             }
         }
-
     }
 
     app.setServerURL(url);
@@ -171,7 +170,25 @@ $(function(){
     //setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
     //setTimeout(function(){ $('[page-button="news"]').click(); }, 200); // test : qna page
 //    setTimeout(function(){ $('[page-button="info"]').click(); }, 200); // test : qna page
-    setTimeout(function(){ $('[page-button="company"]').click(); }, 200); // test : qna page
+    //setTimeout(function(){ $('[page-button="company"]').click(); }, 500); // test : qna page
+
+    /**
+     * 페이지를 선택하고 그 안의 객체를 선택한다.
+     *
+     * @param selector
+     * @param sub_selector
+     * @code
+     *      page_click('[page-button="qna"]');
+     *      page_click('[widget="menu-all"]', '[tab="query"]'); // 처음 selector 를 클릭하고 나서 두번째 selector 를 클릭한다.
+     * @endcode
+     */
+    function page_click(selector, sub_selector) {
+        setTimeout(function(){ $(selector).click(); }, 400);
+        if ( sub_selector ) setTimeout(function(){ $(sub_selector).click(); }, 800);
+    }
+//    page_click('[widget="menu-all"]', '[tab="query"]'); // 처음 selector 를 클릭하고 나서 두번째 selector 를 클릭한다.
+
+
 
     /*
     html.showLoader();

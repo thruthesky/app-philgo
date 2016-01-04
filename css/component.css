@@ -462,6 +462,12 @@
 	font-size:.8em;
 }
 
+.login .register {
+	margin-top:1em;
+	color: #4e4de7;
+	font-size:.8em;
+}
+
 @media (min-width: 48em) { 
 	.form-wrapper{	
 		margin:28px 20% 0 20%;

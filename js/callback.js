@@ -108,6 +108,15 @@ var callback = {
         var $submit = $this.find('.submit');
         html.showLoaderOn(14, $submit);
         ajax_load_post(app.getServerURL(), $this.serialize(), function(re){
+
+
+            /**
+             * @doc 각 게시판 별 callback 을 따로 만들어 처리 할 수 있다.
+             * @type {string}
+             */
+            var func = 'callback_' + re['post_id'];
+            if ( typeof window[func] == 'function' ) return window[func](re);
+
             element.post_write_form().remove();
             element.content().prepend(html.render_post(re.post));
             html.hideLoader();
