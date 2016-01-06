@@ -483,7 +483,7 @@ var callback = {
             //note.post(site + ' 사이트의 글이 추가되었습니다.');
             var post = re['post'];
             el.content().html(html.render_post(post));
-            el.content().append(html.render_comments(post['comments']));
+            el.content().append(html.render_comments(post['comments'], post));
 
             html.hideLoader();
 

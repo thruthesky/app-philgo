@@ -29,6 +29,7 @@ $(function(){
         }
     }
 
+    //url = 'http://www.philgo.com/';
     app.setServerURL(url);
 
     add_css(app.getServerCSSURL());
@@ -188,4 +189,10 @@ $(function(){
     }, 500);
     */
 
+    // 글 읽기
+/*
+    setTimeout(function() {
+        $("[post-view='1271135669']").click();
+    }, 800);
+    */
 });

@@ -1,3 +1,8 @@
+/** overriding bootstrap */
+.post .media {
+    margin-top:0;
+}
+
 .post-comment-form [name='content'] {
     width: 180px;
     height:26px;
@@ -9,9 +14,9 @@
     background-color:#e7e7e7;
 }
 
-.post[depth='1'] { margin-left:30px; background-color:#b9b9b9;}
-.post[depth='2'] { margin-left:50px; background-color:#c9c9c9;}
-.post[depth='3'] { margin-left:65px; background-color:#d9d9d9;}
+.post[depth='1'] { margin-left:30px; background-color:rgba(219, 229, 243, 0.76);}
+.post[depth='2'] { margin-left:50px; background-color:#DBE9F0;}
+.post[depth='3'] { margin-left:65px; background-color:#F6F6F9;}
 .post[depth='4'] { margin-left:75px; }
 .post[depth='5'] { margin-left:85px; }
 .post[depth='6'] { margin-left:95px; }
@@ -171,10 +176,11 @@
 	background-color:#fff;	
 }
 
-.post > .post-info,
-.post > .post-menu-philzine-bottom,
-.post > .content,
-.post > .subject {
+
+.root-post > .post-info,
+.root-post > .post-menu-philzine-bottom,
+.root-post > .content,
+.root-post > .subject {
 	padding:0 10px 10px 10px;
 }
 
@@ -187,10 +193,11 @@
 }
 
 /*post info*/
+/*
 .post .post-info{
 	margin:0 0 10px 0;
 }
-
+*/
 .post .post-info .name{
 	font-size:.9em;
 	font-weight:bold;
@@ -284,7 +291,7 @@
 	position:relative;
 	padding:10px 0 0 0;
 	margin:0 0 0 0;
-	background-color:#fff!important;/*temp for override*/
+/*	background-color:#fff!important;/*temp for override*/
 }
 /*
 .comment .post-info, .comment > .post-menu-philzine-bottom {
@@ -299,10 +306,11 @@
 }
 
 /*post info*/
+/*
 .comment .post-info{
 	margin:0 0 10px 0;
 }
-
+*/
 .comment .post-info .name{
 	font-size:.8em;
 	font-weight:bold;
@@ -327,10 +335,11 @@
 /*eo post info*/
 
 /*content*/
+/*
 .comment .content{
 	font-size:.9em;
 }
-
+*/
 .comment .content .files {
 	font-size:.9em;
 }
@@ -656,10 +665,12 @@
 .file.desktop input[type='file']{
 	width:48px;
 	height:48px;
+    font-size:4em;
 	opacity:0.02;
+    overflow:hidden;
 }
 
-.file .glyphicon{
+.file .glyphicon {
 	position: absolute;
 	top:0;
 	left:0;
@@ -672,6 +683,17 @@
 	font-size: 1.5em;
 	color: #fff;
 	text-align: center;
+}
+
+.post-edit-form  .file .glyphicon {
+    width:100%;
+    height:35px;
+    padding:5px 0;
+}
+
+
+.post-edit-form  .glyphicon {
+    top:0;
 }
 
 .post-write-form .file.desktop input[type='file']{
@@ -762,3 +784,11 @@
 }
 /*eo edit*/
 /*eo photos*/
+
+.show-more-comment {
+	padding:.4em .6em;
+    border: 1px solid #d0d0d0;
+	background-color:white;
+	font-size:.9em;
+	color: #1c7ea0;
+}

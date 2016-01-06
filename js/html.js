@@ -286,7 +286,6 @@ var html = {
         var date_full = etc.date_full(p['stamp']);
         var date = etc.date_short(p['stamp']);
 
-
         m += '<div class="btn-group post-menu-philzine-top" role="group">';
         if( !post.mine(p) ) {
             m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
@@ -313,6 +312,8 @@ var html = {
         m += '  </div>';
         m += '</div>';
 
+        m += post.bannerSelector();
+
         if ( !_.isEmpty(p['subject']) ) {
             //m += '<h3 class="subject">' + p['subject'] + '</h3>';
         }
@@ -333,23 +334,28 @@ var html = {
 
         m += this.comment_write_form(p);
 
-        m = '<div class="post" idx="'+p['idx']+'" gid="'+p['gid']+'">' + m + '</div>';
+        m = '<div class="post root-post" idx="'+p['idx']+'" gid="'+p['gid']+'">' + m + '</div>';
 
         //trace(m);
         return m;
     },
-    render_comments : function (comments) {
+    render_comments : function (comments, post) {
         var m = '';
         if ( comments ) {
+            var length = comments.length;
+            if ( length > 5 ) {
+                var no = length - 5;
+                m += '<div class="show-more-comment" idx-root="'+post['idx']+'"><i class="fa fa-commenting-o"></i> '+ no +'개의 코멘트가 더 있습니다. 더보기...</div>';
+            }
             for( var j in comments ) {
                 if ( comments.hasOwnProperty(j) ) {
-                    m += html.render_comment(comments[j]);
+                    m += html.render_comment(comments[j], length - j);
                 }
             }
         }
         return m;
     },
-    render_comment : function (comment) {
+    render_comment : function (comment, reverse_index) {
 		var m = '';
 
 		var date_full = etc.date_full(comment['stamp']);
@@ -360,8 +366,19 @@ var html = {
 		if( comment['good'] > 0 ) likes = comment['good'];
 		else likes = '';
 
-
-		m += '<div class="post comment clearfix" post-id="'+comment['post_id']+'" idx="'+comment['idx']+'" gid="'+comment['gid']+'" depth="'+comment['depth']+'" idx-parent="'+comment['idx_parent']+'">';
+		m += '<div ';
+        if ( reverse_index > 5 ) {
+            m += 'style="display:none;"';
+        }
+        m += 'rindex="'+reverse_index+'" ' +
+            'class="post comment clearfix" ' +
+            'post-id="'+comment['post_id']+'" ' +
+            'idx="'+comment['idx']+'" ' +
+            'gid="'+comment['gid']+'" ' +
+            'idx-parent="'+comment['idx_parent'] + '" ' +
+            'idx-root="'+comment['idx_root'] + '" ' +
+            'depth="'+comment['depth']+'" ' +
+            '">';
 
 		m += '<div class="btn-group post-menu-philzine-top" role="group">';
 		

@@ -11,7 +11,10 @@ body.modal {
     overflow-y: hidden;
 }
 
-
+/** overriding bootstrap P tag style */
+p {
+    margin: 4px 0;
+}
 .endless-list {
     padding:0.6em 0.6em 20em;
     background-color: #efefef;
