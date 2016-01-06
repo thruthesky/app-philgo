@@ -38,6 +38,7 @@ var html = {
         }
         */
 
+        goTop();
         element.content().html(html);
     },
     header : function() {		
@@ -221,7 +222,7 @@ var html = {
         m += '          <td width="48">' + member.primary_photo() + '</td>';
 		m += '          <td width="99%"><textarea name="content"></textarea></td>';
         m += '          <td class="comment-file-upload-button">' + this.filebox() + '</td>';
-		m += '          <td class="submit-button"><input type="submit" value="글쓰기"></td>';
+		m += '          <td class="submit-button"><input type="submit" value="등록"></td>';
         m += '      </tr>';
         m += '  </table>';
 
@@ -240,16 +241,18 @@ var html = {
     },
     filebox : function () {
         var m;
-        if ( app.isDesktop() ) {
+        if ( app.isDesktop() || app.isBrowser() ) {
             m = '<div class="file desktop">';
 			m += '<span class="glyphicon glyphicon-camera"></span>';
 			m += '<input type="file" name="file" onchange="callback.on_change_file_upload(this);">';
 			m += '</div>';            
         }
+        /*
         else if ( app.isBrowser() ) {
             if ( debug.browser_camera_upload ) m = '  <div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span> File Upload</div>';
             else m = '  <div class="file"><input type="file" name="file" onchange="callback.on_change_file_upload(this);"></div>';
         }
+        */
         else {
             m = '<div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span></div>';
         }
@@ -319,7 +322,7 @@ var html = {
         if ( p['photos'] ) m += p['photos'];
         if( p['good'] > 0 ) likes = p['good'];
         else likes = '';
-        if( p['no_of_comment'] > 0 ) no_of_comment = p['no_of_comment'];
+        if ( p['no_of_comment'] > 0 ) no_of_comment = p['no_of_comment'];
         else no_of_comment = '';
 
         m += '<ul class="nav nav-pills post-menu-philzine-bottom">';
@@ -506,11 +509,11 @@ var html = {
             m = 	'<div class="form-wrapper">';
             m += 	'<form class="member-login-form login">';
             m += 	'<div class="input-group username">';
-            m += 	'<input name="id" type="text" class="form-control" placeholder="Enter username">';
+            m += 	'<input name="id" type="text" class="form-control" placeholder="아이디를 입력하세요.">';
             m += 	'<span class="input-group-addon glyphicon glyphicon-user"></span>';
             m += 	'</div>';
             m += 	'<div class="input-group password">';
-            m += 	'<input name="password"  type="password" class="form-control" placeholder="Enter password">';
+            m += 	'<input name="password"  type="password" class="form-control" placeholder="비밀번호를 입력하세요.">';
             m += 	'<span class="input-group-addon glyphicon glyphicon-lock"></span>';
             m += 	'</div>';
             m += 	'<input type="submit" class="btn btn-primary" value="로그인">';
@@ -534,7 +537,7 @@ var html = {
             m += '  <li class="list-group-item reset"><div>Reset</div></li>';
             m += '  <li class="list-group-item" onclick="app.refresh();">Refresh</li>';
             m += '  <li class="list-group-item"><div class="change-server-button">Change Server - {{url_server}}</div></li>';
-            m += '  <li class="list-group-item"><a href="http://work.jaeho.org/apps/philzine2/platforms/android/build/outputs/apk/android-debug.apk">Download Debugging APK</a></li>';
+            m += '  <li class="list-group-item"><a href="http://192.168.73.1/platforms/android/build/outputs/apk/android-debug.apk">Download Debugging APK</a></li>';
             m += '</ul>';
             return _.template(m)(app);
         }

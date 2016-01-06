@@ -475,6 +475,8 @@ var callback = {
         var idx = $this.attr('post-view');
         ajax_load(app.getServerURL() + '?module=ajax&action=post_view_submit&idx='+idx, function(re){
 
+            goTop();
+            el.content().html('');
             app.setCurrentPage('post-view');
             var site = re['site'];
 

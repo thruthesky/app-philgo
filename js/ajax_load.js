@@ -34,7 +34,7 @@ function ajax_load(url, callback, option) {
                 re = $.parseJSON(data);
             }
             catch ( e ) {
-                note.post("접속 에러 : " + e.message);
+                note.post("파싱 에러 ... ");
                 html.hideLoader();
                 console.log(data);
                 return;
@@ -53,7 +53,7 @@ function ajax_load(url, callback, option) {
         },
         error: function(xhr, type) {
 
-            note.post("접속에러 : " + type);
+            note.post("인터넷 접속 에러 : " + type);
             html.hideLoader();
             //trace(type);
             //trace(xhr);
