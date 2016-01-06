@@ -312,7 +312,7 @@ var html = {
         m += '  </div>';
         m += '</div>';
 
-        m += post.bannerSelector();
+        m += post.markup.bannerSelector();
 
         if ( !_.isEmpty(p['subject']) ) {
             //m += '<h3 class="subject">' + p['subject'] + '</h3>';
