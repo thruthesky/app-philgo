@@ -1,6 +1,8 @@
 .note {
     z-index: 2000;
     margin:0 10%;
+    left:0;
+    right:0;
     background-color: #a2b7e6;
     color:white;
 }

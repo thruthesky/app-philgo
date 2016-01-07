@@ -73,7 +73,7 @@ var post = {
             for ( var i in posts ) {
                 if (posts.hasOwnProperty(i)) {
                     element.post_list().append(html.render_post(posts[i]));
-                    element.post_list().append(html.render_comments(posts[i]['comments']));
+                    element.post_list().append(html.render_comments(posts[i]['comments'], posts[i]));
                 }
             }
         }
@@ -95,6 +95,9 @@ var post = {
             m += '      <li class="dropdown-item"><span class="glyphicon glyphicon-warning-sign"></span><span class="report-button">Report</span></li>';
             m += '  </ul>';
             return m;
+        },
+        bannerSelector : function() {
+            return '광고 배너 지정';
         }
     }
 };

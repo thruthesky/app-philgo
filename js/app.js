@@ -196,6 +196,14 @@ var app = {
                 post.display_posts(re);
             });
         });
+
+        on_click('.show-more-comment', function() {
+            var $this = $(this);
+            var root = $this.attr('idx-root');
+            $(".comment[idx-root='"+root+"']").show();
+
+            $this.hide();
+        });
     },
     setCurrentForum : function (post_id) {
         element.post_button().attr('post-id', post_id);

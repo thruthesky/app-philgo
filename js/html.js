@@ -38,6 +38,7 @@ var html = {
         }
         */
 
+        goTop();
         element.content().html(html);
     },
     header : function() {		
@@ -221,7 +222,7 @@ var html = {
         m += '          <td width="48">' + member.primary_photo() + '</td>';
 		m += '          <td width="99%"><textarea name="content"></textarea></td>';
         m += '          <td class="comment-file-upload-button">' + this.filebox() + '</td>';
-		m += '          <td class="submit-button"><input type="submit" value="글쓰기"></td>';
+		m += '          <td class="submit-button"><input type="submit" value="등록"></td>';
         m += '      </tr>';
         m += '  </table>';
 
@@ -240,16 +241,18 @@ var html = {
     },
     filebox : function () {
         var m;
-        if ( app.isDesktop() ) {
+        if ( app.isDesktop() || app.isBrowser() ) {
             m = '<div class="file desktop">';
 			m += '<span class="glyphicon glyphicon-camera"></span>';
 			m += '<input type="file" name="file" onchange="callback.on_change_file_upload(this);">';
 			m += '</div>';            
         }
+        /*
         else if ( app.isBrowser() ) {
             if ( debug.browser_camera_upload ) m = '  <div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span> File Upload</div>';
             else m = '  <div class="file"><input type="file" name="file" onchange="callback.on_change_file_upload(this);"></div>';
         }
+        */
         else {
             m = '<div class="file file-upload-button"><span class="glyphicon glyphicon-camera"></span></div>';
         }
@@ -283,7 +286,6 @@ var html = {
         var date_full = etc.date_full(p['stamp']);
         var date = etc.date_short(p['stamp']);
 
-
         m += '<div class="btn-group post-menu-philzine-top" role="group">';
         if( !post.mine(p) ) {
             m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
@@ -310,6 +312,8 @@ var html = {
         m += '  </div>';
         m += '</div>';
 
+        m += post.markup.bannerSelector();
+
         if ( !_.isEmpty(p['subject']) ) {
             //m += '<h3 class="subject">' + p['subject'] + '</h3>';
         }
@@ -319,7 +323,7 @@ var html = {
         if ( p['photos'] ) m += p['photos'];
         if( p['good'] > 0 ) likes = p['good'];
         else likes = '';
-        if( p['no_of_comment'] > 0 ) no_of_comment = p['no_of_comment'];
+        if ( p['no_of_comment'] > 0 ) no_of_comment = p['no_of_comment'];
         else no_of_comment = '';
 
         m += '<ul class="nav nav-pills post-menu-philzine-bottom">';
@@ -330,23 +334,28 @@ var html = {
 
         m += this.comment_write_form(p);
 
-        m = '<div class="post" idx="'+p['idx']+'" gid="'+p['gid']+'">' + m + '</div>';
+        m = '<div class="post root-post" idx="'+p['idx']+'" gid="'+p['gid']+'">' + m + '</div>';
 
         //trace(m);
         return m;
     },
-    render_comments : function (comments) {
+    render_comments : function (comments, post) {
         var m = '';
         if ( comments ) {
+            var length = comments.length;
+            if ( length > 5 ) {
+                var no = length - 5;
+                m += '<div class="show-more-comment" idx-root="'+post['idx']+'"><i class="fa fa-commenting-o"></i> '+ no +'개의 코멘트가 더 있습니다. 더보기...</div>';
+            }
             for( var j in comments ) {
                 if ( comments.hasOwnProperty(j) ) {
-                    m += html.render_comment(comments[j]);
+                    m += html.render_comment(comments[j], length - j);
                 }
             }
         }
         return m;
     },
-    render_comment : function (comment) {
+    render_comment : function (comment, reverse_index) {
 		var m = '';
 
 		var date_full = etc.date_full(comment['stamp']);
@@ -357,8 +366,19 @@ var html = {
 		if( comment['good'] > 0 ) likes = comment['good'];
 		else likes = '';
 
-
-		m += '<div class="post comment clearfix" post-id="'+comment['post_id']+'" idx="'+comment['idx']+'" gid="'+comment['gid']+'" depth="'+comment['depth']+'" idx-parent="'+comment['idx_parent']+'">';
+		m += '<div ';
+        if ( reverse_index > 5 ) {
+            m += 'style="display:none;"';
+        }
+        m += 'rindex="'+reverse_index+'" ' +
+            'class="post comment clearfix" ' +
+            'post-id="'+comment['post_id']+'" ' +
+            'idx="'+comment['idx']+'" ' +
+            'gid="'+comment['gid']+'" ' +
+            'idx-parent="'+comment['idx_parent'] + '" ' +
+            'idx-root="'+comment['idx_root'] + '" ' +
+            'depth="'+comment['depth']+'" ' +
+            '">';
 
 		m += '<div class="btn-group post-menu-philzine-top" role="group">';
 		
@@ -506,11 +526,11 @@ var html = {
             m = 	'<div class="form-wrapper">';
             m += 	'<form class="member-login-form login">';
             m += 	'<div class="input-group username">';
-            m += 	'<input name="id" type="text" class="form-control" placeholder="Enter username">';
+            m += 	'<input name="id" type="text" class="form-control" placeholder="아이디를 입력하세요.">';
             m += 	'<span class="input-group-addon glyphicon glyphicon-user"></span>';
             m += 	'</div>';
             m += 	'<div class="input-group password">';
-            m += 	'<input name="password"  type="password" class="form-control" placeholder="Enter password">';
+            m += 	'<input name="password"  type="password" class="form-control" placeholder="비밀번호를 입력하세요.">';
             m += 	'<span class="input-group-addon glyphicon glyphicon-lock"></span>';
             m += 	'</div>';
             m += 	'<input type="submit" class="btn btn-primary" value="로그인">';
@@ -534,7 +554,7 @@ var html = {
             m += '  <li class="list-group-item reset"><div>Reset</div></li>';
             m += '  <li class="list-group-item" onclick="app.refresh();">Refresh</li>';
             m += '  <li class="list-group-item"><div class="change-server-button">Change Server - {{url_server}}</div></li>';
-            m += '  <li class="list-group-item"><a href="http://work.jaeho.org/apps/philzine2/platforms/android/build/outputs/apk/android-debug.apk">Download Debugging APK</a></li>';
+            m += '  <li class="list-group-item"><a href="http://192.168.73.1/platforms/android/build/outputs/apk/android-debug.apk">Download Debugging APK</a></li>';
             m += '</ul>';
             return _.template(m)(app);
         }
