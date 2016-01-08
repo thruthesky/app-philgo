@@ -13,6 +13,7 @@ $(function(){
     //var url = 'http://philgo.org/'; // ICS 로 앱에서 테스트
 
     var url = 'http://www.philgo.com/';
+
     /*
     url = db.get('url_server');
     if ( url ) {
@@ -30,6 +31,8 @@ $(function(){
             }
         }
     }
+    */
+
 
 
     app.setServerURL(url);
@@ -170,7 +173,7 @@ $(function(){
 
 
 
-    setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
+    // setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
     //setTimeout(function(){ $('[page-button="news"]').click(); }, 200); // test : qna page
 //    setTimeout(function(){ $('[page-button="info"]').click(); }, 200); // test : qna page
     //setTimeout(function(){ $('[page-button="company"]').click(); }, 500); // test : qna page

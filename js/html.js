@@ -629,15 +629,17 @@ var html = {
      * 전체 화면에 로더를 표시한다.
      */
     showLoader : function () {
+        var h = el.header().height();
+        var f = el.footer().height();
         $('<div id="post-loader"><i class="fa fa-spinner fa-spin"></i></div>').appendTo('body')
             .css({
                 position: 'fixed',
                 'z-index': 99999,
                 'background-color' : 'rgba(200,200,200,0.5)',
-                top: 0,
+                top: h,
                 left: 0,
                 right: 0,
-                bottom: 0,
+                bottom: f,
                 'padding-top' : '40%',
                 'text-align':'center',
                 'color' : 'white',
