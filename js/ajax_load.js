@@ -82,7 +82,8 @@ function ajax_load_post(url, data, success_callback, error_callback) {
                 re = $.parseJSON(data);
             }
             catch ( e ) {
-                //trace(e);
+                trace(e);
+                console.log(data);
                 return note.post("접속 에러 2 : caught an error : " + e.message);
             }
             if ( re['code'] ) {

@@ -10,8 +10,10 @@ $(function(){
 
 
     //var url = 'http://work.philgo.org/'; // ICS 로 앱에서 테스트
-    var url = 'http://philgo.org/'; // ICS 로 앱에서 테스트
+    //var url = 'http://philgo.org/'; // ICS 로 앱에서 테스트
 
+    var url = 'http://www.philgo.com/';
+    /*
     url = db.get('url_server');
     if ( url ) {
 
@@ -29,7 +31,7 @@ $(function(){
         }
     }
 
-//    url = 'http://www.philgo.com/';
+
     app.setServerURL(url);
 
     add_css(app.getServerCSSURL());
