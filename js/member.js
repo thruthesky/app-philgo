@@ -4,6 +4,7 @@ var member = {
     name : '',
     session_id : '',
     idx_photo : '',
+    acl: '',
     login : function () {
         return this.idx;
     },

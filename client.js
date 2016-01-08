@@ -18,7 +18,7 @@ $(function(){
     }
     else {
         if ( app.fileProtocol() ) {
-
+            url = 'http://www.philgo.com';
         }
         else {
             if ( document.domain ) { // 데스크톱이면 자동으로 데스크톱 URL 을 지정한다.
@@ -29,7 +29,7 @@ $(function(){
         }
     }
 
-    //url = 'http://www.philgo.com/';
+//    url = 'http://www.philgo.com/';
     app.setServerURL(url);
 
     add_css(app.getServerCSSURL());
@@ -168,7 +168,7 @@ $(function(){
 
 
 
-    //setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
+    setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
     //setTimeout(function(){ $('[page-button="news"]').click(); }, 200); // test : qna page
 //    setTimeout(function(){ $('[page-button="info"]').click(); }, 200); // test : qna page
     //setTimeout(function(){ $('[page-button="company"]').click(); }, 500); // test : qna page

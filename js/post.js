@@ -97,6 +97,12 @@ var post = {
             return m;
         },
         bannerSelector : function() {
+            if ( member.acl != 'a' ) return;
+
+            var m = '';
+            m += '<form>';
+
+
             return '광고 배너 지정';
         }
     }

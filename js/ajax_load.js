@@ -49,6 +49,8 @@ function ajax_load(url, callback, option) {
                 else return alert(re.message);
             }
 
+
+            member.acl = re.acl;
             callback(re);
         },
         error: function(xhr, type) {
