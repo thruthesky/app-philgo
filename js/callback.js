@@ -20,16 +20,6 @@ var callback = {
     },
     on_click_content: function ( e ) {
         panel.close();
-        /** This code has error when 'message' object is not available.
-         * And it's not clear what it wants to do.
-         * It does not close 'search box' anyway.
-         *
-		//added by benjamin... need to fix this long if condition
-		if( !$(e.target).hasClass("message-commands")
-            && !$(e.target).parents(".message-commands").length
-            && !$(e.target).parent().hasClass("message-commands") )
-            message.search_close();
-            */
     },
     form_login : function () {
         //trace('ajax_login() member.idx:'+member.idx);

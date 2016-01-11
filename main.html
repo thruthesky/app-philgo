@@ -17,7 +17,6 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 
-
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/font-awesome-4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/octicons/octicons.css">
@@ -34,6 +33,7 @@
     <link rel="stylesheet" type="text/css" href="css/theme.css">
     <link rel="stylesheet" type="text/css" href="css/front.css">
     <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/company.css">
     <title>헬로필리핀</title>
 
 
@@ -51,6 +51,94 @@
         Please connect to internet.
     </footer>
 </div>
+
+<script type="text/template" id="company-page">
+    <div class="company">
+        <div class="title">필리핀 전 지역 업소록</div>
+        <div class="sub-title">등록된 업소 수 : <span class="count"><%= count %></span> 개</div>
+        <ul class="icons">
+            <li org-name="종교시설"><div><img src="img/company/church.png"><span class="text">종교단체</span></div></li>
+            <li><div><img src="img/company/gov.png"><span class="text">공공기관</span></div></li>
+            <li><div><img src="img/company/train.png"><span class="text">어학원</span></div></li>
+            <li><div><img src="img/company/school.png"><span class="text">교육시설</span></div></li>
+            <li org-name="김치/반찬"><div><img src="img/company/church.png"><span class="text">김치반찬</span></div></li>
+            <li org-name="마트/식품"><div><img src="img/company/mart.png"><span class="text">마트식품</span></div></li>
+            <li><div><img src="img/company/church.png"><span class="text">망고</span></div></li>
+            <li><div><img src="img/company/restaurant.png"><span class="text">레스토랑</span></div></li>
+            <li><div><img src="img/company/rentcar.png"><span class="text">렌트카</span></div></li>
+            <li org-name="통관운송이사"><div><img src="img/company/deliver.png"><span class="text">통관운송</span></div></li>
+            <li><div><img src="img/company/church.png"><span class="text">약국</span></div></li>
+            <li><div><img src="img/company/eyeglass.png"><span class="text">안경점</span></div></li>
+            <li org-name="뷰티/스킨"><div><img src="img/company/church.png"><span class="text">미용뷰티</span></div></li>
+            <li><div><img src="img/company/church.png"><span class="text">건강식품</span></div></li>
+            <li org-name="TV/인터넷"><div><img src="img/company/church.png"><span class="text">인터넷</span></div></li>
+            <li org-name="가전/전자"><div><img src="img/company/church.png"><span class="text">가전전자</span></div></li>
+            <li><div><img src="img/company/church.png"><span class="text">휴대폰</span></div></li>
+            <li><div><img src="img/company/church.png"><span class="text">컴퓨터</span></div></li>
+            <li><div><img src="img/company/church.png"><span class="text">가구</span></div></li>
+            <li><div><img src="img/company/church.png"><span class="text">여행사</span></div></li>
+            <li org-name="이주/이민"><div><img src="img/company/church.png"><span class="text">이주이민</span></div></li>
+            <li><div><img src="img/company/church.png"><span class="text">항공사</span></div></li>
+            <li org-name="골프/부킹"><div><img src="img/company/church.png"><span class="text">골프부킹</span></div></li>
+            <li org-name="호텔/숙박"><div><img src="img/company/church.png"><span class="text">호텔숙박</span></div></li>
+            <li><div><img src="img/company/church.png"><span class="text">리조트</span></div></li>
+            <li><div><img src="img/company/church.png"><span class="text">부동산</span></div></li>
+            <li org-name="간판/인쇄"><div><img src="img/company/church.png"><span class="text">간판인쇄</span></div></li>
+            <li><div><img src="img/company/church.png"><span class="text">인테리어</span></div></li>
+            <li org-name="은행/금융"><div><img src="img/company/church.png"><span class="text">은행금융</span></div></li>
+            <li org-name="방역/청소"><div><img src="img/company/church.png"><span class="text">방역청소</span></div></li>
+            <li org-name="자동차관련"><div><img src="img/company/church.png"><span class="text">자동차</span></div></li>
+            <li org-name="정수기렌탈"><div><img src="img/company/church.png"><span class="text">정수기</span></div></li>
+        </ul>
+    </div>
+</script>
+
+<script type="text/template" id="company-category-page">
+    <div class="company">
+        <div class="category">
+            <div class="title"><%= name %></div>
+            <div class="desc alert alert-info" style="margin-top:.6em;">업소명을 클릭하시면 상세 정보를 보실 수 있습니다.</div>
+            <div class="rows">
+            <% _.each( company.data[name], function( com ) { %>
+                <div class="row" idx="<%= com.idx %>">
+                    <span class="name"><%= com['company_name'] %></span>
+
+                    <% if ( com['region'] ) { %>
+                    <span class="region"><%= com['region'] %></span>
+                    <% } %>
+
+                    <span class="subject"><%= com['subject'] %></span>
+                    <span class="number"><%= com['mobile'] %> <%= com['landline'] %> <%= com['varchar_16'] %></span>
+
+                    <% if ( com['varchar_17'] ) { %>
+                        <span class="kakao">카카오: <%= com['varchar_17'] %></span>
+                    <% } %>
+
+                    <div class="details">
+                        <i class="fa fa-quote-left fa-2x fa-pull-left fa-border"></i>
+                        <span class="address"><%= com['address'] %></span>
+
+                        <span class="buttons">
+                            <% if ( com['mobile'] ) { %>
+                            <a class="button" href="tel:<%= com.mobile %>">
+                                <i class="fa fa-phone"></i>
+                                통화
+                            </a>
+                            <% } %>
+
+                            <a class="button" href="http://www.philgo.com/<%= com.url %>" target="_blank">
+                                <i class="fa fa-link"></i>
+                                자세히 ...
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            <% }); %>
+            </div>
+        </div>
+    </div>
+</script>
+
 
 <script type="text/javascript" src="cordova.js"></script><!-- 데스크톱 브라우저에서는 로딩 에러가 발생한다 -->
 <script type="text/javascript" src="js/underscore-min.js"></script>
@@ -76,6 +164,7 @@
 <script type="text/javascript" src="js/callback.js"></script>
 <script type="text/javascript" src="js/endless.js"></script>
 <script type="text/javascript" src="js/eventhandler.js"></script>
+<script type="text/javascript" src="js/company.js"></script>
 <script type="text/javascript" src="client.js"></script>
 
 

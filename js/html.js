@@ -61,7 +61,7 @@ var html = {
         m += '<div class="btn-group btn-group-justified main-menu">';
         m += '  <span class="btn" page-button="news" post-id="news" title="필리핀 뉴스">뉴스</span>';
         m += '  <span class="btn" page-button="info" post-id="qna" title="필리핀정보">정보</span>';
-        m += '  <span class="btn" page-button="company" post-id="" title="필리핀업소록">업소록</span>';
+        m += '  <span class="btn" company-button title="필리핀업소록">업소록</span>';
         m += '  <span class="btn" page-button="travel" post-id="travel" title="필리핀여행">여행</span>';
         m += '  <span class="btn" page-button="qna" post-id="qna" title="질문과답변">질문</span></span>';
         m += '  <span class="btn" page-button="freetalk" post-id="freetalk,knowhow" title="커뮤니티">토론</span></span>';
@@ -109,7 +109,7 @@ var html = {
         m += primary_photo;
         m += '      <div class="bottom-space"></div>';
         if ( member.login() ) {
-            m += '      <div class="name">{{name}}/{{idx_photo}}<div>{{id}}</div></div>';
+            m += '      <div class="name"><%=name%>/<%=idx_photo%><div><%=id%></div></div>';
         }
         else {
             m += '      <div class="name">회원 로그인<div>Login</div></div>';
@@ -548,12 +548,12 @@ var html = {
         setting : function () {
             var m = '';
             m += '<div class="page-header">';
-            m += '  <h1>설정 <small>필리핀매거진 {{version}}</small></h1>';
+            m += '  <h1>설정 <small>필리핀매거진 <%=version%></small></h1>';
             m += '</div>';
             m += '<ul class="list-group">';
             m += '  <li class="list-group-item reset"><div>Reset</div></li>';
             m += '  <li class="list-group-item" onclick="app.refresh();">Refresh</li>';
-            m += '  <li class="list-group-item"><div class="change-server-button">Change Server - {{url_server}}</div></li>';
+            m += '  <li class="list-group-item"><div class="change-server-button">Change Server - <%=url_server%></div></li>';
             m += '  <li class="list-group-item"><a href="http://192.168.73.1/platforms/android/build/outputs/apk/android-debug.apk">Download Debugging APK</a></li>';
             m += '</ul>';
             return _.template(m)(app);

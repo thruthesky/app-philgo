@@ -4,7 +4,7 @@
  *
  */
 var app = {
-    version : '0.12.01', // 년.월.일 로 Major.medium.minor 로 표시한다. 2015 년이 0 년.
+    version : '20', // 년.월.일 로 Major.medium.minor 로 표시한다. 2015 년이 0 년.
     url_server : null,
     current_page_name : null,
     deviceReady : false,
@@ -127,7 +127,7 @@ var app = {
         scrollTo(0,0);
     },
     init : function () {
-        this.version = db.get('version');
+        // this.version = db.get('version');
     },
     initEvent : function() {
         on_click('[callback]', function(e){
@@ -260,15 +260,15 @@ var app = {
     },
     confirm : function (str, callback) {
         bootbox.confirm( {
-            message : str,
-            buttons : {
-                cancel : {
-                    'label' : '아니오'
+                message : str,
+                buttons : {
+                    cancel : {
+                        'label' : '아니오'
+                    },
+                    confirm : {
+                        label : '예'
+                    }
                 },
-                confirm : {
-                    label : '예'
-                }
-            },
                 callback : function(re) {
                     callback(re);
                 }

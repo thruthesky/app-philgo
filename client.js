@@ -1,18 +1,16 @@
-debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
+//debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
 
 
 
-_.templateSettings = {
-    interpolate: /\{\{(.+?)\}\}/g
-};
+
 
 $(function(){
 
 
     //var url = 'http://work.philgo.org/'; // ICS 로 앱에서 테스트
-    //var url = 'http://philgo.org/'; // ICS 로 앱에서 테스트
+    var url = 'http://philgo.org/'; // ICS 로 앱에서 테스트
 
-    var url = 'http://www.philgo.com/';
+    url = 'http://www.philgo.com/';
 
     /*
     url = db.get('url_server');
@@ -200,4 +198,15 @@ $(function(){
         $("[post-view='1271135669']").click();
     }, 800);
     */
+/*
+    setTimeout(function(){
+        $('[company-button]').click(); // 업소록 열기
+        setTimeout(function(){
+            //$('[org-name="마트/식품"]').click(); // 마트 카테고리 열기
+            setTimeout(function(){
+                //$('[idx="1270580673"]').click(); // 첫번째 글 클릭
+            }, 100);
+        }, 100)
+    }, 400);
+*/
 });

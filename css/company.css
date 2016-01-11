@@ -1,0 +1,115 @@
+.company .title {
+    padding:.6em;
+    background: #1c7ea0;
+    font-size:1.4em;
+    color:white;
+}
+.company .sub-title {
+    margin:.6em 0;
+}
+.icons {
+    list-style: none;
+    margin:0;
+    padding:0;
+    overflow: auto;
+    font-size:.9em;
+}
+.icons li {
+    float:left;
+    padding:.1em;
+    box-sizing: border-box;
+    width:25%;
+    cursor:pointer;
+}
+.icons div {
+    position:relative;
+    background: #fff;
+    padding:.4em;
+    text-align:center;
+}
+.icons img {
+    display:block;
+    margin:0 auto;
+    width:66px;
+    height:auto;
+}
+
+.icons .text {
+    display:block;
+    position:absolute;
+    top:52px;
+    left:0;
+    right:0;
+}
+
+.company .category .title {
+    padding:1em;
+    font-size:1.2em;
+    background-color:white;
+    color: #36456d;
+}
+
+.company .rows {
+    margin:1em 0;
+}
+
+.company .category .rows .row {
+    margin:.6em 0;
+    padding:.8em;
+    background-color: #f7f6fb;
+    cursor:pointer;
+}
+
+.company .row .name {
+    display:block;
+    float:left;
+    font-weight:bold;
+    color: #3f5192;
+}
+.company .row .region {
+    float:right;
+}
+.company .row .subject {
+    display:block;
+}
+
+.company .row .subject:before {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.company .row .number {
+    display:block;
+}
+.company .row .address {
+    font-size:.9em;
+}
+
+.company .row .kakao {
+    display:block;
+}
+.company .row .details {
+    display:none;
+}
+
+.company .row .details {
+    overflow:auto;
+    padding:1em;
+    background-color:white;
+}
+
+.company .row .details .fa-quote-left {
+    color: #cdcdcd;
+}
+
+.company .row .details .buttons {
+    display:block;
+    margin:.5em 0 0;
+}
+.company .row .buttons .button {
+    margin-right:.6em;
+    padding: .4em .6em;
+    background-color: #a7a7a7;
+    color:white;
+}

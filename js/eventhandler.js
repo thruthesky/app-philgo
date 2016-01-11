@@ -25,11 +25,14 @@ function check_update_version() {
                 _.template('서버: {{domain}}, version: {{version}}')(re)
             );*/
             if ( re['version'] != app.getVersion() ) {
-                db.set('version', re['version']);
                 app.version = re['version'];
                 app.vibrate(1000);
-                app.alert('앱 버젼 '+app.getVersion()+'으로 업데이트 되었습니다.');
-                app.refresh();
+                app.confirm('앱이 업데이트되었습니다. 새 버젼으로 업데이트 하십시오.', function(re) {
+                    var m;
+                    if ( re ) m = '네 업데이트를 하겠습니다.';
+                    else m = '업데이트를 가능한 빠르게 하십시오.';
+                    alert(m);
+                });
             }
             if ( re['user_name'] != member.name ) member.update_name(re['user_name']);
         });
