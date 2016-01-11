@@ -39,10 +39,15 @@ var post = {
         post.add_endless_container();
         var $page_button = el.page_button(re['page']);
 
-        if ( $page_button.attr('post-id') != re['post_id'] ) {
-            trace("Post data has been loaded but the page has changed. so, the posts will not be shown.")
-            return;
+
+        var post_id = $page_button.attr('post-id');
+        if ( post_id != '*' ) {
+            if ( post_id != re['post_id'] ) {
+                trace(" : endless update() : Post data has been loaded but the page has changed. so, the posts will not be shown. re[post_id] = " + re['post_id'] + ", post-id:" + post_id);
+                return;
+            }
         }
+
         /*
         if ( app.getCurrentPage() != re['page'] ) {
             trace("post.endless_update() : widget_name and page name is not the same. data voided.");
