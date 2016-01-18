@@ -80,9 +80,9 @@ var member = {
         var idx =  member.idx_photo;
         if ( idx ) {
             var url = app.getDataURL(idx);
-            return '<img class="post-list-primary-photo" src="'+url+'">';
+            return '<img class="primary-photo" src="'+url+'">';
         }
-        else return '<img  class="post-list-primary-photo-default" src="img/no_primary_photo.png"/>';
+        else return '<img  class="primary-photo-default" src="img/no_primary_photo.png"/>';
     }
 
 };

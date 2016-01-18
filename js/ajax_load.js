@@ -55,7 +55,9 @@ function ajax_load(url, callback, option) {
         },
         error: function(xhr, type) {
 
-            note.post("인터넷 접속 에러 : " + type);
+            //note.post("인터넷 접속 에러 : " + type);
+            note.clear();
+            note.post("<i class='fa fa-exclamation-triangle'></i> &nbsp;인터넷 연결을 해 주세요.");
             html.hideLoader();
             //trace(type);
             //trace(xhr);

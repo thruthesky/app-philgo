@@ -64,7 +64,6 @@ $(function(){
 
     //trace(member.idx);
 
-
     cache.showFront();
 
     if ( app.offline() ) {
