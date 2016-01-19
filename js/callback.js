@@ -7,7 +7,7 @@ var callback = {
         app.setCurrentPage(page_name);
         var post_id = $this.attr('post-id');
         // trace('on_click_page() : ' + page_name);
-        if ( app.offline() && $this.hasClass('check-internet') ) {
+        if ( app.isOffline() && $this.hasClass('check-internet') ) {
             alert(page_name + " 페이지를 보기 위해서는 인터넷에 연결을 해 주세요. Please connect to Internet.");
             return;
         }
@@ -23,6 +23,10 @@ var callback = {
     },
     form_login : function () {
         //trace('ajax_login() member.idx:'+member.idx);
+        if ( app.isOffline() ) {
+            alert("인터넷을 연결해 주십시오.");
+            return;
+        }
         var $this = $(this);
         var id = $this.find('[name="id"]').val();
         var url = app.url_server_login() + '&id=' + id;

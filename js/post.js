@@ -48,6 +48,8 @@ var post = {
             }
         }
 
+
+
         /*
         if ( app.getCurrentPage() != re['page'] ) {
             trace("post.endless_update() : widget_name and page name is not the same. data voided.");
@@ -74,6 +76,11 @@ var post = {
             var post_id = re['post_id'];
             var page_no = re['page_no'];
             //note.post(site + ' 사이트 : ' + post_id + '의 ' + page_no + " 페이지 내용이 추가되었습니다.");
+
+            //console.log(re['ads']);
+
+            post.render_ads( re['ads'] );
+
             var posts = re['posts'];
             for ( var i in posts ) {
                 if (posts.hasOwnProperty(i)) {
@@ -82,6 +89,23 @@ var post = {
                 }
             }
         }
+    },
+    render_ads : function (posts) {
+        if ( typeof posts == 'undefined' ) return;
+        var m = '<div class="point-ads">';
+        m += '<div class="title">회원 포인트 광고 : 광고안내</div>';
+        for ( var i in posts ) {
+            if (posts.hasOwnProperty(i)) {
+                var post = posts[i];
+                console.log(post);
+                m += '<div class="ad" post-view="'+post['idx']+'">';
+                if ( typeof post['src_thumbnail'] != 'undefined' ) m += '<div class="image"><img src="'+post['src_thumbnail']+'"></div>';
+                m += '<div class="subject">' + post.subject + '</div>';
+                m += '</div>';
+            }
+        }
+        m += '</div>';
+        el.post_list().append(m);
     },
     markup : {
         more : function(p) {

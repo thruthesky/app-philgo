@@ -514,7 +514,7 @@
 .comment-write-form td.submit-button {
     padding-right:0;
 }
-.post-list-primary-photo-default {
+.post .primary-photo-default {
     width:48px;
     height:48px;
 }
@@ -791,4 +791,40 @@
 	background-color:white;
 	font-size:.9em;
 	color: #1c7ea0;
+}
+
+/** 포인트 광고 */
+
+.point-ads {
+	margin-bottom:.6em;
+	background-color: #fbf59f;
+}
+.point-ads .title {
+	padding:1em;
+	font-size:8pt;
+	text-align:right;
+	background-color:white;
+}
+.point-ads .ad {
+	margin:.6em 0;
+	overflow:auto;
+}
+.point-ads .ad:last-child {
+	margin-bottom:.3em;
+}
+
+.point-ads .ad .image {
+	float:left;
+	margin: 0 1em;
+}
+
+.point-ads .ad img {
+	border-radius: 50%;
+	max-width:64px;
+}
+
+.point-ads .ad .subject {
+	margin-right: 1em;
+	padding-left: 1em;
+	word-wrap: break-word;
 }

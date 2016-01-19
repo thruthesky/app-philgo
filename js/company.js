@@ -18,6 +18,9 @@ var company = {
         });
     },
     on_click_company_button : function () {
+        var $this = $(this);
+        var title = $this.attr('title');
+        app.setTitle(title);
         var m = $('#company-page').html();
         m = _.template(m)(company);
         console.log(m);

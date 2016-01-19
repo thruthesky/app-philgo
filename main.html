@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="css/content.css">
     <link rel="stylesheet" type="text/css" href="css/post-list.css">
     <link rel="stylesheet" type="text/css" href="css/theme.css">
+    <link rel="stylesheet" type="text/css" href="css/state.css">
     <link rel="stylesheet" type="text/css" href="css/front.css">
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <link rel="stylesheet" type="text/css" href="css/company.css">
@@ -44,11 +45,17 @@
     <header class="widget header"></header>
     <nav class="widget menu-panel"></nav>
     <section class="note"></section>
-
-    <section class="widget content"></section>
+    <section class="widget content">
+        <div style="font-size:1.2em; text-align:center; margin-top:1em;">
+            <div style="font-size:1.5em; margin-bottom:1em;">
+                <i class="fa fa-circle-o-notch fa-spin"></i>
+            </div>
+            인터넷을 연결하신 후 홈 버튼을 클릭해 주세요.
+        </div>
+    </section>
     <footer class="widget footer">
         <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
-        Please connect to internet.
+        인터넷 연결을 해 주세요.
     </footer>
 </div>
 
@@ -140,11 +147,13 @@
 </script>
 
 
+
 <script type="text/javascript" src="cordova.js"></script><!-- 데스크톱 브라우저에서는 로딩 에러가 발생한다 -->
 <script type="text/javascript" src="js/underscore-min.js"></script>
 <script type="text/javascript" src="js/underscore.string.min.js"></script>
 <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="js/jquery.form.min.js"></script>
+<script type="text/javascript" src="js/jquery.mobile-events.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/bootbox.min.js"></script>
 <script type="text/javascript" src="js/velocity.js"></script>

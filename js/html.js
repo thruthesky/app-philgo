@@ -4,9 +4,11 @@
 var html = {
     setHeader: function() {
         element.header().html( this.header() );
+        callback_on_set_header();
     },
     setFooter: function() {
         element.footer().html( this.footer() );
+        callback_on_set_footer();
     },
     setPanel: function() {
         element.panel().html( this.panel() );
@@ -46,26 +48,26 @@ var html = {
         m += '<nav class="navbar navbar-default top">';
         m += '  <div class="container-fluid">';
         m += '      <span class="navbar-text glyphicon glyphicon-home" page-button="front" post-id="*" title="헬로필리핀"></span>';
-        m += '      <span class="navbar-text glyphicon glyphicon-pencil"></span>';
-        m += '      <span class="navbar-text glyphicon glyphicon-camera"></span>';
+        //m += '      <span class="navbar-text glyphicon glyphicon-pencil"></span>';
+        //m += '      <span class="navbar-text glyphicon glyphicon-camera"></span>';
         m += '      <span class="navbar-text logo">필리핀매거진</span>';
         m += '      <span class="navbar-text navbar-right glyphicon glyphicon-th-list menu-panel toggle"></span>';
 		
 		
 			
 		//m += '      <span class="navbar-text navbar-right">' + member.primary_photo() + '</span>';
-	
-		        
+
         m += '  </div>';
         m += '</nav>';
         m += '<div class="btn-group btn-group-justified main-menu">';
+        m += '  <span class="btn" page-button="news" post-id="news" title="필리핀 매거진">매거진</span>';
         m += '  <span class="btn" page-button="news" post-id="news" title="필리핀 뉴스">뉴스</span>';
-        m += '  <span class="btn" page-button="info" post-id="qna" title="필리핀정보">정보</span>';
-        m += '  <span class="btn" company-button title="필리핀업소록">업소록</span>';
-        m += '  <span class="btn" page-button="travel" post-id="travel" title="필리핀여행">여행</span>';
+        //m += '  <span class="btn" page-button="info" post-id="qna" title="필리핀 정보">정보</span>';
+        m += '  <span class="btn" company-button title="필리핀 업소록">업소록</span>';
+        m += '  <span class="btn" page-button="travel" post-id="travel" title="필리핀 여행">여행</span>';
         m += '  <span class="btn" page-button="qna" post-id="qna" title="질문과답변">질문</span></span>';
         m += '  <span class="btn" page-button="freetalk" post-id="freetalk,knowhow" title="커뮤니티">토론</span></span>';
-        m += '  <span class="btn" widget="menu-all">더보기</span></span>';
+        m += '  <span class="btn" widget="menu-all" title="더보기">더보기</span></span>';
         m += '</div>';
         return m;
     },
@@ -95,8 +97,8 @@ var html = {
         m += '  <ul class="list-group top">';
         m += '      <li><div class="list-group-item">전체 메뉴 보기<span class="glyphicon glyphicon-menu-right"></span></div></li>';
         m += '      <li><div class="list-group-item message-button check-internet">쪽지 Message<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item">Menu 3<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item menu-panel toggle">Close Menu<span class="glyphicon glyphicon-remove"></span></div></li>';
+        m += '      <li><div class="list-group-item">글쓰기<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item menu-panel toggle">메뉴 닫기<span class="glyphicon glyphicon-remove"></span></div></li>';
         m += '  </ul>';
 
         var primary_photo = member.primary_photo();
@@ -582,7 +584,7 @@ var html = {
      */
     setWidget : function ( widget_name ) {
 
-        if (app.online()) {
+        if (app.isOnline()) {
             return cache.update(widget_name);
         }
 

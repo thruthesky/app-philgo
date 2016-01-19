@@ -8,6 +8,7 @@ var app = {
     url_server : null,
     current_page_name : null,
     deviceReady : false,
+    connectionStatus : false,
     getVersion : function () {
         return this.version;
     },
@@ -51,19 +52,38 @@ var app = {
     isDeviceReady : function () {
         return this.deviceReady;
     },
+    /**
+     * deviceready 이벤트를 얻기 위해서는 이 함수를 반드시 호출 해야 한다.
+     * 이 함수가 deviceready 를 등록하고 callback 을 호출한다.
+     * @param callback
+     * @code deviceready 이벤트를 등록하고, deviceready 일 때, 처리 할 코드
+
+     app.addEventDeviceReady(
+     function callback_onDeviceReady() {
+            alert( app.platform() );
+        }
+     );
+
+     *
+     * @endcode
+     */
     addEventDeviceReady : function(callback) {
         trace('app.isCordova():' + app.isCordova());
         function onDeviceReady() {
             trace('onDeviceReady()');
             app.deviceReady = true;
+            document.addEventListener("offline", app.on_offline, false);
+            document.addEventListener("online", app.on_online, false);
             callback();
         }
         if ( app.isCordova() ) {
             trace("This app is running under cordova. Device is ready.");
             document.addEventListener("deviceready", onDeviceReady, false);
         }
+        // 앱이 아닌 경우,
         else {
             trace("This app is running under Desktop browser. Device is ready.");
+            app.setOnline();
             onDeviceReady();
         }
     },
@@ -117,11 +137,23 @@ var app = {
     setCurrentPage: function (page) {
         this.current_page_name = page;
     },
-    online : function() {
-        return true;
+    setOnline : function () {
+        app.connectionStatus = true;
     },
-    offline : function() {
-        return ! this.online();
+    setOffline : function () {
+        app.connectionStatus = false;
+    },
+    on_online : function() {
+        app.setOnline();
+    },
+    on_offline : function() {
+        app.setOffline();
+    },
+    isOnline : function() {
+        return app.connectionStatus == true;
+    },
+    isOffline : function() {
+        return ! app.isOnline();
     },
     goTop : function() {
         scrollTo(0,0);
@@ -137,9 +169,12 @@ var app = {
             if ( typeof window[call_func] == 'function' ) window[call_func]($this, e);
             else window[func]($this, e);
         });
-
         on_click('[widget]', function(e){
             var $this = $(this);
+
+            var title = $this.attr('title');
+            app.setTitle(title);
+
             var widget_name = $this.attr('widget');
             app.setCurrentPage(widget_name);
             html.setWidget(widget_name);
@@ -258,15 +293,17 @@ var app = {
             console.log('app.alert clicked');
         });
     },
-    confirm : function (str, callback) {
+    confirm : function (str, callback, label_yes, label_no) {
+        if ( typeof label_yes == 'undefined' ) label_yes = '예';
+        if ( typeof label_no == 'undefined' ) label_no = '아니오';
         bootbox.confirm( {
                 message : str,
                 buttons : {
                     cancel : {
-                        'label' : '아니오'
+                        'label' : label_no
                     },
                     confirm : {
-                        label : '예'
+                        label : label_yes
                     }
                 },
                 callback : function(re) {
@@ -324,7 +361,7 @@ var app = {
 		}
 		else{
 			$(".modalImage").hide();
-			if( total_images > 1 ) add_arrow = true;
+			if ( total_images > 1 ) add_arrow = true;
 			else add_arrow = false;
 			modalImage = html.modalImage( idx, $(".post .photos img[idx='" + idx + "']").attr("org"), add_arrow );
 			element.modal_window().append( modalImage );

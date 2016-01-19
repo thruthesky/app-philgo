@@ -4,7 +4,7 @@
 header .top{
     padding:10px 0;
     margin-bottom:0;
-    background-color:#2980b9;
+    background-color:black;
     border:0;
     border-radius:0;
     text-align:center;
@@ -16,11 +16,11 @@ header .top{
 }
 
 .main-menu span {
-    padding:12px 0;
-    border:0;
-    border-bottom:2px solid transparent;
-    border-radius:0!important;
-    font-size:1em;
+    padding: 12px 0;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    border-radius: 0 !important;
+    font-size: 1em;
 }
 
 .main-menu span:hover {

@@ -40,17 +40,25 @@ $(function(){
     add_javascript(app.getHookJavascriptURL ());
 
     // @doc How to use onDeviceRead
+
     app.addEventDeviceReady(
         function callback_onDeviceReady() {
-            //trace('go to ...');
-            //trace(app.model());
-            //trace(app.platform());
-            //alert( app.platform() );
+            callback_init_message();
         }
     );
 
 
-    //db.deleteAll();
+
+
+
+    setInterval(function(){
+        //$('.icon-next').click();
+        //$('.icon-prev').click();
+
+    }, 1000);
+
+
+    // db.deleteAll();
 
 
     // cordova browser platform 에서 file transfer 로 파일을 업로드하게 하는 테스트 옵션이다.
@@ -64,15 +72,15 @@ $(function(){
 
     //trace(member.idx);
 
+
+
     cache.showFront();
 
-    if ( app.offline() ) {
-        note.post('인터넷을 연결 해 주십시오. Connect to Internet.', 'alert alert-warning');
-		$("header > .top").css("background-color","#7f8c8d");//added by benjamin for header color
-    }
-	else{
-		$("header > .top").css("background-color","#bb2718");//added by benjamin for header color
-	}
+    // 중간으로 스크롤
+    setTimeout(function(){
+        scrollTo(0, 600);
+    }, 500);
+
 
 
 
