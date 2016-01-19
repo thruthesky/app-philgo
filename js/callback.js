@@ -78,10 +78,13 @@ var callback = {
     },
     on_click_post_button : function () {
         var post_id = app.getCurrentForum();
-        if ( element.post_write_form().length == 0 ) {
-            element.content().prepend(html.post_write_form(post_id));
+        if ( el.post_write_form().length > 0 ) el.post_write_form().remove();
+        el.content().prepend(html.post_write_form(post_id));
+        setTimeout(function(){
             html.focus( el.post_write_form().find('[name="content"]') );
-        }
+        }, 200);
+
+        panel.close();
         app.goTop();
     },
     on_click_reply_button : function () {

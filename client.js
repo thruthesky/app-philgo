@@ -77,9 +77,11 @@ $(function(){
     cache.showFront();
 
     // 중간으로 스크롤
+    /*
     setTimeout(function(){
         scrollTo(0, 600);
     }, 500);
+    */
 
 
 
@@ -88,8 +90,9 @@ $(function(){
     //initApp();
     //setTimeout(function(){ showPage('setting'); }, 600); // test
     //setTimeout(function(){ $('[page-button="news"]').click(); }, 700); // test : news page
-    //setTimeout(function(){ $('[page-button="freetalk"]').click(); }, 400); // test : news page
+    // setTimeout(function(){ $('[page-button="freetalk"]').click(); }, 400); // test : news page
     //setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
+        //setTimeout(function(){ $('.point-ads-title').click(); }, 500); // test : qna page
     //setTimeout(function(){ $('[page-button="login"]').click(); }, 700); // test : login page
     //setTimeout(function(){ $('[page-button="info"]').click(); }, 1300); // test : info page
     //setTimeout(togglePanel, 300); // test : open panel-menu

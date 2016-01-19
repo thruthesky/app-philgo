@@ -60,9 +60,9 @@ var html = {
         m += '  </div>';
         m += '</nav>';
         m += '<div class="btn-group btn-group-justified main-menu">';
-        m += '  <span class="btn" page-button="news" post-id="news" title="필리핀 매거진">매거진</span>';
+        //m += '  <span class="btn" page-button="news" post-id="news" title="필리핀 매거진">매거진</span>';
         m += '  <span class="btn" page-button="news" post-id="news" title="필리핀 뉴스">뉴스</span>';
-        //m += '  <span class="btn" page-button="info" post-id="qna" title="필리핀 정보">정보</span>';
+        m += '  <span class="btn" page-button="info" post-id="qna" title="필리핀 정보">정보</span>';
         m += '  <span class="btn" company-button title="필리핀 업소록">업소록</span>';
         m += '  <span class="btn" page-button="travel" post-id="travel" title="필리핀 여행">여행</span>';
         m += '  <span class="btn" page-button="qna" post-id="qna" title="질문과답변">질문</span></span>';
@@ -96,9 +96,9 @@ var html = {
         m += '<div class="panel panel-default menu-panel-inner">';
         m += '  <ul class="list-group top">';
         m += '      <li><div class="list-group-item">전체 메뉴 보기<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item message-button check-internet">쪽지 Message<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item">글쓰기<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item menu-panel toggle">메뉴 닫기<span class="glyphicon glyphicon-remove"></span></div></li>';
+        m += '      <li><div class="list-group-item message-button check-internet">쪽지<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li class="post-button" post-id="*"><div class="list-group-item">글쓰기<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li class="menu-panel toggle"><div class="list-group-item">메뉴 닫기<span class="glyphicon glyphicon-remove"></span></div></li>';
         m += '  </ul>';
 
         var primary_photo = member.primary_photo();
@@ -170,7 +170,7 @@ var html = {
         m += "  <input type='hidden' name='action' value='post_write_submit'>";
 		m += "	<div class='post-content-wrapper'>";
         m += "  	<div class='content'>";
-		m += "			<textarea name='content' placeholder='Write a post.'></textarea>";		
+		m += "			<textarea name='content' placeholder='글 내용을 입력하십시오.'></textarea>";
 		m += "		</div>";        
 		m += '		<div class="photos clearfix"></div>';
 		m += "	</div>";

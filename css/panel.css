@@ -26,16 +26,20 @@
 .widget.menu-panel .list-group li > div > .glyphicon{
     display:inline-block;
     position:absolute;
+    padding:.4em 0 0;
     right:10px;
     top:10px;
     font-size:.8em;
+
 }
 .widget.menu-panel .list-group.top li > div > .glyphicon.glyphicon-menu-right{
     color:#a2a2a2;
+    padding:.4em 0 0;
 }
 /*top*/
 .widget.menu-panel .list-group.top li > div > .glyphicon.glyphicon-remove{
     color:red;
+    padding:.4em .1em 0 0;
 }
 /*top*/
 /*panel-user-profile*/

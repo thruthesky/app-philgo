@@ -184,7 +184,7 @@ var app = {
         on_click('.menu-panel.toggle', callback.on_click_menu_panel);
         on_click('.reset', callback.on_click_reset);
         on_click('.content', callback.on_click_content);
-        on_click("footer .post-button", callback.on_click_post_button);
+        on_click(".post-button", callback.on_click_post_button);
         on_submit('form.login', callback.form_login);
         on_click('.logout-button', callback.on_click_logout_button);
 
@@ -217,6 +217,9 @@ var app = {
 		on_click('.post .photos > img, .modalImage .arrow', callback.on_click_post_photos_img);//also used by arrow of modalWindow > modalImage
 		on_click('.modalWindow', callback.on_click_modal_window);
 
+        on_click('.point-ads-title', function(){
+            $(this).next().show();
+        });
 
 
         //

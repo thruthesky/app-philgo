@@ -93,11 +93,12 @@ var post = {
     render_ads : function (posts) {
         if ( typeof posts == 'undefined' ) return;
         var m = '<div class="point-ads">';
-        m += '<div class="title">회원 포인트 광고 : 광고안내</div>';
+        m += '<div class="point-ads-title">회원 포인트 광고 <i class="fa fa-info-circle"></i> 광고안내</div>';
+        m += '<div class="point-ads-desc" style="display: none;">필고에서 회원 포인트로 글을 게시판 상단에 고정 등록하시면 앱에 자동으로 광고가 나타납니다.</div>';
         for ( var i in posts ) {
             if (posts.hasOwnProperty(i)) {
                 var post = posts[i];
-                console.log(post);
+                //console.log(post);
                 m += '<div class="ad" post-view="'+post['idx']+'">';
                 if ( typeof post['src_thumbnail'] != 'undefined' ) m += '<div class="image"><img src="'+post['src_thumbnail']+'"></div>';
                 m += '<div class="subject">' + post.subject + '</div>';
