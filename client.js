@@ -95,7 +95,7 @@ $(function(){
         //setTimeout(function(){ $('.point-ads-title').click(); }, 500); // test : qna page
     //setTimeout(function(){ $('[page-button="login"]').click(); }, 700); // test : login page
     //setTimeout(function(){ $('[page-button="info"]').click(); }, 1300); // test : info page
-    //setTimeout(togglePanel, 300); // test : open panel-menu
+
 
     //setTimeout( function()  { panel.toggle(); }, 300 );
 
@@ -121,15 +121,13 @@ $(function(){
     // open front and temp forum
     // setTimeout(function(){cache.update('news', 'temp');}, 400);
 
-
-
     app.init();
     app.initEvent();
     //trace(member);
     check_update_version();
 
-
     html.setFooter(); // 회원 로그인 정보가 필요하므로 init 다음에 이 메소드가 호출되어야 한다.
+
 
     /** panel 은 미리 세팅되지 않으므로 아래와 같이 먼저 세팅을 해 주어야 한다. */
     /*
@@ -162,11 +160,12 @@ $(function(){
 
 
     // 전체 메뉴 열기
-    /*
+/*
     setTimeout(function(){
         $('[widget="menu-all"]').click();
     }, 100);
-*/
+    */
+
 
     // 전체 메뉴 열고 => 과일 페이지 열기
     /*
@@ -184,7 +183,7 @@ $(function(){
     // setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
     //setTimeout(function(){ $('[page-button="news"]').click(); }, 200); // test : qna page
 //    setTimeout(function(){ $('[page-button="info"]').click(); }, 200); // test : qna page
-    //setTimeout(function(){ $('[page-button="company"]').click(); }, 500); // test : qna page
+    //setTimeout(function(){ $('[company-button]').click(); }, 300); // test : qna page
 
 //    page_click('[widget="menu-all"]', '[tab="query"]'); // 처음 selector 를 클릭하고 나서 두번째 selector 를 클릭한다.
 
@@ -203,12 +202,13 @@ $(function(){
     */
 
     // 글 읽기
-/*
+    /*
     setTimeout(function() {
-        $("[post-view='1271135669']").click();
+        $("[post-view='1270663409']").click();
     }, 800);
     */
-/*
+
+    /*
     setTimeout(function(){
         $('[company-button]').click(); // 업소록 열기
         setTimeout(function(){

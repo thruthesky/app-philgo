@@ -269,6 +269,11 @@
 	margin-bottom:10px;
 }
 
+.post-with-thumbnail .media-left {
+	padding-right:0;
+}
+
+
 .post-with-thumbnail .col-sm-6{	
 	padding:0;	
 }
@@ -284,6 +289,7 @@
 
 .post-with-thumbnail .media:last-child{		
 	margin-bottom:0;
+	background-color: #e4f2f7;
 }
 
 .post-with-thumbnail img{
@@ -293,16 +299,17 @@
 
 .post-with-thumbnail .media-body{
 	max-height:90px;
-	padding:10px 10px 10px 0;	
+	padding:6px 6px 2px 6px;
 	overflow:hidden;
 }
 
-.post-with-thumbnail .media-body h3{
-	height: 20px;
+.post-with-thumbnail .media-body h3 {
+	max-height: 90px;
 	padding: 0;
 	margin: 0;
 	font-size: 1em;
-	color: #c0392b;
+	line-height: 1.4em;
+	color: #154d79;
 	overflow: hidden;
 }
 

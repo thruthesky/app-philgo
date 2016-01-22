@@ -50,13 +50,19 @@
     background-color: #fff;
     background-repeat:no-repeat;
 }
-.panel-user-profile img{
+.panel-user-primary-photo {
+    width:70px;
     position:absolute;
     left:20px;
     top:0;
-    width:70px;
-    border-radius:100%;
+    border-radius: 50%;
+    overflow:hidden;
 }
+
+.panel-user-primary-photo img {
+    max-height:70px;
+}
+
 .panel-user-profile .bottom-space{
     height:20px;
     background-color:#00b4d1;
@@ -75,4 +81,19 @@
 .panel-user-profile .name > div{
     font-weight:normal;
 }
+
+.panel .forum {
+    margin-bottom:1em;
+    text-align: center;
+    overflow:auto;
+}
+.panel .forum span {
+    display:inline-block;
+    margin:.2em;
+    padding:.2em .4em;
+    border-radius:4px;
+    background-color: #c6d5e0;
+}
+
+
 /*eo panel-user-profile*/

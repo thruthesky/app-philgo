@@ -59,9 +59,9 @@ function callback_on_set_footer() {
  *
  */
 function callback_init_message() {
-    console.log("callback_init_message()");
+    //console.log("callback_init_message()");
     var $top = el.header().find('.top');
-    console.log('online:' + app.isOnline());
+    //console.log('online:' + app.isOnline());
     if ( app.isOnline() ) {
         setTimeout(function(){
             $top.addClass('header-top-online');

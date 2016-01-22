@@ -4,7 +4,7 @@
  *
  */
 var app = {
-    version : '20', // 년.월.일 로 Major.medium.minor 로 표시한다. 2015 년이 0 년.
+    version : '20160122', // 년월일 로 표시한다. YYYYMMDD 이 값은 서버의 값과 비교해서 작으면 메인 화면에 알림창이 뜬다.
     url_server : null,
     current_page_name : null,
     deviceReady : false,
@@ -29,12 +29,14 @@ var app = {
     },
     getServerCSSURL : function () {
         var url = this.getServerURL() + 'module/ajax/server.css?version=' + this.getVersion();
-        if ( debug.mode ) url += new Date().getTime();
+        //if ( debug.mode )
+            url += new Date().getTime();
         return url;
     },
     getServerJavascriptURL : function () {
         var url = this.getServerURL() + 'module/ajax/server.js?version=' + this.getVersion();
-        if ( debug.mode ) url += new Date().getTime();
+        //if ( debug.mode )
+            url += new Date().getTime();
         return url;
     },
     getHookJavascriptURL : function () {
@@ -179,6 +181,11 @@ var app = {
             app.setCurrentPage(widget_name);
             html.setWidget(widget_name);
         });
+        on_click('div[href],span[href]',function(){
+            var href = $(this).attr('href');
+            if ( app.isCordova() ) cordova.InAppBrowser.open(href, '_blank', 'location=no');
+            else window.open(href);
+        });
 
         on_click('[page-button]', callback.on_click_page);
         on_click('.menu-panel.toggle', callback.on_click_menu_panel);
@@ -219,6 +226,15 @@ var app = {
 
         on_click('.point-ads-title', function(){
             $(this).next().show();
+        });
+
+        on_click('.message-button', function() {
+            if ( typeof server_version == 'function' ) {
+
+            }
+            else {
+                alert("인터넷 연결을 해 주십시오.");
+            }
         });
 
 
@@ -293,7 +309,7 @@ var app = {
                 }
             }
         }, function() {
-            console.log('app.alert clicked');
+            //console.log('app.alert clicked');
         });
     },
     confirm : function (str, callback, label_yes, label_no) {
@@ -369,14 +385,14 @@ var app = {
 			modalImage = html.modalImage( idx, $(".post .photos img[idx='" + idx + "']").attr("org"), add_arrow );
 			element.modal_window().append( modalImage );
 			$(".modalImage[idx='" + idx + "'] img").load( function(){
-				console.log( idx );
+				//console.log( idx );
 				app.modalWindowAdjustImage( idx );
 			});
 		}
 	},
 	//adjusting the photo size to look better
 	modalWindowAdjustImage : function( idx ){
-		console.log("adjust");
+		//console.log("adjust");
 		var $selector = $(".modalImage[idx='" + idx + "'] img");
 		var window_width = $(window).width();
 		var window_height = $(window).height();

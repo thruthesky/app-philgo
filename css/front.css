@@ -14,16 +14,13 @@
     font-size:.6em;
 }
 
-.text-top .subject {
+.text-top li .subject {
     display: inline-block;
     position: relative;
     top: 3px;
-    height: 16px;
-    max-width: 70%;
     font-size: 1em;
     font-weight: normal;
     color: #343434;
-    margin: 0px 0 0 0;
     overflow: hidden;
     box-sizing: border-box;
     word-break:break-all;
@@ -33,3 +30,13 @@
     color:#ff849c;
 }
 /*eo top group-list overrides*/
+
+/* text-bottom */
+.text-bottom .post {
+    padding: 0;
+}
+.text-bottom .subject {
+    font-size:1em;
+    font-weight:normal;
+    margin:0!important;
+}

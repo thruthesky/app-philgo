@@ -7,7 +7,16 @@
     color:white;
 }
 
+.note a {
+    color:white;
+}
+
 .note .row {
     margin:0;
     padding:1em 1em;
+}
+
+.note .information {
+    background-color:#0D821B;
+    color:white;
 }

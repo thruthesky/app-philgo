@@ -110,9 +110,9 @@ function endless_show_loader() {
 
     /** It is now working.*/
     var markup = '';
-	markup += '<div class="endless-loader" style="padding:10px;margin-bottom:10px;background-color:#fff;text-align:center">';
-	markup += '<span style="margin-right:10px;font-weight:bold;color:#585858;">Loading</span>';
-	markup += '<img src="img/loader/custom_loader.gif">';
+	markup += '<div class="endless-loader">';
+	markup += '<span>정보를 읽고 있습니다...</span>';
+	markup += ' &nbsp; <img src="img/loader/loader10.gif">';
 	markup += '</div>';
 	
     el.content().append(markup);

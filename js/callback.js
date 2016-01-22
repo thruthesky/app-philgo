@@ -25,7 +25,7 @@ var callback = {
         //trace('ajax_login() member.idx:'+member.idx);
         if ( app.isOffline() ) {
             alert("인터넷을 연결해 주십시오.");
-            return;
+            return false;
         }
         var $this = $(this);
         var id = $this.find('[name="id"]').val();
@@ -36,7 +36,7 @@ var callback = {
         html.showLoaderAfter(14, $('.password'));
         ajax_load( url, function(re) {
             //trace(re);
-            console.log(re);
+            //console.log(re);
             if ( re.code == 4101 ) alert('아이디와 비밀번호를 입력하십시오.');
             else if ( re.code == 503 ) alert('비밀번호를 입력하십시오.');
             else if ( re.code == 4102 ) alert('아이디를 찾을 수 없습니다.');
@@ -101,12 +101,14 @@ var callback = {
     },
     post_form_submit : function (e) {
         e.preventDefault();
+        if ( app.isOffline() ) {
+            alert("인터넷 연결을 하십시오.");
+            return false;
+        }
         var $this = $(this);
         var $submit = $this.find('.submit');
         html.showLoaderOn(14, $submit);
         ajax_load_post(app.getServerURL(), $this.serialize(), function(re){
-
-
             /**
              * @doc 각 게시판 별 callback 을 따로 만들어 처리 할 수 있다.
              * @type {string}
@@ -173,6 +175,10 @@ var callback = {
         return false;
     },
     is_upload_submit : false,
+    /**
+     * @note 사진/파일 업로드. 회원 가입 등에서 사용.
+     * @param filebox
+     */
     on_change_file_upload : function (filebox) {
         var $filebox = $(filebox);
         var $form = $filebox.parents("form");
@@ -184,8 +190,8 @@ var callback = {
 
         this.is_upload_submit = true;
 
-        //html.showLoaderAfter(14,$filebox);
-		html.createUploadLoader( $form.find(".photos") );//added by benjamin
+        html.showLoaderAfter(14,$filebox);
+		//html.createUploadLoader( $form.find(".photos") );//added by benjamin
 
         $form.ajaxSubmit({
             error : function (xhr) {
@@ -215,8 +221,8 @@ var callback = {
                     var $photos = $form.find('.photos');
                     $photos.append( html.render_photo( re.data ) );
                 }
-                //html.hideLoader();				
-				html.removeUploadLoader( $form.find(".photos"), re.data['idx'] );//added by benjamin
+                html.hideLoader();
+				//html.removeUploadLoader( $form.find(".photos"), re.data['idx'] );//added by benjamin
             }
         });
         this.is_upload_submit = false;
@@ -365,7 +371,7 @@ var callback = {
                 var url = app.getServerURL() + '?module=ajax&action=post_delete_submit&idx=' + idx;
                 ajax_load(url, function(re){
                     //trace(re);
-                    $post.html(lang('deleted'));
+                    $post.replaceWith(lang('deleted'));
                 });
             }
         });

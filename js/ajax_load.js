@@ -36,7 +36,7 @@ function ajax_load(url, callback, option) {
             catch ( e ) {
                 note.post("파싱 에러 ... ");
                 html.hideLoader();
-                console.log(data);
+                //console.log(data);
                 return;
             }
             /**
@@ -85,7 +85,7 @@ function ajax_load_post(url, data, success_callback, error_callback) {
             }
             catch ( e ) {
                 trace(e);
-                console.log(data);
+                //console.log(data);
                 return note.post("접속 에러 2 : caught an error : " + e.message);
             }
             if ( re['code'] ) {
@@ -96,7 +96,7 @@ function ajax_load_post(url, data, success_callback, error_callback) {
             else success_callback(re);
         },
         error: function(xhr, type){
-            return note.post("접속 에러 : " + type);
+            return note.post("인터넷 연결을 하십시오...");
             //trace(type);
             //trace(xhr);
         }

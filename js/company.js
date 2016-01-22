@@ -21,9 +21,10 @@ var company = {
         var $this = $(this);
         var title = $this.attr('title');
         app.setTitle(title);
+        app.setCurrentForum('-'); // 업소록 밑에 게시글이 붙지 않도록 한다.
         var m = $('#company-page').html();
         m = _.template(m)(company);
-        console.log(m);
+        //console.log(m);
         el.content().html( m );
     },
     on_click_company_category : function () {
@@ -50,8 +51,8 @@ var company = {
     },
     show_category : function(name) {
 
-        console.log(name);
-        console.log( this.data[name] );
+        //console.log(name);
+        //console.log( this.data[name] );
 
         var m = this.el.category_page().html();
         m = _.template(m)({

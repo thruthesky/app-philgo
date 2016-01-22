@@ -43,7 +43,7 @@ var cache = {
                 save_page( name, re );
 
                 if ( app.getCurrentPage() != re['page'] ) {
-                    console.log(re);
+                    //console.log(re);
                     trace("cache.update() : current page: "+app.getCurrentPage()+", loaded page: "+re['page']+" : current page and loaded page are differenct. data voided.")
                     return;
                 }
@@ -54,6 +54,7 @@ var cache = {
                 //console.log("==================== ajax_load() : endless_reset:")
                 if ( post_id ) {
                     app.setCurrentForum(post_id);
+                    endless_show_loader();
                     endless_reset(app.url_server_forum() + post_id, post.endless_update);
                 }
                 else {

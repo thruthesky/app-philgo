@@ -66,7 +66,7 @@ var html = {
         m += '  <span class="btn" company-button title="필리핀 업소록">업소록</span>';
         m += '  <span class="btn" page-button="travel" post-id="travel" title="필리핀 여행">여행</span>';
         m += '  <span class="btn" page-button="qna" post-id="qna" title="질문과답변">질문</span></span>';
-        m += '  <span class="btn" page-button="freetalk" post-id="freetalk,knowhow" title="커뮤니티">토론</span></span>';
+        m += '  <span class="btn" page-button="freetalk" post-id="freetalk,news,knowhow" title="커뮤니티">토론</span></span>';
         m += '  <span class="btn" widget="menu-all" title="더보기">더보기</span></span>';
         m += '</div>';
         return m;
@@ -94,24 +94,49 @@ var html = {
     panel : function() {
         var m = '';
         m += '<div class="panel panel-default menu-panel-inner">';
+
+        /*
+        m += '<div class="forum">';
+        m += '<span open-post-id="newcomer">필리핀 초보 안내</span>';
+        m += '<span open-post-id="greeting">가입인사</span>';
+        m += '<span open-post-id="party">친구모임</span>';
+        m += '<span open-post-id="job">구인구직</span>';
+        m += '<span open-post-id="phil_life_tip">생활의팁</span>';
+        m += '<span open-post-id="buyandsell">장터</span>';
+        m += '<span open-post-id="personal">개인장터</span>';
+        m += '<span open-post-id="knowhow">경험담</span>';
+        m += '<span open-post-id="massage">마사지</span>';
+        m += '<span open-post-id="boarding_house">하숙</span>';
+        m += '<span open-post-id="golf">골프</span>';
+        m += '<span open-post-id="travel_photo">사진</span>';
+        m += '<span open-post-id="visa">여권비자</span>';
+        m += '<span open-post-id="rest">맛집</span>';
+        m += '<span open-post-id="cars">중고차</span>';
+        m += '<span open-post-id="woman_plan">놀거리</span>';
+        m += '<span open-post-id="business">사업</span>';
+        m += '<span open-post-id="im">이민이주</span>';
+        m += '</div>';
+        */
+
         m += '  <ul class="list-group top">';
-        m += '      <li><div class="list-group-item">전체 메뉴 보기<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item message-button check-internet">쪽지<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item" widget="menu-all">전체 메뉴 보기<span class="glyphicon glyphicon-menu-right"></span></div></li>';
         m += '      <li class="post-button" post-id="*"><div class="list-group-item">글쓰기<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item message-button check-internet">쪽지<span class="glyphicon glyphicon-menu-right"></span></div></li>';
         m += '      <li class="menu-panel toggle"><div class="list-group-item">메뉴 닫기<span class="glyphicon glyphicon-remove"></span></div></li>';
         m += '  </ul>';
 
+
         var primary_photo = member.primary_photo();
-        console.log(member);
+        //console.log(member);
 
         var button_name = 'login';
         if ( member.login() ) button_name = 'register';
 
         m += '  <div class="panel-user-profile" page-button="'+button_name+'">';
-        m += primary_photo;
+        m += '      <div class="panel-user-primary-photo">'+primary_photo+'</div>';
         m += '      <div class="bottom-space"></div>';
         if ( member.login() ) {
-            m += '      <div class="name"><%=name%>/<%=idx_photo%><div><%=id%></div></div>';
+            m += '      <div class="name"><%=name%><div><%=id%></div></div>';
         }
         else {
             m += '      <div class="name">회원 로그인<div>Login</div></div>';
@@ -125,11 +150,15 @@ var html = {
         }
         else {
             m += '      <li><div class="list-group-item" page-button="login">로그인 (필고 아이디 로그인)<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-            m += '      <li><div class="list-group-item" page-button="register">회원가입 register<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+            m += '      <li><div class="list-group-item" page-button="register">회원가입<span class="glyphicon glyphicon-menu-right"></span></div></li>';
         }
-        m += '      <li><div class="list-group-item" page-button="admin">운영자 요청/건의 inquery<span class="glyphicon glyphicon-menu-right"></span></div></li>';
-        m += '      <li><div class="list-group-item" page-button="setting">설정 Settings<span class="glyphicon glyphicon-menu-right"></span></li>';
+        m += '      <li><div class="list-group-item" page-button="admin">운영자 요청/건의<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+
+
+        // m += '      <li><div class="list-group-item" page-button="setting">설정 Settings<span class="glyphicon glyphicon-menu-right"></span></li>';
+
         m += '  </ul>';
+
         m += '  <div class="panel-copyright">';
         /*
 		m += '      <ul class="nav nav-pills nav-justified bottom">';
@@ -138,11 +167,14 @@ var html = {
         m += '          <li><span>About</span></li>';
         m += '      </ul>';
 		*/
+
         m += '      <div class="copy-right-text">';
-        m += '          필리핀 교민 홈페이지 앱 무료 제작<br>';
-        m += '          신청 : thruthesky@gmail.com';
+        m += '          필고 연동 홈페이지 앱 제작 의뢰<br>';
+        m += '          thruthesky@gmail.com';
         m += '      </div>';
+
         m += '  </div>';
+
         m += '</div>';
 
         var str = _.template(m)(member);
@@ -153,12 +185,34 @@ var html = {
     post_write_form : function (post_id) {
         var gid = etc.unique_id(member.idx + post_id);
         var forums = {
-            'news' : 'News',
-            'freetalk' : 'Free Talk',
-            'qna' : 'Q & A',
-            'buyandsell' : 'Buy & Sell',
-            'travel' : 'Travel',
-            'company_book' : 'Company Book'
+            'news' : '뉴스',
+            'freetalk' : '자유토론',
+            'qna' : '질문과답변',
+            'greeting' : '가입인사',
+            'party' : '친구모임',
+            'buyandsell' : '회원장터',
+            'personal' : '개인장터',
+            'travel' : '여행',
+            'golf' : '골프',
+            'wanted' : '구인구직',
+            'caution' : '주의사항',
+            'lookfor' : '사람찾기',
+            'knowhow' : '경험담',
+            'phil_life_tip' : '생활의팁',
+            'massage' : '마사지',
+            'boarding_house' : '하숙',
+            'lifeshot' : '사진 갤러리',
+            'woman_place' : '놀거리/볼거리',
+            'visa' : '여권,비자',
+            'info' : '정보공유',
+            'im' : '이민,이주',
+            'rentcar' : '렌트카',
+            'document' : '서류양식',
+            'tagalog' : '따갈로그어',
+            'study' : '어학연수',
+            'marry' : '국제결혼',
+            'group__kopino' : '코피노',
+            'phone' : '스마트폰'
         };
         var m = '';
         m += "<form class='post-write-form' action='"+app.getServerURL()+"' method='post' enctype='multipart/form-data'>";
@@ -179,7 +233,8 @@ var html = {
         m += 	this.filebox();
 		m += '</div>';
         m += "  <div class='category col-xs-4'>";
-        m += "      <select class='form-control' name='post_id'>";
+        m += "      <select class='form-control' name='post_id' required>";
+        m += "          <option value=''>카테고리</option>";
         for( var name in forums ) {
             if ( forums.hasOwnProperty(name) ) {
                 m += '<option value="'+name +'"';
@@ -306,7 +361,7 @@ var html = {
         var src = 'img/no_primary_photo.png';
 
         if ( typeof p['member']['idx_primary_photo'] != 'undefined' ) src = app.getDataURL(p['member']['idx_primary_photo']);
-        m += '      <img class="media-object profile-image" src="'+src+'" alt="Generic placeholder image">';
+        m += '      <img class="media-object primary-photo profile-image" src="'+src+'" alt="Generic placeholder image">';
         m += '  </a>';
         m += '  <div class="media-body" '+this.message_onclick(p['member'])+'>';
         m += '      <div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
@@ -404,7 +459,7 @@ var html = {
         var src = 'img/no_primary_photo.png';
         if ( typeof comment['member']['idx_primary_photo'] != 'undefined' ) src = app.getDataURL(comment['member']['idx_primary_photo']);
 
-		m +=		'<img class="media-object profile-image" src="'+src+'" alt="Generic placeholder image">';
+		m +=		'<img class="media-object primary-photo profile-image" src="'+src+'" alt="Generic placeholder image">';
 		m +=		'</a>';
 		m +=		'<div class="media-body" '+this.message_onclick(comment['member'])+'>';
 		m +=			'<div class="name">'+comment['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
@@ -517,11 +572,11 @@ var html = {
         var m;
 
         if ( member.idx ) {
-            m = '<h1>User Login</h1>';
-            m += "<p>You have already logged in as <b>" + member.id + '</b></p>';
+            m = '<h1>로그 아웃</h1>';
+            m += "<p><b>" + member.id + '</b>님, 로그아웃을 하시겠습니까?</p>';
             m += '<p>'+member.primary_photo()+'</p>';
             m += '<nav class="navbar navbar-default logout-button">';
-            m += '<p class="navbar-brand">Logout</p>';
+            m += '<p class="navbar-brand">로그 아웃</p>';
             m += '</nav>';
         }
         else {

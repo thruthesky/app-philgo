@@ -42,7 +42,7 @@ var post = {
 
         var post_id = $page_button.attr('post-id');
         if ( post_id != '*' ) {
-            if ( post_id != re['post_id'] ) {
+            if ( post_id != re['post_id'] || app.getCurrentForum() == '-' ) {
                 trace(" : endless update() : Post data has been loaded but the page has changed. so, the posts will not be shown. re[post_id] = " + re['post_id'] + ", post-id:" + post_id);
                 return;
             }
@@ -57,6 +57,7 @@ var post = {
         }
         */
 
+        endless_hide_loader();
         post.display_posts(re);
     },
     /**
@@ -94,7 +95,7 @@ var post = {
         if ( typeof posts == 'undefined' ) return;
         var m = '<div class="point-ads">';
         m += '<div class="point-ads-title">회원 포인트 광고 <i class="fa fa-info-circle"></i> 광고안내</div>';
-        m += '<div class="point-ads-desc" style="display: none;">필고에서 회원 포인트로 글을 게시판 상단에 고정 등록하시면 앱에 자동으로 광고가 나타납니다.</div>';
+        m += '<div href="https://www.philgo.com/?module=member&action=point_buy" class="point-ads-desc" style="display: none;">필고에서 회원 포인트로 광고글을 등록하시면 앱에 자동으로 광고가 나타납니다.<br>포인트 구매 안내 ...</div>';
         for ( var i in posts ) {
             if (posts.hasOwnProperty(i)) {
                 var post = posts[i];
