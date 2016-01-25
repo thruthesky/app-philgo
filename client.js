@@ -224,9 +224,11 @@ $(function(){
 // server.js 로 이동을 하면된다.
 var attend = {
     init: function () {
+        console.log('attend.init()');
         //attend.el.button().click(function(e){
         on_click('.attend-button', function(e) {
             var url = app.getServerURL() + '?module=overframe&action=index&model=philgo_attend.Philgo_attend.attend';
+            console.log(url);
             ajax_load(url, function(data) {
                 console.log(data);
             });
