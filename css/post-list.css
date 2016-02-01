@@ -887,3 +887,12 @@
     text-align:center;
 }
 
+
+.show-more-post-content-button {
+	font-weight: bold;
+	color:navy;
+}
+.show-more-post-content-button .dots {
+	font-weight: normal;
+	color:black;
+}

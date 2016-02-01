@@ -29,7 +29,23 @@ var post = {
     },
     content : function( p ) {
         if ( p['deleted'] == 1 ) return lang('deleted');
-        else return p['content'];
+        var content = p['content'];
+
+        var countBlanks = s.count(content, ' ');
+
+        if ( countBlanks > 50 && content.length > 255 ) {
+            var posBlank = content.indexOf(' ', 200);
+            content = content.replace(/<br \/>/g, "<br>");
+            content = content.replace(/<\/br>/g, "");
+            content = content.replace(/< br>/g, "");
+            // @todo 버그가 있다. 코멘트에서 라인이 생기는데, 이것은 무시한다. 보통 코멘트는 길지 않다.
+            content = s.insert(content, posBlank, '<span class="show-more-post-content-button"><span class="dots">...</span><br>더 보기 ...</span><section class="show-more-post-content" style="display:none;">');
+            content += '</section>';
+            content = 'blanks: ' + countBlanks + ', length: ' + content.length + '<hr>' + content;
+        }
+
+
+        return content;
     },
     add_endless_container : function () {
         if ( el.post_list().length == 0 ) el.content().append('<div class="post-list"></div>');
@@ -47,7 +63,6 @@ var post = {
                 return;
             }
         }
-
 
 
         /*

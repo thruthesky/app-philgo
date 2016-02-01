@@ -258,6 +258,11 @@ var app = {
 
             $this.hide();
         });
+
+        on_click('.show-more-post-content-button', function() {
+            $(this).parents('.post').find('.show-more-post-content').css('display', 'inline');
+            $(this).remove();
+        });
     },
     setCurrentForum : function (post_id) {
         element.post_button().attr('post-id', post_id);
