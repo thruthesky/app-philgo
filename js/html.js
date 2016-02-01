@@ -81,13 +81,14 @@ var html = {
             m += '  <span class="btn message-button"><span class="glyphicon glyphicon-envelope"></span>쪽지</span>';
         }
         else {
-            m += '  <span class="btn"  page-button="login"><span class="glyphicon glyphicon-lock"></span>로그인</span>';
-            m += '  <span class="btn"  page-button="register"><span class="glyphicon glyphicon-user"></span>회원가입</span>';
+            m += '  <span class="btn" page-button="login"><span class="glyphicon glyphicon-lock"></span>로그인</span>';
+            m += '  <span class="btn" page-button="register"><span class="glyphicon glyphicon-user"></span>회원가입</span>';
         }
 
         //m += '  <span class="btn"  page-button="search"><span class="glyphicon glyphicon-search"></span>Search</span>';
         m += '  <span class="btn post-button" post-id=""><span class="glyphicon glyphicon-pencil"></span>글쓰기</span>';
-        m += '  <span class="btn setting-button"><span class="glyphicon glyphicon-wrench"></span>설정</span></span>';
+        //m += '  <span class="btn setting-button"><span class="glyphicon glyphicon-wrench"></span>설정</span></span>';
+        m += '  <span class="btn" page-button="search"><span class="glyphicon glyphicon-search"></span>검색</span></span>';
         m += '</div>';
         return m;
     },
