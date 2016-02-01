@@ -476,21 +476,17 @@ var callback = {
         html.showLoader();
         var $this = $(this);
         var idx = $this.attr('post-view');
-        ajax_load(app.getServerURL() + '?module=ajax&action=post_view_submit&idx='+idx, function(re){
 
+        ajax_load(app.getServerURL() + '?module=ajax&action=post_view_submit&idx='+idx, function(re){
             goTop();
             el.content().html('');
             app.setCurrentPage('post-view');
             var site = re['site'];
-
             //note.post(site + ' 사이트의 글이 추가되었습니다.');
             var post = re['post'];
             el.content().html(html.render_post(post));
             el.content().append(html.render_comments(post['comments'], post));
-
             html.hideLoader();
-
-
         });
     }
 };
