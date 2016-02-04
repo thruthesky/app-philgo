@@ -217,6 +217,9 @@ $(function(){
         }, 100)
     }, 400);
 */
+
+//    setTimeout(function(){ $('[page-button="search"]').click(); }, 200); // test : qna page
+
 });
 
 

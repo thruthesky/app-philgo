@@ -44,7 +44,6 @@ var post = {
             content = 'blanks: ' + countBlanks + ', length: ' + content.length + '<hr>' + content;
         }
 
-
         return content;
     },
     add_endless_container : function () {
@@ -57,9 +56,10 @@ var post = {
 
 
         var post_id = $page_button.attr('post-id');
-        if ( post_id != '*' ) {
+
+        if ( post_id != '*' && app.getCurrentForum() != '*' ) {
             if ( post_id != re['post_id'] || app.getCurrentForum() == '-' ) {
-                trace(" : endless update() : Post data has been loaded but the page has changed. so, the posts will not be shown. re[post_id] = " + re['post_id'] + ", post-id:" + post_id);
+                console.log(" : endless update() : Post data has been loaded but the page has changed. so, the posts will not be shown. re[post_id] = " + re['post_id'] + ", post-id:" + post_id);
                 return;
             }
         }
