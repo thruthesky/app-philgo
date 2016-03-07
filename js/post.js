@@ -41,7 +41,7 @@ var post = {
             // @todo 버그가 있다. 코멘트에서 라인이 생기는데, 이것은 무시한다. 보통 코멘트는 길지 않다.
             content = s.insert(content, posBlank, '<span class="show-more-post-content-button"><span class="dots">...</span><br>더 보기 ...</span><section class="show-more-post-content" style="display:none;">');
             content += '</section>';
-            content = 'blanks: ' + countBlanks + ', length: ' + content.length + '<hr>' + content;
+            //content = 'blanks: ' + countBlanks + ', length: ' + content.length + '<hr>' + content;
         }
 
         return content;

@@ -60,14 +60,13 @@ var html = {
         m += '  </div>';
         m += '</nav>';
         m += '<div class="btn-group btn-group-justified main-menu">';
-        //m += '  <span class="btn" page-button="news" post-id="news" title="필리핀 매거진">매거진</span>';
         m += '  <span class="btn" page-button="news" post-id="news" title="필리핀 뉴스">뉴스</span>';
         m += '  <span class="btn" page-button="info" post-id="qna" title="필리핀 정보">정보</span>';
         m += '  <span class="btn" company-button title="필리핀 업소록">업소록</span>';
         m += '  <span class="btn" page-button="travel" post-id="travel" title="필리핀 여행">여행</span>';
         m += '  <span class="btn" page-button="qna" post-id="qna" title="질문과답변">질문</span></span>';
         m += '  <span class="btn" page-button="freetalk" post-id="freetalk,news,knowhow" title="커뮤니티">토론</span></span>';
-        m += '  <span class="btn" widget="menu-all" title="더보기">더보기</span></span>';
+        m += '  <span class="btn" widget="menu-all" title="더보기">전체</span></span>';
         m += '</div>';
         return m;
     },

@@ -4,7 +4,7 @@
  *
  */
 var app = {
-    version : '20160101', // 년월일 로 표시한다. YYYYMMDD 이 값은 서버의 값과 비교해서 작으면 메인 화면에 알림창이 뜬다.
+    version : 26, // config.xml 의 version 값을 입력한다. 서버의 값과 비교해서 작으면 메인 화면에 알림창이 뜬다.
     url_server : null,
     current_page_name : null,
     deviceReady : false,

@@ -21,7 +21,7 @@ function ajax_load(url, callback, option) {
     }
     url +=  'page=' + app.getCurrentPage() + '&mobile=' + app.isMobile() + '&platform=' + app.platform();
 
-    console.log(url);
+    //console.log(url);
 
     $.ajax({
         url:url,
@@ -34,7 +34,7 @@ function ajax_load(url, callback, option) {
                 re = $.parseJSON(data);
             }
             catch ( e ) {
-                console.log(data);
+                //console.log(data);
                 note.post("파싱 에러 ... ");
                 html.hideLoader();
                 //console.log(data);
