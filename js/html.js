@@ -47,10 +47,10 @@ var html = {
         var m = '';
         m += '<nav class="navbar navbar-default top">';
         m += '  <div class="container-fluid">';
-        m += '      <span class="navbar-text glyphicon glyphicon-home" page-button="front" post-id="*" title="헬로필리핀"></span>';
+        m += '      <span class="navbar-text glyphicon glyphicon-home" page-button="front" post-id="*" title="'+app.getTitle()+'"></span>';
         //m += '      <span class="navbar-text glyphicon glyphicon-pencil"></span>';
         //m += '      <span class="navbar-text glyphicon glyphicon-camera"></span>';
-        m += '      <span class="navbar-text logo">필리핀매거진</span>';
+        m += '      <span class="navbar-text title logo">필고</span>';
         m += '      <span class="navbar-text navbar-right glyphicon glyphicon-th-list menu-panel toggle"></span>';
 		
 		
@@ -59,6 +59,32 @@ var html = {
 
         m += '  </div>';
         m += '</nav>';
+        m += '' +
+            '<div class="sub-menu">' +
+            '   <span class="item" page-button="qna" post-id="qna" title="질문과 답변"><i>질문</i></span>' +
+            '   <span class="item" page-button="freetalk" post-id="freetalk" title="자유 게시판"><i>토론</i></span>' +
+            '   <span class="item company"  page-button="company-book" title="필리핀 업소록"><i>업소록</i></span>' +
+            '   <span class="item" page-button="buyandsell" post-id="buyandsell" title="회원장터"><i>장터</i></span>' +
+            '   <span class="item" page-button="travel" post-id="travel" title="필리핀 여행"><i>여행</i></span>' +
+            '   <span class="item" page-button="news" post-id="news" title="필리핀 뉴스"><i>뉴스</i></span>' +
+            '   <span class="item menu-all" widget="menu-all" title="전체 메뉴"><i>전체메뉴</i></span>' +
+            '</div>';
+
+        m += '' +
+            '<div id="cse" style="width: 100%;">검색 창 로딩...</div>' +
+            '';
+/*
+        m += '' +
+            '<div class="third-menu-wrapper">' +
+            '<div class="third-menu">' +
+            '   <span>경험담</span> <span>지역 게시판</span>' +
+            '   <span>쪽지</span> <span>구인구직</span> <span>친구모임</span> <span>사람찾기</span> <span>주의사항</span>' +
+            '   <span>음식배달</span> <span>어학연수</span> <span>하숙집</span> <span>맛집</span>' +
+            '   <span>중고차</span> <span>항공</span> <span>호텔</span> <span>렌트카</span>' +
+            '</div>' +
+            '</div>';
+            */
+        /*
         m += '<div class="btn-group btn-group-justified main-menu">';
         m += '  <span class="btn" page-button="news" post-id="news" title="필리핀 뉴스">뉴스</span>';
         m += '  <span class="btn" page-button="info" post-id="qna" title="필리핀 정보">정보</span>';
@@ -68,6 +94,7 @@ var html = {
         m += '  <span class="btn" page-button="freetalk" post-id="freetalk,news,knowhow" title="커뮤니티">토론</span></span>';
         m += '  <span class="btn" widget="menu-all" title="더보기">전체</span></span>';
         m += '</div>';
+        */
         return m;
     },
     footer : function() {
@@ -86,8 +113,8 @@ var html = {
 
         //m += '  <span class="btn"  page-button="search"><span class="glyphicon glyphicon-search"></span>Search</span>';
         m += '  <span class="btn post-button" post-id=""><span class="glyphicon glyphicon-pencil"></span>글쓰기</span>';
-        //m += '  <span class="btn setting-button"><span class="glyphicon glyphicon-wrench"></span>설정</span></span>';
-        m += '  <span class="btn" page-button="search"><span class="glyphicon glyphicon-search"></span>검색</span></span>';
+        m += '  <span class="btn setting-button"><span class="glyphicon glyphicon-wrench"></span>설정</span></span>';
+        //m += '  <span class="btn" page-button="search"><span class="glyphicon glyphicon-search"></span>검색</span></span>';
         m += '</div>';
         return m;
     },

@@ -9,8 +9,8 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
 }
 
-body, td {
-    font-family: 'Malgun Gothic', '맑은고딕', 'GulimChe', '굴림체', serif!important;
+body, a, td, div, li {
+    font-family: 'Malgun Gothic', '맑은고딕', 'AppleGothic', 'GulimChe', '굴림체', serif!important;
 }
 
 a:hover {

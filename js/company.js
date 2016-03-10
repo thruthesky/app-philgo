@@ -1,9 +1,18 @@
+/**
+ *
+ * 2016 년 3 월 8 일 . company.js 에 대한 내용을 완전히 변경을 한다.
+ * company.js 는 아예 사용되지 않는다.
+ *
+ * @type {{data: null, length: number, count: string, init: company.init, on_click_company_button: company.on_click_company_button, on_click_company_category: company.on_click_company_category, on_click_row: company.on_click_row, el: {company: company.el.company, count: company.el.count, category_page: company.el.category_page}, show_category: company.show_category, update_count: company.update_count}}
+ */
 var company = {
     data : null,
     length : 0,
     count : '',
     init: function() {
+
         on_click('[company-button]', company.on_click_company_button);
+
         on_click('.company li', company.on_click_company_category);
         on_click('.company .row', company.on_click_row);
 

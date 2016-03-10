@@ -74,6 +74,47 @@ header .top .navbar-right {
     float:right;
     margin-right:0;
 }
+
+
+
+header .sub-menu {
+    background-color: #b0b4c7;
+    overflow:auto;
+}
+
+header .sub-menu .item {
+    display:block;
+    float:left;
+    width:13.5%;
+}
+header .sub-menu .item.menu-all {
+    width:19%;
+}
+header .sub-menu .item i {
+    display:block;
+    padding:8px 0;
+    font-style:normal;
+    text-align: center;
+}
+
+/*
+header .third-menu-wrapper {
+    padding-bottom:1em;
+    background-color:transparent;
+}
+header .third-menu {
+    margin: 0 10px;
+    padding: 6px;
+    background-color:white;
+    line-height:10px;
+    text-align:center;
+}
+header .third-menu span {
+    font-family: "Gulim", "굴림", "AppleGothic", serif;
+    font-size:11px;
+}
+*/
+
 @media (min-width:480px){
     header .top .logo{
         margin:0 62px 0 0;
@@ -83,4 +124,13 @@ header .top .navbar-right {
         display:block;
     }
 }
+
+
+/** Google search box */
+.cse .gsc-search-button input.gsc-search-button-v2, input.gsc-search-button-v2 {
+    width:auto!important;
+    height:auto!important;
+}
+/** Eo google search box */
+
 /** ========== EO Header ============ */

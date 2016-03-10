@@ -9,11 +9,16 @@ var app = {
     current_page_name : null,
     deviceReady : false,
     connectionStatus : false,
+    title : '필고',
     getVersion : function () {
         return this.version;
     },
     setTitle : function (str) {
-        $('header .logo').text(str);
+        app.title = str;
+        $('header .logo').text(app.title);
+    },
+    getTitle : function() {
+        return app.title;
     },
     getCurrentPage : function () {
         return this.current_page_name;
@@ -306,7 +311,7 @@ var app = {
     alert : function (str) {
 
         bootbox.dialog( {
-            title : '헬로필리핀',
+            title : app.getTitle(),
             message : str,
             buttons : {
                 success : {
@@ -339,7 +344,7 @@ var app = {
     selectDialog : function ( message, labels, callback ) {
         bootbox.dialog({
             message: message,
-            title: "헬로필리핀",
+            title: app.getTitle(),
             buttons: {
                 success: {
                     label: labels[0],
@@ -418,4 +423,15 @@ var app = {
 		$selector.css("display","block");
 	}
 	//^ added by benjamin modal window
+    ,
+    on_click_backbutton : function () {
+
+        var top = $(window).scrollTop();
+        if ( top == 0 ) {
+            // close the app if the user is on main page.
+        }
+        else {
+            app.goTop();
+        }
+    }
 };

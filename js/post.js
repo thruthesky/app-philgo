@@ -50,7 +50,7 @@ var post = {
         if ( el.post_list().length == 0 ) el.content().append('<div class="post-list"></div>');
     },
     endless_update : function (re) {
-        console.log(re);
+        //console.log(re);
         post.add_endless_container();
         var $page_button = el.page_button(re['page']);
 
@@ -75,7 +75,7 @@ var post = {
         endless_hide_loader();
         post.display_posts(re);
 
-        philgo_point_event.time_point(re['event']);
+        // philgo_point_event.time_point(re['event']);
     },
     /**
      * 게시판 글을 로드해서 화면에 표시한다.

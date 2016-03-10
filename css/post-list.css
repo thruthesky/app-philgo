@@ -821,6 +821,7 @@
 .point-ads .ad {
 	margin:.6em 0;
 	overflow:auto;
+	overflow-y: hidden;
 }
 .point-ads .ad:last-child {
 	padding-bottom:.4em;

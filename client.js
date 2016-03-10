@@ -1,16 +1,12 @@
 //debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
 
 
-document.addEventListener("backbutton", on_backbutton_click, false);
-function on_backbutton_click() {
-    app.goTop();
-}
-
-
+document.addEventListener("backbutton", app.on_click_backbutton, false);
 
 
 $(function(){
 
+    on_click('.setting-button', app.on_click_backbutton);
 
     //var url = 'http://work.philgo.org/'; // ICS 로 앱에서 테스트
     var url = 'http://philgo.org/'; // ICS 로 앱에서 테스트
@@ -36,31 +32,31 @@ $(function(){
     }
     */
 
-
-
     app.setServerURL(url);
 
     add_css(app.getServerCSSURL());
     add_javascript(app.getServerJavascriptURL());
     //add_javascript(app.getHookJavascriptURL ());
 
-    // @doc How to use onDeviceRead
 
+
+    // @doc How to use onDeviceRead
     app.addEventDeviceReady(
         function callback_onDeviceReady() {
+            if ( app.isCordova() ) {
+                app.setTitle('헬로 필리핀');
+            }
             callback_init_message();
         }
     );
 
-
-
-
-
+/*
     setInterval(function(){
         //$('.icon-next').click();
         //$('.icon-prev').click();
 
     }, 1000);
+    */
 
 
     // db.deleteAll();
@@ -72,10 +68,17 @@ $(function(){
 
 
     html.setHeader();
+    if ( app.isCordova() ) {
+        app.setTitle('헬로 필리핀');
+    }
 
-    member.load();
+
 
     //trace(member.idx);
+
+
+
+    member.load();
 
 
 
