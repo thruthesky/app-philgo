@@ -1,0 +1,3 @@
+[submodule "etc/my-slider-v2"]
+	path = etc/my-slider-v2
+	url = https://github.com/thruthesky/my-slider-v2
