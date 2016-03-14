@@ -7,10 +7,10 @@ document.addEventListener("backbutton", app.on_click_backbutton, false);
  * post_list_type 이
  *
  *      1 이면, 모두 펼쳐 보이기를 한다.
- *      2 이면, 제목만 보이고, 내용을 클릭해야 보인다.
+ *      2 이면, 제목만 보이고, 제목을 클릭해야 전체 내용 및 코멘트 FORM, 코멘트 목록이 보인다.
  * @type {number}
  */
-var post_list_type = 1;
+var post_list_type = 2;
 
 
 $(function(){

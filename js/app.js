@@ -273,6 +273,13 @@ var app = {
                 $(this).remove();
             });
         }
+        else {
+            on_click('.post-info[idx-root]', function() {
+                var $this = $(this);
+                var idx = $this.attr('idx-root');
+                $(".post-detail[idx-root='"+idx+"']").show();
+            });
+        }
 
 
         /**

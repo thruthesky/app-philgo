@@ -208,7 +208,9 @@ div.content iframe {
 	margin:0 0 10px 0;
 }
 */
-.post .post-info .name{
+.post .post-info .name {
+    float: left;
+    margin-right:.2em;
 	font-size:.9em;
 	font-weight:bold;
 }
@@ -216,9 +218,12 @@ div.content iframe {
 .post .post-info .name .send-message{
 	position:relative;
 	top:-1px;
-	margin-left:8px;
+	margin: 0 .5em;
 }
 
+.post .post-info .user-photo {
+    float: left;
+}
 .post .post-info .date, .post .location{
 	font-size:.8em;	
 }

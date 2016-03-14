@@ -390,12 +390,12 @@ var html = {
         if ( !_.isEmpty(p['subject']) ) {
             //m += '<h3 class="subject">' + p['subject'] + '</h3>';
         }
-        m += '<div class="subject">' + post.subject(p) + '</div>';
-
 
         var date_full = etc.date_full(p['stamp']);
         var date = etc.date_short(p['stamp']);
 
+        // 간단 목록
+        if ( post.isCloseList() ) m += '<div class="post-detail" style="display:none;" idx-root="'+p['idx']+'">';
         m += '<div class="btn-group post-menu-philzine-top" role="group">';
         if( ! post.mine(p) ) {
             m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
@@ -407,17 +407,25 @@ var html = {
         m += '  <span class="menu-separator"></span>';
         m += post.markup.more(p);
         m += '</div>';
+        if ( post.isCloseList() ) m += '</div>';
 
-        m += '<div class="media post-info">';
-        m += '  <a class="media-left" href="#">';
+
+
+        m += '<div class="media post-info" idx-root="'+p['idx']+'">';
+        m += '  <a class="media-left user-photo" href="#">';
 
         var src = 'img/no_primary_photo.png';
 
         if ( typeof p['member']['idx_primary_photo'] != 'undefined' ) src = app.getDataURL(p['member']['idx_primary_photo']);
         m += '      <img class="media-object primary-photo profile-image" src="'+src+'" alt="Generic placeholder image">';
         m += '  </a>';
-        m += '  <div class="media-body" '+this.message_onclick(p['member'])+'>';
-        m += '      <div class="name">'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
+
+        var no = parseInt(p['no_of_comment']) ? '(' + p['no_of_comment'] + ')' : '';
+
+        m += '<div class="subject">' + post.subject(p) + ' ' + no + '</div>';
+
+        m += '  <div class="media-body">';
+        m += '      <div class="name" '+this.message_onclick(p['member'])+'>'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
         m += '      <div class="date" title="'+date_full+'">' + date + '</div>';
         m += '  </div>';
         m += '</div>';
