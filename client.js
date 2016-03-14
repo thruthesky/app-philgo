@@ -1,4 +1,4 @@
-//debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
+debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
 
 
 document.addEventListener("backbutton", app.on_click_backbutton, false);

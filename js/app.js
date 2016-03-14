@@ -179,6 +179,8 @@ var app = {
         on_click('[widget]', function(e){
             var $this = $(this);
 
+            html.clear_place_post_view( $this );
+
             var title = $this.attr('title');
             app.setTitle(title);
 
@@ -268,6 +270,24 @@ var app = {
             $(this).parents('.post').find('.show-more-post-content').css('display', 'inline');
             $(this).remove();
         });
+
+
+        /**
+         *
+         * page scroll 이 되면 0.3 초 마다 한번씩 이벤트를 발생시킨다.
+         *
+         */
+        var lazyScroll = _.debounce(pageScrolled, 100);
+        $(document).scroll(lazyScroll);
+        function pageScrolled() {
+            var top = $(document).scrollTop();
+            if ( top < 100 ) {
+                $("#cse").show();
+            }
+            else {
+                $("#cse").hide();
+            }
+        }
     },
     setCurrentForum : function (post_id) {
         element.post_button().attr('post-id', post_id);

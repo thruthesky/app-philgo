@@ -1,6 +1,7 @@
 var callback = {
     on_click_page : function () {
         var $this = $(this);
+        html.clear_place_post_view($this);
         var page_name = $this.attr('page-button');
         var title = $this.attr('title');
         app.setTitle(title);
@@ -208,6 +209,7 @@ var callback = {
                 catch (e) {					
                     //html.hideLoader();
 					html.removeUploadLoader( $form.find(".photos") );//added by benjamin
+                    //console.log(s.stripTags(xhr.responseText));
                     return alert("에러: 파일 업로드에 실패하였습니다.");
                     //return alert(s.stripTags(xhr.responseText));
                 }
@@ -427,6 +429,8 @@ var callback = {
 	},
 	//^ above is added by benjamin
     on_click_setting_button : function () {
+        var $this = $(this);
+        html.clear_place_post_view( $this );
         html.setContent( html.page.setting(), 'setting' );
     },
     on_click_change_server_button : function () {
@@ -479,13 +483,14 @@ var callback = {
 
         ajax_load(app.getServerURL() + '?module=ajax&action=post_view_submit&idx='+idx, function(re){
             goTop();
-            el.content().html('');
             app.setCurrentPage('post-view');
             var site = re['site'];
             //note.post(site + ' 사이트의 글이 추가되었습니다.');
             var post = re['post'];
-            el.content().html(html.render_post(post));
-            el.content().append(html.render_comments(post['comments'], post));
+            var m = html.render_post(post);
+            m += html.render_comments(post['comments'], post);
+            //el.content().find(":before").html(m);
+            $(".place-post-view").html('<div class="place-post-view">'+m+'</div>')
             html.hideLoader();
         });
     }

@@ -40,3 +40,17 @@
     font-weight:normal;
     margin:0!important;
 }
+
+/* latest-post-group */
+.latest-post-group .forum ul {
+    margin: 0;
+    padding: 0;
+}
+.latest-post-group .forum .post {
+    margin: .2em 0;
+    padding: .4em .8em;
+}
+.latest-post-group .forum .post .subject {
+    margin:0;
+    padding:0;
+}

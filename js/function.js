@@ -65,6 +65,23 @@ function goTop() {
     app.goTop();
 }
 
+/**
+ *
+ *
+ * @code
+ *
+ *      goTo( $('.post-edit[idx="'+idx+'"]'), -120 );
+ *
+ * @endcode
+ *
+ * @param $obj
+ * @param add
+ */
+function goTo( $obj, add ) {
+    $('html, body').animate({
+        scrollTop: $obj.offset().top + add + 'px'
+    }, 'fast');
+}
 
 /**
  * 페이지를 선택하고 그 안의 객체를 선택한다.

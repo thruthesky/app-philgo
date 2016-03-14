@@ -1,3 +1,7 @@
+/** Overriding bootbox */
+.modal {
+    z-index: 98765432101;
+}
 /** Overriding bootstrap modal and bootbox */
 .modal {
     top:112px!important;

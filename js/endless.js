@@ -88,6 +88,8 @@ function endless_reset(url, callback) {
         if ($window.scrollTop() >= top) {
             if ( ! endless_api ) return trace("no endless_api");
             endless_scroll_count ++;
+
+
             trace("endless_listen_scroll():: count:" + endless_scroll_count + ", endless_api: " + endless_api);
             endless_in_loading = true;
             endless_show_loader();

@@ -6,6 +6,9 @@ var element = {
     content:     function () {
         return $('.widget.content');
     },
+    content_wrapper:     function () {
+        return $('section.content-wrapper');
+    },
     widget: function (name) {
         return $(".widget." + name);
     },
@@ -51,7 +54,9 @@ var element = {
 	//added by benjamin
 	modal_window : function () {
         return $('.modalWindow');
-    },	
-	//^ added by benjamin
+    },
+    place_post_view : function () {
+        return $('section.place-post-view');
+    }
 };
 var el = element;

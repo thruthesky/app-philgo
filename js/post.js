@@ -31,6 +31,7 @@ var post = {
         if ( p['deleted'] == 1 ) return lang('deleted');
         var content = p['content'];
 
+
         var countBlanks = s.count(content, ' ');
 
         if ( countBlanks > 50 && content.length > 255 ) {
@@ -39,7 +40,12 @@ var post = {
             content = content.replace(/<\/br>/g, "");
             content = content.replace(/< br>/g, "");
             // @todo 버그가 있다. 코멘트에서 라인이 생기는데, 이것은 무시한다. 보통 코멘트는 길지 않다.
-            content = s.insert(content, posBlank, '<span class="show-more-post-content-button"><span class="dots">...</span><br>더 보기 ...</span><section class="show-more-post-content" style="display:none;">');
+            content = s.insert(content, posBlank, '' +
+                '<nav class="show-more-post-content-button">' +
+                '   <span class="dots">...</span><br>' +
+                '   더 보기 ...' +
+                '</nav>' +
+                '<section class="show-more-post-content" style="display:none;">');
             content += '</section>';
             //content = 'blanks: ' + countBlanks + ', length: ' + content.length + '<hr>' + content;
         }
@@ -54,11 +60,12 @@ var post = {
         post.add_endless_container();
         var $page_button = el.page_button(re['page']);
 
-
-        var post_id = $page_button.attr('post-id');
+        //var post_id = $page_button.attr('post-id');
+        var post_id = app.getCurrentForum();
 
         if ( post_id != '*' && app.getCurrentForum() != '*' ) {
             if ( post_id != re['post_id'] || app.getCurrentForum() == '-' ) {
+                console.log(re);
                 console.log(" : endless update() : Post data has been loaded but the page has changed. so, the posts will not be shown. re[post_id] = " + re['post_id'] + ", post-id:" + post_id);
                 return;
             }

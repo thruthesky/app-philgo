@@ -3,6 +3,11 @@
     margin-top:0;
 }
 
+div.content iframe {
+	width: 100%!important;
+}
+
+
 .post-comment-form [name='content'] {
     width: 180px;
     height:26px;
@@ -600,7 +605,7 @@
 
 .post-edit [name='content']{
 	display:block;
-	height:40px;
+	height:14em;
 	width:100%;
 	padding:5px;
 	border:0;
@@ -892,6 +897,7 @@
 .show-more-post-content-button {
 	font-weight: bold;
 	color:navy;
+	cursor:pointer;
 }
 .show-more-post-content-button .dots {
 	font-weight: normal;

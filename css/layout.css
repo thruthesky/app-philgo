@@ -8,7 +8,7 @@ body {
 
 header {
     position:fixed;
-    z-index:1234;
+    z-index:9876543210;
     top:0;
     left:0;
     right:0;
@@ -29,7 +29,7 @@ footer {
 	height:100%;
 }
 
-section.widget.content {
+section.content-wrapper {
 	min-height:100%;
     padding-top:186px;
     padding-bottom:75px;

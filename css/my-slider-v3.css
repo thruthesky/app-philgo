@@ -1,0 +1,77 @@
+.my-slider {
+    position: relative;
+}
+
+.my-slider ul {
+    list-style:none;
+    margin:0;
+    padding:0;
+    position:relative;
+    overflow:hidden;
+}
+
+
+.my-slider ul li {
+    position:absolute;
+    top:0;
+}
+.my-slider ul li:first-child {
+    position: relative;
+    z-index: 101;
+}
+
+
+.my-slider ul li a {
+    display:block;
+    position:relative;
+}
+
+.my-slider ul li img {
+    display:block;
+    width:100%;
+}
+
+.my-slider ul li p {
+    position:absolute;
+    z-index: 1;
+    margin:0;
+    left:0;
+    right:0;
+    bottom: 20px;
+    text-align: center;
+}
+
+.my-slider ul li p em {
+    display:block;
+    padding: .2rem .4rem;
+    background-color: rgba(255, 255, 255, 0.5);
+    font-size: 1.2em;
+}
+
+.my-slider ul li p i {
+    display:block;
+    padding: 0 .4rem .2rem;
+    background-color: rgba(230, 230, 230, 0.5);
+    font-size: 1.2em;
+}
+
+
+.my-slider nav {
+    position: relative;
+    width:100%;
+    cursor: pointer;
+}
+
+.my-slider nav img {
+    display: block;
+    position: absolute;
+    z-index: 4321;
+    width:10%;
+    max-width: 32px;
+}
+.my-slider nav img:first-child {
+    left: 1rem;
+}
+.my-slider nav img:last-child {
+    right: 1rem;
+}

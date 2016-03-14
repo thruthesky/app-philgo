@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <!--
+
+    Hello Philippines App BuildGuide : https://docs.google.com/document/d/1yL2hl3qbMf3YVvO742-cDFssVtbdRTGh6yV3a43IN20/edit#heading=h.z943eo8f73u0
+
     Customize this policy to fit your own app's needs. For more guidance, see:
         https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
     Some notes:
@@ -35,23 +38,41 @@
     <link rel="stylesheet" type="text/css" href="css/front.css">
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <link rel="stylesheet" type="text/css" href="css/company.css">
+    <link rel="stylesheet" type="text/css" href="css/my-slider-v3.css">
     <title>필고</title>
 
+    <style>
+        .my-slider {
+            margin-bottom: .8em;
+        }
+        .my-slider ul li img {
+            max-height:32vw;
+            overflow:hidden;
+        }
+        .my-slider ul li em {
+            font-size: 1rem!important;
+        }
+        .my-slider ul li i {
+            font-size: 1rem!important;
+        }
+    </style>
 </head>
 <body>
-
 <div id='layout'>
     <header class="widget header"></header>
     <nav class="widget menu-panel"></nav>
     <section class="note"></section>
-    <section class="widget content">
-        <div style="font-size:1.2em; text-align:center; margin-top:1em;">
-            <div style="font-size:1.5em; margin-bottom:1em;">
-                <i class="fa fa-circle-o-notch fa-spin"></i>
+    <section class="content-wrapper">
+        <section class="place-post-view"></section>
+        <section class="widget content">
+            <div style="font-size:1.2em; text-align:center; margin-top:1em;">
+                <div style="font-size:1.5em; margin-bottom:1em;">
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                </div>
+                정보를 로딩중입니다...
+                <div style="font-size:1em;">인터넷이 연결되었는지 확인을 해 주세요.</div>
             </div>
-            정보를 로딩중입니다...
-            <div style="font-size:1em;">인터넷이 연결되었는지 확인을 해 주세요.</div>
-        </div>
+        </section>
     </section>
     <footer class="widget footer">
         <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
@@ -90,6 +111,7 @@
 <script type="text/javascript" src="js/eventhandler.js"></script>
 <!-- script type="text/javascript" src="js/company.js"></script -->
 <script type="text/javascript" src="client.js"></script>
+<script type="text/javascript" src="js/my-slider-v3.js"></script>
 
 
 <script src='http://www.google.com/jsapi' type='text/javascript'></script>
@@ -236,6 +258,8 @@
 
     /** 검색창 테두리 */
     input.gsc-input, .gsc-input-box, .gsc-input-box-hover, .gsc-input-box-focus {
+        margin: 0!important;
+        padding: 2px 0 0 4px;
         border-color: #891318;
     }
 

@@ -15,6 +15,8 @@ var html = {
     },
     /**
      *
+     * @deprecated
+     *
      * @note This does not save data into database.
      * @Attention Use this function to set content on '.content'.
      *      - it does extra tasks.
@@ -42,6 +44,20 @@ var html = {
 
         goTop();
         element.content().html(html);
+    },
+    /**
+     * content 을 empty 하고, 화면을 초기화 한다.
+     * @usage 클릭을 하거나 새로운 내용을 채우고자 할 때, 이 함수를 사용한다.
+     */
+    resetContent : function () {
+        html.resetScreen();
+        el.content().empty();
+    },
+    // 화면 초기화를 한다. 페이지를 맨 위로 올리고, 팝업이나 패널 메뉴를 없앤다.
+    // 단, content 는 없애지 않는다.
+    resetScreen : function() {
+        if ( panel.open() ) panel.close();
+        goTo();
     },
     header : function() {		
         var m = '';
@@ -573,6 +589,7 @@ var html = {
 
         m = '<div class="post-edit" idx="'+idx+'">' + m + '</div>';
         $post.after( m );
+        goTo( $('.post-edit[idx="'+idx+'"]'), -120 );
     },
     /**
      *
@@ -825,4 +842,15 @@ var html = {
     }
 
 
+};
+
+
+html.clear_place_post_view = function ($this) {
+    if ( $this.attr('post-view') ) {
+        console.log("post-view:" + $this.attr('post-view'));
+    }
+    else {
+        console.log("No post-view. So, empty post-view");
+        el.place_post_view().empty();
+    }
 };
