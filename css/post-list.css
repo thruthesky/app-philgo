@@ -190,7 +190,7 @@ div.content iframe {
 }
 
 .post .subject {
-	margin-top:.8em;
+	padding-top: .4em;
     font-weight:bold;
 }
 .post .content {
@@ -235,7 +235,7 @@ div.content iframe {
 .post .post-menu-philzine-top{
 	position:absolute;
 	right:5px;
-	top:0;
+	/*top:0;*/
 	padding:0;
 	color:#aaa;
 }
@@ -803,6 +803,7 @@ div.content iframe {
 /*eo edit*/
 /*eo photos*/
 
+
 .show-more-comment {
 	padding:.8em 1.2em;
     border: 1px solid #d0d0d0;
@@ -810,6 +811,7 @@ div.content iframe {
 	font-size:.9em;
 	color: #1c7ea0;
 }
+
 
 /** 포인트 광고 */
 

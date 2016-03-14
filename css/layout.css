@@ -12,7 +12,8 @@ header {
     top:0;
     left:0;
     right:0;
-    /*height:105px;*/
+    /* max-height: 140px; */
+    padding-bottom: 5px;
     overflow:hidden;
 }
 footer {
@@ -31,7 +32,7 @@ footer {
 
 section.content-wrapper {
 	min-height:100%;
-    padding-top:186px;
+    padding-top:144px;
     padding-bottom:75px;
 	box-sizing:border-box;
 }
@@ -44,5 +45,6 @@ section.content-wrapper {
 
 .note {
     position:fixed;
+    z-index: 9876543212;
     top:112px;
 }

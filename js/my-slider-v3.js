@@ -66,7 +66,7 @@
                     else {
                         settings.active = parseInt(no) + 1;
                     }
-                    console.log('settings.active:' + settings.active);
+                    //console.log('settings.active:' + settings.active);
                     animate(true);
                 }
                 function animate( force ) {
@@ -132,7 +132,7 @@
                     });
                     $dots.find('b').click(function(){
                         var no = $(this).attr('no');
-                        console.log(no);
+                        //console.log(no);
                         animateNo(no);
                     });
                 }
@@ -181,12 +181,12 @@
                 }
 
                 function moveLeft() {
-                    console.log('left clicked');
+                    //console.log('left clicked');
                     settings.direction = 'left-to-right';
                     animate(true);
                 }
                 function moveRight(){
-                    console.log('right clicked');
+                    //console.log('right clicked');
                     settings.direction = 'right-to-left';
                     animate(true);
                 }

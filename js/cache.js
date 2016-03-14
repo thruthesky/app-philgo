@@ -49,11 +49,11 @@ var cache = {
                 }
 
                 html.setContent(re.html, name);
-                console.log("re.html");
-                console.log(re.html);
+                //console.log("re.html");
+                //console.log(re.html);
                 //alert('curr page: ' + app.getCurrentPage() + ', loaded page:' + re['page']);
                 //note.post(name + ' 페이지를 로드하였습니다.');
-                console.log("==================== ajax_load() : endless_reset:")
+                //console.log("==================== ajax_load() : endless_reset:")
                 if ( post_id ) {
                     app.setCurrentForum(post_id);
                     endless_show_loader();

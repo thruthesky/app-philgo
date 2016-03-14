@@ -71,6 +71,7 @@ function endless_reset(url, callback) {
     }
     endless_api += '&page_no=';
     var url_endless = endless_api + endless_scroll_count;
+    trace('endless_reset : url_endless : ' + url_endless );
     ajax_load( url_endless, endless_callback);
 }
 (function () {
@@ -80,7 +81,9 @@ function endless_reset(url, callback) {
     $document.scroll(endless_load_more);
     function endless_load_more() {
         // trace('endless_load_more(e) : ');
-        if ( app.getCurrentPage() == 'post-view' ) return trace("DO NOT endless load on 'post-view' page. return.");
+        if ( app.getCurrentPage() == 'post-view' ) {
+            // return trace("DO NOT endless load on 'post-view' page. return.");
+        }
 
         if ( endless_no_more_content ) return trace("no more content. return.");
         if ( endless_in_loading ) return trace("endless is in loading page.");
@@ -88,7 +91,6 @@ function endless_reset(url, callback) {
         if ($window.scrollTop() >= top) {
             if ( ! endless_api ) return trace("no endless_api");
             endless_scroll_count ++;
-
 
             trace("endless_listen_scroll():: count:" + endless_scroll_count + ", endless_api: " + endless_api);
             endless_in_loading = true;

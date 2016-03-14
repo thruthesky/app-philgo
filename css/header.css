@@ -1,5 +1,8 @@
 
 /** ================ Header =================== */
+header {
+    background-color:white;
+}
 /* top */
 header .top{
     padding:10px 0;

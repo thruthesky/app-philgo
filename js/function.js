@@ -21,7 +21,7 @@ function trace(v) {
         name = 'global';
     }
     count_trace ++;
-    //console.log('[' + count_trace + '] ' + name + '() ' + v);
+    console.log('[' + count_trace + '] ' + name + '() ' + v);
 }
 
 function lang(code) {

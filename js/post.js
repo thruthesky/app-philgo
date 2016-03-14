@@ -1,4 +1,13 @@
 var post = {
+    listType : function () {
+        return post_list_type;
+    },
+    isOpenList : function () {
+        return post_list_type == 1;
+    },
+    isCloseList : function () {
+        return post_list_type == 2;
+    },
     mine : function (p) {
         if ( typeof p['idx_member'] == 'undefined' ) return false;
         if ( ! member.login() ) return false;
@@ -27,29 +36,41 @@ var post = {
         if ( p['deleted'] == 1 ) return '';
         else return p['subject'];
     },
+    getPhotos : function(p) {
+        var photo = p['photos'];
+        return photo;
+    },
     content : function( p ) {
+        return '<div class="content">' + post.getContent(p) + '</div>';
+    },
+    getContent : function(p) {
+
         if ( p['deleted'] == 1 ) return lang('deleted');
         var content = p['content'];
 
-
         var countBlanks = s.count(content, ' ');
 
-        if ( countBlanks > 50 && content.length > 255 ) {
-            var posBlank = content.indexOf(' ', 200);
-            content = content.replace(/<br \/>/g, "<br>");
-            content = content.replace(/<\/br>/g, "");
-            content = content.replace(/< br>/g, "");
-            // @todo 버그가 있다. 코멘트에서 라인이 생기는데, 이것은 무시한다. 보통 코멘트는 길지 않다.
-            content = s.insert(content, posBlank, '' +
-                '<nav class="show-more-post-content-button">' +
-                '   <span class="dots">...</span><br>' +
-                '   더 보기 ...' +
-                '</nav>' +
-                '<section class="show-more-post-content" style="display:none;">');
-            content += '</section>';
-            //content = 'blanks: ' + countBlanks + ', length: ' + content.length + '<hr>' + content;
-        }
+        /**
+         * 2016-03-14 글 내용 더 보기 기능을 옵션 처리
+         * 따라서 서버에서 데이터를 출력 할 때, 가능한 HTML 태그를 넣어도 된다.
+         */
+        if ( post.isOpenList() ) {
+            if ( countBlanks > 50 && content.length > 255 ) {
+                var posBlank = content.indexOf(' ', 200);
+                content = content.replace(/<br \/>/g, "<br>");
+                content = content.replace(/<\/br>/g, "");
+                content = content.replace(/< br>/g, "");
+                // @todo 버그가 있다. 코멘트에서 라인이 생기는데, 이것은 무시한다. 보통 코멘트는 길지 않다.
+                content = s.insert(content, posBlank, '' +
+                    '<nav class="show-more-post-content-button">' +
+                    '   더 보기 ...' +
+                    '</nav>' +
+                    '<section class="show-more-post-content" style="display:none;">');
+                content += '</section>';
+                //content = 'blanks: ' + countBlanks + ', length: ' + content.length + '<hr>' + content;
+            }
 
+        }
         return content;
     },
     add_endless_container : function () {
@@ -73,11 +94,11 @@ var post = {
 
 
         /*
-        if ( app.getCurrentPage() != re['page'] ) {
-            trace("post.endless_update() : widget_name and page name is not the same. data voided.");
-            return;
-        }
-        */
+         if ( app.getCurrentPage() != re['page'] ) {
+         trace("post.endless_update() : widget_name and page name is not the same. data voided.");
+         return;
+         }
+         */
 
         endless_hide_loader();
         post.display_posts(re);
@@ -97,6 +118,7 @@ var post = {
             endless_show_no_more_content('<h1>No more content</h1>');
         }
         else {
+            trace("No of posts loaded : " + re['posts'].length);
             var site = re['site'];
             var post_id = re['post_id'];
             var page_no = re['page_no'];
@@ -109,6 +131,7 @@ var post = {
             var posts = re['posts'];
             for ( var i in posts ) {
                 if (posts.hasOwnProperty(i)) {
+                    //trace("No of posts: " + i);
                     element.post_list().append(html.render_post(posts[i]));
                     element.post_list().append(html.render_comments(posts[i]['comments'], posts[i]));
                 }

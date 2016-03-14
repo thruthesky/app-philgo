@@ -258,18 +258,21 @@ var app = {
             });
         });
 
-        on_click('.show-more-comment', function() {
-            var $this = $(this);
-            var root = $this.attr('idx-root');
-            $(".comment[idx-root='"+root+"']").show();
-
-            $this.hide();
-        });
-
-        on_click('.show-more-post-content-button', function() {
-            $(this).parents('.post').find('.show-more-post-content').css('display', 'inline');
-            $(this).remove();
-        });
+        /**
+         * 2016-03-14 더보기 버튼을 옵션 처리
+         */
+        if ( post.isOpenList() ) {
+            on_click('.show-more-comment', function() {
+                var $this = $(this);
+                var root = $this.attr('idx-root');
+                $(".comment[idx-root='"+root+"']").show();
+                $this.hide();
+            });
+            on_click('.show-more-post-content-button', function() {
+                $(this).parents('.post').find('.show-more-post-content').css('display', 'inline');
+                $(this).remove();
+            });
+        }
 
 
         /**
@@ -283,9 +286,11 @@ var app = {
             var top = $(document).scrollTop();
             if ( top < 100 ) {
                 $("#cse").show();
+                el.header().css('background-color', 'white');
             }
             else {
                 $("#cse").hide();
+                el.header().css('background-color', 'transparent');
             }
         }
     },

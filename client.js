@@ -1,10 +1,20 @@
 debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
-
-
 document.addEventListener("backbutton", app.on_click_backbutton, false);
 
 
+
+/**
+ * post_list_type 이
+ *
+ *      1 이면, 모두 펼쳐 보이기를 한다.
+ *      2 이면, 제목만 보이고, 내용을 클릭해야 보인다.
+ * @type {number}
+ */
+var post_list_type = 1;
+
+
 $(function(){
+
 
     on_click('.setting-button', app.on_click_backbutton);
 
@@ -98,7 +108,7 @@ $(function(){
     //initApp();
     //setTimeout(function(){ showPage('setting'); }, 600); // test
     //setTimeout(function(){ $('[page-button="news"]').click(); }, 700); // test : news page
-    // setTimeout(function(){ $('[page-button="freetalk"]').click(); }, 400); // test : news page
+    setTimeout(function(){ $('[page-button="freetalk"]').click(); }, 400); // test : 자유게시판 page
     //setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
         //setTimeout(function(){ $('.point-ads-title').click(); }, 500); // test : qna page
     //setTimeout(function(){ $('[page-button="login"]').click(); }, 700); // test : login page

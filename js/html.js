@@ -15,7 +15,7 @@ var html = {
     },
     /**
      *
-     * @deprecated
+     *
      *
      * @note This does not save data into database.
      * @Attention Use this function to set content on '.content'.
@@ -66,7 +66,7 @@ var html = {
         m += '      <span class="navbar-text glyphicon glyphicon-home" page-button="front" post-id="*" title="'+app.getTitle()+'"></span>';
         //m += '      <span class="navbar-text glyphicon glyphicon-pencil"></span>';
         //m += '      <span class="navbar-text glyphicon glyphicon-camera"></span>';
-        m += '      <span class="navbar-text title logo">필고</span>';
+        m += '      <span class="navbar-text title logo" page-button="front" post-id="*" title="'+app.getTitle()+'">필고</span>';
         m += '      <span class="navbar-text navbar-right glyphicon glyphicon-th-list menu-panel toggle"></span>';
 		
 		
@@ -87,8 +87,12 @@ var html = {
             '</div>';
 
         m += '' +
-            '<div id="cse" style="width: 100%;">검색 창 로딩...</div>' +
+            '<section class="top-search">' +
+            '   <div id="cse" style="width: 100%; text-align:center;">검색 창 로딩...</div>' +
+            '</section>' +
             '';
+
+        m += '<div class="header-bottom-space"></div>';
 /*
         m += '' +
             '<div class="third-menu-wrapper">' +
@@ -376,18 +380,24 @@ var html = {
     },
     render_post : function (p) {
         //trace('get_post_render(p)');
-        if (_.isEmpty(p) ) return;
-        //trace('creating DOM');
+        if (_.isEmpty(p) ) {
+            trace("render_post() : post is empty : just return");
+            return;
+        }
+
         var m = '';
 
-        //trace( p );
+        if ( !_.isEmpty(p['subject']) ) {
+            //m += '<h3 class="subject">' + p['subject'] + '</h3>';
+        }
+        m += '<div class="subject">' + post.subject(p) + '</div>';
 
 
         var date_full = etc.date_full(p['stamp']);
         var date = etc.date_short(p['stamp']);
 
         m += '<div class="btn-group post-menu-philzine-top" role="group">';
-        if( !post.mine(p) ) {
+        if( ! post.mine(p) ) {
             m += '<span type="button" class="btn btn-secondary report-button"><img src="img/post/report.png"/></span>';
         }
         else {
@@ -414,44 +424,58 @@ var html = {
 
         // m += post.markup.bannerSelector();
 
-        if ( !_.isEmpty(p['subject']) ) {
-            //m += '<h3 class="subject">' + p['subject'] + '</h3>';
-        }
         var no_of_comment, likes;
-        m += '<div class="subject">' + post.subject(p) + '</div>';
-        m += '<div class="content">' + post.content(p) + '</div>';
-        if ( p['photos'] ) m += p['photos'];
+
+
+
+        // 간단 목록
+        if ( post.isCloseList() ) m += '<div class="post-detail" style="display:none;" idx-root="'+p['idx']+'">';
+        m += post.content(p);
+        if ( p['photos'] ) m += post.getPhotos(p);
         if( p['good'] > 0 ) likes = p['good'];
         else likes = '';
         if ( p['no_of_comment'] > 0 ) no_of_comment = p['no_of_comment'];
         else no_of_comment = '';
-
         m += '<ul class="nav nav-pills post-menu-philzine-bottom">';
         //m += '  <li class="like">'+ p['idx']+'<img src="img/post/like.png"/> Like <span class="no">' + likes + '</span></li>';
         m += '  <li class="like like-button"><span class="glyphicon glyphicon-thumbs-up"></span>Like <span class="no">' + likes + '</span></li>';
         m += '  <li class="reply"><span class="glyphicon glyphicon-comment"></span>Comment ' + no_of_comment + '</li>';
         m += '</ul>';
-
         m += this.comment_write_form(p);
+        if ( post.isCloseList() ) m += '</div>';
+
+
+
+
 
         m = '<div class="post root-post" idx="'+p['idx']+'" gid="'+p['gid']+'">' + m + '</div>';
 
         //trace(m);
         return m;
     },
-    render_comments : function (comments, post) {
+    render_comments : function (comments, parent_post) {
         var m = '';
         if ( comments ) {
             var length = comments.length;
-            if ( length > 5 ) {
-                var no = length - 5;
-                m += '<div class="show-more-comment" idx-root="'+post['idx']+'"><i class="fa fa-commenting-o"></i> '+ no +'개의 코멘트가 더 있습니다. 더보기...</div>';
+            /**
+             * 2016-03-14 코멘트 더보기 기능을 옵션 처리
+             */
+            if ( post.isOpenList() ) {
+                if ( length > 5 ) {
+                    var no = length - 5;
+                    m += '<div class="show-more-comment" idx-root="'+parent_post['idx']+'"><i class="fa fa-commenting-o"></i> '+ no +'개의 코멘트가 더 있습니다. 더보기...</div>';
+                }
+            }
+            else {
+                // 간단 목록
+                m += '<div class="post-detail" style="display:none;" idx-root="'+parent_post['idx']+'">';
             }
             for( var j in comments ) {
                 if ( comments.hasOwnProperty(j) ) {
                     m += html.render_comment(comments[j], length - j);
                 }
             }
+            if ( post.isCloseList() ) m += '</div>';
         }
         return m;
     },
@@ -467,8 +491,17 @@ var html = {
 		else likes = '';
 
 		m += '<div ';
-        if ( reverse_index > 5 ) {
-            m += 'style="display:none;"';
+
+        /**
+         * 2016-03-14 코멘트 더보기 기능을 옵션 처리
+         */
+        if ( post.isOpenList() ) {
+            if ( reverse_index > 5 ) {
+                m += 'style="display:none;"';
+            }
+        }
+        else {
+            //m += 'style="display:none;"'; // 기본적으로 모든 코멘트를 숨김.
         }
         m += 'rindex="'+reverse_index+'" ' +
             'class="post comment clearfix" ' +
@@ -847,10 +880,10 @@ var html = {
 
 html.clear_place_post_view = function ($this) {
     if ( $this.attr('post-view') ) {
-        console.log("post-view:" + $this.attr('post-view'));
+        //console.log("post-view:" + $this.attr('post-view'));
     }
     else {
-        console.log("No post-view. So, empty post-view");
+        //console.log("No post-view. So, empty post-view");
         el.place_post_view().empty();
     }
 };

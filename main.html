@@ -46,8 +46,8 @@
             margin-bottom: .8em;
         }
         .my-slider ul li img {
-            max-height:32vw;
-            overflow:hidden;
+            max-height:30vw;
+            overflow:hidden!important;
         }
         .my-slider ul li em {
             font-size: 1rem!important;
@@ -252,10 +252,18 @@
     }
 
     /** 검색 결과 창이 충분히 넓게 안나와서 표시 */
+    section.top-search {
+        position:relative;
+        height:37px;
+        overflow:hidden;
+    }
     #cse {
 
     }
 
+    .cse .gsc-control-cse, .gsc-control-cse {
+        padding: .05em 1em!important;
+    }
     /** 검색창 테두리 */
     input.gsc-input, .gsc-input-box, .gsc-input-box-hover, .gsc-input-box-focus {
         margin: 0!important;
@@ -273,10 +281,12 @@
         padding:0;
     }
 
+
+
     /** 검색 버튼 테두리 및 바탕색 */
     input.gsc-search-button, input.gsc-search-button:hover, input.gsc-search-button:focus {
         margin: 4px 0 0;
-        padding: 8px 27px;
+        padding: 9px 27px;
         border-color: #a9a9a9;
         background-color: #a9a9a9;
         border-radius: 0;

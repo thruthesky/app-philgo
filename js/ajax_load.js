@@ -21,7 +21,7 @@ function ajax_load(url, callback, option) {
     }
     url +=  'page=' + app.getCurrentPage() + '&mobile=' + app.isMobile() + '&platform=' + app.platform();
 
-    console.log(url);
+    //console.log(url);
 
     $.ajax({
         url:url,

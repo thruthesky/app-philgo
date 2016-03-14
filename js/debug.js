@@ -8,9 +8,11 @@ var debug = {
     mode : false,
     browser_camera_upload : false,
     start: function() {
+        console.log("Debug mode set true");
         this.mode = true;
     },
     stop: function() {
+        console.log("Debug mode set false");
         this.mode = false;
     },
     started : function () {
