@@ -15,8 +15,13 @@ var post_list_type = 2;
 
 $(function(){
 
+    var type = db.get('post_list_type');
+    if ( type ) post_list_type = type;
 
-    on_click('.setting-button', app.on_click_backbutton);
+    console.log("post_list_type : " + post_list_type);
+
+    // on_click('.setting-button', app.on_click_backbutton);
+
 
     //var url = 'http://work.philgo.org/'; // ICS 로 앱에서 테스트
     var url = 'http://philgo.org/'; // ICS 로 앱에서 테스트
@@ -108,7 +113,7 @@ $(function(){
     //initApp();
     //setTimeout(function(){ showPage('setting'); }, 600); // test
     //setTimeout(function(){ $('[page-button="news"]').click(); }, 700); // test : news page
-    setTimeout(function(){ $('[page-button="freetalk"]').click(); }, 400); // test : 자유게시판 page
+    // setTimeout(function(){ $('[page-button="freetalk"]').click(); }, 400); // test : 자유게시판 page
     //setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
         //setTimeout(function(){ $('.point-ads-title').click(); }, 500); // test : qna page
     //setTimeout(function(){ $('[page-button="login"]').click(); }, 700); // test : login page
@@ -216,7 +221,7 @@ $(function(){
 /*
     setTimeout(function() {
         note.post('인터넷 접속 에러 ...');
-    }, 500);
+    }, 50);
     */
 
     // 글 읽기

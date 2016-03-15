@@ -94,7 +94,7 @@
                         , 'left' : left
                         , 'width' : w + 1
                     } );
-                    $act.animate({left:0}, settings.speedPageChange, function(){
+                    $act.velocity({left:0}, settings.speedPageChange, function(){
                         el.activeSlider().css('display', 'block');
                     });
                     function resizeHeight() {

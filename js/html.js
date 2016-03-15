@@ -88,7 +88,7 @@ var html = {
 
         m += '' +
             '<section class="top-search">' +
-            '   <div id="cse" style="width: 100%; text-align:center;">검색 창 로딩...</div>' +
+            '   <div id="cse" style="width: 100%; padding-top:.3em; text-align:center;">검색 창 로딩 ( 인터넷 연결 후 다시 실행 ... )</div>' +
             '</section>' +
             '';
 
@@ -694,9 +694,18 @@ var html = {
             m += '</div>';
             m += '<ul class="list-group">';
             m += '  <li class="list-group-item reset"><div>Reset</div></li>';
+
             m += '  <li class="list-group-item" onclick="app.refresh();">Refresh</li>';
+
+
+            m += '  <li class="list-group-item"><div class="post-list-close">Post List Style - Close</div></li>';
+            m += '  <li class="list-group-item"><div class="post-list-open">Post List Style - Open</div></li>';
+
+
             m += '  <li class="list-group-item"><div class="change-server-button">Change Server - <%=url_server%></div></li>';
-            m += '  <li class="list-group-item"><a href="http://192.168.73.1/platforms/android/build/outputs/apk/android-debug.apk">Download Debugging APK</a></li>';
+
+
+            //m += '  <li class="list-group-item"><a href="http://192.168.73.1/platforms/android/build/outputs/apk/android-debug.apk">Download Debugging APK</a></li>';
             m += '</ul>';
             return _.template(m)(app);
         }

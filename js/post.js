@@ -185,3 +185,8 @@ var post = {
         }
     }
 };
+
+post.show_post_detail = function (idx) {
+    console.log('show_post_detail for : ' + idx );
+    $(".post-detail[idx-root='"+idx+"']").show();
+};

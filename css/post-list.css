@@ -61,6 +61,10 @@ div.content iframe {
 	word-break: break-all;
 }
 
+.post-detail {
+    padding: .4em .6em;
+}
+
 .post .photos {
     padding:0 10px;
 }
@@ -240,7 +244,7 @@ div.content iframe {
 .post .post-menu-philzine-top{
 	position:absolute;
 	right:5px;
-	/*top:0;*/
+	top: 2.8em;
 	padding:0;
 	color:#aaa;
 }
@@ -909,4 +913,11 @@ div.content iframe {
 .show-more-post-content-button .dots {
 	font-weight: normal;
 	color:black;
+}
+
+
+
+/* PLACE - POST - VIEW */
+.place-post-view {
+
 }

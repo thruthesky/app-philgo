@@ -433,8 +433,15 @@ var callback = {
         html.clear_place_post_view( $this );
         html.setContent( html.page.setting(), 'setting' );
     },
+    on_click_post_list_close : function () {
+        db.set('post_list_type', 2);
+        app.refresh();
+    },
+    on_click_post_list_open : function () {
+        db.set('post_list_type', 1);
+        app.refresh();
+    },
     on_click_change_server_button : function () {
-
         var $this = $(this);
         var m = '<div class="input-url-server">' +
             'http://<input style="width:8em;" type="text" name="url_server" placeholer="www.domain.com">/' +
@@ -486,12 +493,28 @@ var callback = {
             app.setCurrentPage('post-view');
             var site = re['site'];
             //note.post(site + ' 사이트의 글이 추가되었습니다.');
-            var post = re['post'];
-            var m = html.render_post(post);
-            m += html.render_comments(post['comments'], post);
+            var p = re['post'];
+            var idx_root = p['idx'];
+            var m = html.render_post(p);
+            m += html.render_comments(p['comments'], p);
             //el.content().find(":before").html(m);
             $(".place-post-view").html('<div class="place-post-view">'+m+'</div>')
             html.hideLoader();
+            post.show_post_detail( re['post']['idx'] );
+
+
+            setTimeout(hide_post_in_post_list, 200);
+
+            function hide_post_in_post_list( ) {
+                if ( el.post_list().find('.root-post[idx="'+idx_root+'"]').length == 0 ) {
+                    setTimeout(hide_post_in_post_list, 500);
+                }
+                else {
+                    el.post_list().find('.root-post[idx="'+idx_root+'"]').hide();
+                    console.log("Found post that is displayed on top. so this will be hidden : " + idx_root);
+                }
+            }
+
         });
     }
 };
