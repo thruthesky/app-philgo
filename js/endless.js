@@ -89,7 +89,9 @@ function endless_reset(url, callback) {
         if ( endless_in_loading ) return trace("endless is in loading page.");
         var top = $document.height() - $window.height() - endless_distance;
         if ($window.scrollTop() >= top) {
-            if ( ! endless_api ) return trace("no endless_api");
+            if ( ! endless_api ) {
+                return trace("no endless_api");
+            }
             endless_scroll_count ++;
 
             trace("endless_listen_scroll():: count:" + endless_scroll_count + ", endless_api: " + endless_api);
