@@ -77,6 +77,9 @@ var callback = {
             }
         });
     },
+    /**
+     * When post write button is clicked, it records the post-id.
+     */
     on_click_post_button : function () {
         var post_id = app.getCurrentForum();
         if ( el.post_write_form().length > 0 ) el.post_write_form().remove();
@@ -84,7 +87,6 @@ var callback = {
         setTimeout(function(){
             html.focus( el.post_write_form().find('[name="content"]') );
         }, 200);
-
         panel.close();
         app.goTop();
     },
@@ -432,6 +434,12 @@ var callback = {
         var $this = $(this);
         html.clear_place_post_view( $this );
         html.setContent( html.page.setting(), 'setting' );
+    },
+    on_click_admin_button : function( ) {
+        $(".post-button").click();
+        setTimeout(function(){
+            $(".post-write-form [name='post_id']").val('request_to_manager');
+        }, 300);
     },
     on_click_post_list_close : function () {
         db.set('post_list_type', 2);

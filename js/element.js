@@ -34,7 +34,7 @@ var element = {
         return $(".post[idx='"+idx+"']");
     },
     post_button : function () {
-        return $("footer .post-button");
+        return $(".post-button");
     },
     comment_write_form : function (idx_parent) {
         return $(".comment-write-form[data-idx-parent='"+idx_parent+"']");

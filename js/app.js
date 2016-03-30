@@ -204,6 +204,7 @@ var app = {
 
 
         on_click('.setting-button', callback.on_click_setting_button);
+        on_click('.admin-button', callback.on_click_admin_button);
         on_click('.change-server-button', callback.on_click_change_server_button);
 
         on_click('.post-list-close', callback.on_click_post_list_close);

@@ -40,7 +40,7 @@ section.content-wrapper {
 	position: fixed;
 	top: 64px;
 	right: -300px;
-	z-index: 9999;
+	z-index: 9876543213;
 }
 
 .note {

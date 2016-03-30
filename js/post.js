@@ -83,8 +83,12 @@ var post = {
 
         //var post_id = $page_button.attr('post-id');
         var post_id = app.getCurrentForum();
+        //console.log(post_id);
 
-        if ( post_id != '*' && app.getCurrentForum() != '*' ) {
+        if ( typeof post_id == 'undefined' || post_id == '*' ) {
+
+        }
+        else {
             if ( post_id != re['post_id'] || app.getCurrentForum() == '-' ) {
                 console.log(re);
                 console.log(" : endless update() : Post data has been loaded but the page has changed. so, the posts will not be shown. re[post_id] = " + re['post_id'] + ", post-id:" + post_id);
@@ -126,7 +130,14 @@ var post = {
 
             //console.log(re['ads']);
 
-            post.render_ads( re['ads'] );
+
+            // ads
+            //console.log(re);
+            post.render_post_top_ad( re['post_top_ad'] );
+            post.render_post_top_company_book_ad( re['post_top_company_book_ad'] );
+            post.render_post_top_premium_ad( re['post_top_premium_ad'] );
+            post.render_point_ad( re['ads'] );
+
 
             var posts = re['posts'];
             for ( var i in posts ) {
@@ -138,7 +149,53 @@ var post = {
             }
         }
     },
-    render_ads : function (posts) {
+    render_post_top_ad : function ( ads ) {
+        if ( typeof ads == 'undefined' ) return;
+        var m = '';
+        for ( var i in ads ) {
+            if (ads.hasOwnProperty(i)) {
+                var ad = ads[i];
+                m += "<img post-view='"+ad['idx']+"' src='http://www.philgo.com/"+ad['src']+"' style='width:25%'>";
+            }
+        }
+        if ( m ) {
+            m = '<div class="post-top-ad">' + m + '</div>';
+            el.post_list().append(m);
+        }
+    },
+    render_post_top_premium_ad : function ( ads ) {
+        if ( typeof ads == 'undefined' ) return;
+        // console.log(ads);
+        var m = '';
+        for ( var i in ads ) {
+            if (ads.hasOwnProperty(i)) {
+                var ad = ads[i];
+                m += '<a href="'+ad['url']+'">' +
+                    '<img src="'+ad['image_src']+'">' +
+                    '<div>'+ad['subject']+'</div>' +
+                '</a>';
+            }
+        }
+        if ( m ) {
+            m = '<div class="post-top-premium-ad">' + m + '</div>';
+            el.post_list().append(m);
+        }
+    },
+    render_post_top_company_book_ad : function ( ads ) {
+        if ( typeof ads == 'undefined' ) return;
+        var m = '';
+        for ( var i in ads ) {
+            if (ads.hasOwnProperty(i)) {
+                var ad = ads[i];
+                m += "<img post-view='"+ad['idx']+"' src='http://www.philgo.com/"+ad['src']+"' style='width:25%'>";
+            }
+        }
+        if ( m ) {
+            m = '<div class="post-top-company-book-ad">' + m + '</div>';
+            el.post_list().append(m);
+        }
+    },
+    render_point_ad : function (posts) {
         if ( typeof posts == 'undefined' ) return;
         var m = '<div class="point-ads">';
         m += '<div class="point-ads-title">회원 포인트 광고 <i class="fa fa-info-circle"></i> 광고안내</div>';

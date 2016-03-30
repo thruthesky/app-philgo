@@ -1,4 +1,4 @@
-// debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
+//debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
 document.addEventListener("backbutton", app.on_click_backbutton, false);
 
 
@@ -183,27 +183,40 @@ $(function(){
 
 
     // 전체 메뉴 열기
-/*
+    /*
     setTimeout(function(){
         $('[widget="menu-all"]').click();
     }, 100);
     */
 
 
-    // 전체 메뉴 열고 => 과일 페이지 열기
-    /*
+
+
+    // 전체 메뉴 열고 =>
+    /**
     setTimeout(function(){
         $('[widget="menu-all"]').click();
         setTimeout(function(){
             $('[widget="fruit"]').click();
         }, 100);
     }, 100);
-*/
+     */
+
+
+    // 글 쓰기 창 열고 문의게시판 선택.
+    /*
+    setTimeout(function(){
+        $(".post-button").click();
+        setTimeout(function(){
+            $(".post-write-form [name='post_id']").val('request_to_manager');
+        }, 300);
+    }, 600);
+    */
 
 
 
 
-    // setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
+//    setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
     //setTimeout(function(){ $('[page-button="news"]').click(); }, 200); // test : qna page
 //    setTimeout(function(){ $('[page-button="info"]').click(); }, 200); // test : qna page
     //setTimeout(function(){ $('[company-button]').click(); }, 300); // test : qna page

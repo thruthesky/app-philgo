@@ -122,7 +122,7 @@ div.content iframe {
 }
 
 .post .dropdown-menu .dropdown-item{
-	padding:5px;
+	padding: .6em 1em;
     cursor:pointer;
 }
 
@@ -915,7 +915,88 @@ div.content iframe {
 	color:black;
 }
 
+.post .post-info .subject {
+    cursor: pointer;
+}
 
+.comment-point {
+    width: 100%;
+    clear:both;
+}
+
+/* post top ad */
+.post-top-ad {
+    margin-bottom: .4em;
+}
+.post-top-ad img {
+    border: 2px solid transparent;
+}
+.post-top-company-book-ad {
+    margin-bottom: .4em;
+}
+.post-top-company-book-ad img {
+    border: 2px solid transparent;
+}
+
+/* post top premium ad */
+
+.post-top-premium-ad {
+    margin-bottom: .4em;
+}
+.post-top-premium-ad a {
+    display:block;
+    padding: 4px;
+    font-size: 10pt;
+    overflow: auto;
+    overflow-x: hidden;
+}
+.post-top-premium-ad img {
+    display:block;
+    float:left;
+    margin-right: 6px;
+}
+.post-top-premium-ad a:nth-child(even) {
+    background-color:white;
+}
+
+
+/* front page banner */
+
+.mobile-front-second-ad {
+    margin-bottom: .4em;
+    overflow: auto;
+    overflow-y: hidden;
+
+}
+.mobile-front-second-ad a {
+    display:block;
+    float:left;
+    width: 50%;
+}
+
+.mobile-front-second-ad a:nth-child(odd) {
+    border-right: 2px solid transparent;
+}
+.mobile-front-second-ad a:nth-child(even) {
+    border-left: 2px solid transparent;
+}
+.mobile-front-second-ad img {
+width: 100%;
+}
+
+
+/** philgo main banner */
+.philgo-main-banner {
+    margin-bottom:.4em;
+}
+.philgo-main-banner img {
+    width:100%;
+}
+
+/** post top headline */
+[open-post-id] {
+    cursor:pointer;
+}
 
 /* PLACE - POST - VIEW */
 .place-post-view {

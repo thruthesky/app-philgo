@@ -41,8 +41,15 @@ form.login .row {
     padding:0;
 }
 
-[page-button] {
+[page-button],
+[company-button],
+.menu-panel,
+.sub-menu [widget] {
     cursor:pointer;
+}
+
+.menu-all-group li[open-post-id], .menu-all-group li a {
+    cursor: pointer;
 }
 
 

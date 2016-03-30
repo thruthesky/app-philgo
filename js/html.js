@@ -79,7 +79,7 @@ var html = {
             '<div class="sub-menu">' +
             '   <span class="item" page-button="qna" post-id="qna" title="질문과 답변"><i>질문</i></span>' +
             '   <span class="item" page-button="freetalk" post-id="freetalk" title="자유 게시판"><i>토론</i></span>' +
-            '   <span class="item company"  page-button="company-book" title="필리핀 업소록"><i>업소록</i></span>' +
+            '   <span class="item company"  company-button title="필리핀 업소록"><i>업소록</i></span>' +
             '   <span class="item" page-button="buyandsell" post-id="buyandsell" title="회원장터"><i>장터</i></span>' +
             '   <span class="item" page-button="travel" post-id="travel" title="필리핀 여행"><i>여행</i></span>' +
             '   <span class="item" page-button="news" post-id="news" title="필리핀 뉴스"><i>뉴스</i></span>' +
@@ -118,10 +118,10 @@ var html = {
         return m;
     },
     footer : function() {
+        return '';
+        /*
         var m = '';
         m += '<div class="btn-group btn-group-justified bottom bottom-menu">';
-
-
         if ( member.login() ) {
             m += '  <span class="btn" page-button="register"><span class="glyphicon glyphicon-user"></span>나의정보</span>';
             m += '  <span class="btn message-button"><span class="glyphicon glyphicon-envelope"></span>쪽지</span>';
@@ -137,6 +137,7 @@ var html = {
         //m += '  <span class="btn" page-button="search"><span class="glyphicon glyphicon-search"></span>검색</span></span>';
         m += '</div>';
         return m;
+        */
     },
     panel : function() {
         var m = '';
@@ -199,7 +200,8 @@ var html = {
             m += '      <li><div class="list-group-item" page-button="login">로그인 (필고 아이디 로그인)<span class="glyphicon glyphicon-menu-right"></span></div></li>';
             m += '      <li><div class="list-group-item" page-button="register">회원가입<span class="glyphicon glyphicon-menu-right"></span></div></li>';
         }
-        m += '      <li><div class="list-group-item" page-button="admin">운영자 요청/건의<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item admin-button">운영자 요청/건의<span class="glyphicon glyphicon-menu-right"></span></div></li>';
+        m += '      <li><div class="list-group-item setting-button">설정<span class="glyphicon glyphicon-menu-right"></span></div></li>';
 
 
         // m += '      <li><div class="list-group-item" page-button="setting">설정 Settings<span class="glyphicon glyphicon-menu-right"></span></li>';
@@ -216,7 +218,7 @@ var html = {
 		*/
 
         m += '      <div class="copy-right-text">';
-        m += '          필고 연동 홈페이지 앱 제작 의뢰<br>';
+        m += '          헬로 필리핀 연동 및 제휴 문의<br>';
         m += '          thruthesky@gmail.com';
         m += '      </div>';
 
@@ -247,6 +249,7 @@ var html = {
             'knowhow' : '경험담',
             'phil_life_tip' : '생활의팁',
             'massage' : '마사지',
+            'request_to_manager' : '운영자문의',
             'boarding_house' : '하숙',
             'lifeshot' : '사진 갤러리',
             'woman_place' : '놀거리/볼거리',
@@ -374,7 +377,7 @@ var html = {
     message_onclick : function ( member ) {
         var onclick = '';
         if ( typeof message != 'undefined' && typeof member.id != 'undefined' ) {
-            onclick = message.getOnClick(member.id);
+            // onclick = message.getOnClick(member.id); // message
         }
         return onclick;
     },
@@ -425,7 +428,8 @@ var html = {
         m += '<div class="subject">' + post.subject(p) + ' ' + no + '</div>';
 
         m += '  <div class="media-body">';
-        m += '      <div class="name" '+this.message_onclick(p['member'])+'>'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
+        // m += '      <div class="name" '+this.message_onclick(p['member'])+'>'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
+        m += '      <div class="name" '+this.message_onclick(p['member'])+'>'+p['user_name']+'</div>';
         m += '      <div class="date" title="'+date_full+'">' + date + '</div>';
         m += '  </div>';
         m += '</div>';
@@ -489,7 +493,6 @@ var html = {
     },
     render_comment : function (comment, reverse_index) {
 		var m = '';
-
 		var date_full = etc.date_full(comment['stamp']);
 		var date = etc.date_short(comment['stamp']);
 		//var humanTime = etc.humanTime(comment['stamp']); // DO NOT USE Human Time.
@@ -581,6 +584,9 @@ var html = {
 		m +=		'</div>';
 		m +=	'</nav>';
 
+        if ( parseInt(comment['int_10']) ) {
+            m += '<div class="comment-point">'+comment['int_10']+' 포인트 획득!</div>';
+        }
 		m += '</div>';
 		return m;
     },

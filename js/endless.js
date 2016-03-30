@@ -84,6 +84,12 @@ function endless_reset(url, callback) {
         if ( app.getCurrentPage() == 'post-view' ) {
             // return trace("DO NOT endless load on 'post-view' page. return.");
         }
+        if ( app.getCurrentForum() == '-' ) {
+            return trace("DO NOT load endless-page on forum '-'");
+        }
+        if ( app.getCurrentPage() == 'company' ) {
+            return trace("DO NOT load endless-page on company book page.");
+        }
 
         if ( endless_no_more_content ) return trace("no more content. return.");
         if ( endless_in_loading ) return trace("endless is in loading page.");
