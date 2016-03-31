@@ -305,7 +305,7 @@ var app = {
         var pageScrollPosition = 0;
         function pageScrolled() {
             var top = $(document).scrollTop();
-            console.log('top:' + top);
+            trace('top:' + top);
             // Google Custom Search Engine Show/Hide
             if ( top < 100 ) {
                 $(".top-search").show();
@@ -319,7 +319,7 @@ var app = {
             if ( top > 400 ) {
                 if ( pageScrollPosition > top ) { // page down
                     //el.submenu().show();
-                    console.log('up: ' + top );
+                    trace('up: ' + top );
                     if ( el.submenu().css('display') == 'none' ) {
                         el.submenu().velocity("slideDown", { delay: 50, duration: 80,
                             complete : function() {
