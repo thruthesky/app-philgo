@@ -125,11 +125,14 @@ var post = {
             trace("No of posts loaded : " + re['posts'].length);
             var site = re['site'];
             var post_id = re['post_id'];
+            var post_name = re['post_name'];
             var page_no = re['page_no'];
             //note.post(site + ' 사이트 : ' + post_id + '의 ' + page_no + " 페이지 내용이 추가되었습니다.");
 
             //console.log(re['ads']);
 
+            // forum title
+            post.render_forum_header( post_id, post_name );
 
             // ads
             //console.log(re);
@@ -137,7 +140,6 @@ var post = {
             post.render_post_top_company_book_ad( re['post_top_company_book_ad'] );
             post.render_post_top_premium_ad( re['post_top_premium_ad'] );
             post.render_point_ad( re['ads'] );
-
 
             var posts = re['posts'];
             for ( var i in posts ) {
@@ -148,6 +150,21 @@ var post = {
                 }
             }
         }
+    },
+    render_forum_header : function( post_id, post_name ) {
+        if ( typeof  post_id == 'undefined' || post_id == '' || post_id ==  '*' || post_id == '-' ) return;
+        console.log('post_id: ' + post_id);
+        var m = '' +
+            '<div class="forum-header">' +
+            '   <div class="forum-name">' +
+            '       ' + post_name +
+            '   </div>' +
+            '   <div class="forum-post post-button">' +
+            '       <i class="fa fa-pencil-square"></i> 글쓰기' +
+            '   </div>' +
+            '</div>' +
+            '';
+        el.post_list().append(m);
     },
     render_post_top_ad : function ( ads ) {
         if ( typeof ads == 'undefined' ) return;

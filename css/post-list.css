@@ -1003,3 +1003,26 @@ width: 100%;
 .place-post-view {
 
 }
+
+/** forum title */
+.forum-header {
+	position: relative;
+	background-color: #c4e3f3;
+	padding: .6em .8em;
+	margin-bottom: .4em;
+	font-size: 1.2em;
+}
+.forum-header .forum-post {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: .6em .8em;
+	cursor: pointer;
+}
+.forum-header .forum-post i {
+	display:block;
+	float:left;
+	padding-top: 2px;
+	padding-right: 4px;
+	font-size: 1.4em;
+}

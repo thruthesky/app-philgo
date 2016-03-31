@@ -195,7 +195,12 @@ var callback = {
 
         this.is_upload_submit = true;
 
-        html.showLoaderAfter(14, $('.post-write-form .post-content-wrapper .photos'), ' 업로드 중 ... 1분 이상 걸릴 수 있습니다.');
+        var $obj;
+        if ( $form.hasClass( 'comment-write-form') ) {
+            $obj = $('.alt-buttons');
+        }
+        else $obj = $('.post-write-form .post-content-wrapper .photos');
+        html.showLoaderAfter(14, $obj, ' 업로드 중 ... 1분 이상 걸릴 수 있습니다.');
 		//html.createUploadLoader( $form.find(".photos") );//added by benjamin
 
         $form.ajaxSubmit({
@@ -311,7 +316,13 @@ var callback = {
             var ft = new FileTransfer();
             var url = app.getServerURL();
             //trace(url);
-            html.showLoaderAfter(14, $('.post-write-form .post-content-wrapper .photos'), ' 업로드 중... 1분 이상 걸릴 수 있습니다.');
+
+            var $obj;
+            if ( $form.hasClass( 'comment-write-form') ) {
+                $obj = $('.alt-buttons');
+            }
+            else $obj = $('.post-write-form .post-content-wrapper .photos');
+            html.showLoaderAfter(14, $obj, ' 업로드 중 ... 1분 이상 걸릴 수 있습니다.');
             ft.upload(fileURI, encodeURI(url), onFileTransferSuccess, onFileTransferFail, options);
         }
         function onCameraConfirm(no) {

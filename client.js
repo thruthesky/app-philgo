@@ -1,4 +1,4 @@
-debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
+// debug.start(); // 중요 : 개발 중일때만 실행하고, 실제로 배포 할 때에는 주석 처리한다.
 document.addEventListener("backbutton", app.on_click_backbutton, false);
 
 
@@ -116,7 +116,7 @@ $(function(){
     //setTimeout(function(){ showPage('setting'); }, 600); // test
     //setTimeout(function(){ $('[page-button="news"]').click(); }, 700); // test : news page
     // setTimeout(function(){ $('[page-button="freetalk"]').click(); }, 400); // test : 자유게시판 page
-    //setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
+    setTimeout(function(){ $('[page-button="qna"]').click(); }, 200); // test : qna page
         //setTimeout(function(){ $('.point-ads-title').click(); }, 500); // test : qna page
     //setTimeout(function(){ $('[page-button="login"]').click(); }, 700); // test : login page
     //setTimeout(function(){ $('[page-button="info"]').click(); }, 1300); // test : info page
