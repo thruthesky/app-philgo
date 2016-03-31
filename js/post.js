@@ -227,7 +227,7 @@ var post = {
             else {
                 m += '      <li class="dropdown-item" '+onclick+'><span class="glyphicon glyphicon-envelope"></span><span>Message</span></li>';
             }
-            m += '      <li class="dropdown-item"><span class="glyphicon glyphicon-warning-sign"></span><span class="report-button">Report</span></li>';
+            m += '      <li class="dropdown-item report-button"><span class="glyphicon glyphicon-warning-sign"></span><span>Report</span></li>';
             m += '  </ul>';
             return m;
         },
@@ -236,7 +236,6 @@ var post = {
 
             var m = '';
             m += '<form>';
-
 
             return '광고 배너 지정';
         }

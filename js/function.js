@@ -97,3 +97,15 @@ function page_click(selector, sub_selector) {
     setTimeout(function(){ $(selector).click(); }, 400);
     if ( sub_selector ) setTimeout(function(){ $(sub_selector).click(); }, 800);
 }
+
+
+function hideSubmenuDownButton() {
+    if ( el.submenuDownButton().css('display') != 'none') {
+        el.submenuDownButton().velocity("slideUp", { duration: 80});
+    }
+}
+function showSubmenuDownButton() {
+    if ( el.submenuDownButton().css('display') == 'none') {
+        el.submenuDownButton().velocity("slideDown", { duration: 80});
+    }
+}

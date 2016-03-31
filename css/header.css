@@ -81,8 +81,9 @@ header .top .navbar-right {
 
 
 header .sub-menu {
-    background-color: #c4c9de;
+    background-color: #cdd1e2;
     overflow:auto;
+    overflow-y: hidden;
 }
 
 header .sub-menu .item {
@@ -98,6 +99,51 @@ header .sub-menu .item i {
     padding:8px 0;
     font-style:normal;
     text-align: center;
+}
+
+
+
+/** Sub menu 2nd line */
+header .sub-menu-second {
+    display:none;
+    background-color: #3b8ed4;
+    overflow:auto;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+    width: 100%;
+}
+header .sub-menu-second .item {
+    display: inline-block;
+    width:25%;
+    color:white;
+}
+
+header .sub-menu-second .item i {
+    display:block;
+    margin: 8px 8px 0;
+    font-style:normal;
+    text-align: center;
+    background-color: #409ae6;
+    border-radius: 2px;
+}
+
+
+/** Sub menu down arrow button */
+.sub-menu-down-button {
+    display:none;
+    width: auto;
+    margin: 0 auto;
+    font-size: 2rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.sub-menu-down-button i {
+    padding: .1em .4em;
+    color:white;
+    background-color: rgba(106, 0, 0, 0.8);
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 
 /*

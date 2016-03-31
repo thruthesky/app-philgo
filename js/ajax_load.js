@@ -73,7 +73,7 @@ function ajax_load(url, callback, option) {
  * @param error_callback
  */
 function ajax_load_post(url, data, success_callback, error_callback) {
-    //trace(debug.url(url, data));
+    trace(debug.url(url, data));
     $.ajax({
         url: url,
         type: 'POST',

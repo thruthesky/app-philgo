@@ -422,10 +422,11 @@
             }
             setTimeout(removeBackground, 100);
         }
-        $('body').on('click', '.gsc-input input.gsc-input', function(){
+        var $body = $('body');
+        $body.on('click', '.gsc-input input.gsc-input', function(){
             $(this).removeClass('setBackground');
         });
-        $('body').on('blur', '.gsc-input input.gsc-input', function(){
+        $body.on('blur', '.gsc-input input.gsc-input', function(){
             $(this).addClass('setBackground');
         });
     });

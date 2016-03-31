@@ -288,23 +288,70 @@ var app = {
         }
 
 
+        $('.sub-menu-down-button').click(function(){
+            el.submenu().show();
+            $('.sub-menu-second').show();
+            $(this).velocity("slideUp", {duration:80});
+        });
         /**
+         *
+         * Event Handler for App.
          *
          * page scroll 이 되면 0.3 초 마다 한번씩 이벤트를 발생시킨다.
          *
          */
         var lazyScroll = _.debounce(pageScrolled, 100);
         $(document).scroll(lazyScroll);
+        var pageScrollPosition = 0;
         function pageScrolled() {
             var top = $(document).scrollTop();
+            console.log('top:' + top);
+            // Google Custom Search Engine Show/Hide
             if ( top < 100 ) {
-                $("#cse").show();
+                $(".top-search").show();
                 el.header().css('background-color', 'white');
             }
             else {
-                $("#cse").hide();
+                $(".top-search").hide();
                 el.header().css('background-color', 'transparent');
             }
+            // Sub-menu Show Hide
+            if ( top > 400 ) {
+                if ( pageScrollPosition > top ) { // page down
+                    //el.submenu().show();
+                    console.log('up: ' + top );
+                    if ( el.submenu().css('display') == 'none' ) {
+                        el.submenu().velocity("slideDown", { delay: 50, duration: 80,
+                            complete : function() {
+                                hideSubmenuDownButton();
+                            }
+                        });
+                    }
+                    else {
+                        hideSubmenuDownButton();
+                    }
+                }
+                else { // page up
+                    //el.submenu().hide();
+                    if ( el.submenu().css('display') != 'none' ) {
+                        el.submenu().velocity("slideUp", { delay: 50, duration: 80,
+                            complete : function() {
+                                $('.sub-menu-second').hide();
+                                showSubmenuDownButton();
+                            }
+                        });
+                    }
+                    else {
+                        showSubmenuDownButton();
+                    }
+                }
+            }
+            else {
+                el.submenu().show();
+                $('.sub-menu-second').hide();
+                hideSubmenuDownButton();
+            }
+            pageScrollPosition = top;
         }
     },
     setCurrentForum : function (post_id) {
@@ -502,10 +549,11 @@ var app = {
 
         if ( top == 0 ) {
             if ( app.getCurrentPage() == 'front' ) {
-                app.confirm("종료하시겠습니까?", function(re) {
-                    if ( re ) {
-                        navigator.app.exitApp();
-                    }
+
+                app.selectDialog("헬로 필리핀 앱을 종료하시겠습니까?", ['예', '아니오', '전체 메뉴'], function(re) {
+                    if ( re == 1 ) navigator.app.exitApp();
+                    else if ( re == 2 ) { }
+                    else if ( re == 3 ) el.menuAll().click();
                 });
             }
             else {

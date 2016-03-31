@@ -57,6 +57,15 @@ var element = {
     },
     place_post_view : function () {
         return $('section.place-post-view');
+    },
+    menuAll : function() {
+        return $("header [widget='menu-all']");
+    },
+    submenu : function() {
+        return $(".sub-menu");
+    },
+    submenuDownButton : function() {
+        return $(".sub-menu-down-button");
     }
 };
 var el = element;

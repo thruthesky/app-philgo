@@ -81,6 +81,8 @@ var callback = {
      * When post write button is clicked, it records the post-id.
      */
     on_click_post_button : function () {
+        $(".top-search").hide();
+        el.submenuDownButton().velocity("slideUp", { duration: 80});
         var post_id = app.getCurrentForum();
         if ( el.post_write_form().length > 0 ) el.post_write_form().remove();
         el.content().prepend(html.post_write_form(post_id));
@@ -193,7 +195,7 @@ var callback = {
 
         this.is_upload_submit = true;
 
-        html.showLoaderAfter(14,$filebox);
+        html.showLoaderAfter(14, $('.post-write-form .post-content-wrapper .photos'), ' 업로드 중 ... 1분 이상 걸릴 수 있습니다.');
 		//html.createUploadLoader( $form.find(".photos") );//added by benjamin
 
         $form.ajaxSubmit({
@@ -283,7 +285,7 @@ var callback = {
         function onFileTransferFail(e) {
             html.hideLoader();
             alert('onFileTransferFail');
-            alert(JSON.stringify(e));
+            // alert(JSON.stringify(e));
         }
         function onCameraSuccess(fileURI) {
             var options = new FileUploadOptions();
@@ -309,7 +311,7 @@ var callback = {
             var ft = new FileTransfer();
             var url = app.getServerURL();
             //trace(url);
-            html.showLoaderAfter(14, $('.post-write-form .post-content-wrapper .photos'));
+            html.showLoaderAfter(14, $('.post-write-form .post-content-wrapper .photos'), ' 업로드 중... 1분 이상 걸릴 수 있습니다.');
             ft.upload(fileURI, encodeURI(url), onFileTransferSuccess, onFileTransferFail, options);
         }
         function onCameraConfirm(no) {

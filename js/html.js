@@ -24,6 +24,9 @@ var html = {
      * @param name
      */
     setContent : function (html, name) {
+
+        el.submenuDownButton().velocity("slideUp", { duration: 80});
+
         //trace('setContent(...,' + page_name + ')');
         //if ( isPanelOpen() ) hidePanel();
         if ( panel.open() ) panel.close();
@@ -84,7 +87,34 @@ var html = {
             '   <span class="item" page-button="travel" post-id="travel" title="필리핀 여행"><i>여행</i></span>' +
             '   <span class="item" page-button="news" post-id="news" title="필리핀 뉴스"><i>뉴스</i></span>' +
             '   <span class="item menu-all" widget="menu-all" title="전체 메뉴"><i>전체메뉴</i></span>' +
+
+            '   <div class="sub-menu-second">' +
+            '      <span class="item" open-post-id="wanted" title="구인구직"><i>구인구직</i></span>' +
+            '      <span class="item" open-post-id="boarding_house" title="하숙"><i>하숙</i></span>' +
+            '      <span class="item" open-post-id="rest" title="맛집"><i>맛집</i></span>' +
+            '      <span class="item" open-post-id="food_delivery" title="배달"><i>배달</i></span>' +
+            '      <span class="item" open-post-id="massage" title="마사지"><i>마사지</i></span>' +
+            '      <span class="item" open-post-id="party" title="모임"><i>모임</i></span>' +
+            '      <span class="item" open-post-id="study" title="어학연수"><i>어학연수</i></span>' +
+            '      <span class="item" open-post-id="golf" title="골프"><i>골프</i></span>' +
+            '      <span class="item" open-post-id="im" title="이민"><i>이민</i></span>' +
+            '      <span class="item" open-post-id="real_estate" title="부동산"><i>부동산</i></span>' +
+            '      <span class="item" open-post-id="hotel" title="호텔"><i>호텔</i></span>' +
+            '      <span class="item" open-post-id="rentcar" title="렌트카"><i>렌트카</i></span>' +
+            '      <span class="item" open-post-id="knowhow" title="경험담"><i>경험담</i></span>' +
+            '      <span class="item" open-post-id="lookfor" title="사람찾기"><i>사람찾기</i></span>' +
+            '      <span class="item" widget="menu-all" title="전체메뉴"><i>전체메뉴</i></span>' +
+            '      <span class="item post-button" title="글 쓰기"><i>글 쓰기</i></span>' +
+            '   </div>' +
             '</div>';
+
+        m += '' +
+            '<div class="sub-menu-down-button">' +
+            '   <i class="fa fa-angle-double-down fa-2x"></i>' +
+            '</div>' +
+            '' +
+            '' +
+            '';
 
         m += '' +
             '<section class="top-search">' +
@@ -377,7 +407,7 @@ var html = {
     message_onclick : function ( member ) {
         var onclick = '';
         if ( typeof message != 'undefined' && typeof member.id != 'undefined' ) {
-            // onclick = message.getOnClick(member.id); // message
+            onclick = message.getOnClick(member.id); // message
         }
         return onclick;
     },
@@ -415,13 +445,13 @@ var html = {
 
 
         m += '<div class="media post-info" idx-root="'+p['idx']+'">';
-        m += '  <a class="media-left user-photo" href="#">';
+        m += '  <span class="media-left user-photo">';
 
         var src = 'img/no_primary_photo.png';
 
         if ( typeof p['member']['idx_primary_photo'] != 'undefined' ) src = app.getDataURL(p['member']['idx_primary_photo']);
         m += '      <img class="media-object primary-photo profile-image" src="'+src+'" alt="Generic placeholder image">';
-        m += '  </a>';
+        m += '  </span>';
 
         var no = parseInt(p['no_of_comment']) ? '(' + p['no_of_comment'] + ')' : '';
 
@@ -429,7 +459,8 @@ var html = {
 
         m += '  <div class="media-body">';
         // m += '      <div class="name" '+this.message_onclick(p['member'])+'>'+p['user_name']+'<img class="send-message" src="img/post/mail.png"/></div>';
-        m += '      <div class="name" '+this.message_onclick(p['member'])+'>'+p['user_name']+'</div>';
+        //m += '      <div class="name" '+this.message_onclick(p['member'])+'>'+p['user_name']+'</div>';
+        m += '      <div class="name">'+p['user_name']+'</div>';
         m += '      <div class="date" title="'+date_full+'">' + date + '</div>';
         m += '  </div>';
         m += '</div>';
@@ -809,8 +840,11 @@ var html = {
      * @param no
      * @param $obj
      */
-    showLoaderAfter : function ( no, $obj ) {
-        $obj.after('<div class="gif-loader" no="'+no+'"><img src="img/loader/loader'+no+'.gif"> 업로드 중...</div>');
+    showLoaderAfter : function ( no, $obj, message ) {
+        if ( typeof message == 'undefined' ) message = '';
+        $obj.after('<div class="gif-loader" no="'+no+'"><img src="img/loader/loader'+no+'.gif">' +
+                message +
+            '</div>');
         return $('.gif-loader');
     },
     /**
@@ -823,7 +857,7 @@ var html = {
      * @endcode
      */
     showLoaderOn : function ( no, $obj ) {
-        $obj.html('<img class="gif-loader" no="'+no+'" src="img/loader/loader'+no+'.gif"> 업로드 중...');
+        $obj.html('<img class="gif-loader" no="'+no+'" src="img/loader/loader'+no+'.gif">');
         return $('.gif-loader');
     },
     hideLoader : function () {
