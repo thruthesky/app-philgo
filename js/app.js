@@ -4,7 +4,7 @@
  *
  */
 var app = {
-    version : 29, // config.xml 의 version 값과 동일한 값을 입력한다.
+    version : 32, // config.xml 의 version 값과 동일한 값을 입력한다.
     url_server : null,
     current_page_name : 'front',
     deviceReady : false,
