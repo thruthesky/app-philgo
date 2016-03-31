@@ -810,7 +810,7 @@ var html = {
      * @param $obj
      */
     showLoaderAfter : function ( no, $obj ) {
-        $obj.after('<div class="gif-loader" no="'+no+'"><img src="img/loader/loader'+no+'.gif"></div>');
+        $obj.after('<div class="gif-loader" no="'+no+'"><img src="img/loader/loader'+no+'.gif"> 업로드 중...</div>');
         return $('.gif-loader');
     },
     /**
@@ -823,12 +823,11 @@ var html = {
      * @endcode
      */
     showLoaderOn : function ( no, $obj ) {
-        $obj.html('<img class="gif-loader" no="'+no+'" src="img/loader/loader'+no+'.gif">');
+        $obj.html('<img class="gif-loader" no="'+no+'" src="img/loader/loader'+no+'.gif"> 업로드 중...');
         return $('.gif-loader');
     },
     hideLoader : function () {
         setTimeout(function(){
-
             var $ajax_loader = $('.gif-loader');
             if ( $ajax_loader.length ) $ajax_loader.remove();
             var $post_loader = $('#post-loader');

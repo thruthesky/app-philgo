@@ -262,6 +262,7 @@ var callback = {
             //trace("Code = " + data.responseCode);
             //trace("Response = " + data.response);
             //trace("Sent = " + data.bytesSent);
+            html.hideLoader();
             if ( app.isMobile() ) {
                 navigator.camera.cleanup();
             }
@@ -280,6 +281,7 @@ var callback = {
             }
         }
         function onFileTransferFail(e) {
+            html.hideLoader();
             alert('onFileTransferFail');
             alert(JSON.stringify(e));
         }
@@ -307,6 +309,7 @@ var callback = {
             var ft = new FileTransfer();
             var url = app.getServerURL();
             //trace(url);
+            html.showLoaderAfter(14, $('.post-write-form .post-content-wrapper .photos'));
             ft.upload(fileURI, encodeURI(url), onFileTransferSuccess, onFileTransferFail, options);
         }
         function onCameraConfirm(no) {
