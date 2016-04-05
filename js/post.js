@@ -90,8 +90,8 @@ var post = {
         }
         else {
             if ( post_id != re['post_id'] || app.getCurrentForum() == '-' ) {
-                console.log(re);
-                console.log(" : endless update() : Post data has been loaded but the page has changed. so, the posts will not be shown. re[post_id] = " + re['post_id'] + ", post-id:" + post_id);
+                trace(re);
+                trace(" : endless update() : Post data has been loaded but the page has changed. so, the posts will not be shown. re[post_id] = " + re['post_id'] + ", post-id:" + post_id);
                 return;
             }
         }
@@ -153,7 +153,7 @@ var post = {
     },
     render_forum_header : function( post_id, post_name ) {
         if ( typeof  post_id == 'undefined' || post_id == '' || post_id ==  '*' || post_id == '-' ) return;
-        console.log('post_id: ' + post_id);
+        trace('post_id: ' + post_id);
         var m = '' +
             '<div class="forum-header">' +
             '   <div class="forum-name">' +
@@ -260,6 +260,6 @@ var post = {
 };
 
 post.show_post_detail = function (idx) {
-    console.log('show_post_detail for : ' + idx );
+    trace('show_post_detail for : ' + idx );
     $(".post-detail[idx-root='"+idx+"']").show();
 };

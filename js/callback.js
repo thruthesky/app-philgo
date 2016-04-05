@@ -535,7 +535,7 @@ var callback = {
                 }
                 else {
                     el.post_list().find('.root-post[idx="'+idx_root+'"]').hide();
-                    console.log("Found post that is displayed on top. so this will be hidden : " + idx_root);
+                    // console.log("Found post that is displayed on top. so this will be hidden : " + idx_root);
                 }
             }
 
