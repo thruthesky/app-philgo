@@ -935,7 +935,7 @@ var html = {
 
 
 html.clear_place_post_view = function ($this) {
-    if ( $this.attr('post-view') ) {
+    if ( typeof $this != 'undefined' && $this.attr('post-view') ) {
         //console.log("post-view:" + $this.attr('post-view'));
     }
     else {

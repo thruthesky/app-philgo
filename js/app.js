@@ -258,6 +258,7 @@ var app = {
             var id = $(this).attr('open-post-id');
             html.setContent('');
             app.setCurrentForum(id);
+            html.clear_place_post_view( );
             endless_reset(app.url_server_forum() + id, function(re) {
                 post.add_endless_container();
                 post.display_posts(re);
