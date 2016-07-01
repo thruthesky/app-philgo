@@ -172,7 +172,7 @@ var post = {
         for ( var i in ads ) {
             if (ads.hasOwnProperty(i)) {
                 var ad = ads[i];
-                m += "<img post-view='"+ad['idx']+"' src='http://www.philgo.com/"+ad['src']+"' style='width:25%'>";
+                m += "<img post-view='"+ad['idx']+"' src='"+ad['src']+"' style='width:25%'>";
             }
         }
         if ( m ) {
@@ -204,7 +204,7 @@ var post = {
         for ( var i in ads ) {
             if (ads.hasOwnProperty(i)) {
                 var ad = ads[i];
-                m += "<img post-view='"+ad['idx']+"' src='http://www.philgo.com/"+ad['src']+"' style='width:25%'>";
+                m += "<img post-view='"+ad['idx']+"' src='"+ad['src']+"' style='width:25%'>";
             }
         }
         if ( m ) {
